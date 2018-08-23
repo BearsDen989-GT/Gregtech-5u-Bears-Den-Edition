@@ -1,8 +1,10 @@
 ### Intellij IDEA ###
- *.iml
- *.iml
 *.ipr
 *.iws
- .idea/
+ .idea/*
 *.log
 .idea_modules/
+*.xml
+*.log
+*.iml
+*.log

@@ -1,12 +1,13 @@
 package gregtech.api.items;
 
 import gregtech.api.util.GT_LanguageManager;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class GT_Spray_Pepper_Item extends GT_Tool_Item {
     public GT_Spray_Pepper_Item(String aUnlocalized, String aEnglish, int aMaxDamage, int aEntityDamage) {
@@ -18,7 +19,7 @@ public class GT_Spray_Pepper_Item extends GT_Tool_Item {
     }
 
     @Override
-    public void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
+    public void addAdditionalToolTips(List aList, ItemStack aStack) {
         aList.add(GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".tooltip_1", "especially Pedobears, Care Bears,"));
         aList.add(GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".tooltip_2", "Confession Bears, Bear Grylls"));
         aList.add(GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".tooltip_3", "And ofcourse Man-Bear-Pig"));

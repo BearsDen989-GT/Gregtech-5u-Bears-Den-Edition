@@ -1,6 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
-import cofh.api.energy.IEnergyReceiver;
+import static gregtech.api.enums.GT_Values.VN;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
@@ -18,6 +18,10 @@ import gregtech.api.metatileentity.MetaPipeEntity;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Utility;
 import ic2.api.energy.tile.IEnergySink;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -27,11 +31,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static gregtech.api.enums.GT_Values.VN;
+import cofh.api.energy.IEnergyReceiver;
 
 public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTileEntityCable {
     public final float mThickNess;
@@ -77,7 +77,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
         if (!mInsulated)
-            return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], Dyes.getModulation(aColorIndex, mMaterial.mRGBa) )};
+            return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.mRGBa)};
         if (aConnected) {
             float tThickNess = getThickNess();
             if (tThickNess < 0.37F)
@@ -199,9 +199,9 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
         mTransferredVoltageLast20 = Math.max(mTransferredVoltageLast20, aVoltage);
         mTransferredAmperageLast20 = Math.max(mTransferredAmperageLast20, mTransferredAmperage);
         if (aVoltage > mVoltage || mTransferredAmperage > mAmperage) {
-                 	if(mOverheat> GT_Mod.gregtechproxy.mWireHeatingTicks * 100){
-                      	   getBaseMetaTileEntity().setToFire();}else{mOverheat +=100;}
-                                return aAmperage;
+        	if(mOverheat>GT_Mod.gregtechproxy.mWireHeatingTicks * 100){
+        	   getBaseMetaTileEntity().setToFire();}else{mOverheat +=100;}
+            return aAmperage;
         }
         return rUsedAmperes;
     }
@@ -210,9 +210,8 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         if (aBaseMetaTileEntity.isServerSide()) {
             mTransferredAmperage = 0;
-
             if(mOverheat>0)mOverheat--;
-
+     
             if (aTick % 20 == 0) {
                 mTransferredVoltageLast20 = 0;
                 mTransferredAmperageLast20 = 0;

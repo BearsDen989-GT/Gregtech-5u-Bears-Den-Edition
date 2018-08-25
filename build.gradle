@@ -28,6 +28,8 @@ version = "${config.gt.version}"
 group= "gregtech"
 archivesBaseName = "gregtech"
 
+sourceCompatibility = 1.8
+
 minecraft {
     version = "${config.minecraft.version}-${config.forge.version}"
     runDir = "eclipse"

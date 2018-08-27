@@ -1,23 +1,36 @@
-GT5-Unofficial
-===
+# GT5-Unofficial  
+This GT5 Repo contains a Modified version of GT5.08.33.  
+This version is from Alkalus to be modified further for Bear989.
+This is to have a working baseline for all our modifications.
 
-## About
-
-GT5-Unofficial is a decompiled and modified version of GT5.07.07. The goal of the mod is to maintain and extend the end game of GT5.
+# Changes  
+Things not added in this fork include:  
+Advanced Miner 2 Multiblock  
+Diesel Generator Multiblock & Multiblock Turbine casing changes  
+Assembly Line Multiblock  
+Oil Cracker Multiblock  
+Pyrolusite Oven Multiblock  
+  
+GT Bees (Use Gendustry || Binnies, save time)  
+GT Crop changes (I was/am tempted to remove crops entirely)  
+GT Titanium Processing chain (The game is grindy enough without the need for extra realism)  
+GT Plastics/Rubber Processing Chain (Default is better for my players, cannot add it anyway without a server reset and the addition of oil cracking)  
+GT Platinum metals group sludge processing chain (I'm still using IHL ihl-tools_n_machines-0.578-1.7.10, soon after it was moved from IHL to GT. I may eventually move it over, but without the changes made)  
 
 ## Downloads
 
-Builds can be found on the [IC2 Forums](http://forum.industrial-craft.net/index.php?page=Thread&threadID=11488).
+n/a
 
 ## Installation
 
-GT5U requires IndustrialCraft2-experimental. Version 2.2.780-experimental or newer is recommended.
-Forge versions 1428-1480 are known to break multiplayer. 1481 or newer are recommended.
-Place the downloaded jar file into your mods/ folder.
+Download, gradlew Decompworkspace, gradlew build. Get to work!
 
 ## Issues
 
-Please report any issues you to find the issue tracker on this repository. Include as much information as possible including as version and steps to reproduce.
+Please report any issues you to find the issue tracker on this repository.   
+Include as much information as possible including as version and steps to reproduce.
+DO NOT bother Blood-asp or GregoriousT about any issue you have with my edition of the mod.  
+I cannot emphasize the above point enough, don't bother them!  
 
 ## Contribution
 

@@ -1,6 +1,12 @@
 package gregtech.api.metatileentity.implementations;
 
-import gregtech.api.enums.*;
+import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.W;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.Materials;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.Textures;
+import gregtech.api.enums.Tier;
 import gregtech.api.gui.GT_Container_BasicMachine;
 import gregtech.api.gui.GT_GUIContainer_BasicMachine;
 import gregtech.api.interfaces.ITexture;
@@ -11,15 +17,13 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_ModHandler.RecipeBits;
 import gregtech.api.util.GT_Recipe.GT_Recipe_Map;
 import gregtech.api.util.GT_Utility;
+
+import java.util.Random;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Random;
-
-import static gregtech.api.enums.GT_Values.V;
-import static gregtech.api.enums.GT_Values.W;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -550,17 +554,17 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
         return new GT_GUIContainer_BasicMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), mGUIName, GT_Utility.isStringValid(mNEIName) ? mNEIName : getRecipeList() != null ? getRecipeList().mUnlocalizedName : "", mGUIParameterA, mGUIParameterB);
     }
 
-    @Override
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if (!super.allowPutStack(aBaseMetaTileEntity, aIndex, aSide, aStack)) return false;
-            		if (mInventory[aIndex] != null) return true;
-           			switch (mInputSlotCount) {
-                			case  0: return false;
-                			case  1: return getFillableStack() == null ? !mRequiresFluidForFiltering && getRecipeList().containsInput(aStack) : null!=getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[] {getFillableStack()}, getSpecialSlot(), new ItemStack[] {aStack});
-                			case  2: return (!mRequiresFluidForFiltering || getFillableStack() != null) && (((getInputAt(0)!=null&&getInputAt(1)!=null) || (getInputAt(0)==null&&getInputAt(1)==null?getRecipeList().containsInput(aStack):(getRecipeList().containsInput(aStack)&&null!=getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[] {getFillableStack()}, getSpecialSlot(), aIndex == getInputSlot() ? new ItemStack[] {aStack, getInputAt(1)} : new ItemStack[] {getInputAt(0), aStack})))));
-               			default: return getRecipeList().containsInput(aStack);
-               		}
-    }
+	@Override
+	public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+		if (!super.allowPutStack(aBaseMetaTileEntity, aIndex, aSide, aStack)) return false;
+		if (mInventory[aIndex] != null) return true;
+		switch (mInputSlotCount) {
+		case  0: return false;
+		case  1: return getFillableStack() == null ? !mRequiresFluidForFiltering && getRecipeList().containsInput(aStack) : null!=getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[] {getFillableStack()}, getSpecialSlot(), new ItemStack[] {aStack});
+		case  2: return (!mRequiresFluidForFiltering || getFillableStack() != null) && (((getInputAt(0)!=null&&getInputAt(1)!=null) || (getInputAt(0)==null&&getInputAt(1)==null?getRecipeList().containsInput(aStack):(getRecipeList().containsInput(aStack)&&null!=getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[] {getFillableStack()}, getSpecialSlot(), aIndex == getInputSlot() ? new ItemStack[] {aStack, getInputAt(1)} : new ItemStack[] {getInputAt(0), aStack})))));
+		default: return getRecipeList().containsInput(aStack);
+		}
+	}
 
     @Override
     public void onPreTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {

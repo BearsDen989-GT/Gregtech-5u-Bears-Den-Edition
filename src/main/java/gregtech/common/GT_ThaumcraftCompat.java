@@ -6,6 +6,11 @@ import gregtech.api.enums.TC_Aspects;
 import gregtech.api.interfaces.internal.IThaumcraftCompat;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Utility;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -23,10 +28,6 @@ import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class GT_ThaumcraftCompat
         implements IThaumcraftCompat {
     public GT_ThaumcraftCompat() {
@@ -38,7 +39,7 @@ public class GT_ThaumcraftCompat
         TC_Aspects.BESTIA.mAspect = Aspect.BEAST;
         TC_Aspects.COGNITIO.mAspect = Aspect.MIND;
         TC_Aspects.CORPUS.mAspect = Aspect.FLESH;
-        TC_Aspects.EXAMINIS.mAspect = Aspect.UNDEAD;
+        TC_Aspects.EXANIMUS.mAspect = Aspect.UNDEAD;
         TC_Aspects.FABRICO.mAspect = Aspect.CRAFT;
         TC_Aspects.FAMES.mAspect = Aspect.HUNGER;
         TC_Aspects.GELUM.mAspect = Aspect.COLD;

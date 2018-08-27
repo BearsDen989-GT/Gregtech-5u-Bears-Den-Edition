@@ -1,4 +1,4 @@
 language: java
 install:
-  - gradlew setupDecompworkspace
-  - gradlew build
+  - ./gradlew setupDecompworkspace
+  - ./gradlew build

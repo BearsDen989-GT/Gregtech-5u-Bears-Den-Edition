@@ -1,5 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
+import static gregtech.api.enums.GT_Values.V;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
@@ -13,6 +14,9 @@ import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Recipe.GT_Recipe_Map;
 import gregtech.api.util.GT_Utility;
+
+import java.util.Arrays;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,10 +25,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-
-import java.util.Arrays;
-
-import static gregtech.api.enums.GT_Values.V;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -47,6 +47,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     public int mMainFacing = -1, mProgresstime = 0, mMaxProgresstime = 0, mEUt = 0, mOutputBlocked = 0;
     public FluidStack mOutputFluid;
     public String mGUIName = "", mNEIName = "";
+    private NBTTagCompound mRecipeStuff = new NBTTagCompound();
     /**
      * Contains the Recipe which has been previously used, or null if there was no previous Recipe, which could have been buffered
      */
@@ -353,6 +354,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         aNBT.setInteger("mMainFacing", mMainFacing);
         aNBT.setInteger("mProgresstime", mProgresstime);
         aNBT.setInteger("mMaxProgresstime", mMaxProgresstime);
+        aNBT.setTag("GT.CraftingComponents", mRecipeStuff);
         if (mOutputFluid != null) aNBT.setTag("mOutputFluid", mOutputFluid.writeToNBT(new NBTTagCompound()));
         if (mFluidOut != null) aNBT.setTag("mFluidOut", mFluidOut.writeToNBT(new NBTTagCompound()));
 
@@ -372,6 +374,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         mMainFacing = aNBT.getInteger("mMainFacing");
         mProgresstime = aNBT.getInteger("mProgresstime");
         mMaxProgresstime = aNBT.getInteger("mMaxProgresstime");
+        mRecipeStuff = aNBT.getCompoundTag("GT.CraftingComponents");
         mOutputFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mOutputFluid"));
         mFluidOut = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluidOut"));
 
@@ -659,9 +662,9 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     @Override
     public String[] getInfoData() {
         return new String[]{
+        		mRecipeStuff.toString(),
                 mNEIName,
-                "Progress:",
-                (mProgresstime / 20) + " secs",
+                "Progress:", (mProgresstime / 20) + " secs",
                 (mMaxProgresstime / 20) + " secs",
                 "Stored Energy:",
                 getBaseMetaTileEntity().getStoredEU() + "EU",

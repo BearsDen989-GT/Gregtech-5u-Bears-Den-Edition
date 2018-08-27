@@ -3,6 +3,9 @@ package gregtech.common.render;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
+
+import java.util.Collection;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,19 +14,12 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import org.lwjgl.opengl.GL11;
 
-import java.util.Collection;
+import org.lwjgl.opengl.GL11;
 
 public class GT_CapeRenderer
         extends RenderPlayer {
-    private final ResourceLocation[] mCapes = { new ResourceLocation("gregtech:textures/BrainTechCape.png"),
-                                                new ResourceLocation("gregtech:textures/GregTechCape.png"),
-                                                new ResourceLocation("gregtech:textures/MrBrainCape.png"),
-                                                new ResourceLocation("gregtech:textures/GregoriusCape.png"),
-                                                new ResourceLocation("gregtech:textures/DonorCape.png"),
-                                                new ResourceLocation("gregtech:textures/DevCape.png"),
-                                                new ResourceLocation("gregtech:textures/TecCape.png")};
+    private final ResourceLocation[] mCapes = {new ResourceLocation("gregtech:textures/BrainTechCape.png"), new ResourceLocation("gregtech:textures/GregTechCape.png"), new ResourceLocation("gregtech:textures/MrBrainCape.png"), new ResourceLocation("gregtech:textures/GregoriusCape.png")};
     private final Collection<String> mCapeList;
 
     public GT_CapeRenderer(Collection<String> aCapeList) {
@@ -57,15 +53,6 @@ public class GT_CapeRenderer
             }
             if (aPlayer.getDisplayName().equalsIgnoreCase("GregoriusT")) {
                 tResource = this.mCapes[3];
-            }
-            if (this.mCapeList.contains(aPlayer.getDisplayName().toLowerCase() + ":capedonor")) {
-                tResource = this.mCapes[4];
-            }
-            if (this.mCapeList.contains(aPlayer.getDisplayName().toLowerCase() + ":capedev")) {
-                tResource = this.mCapes[5];
-            }
-            if (this.mCapeList.contains(aPlayer.getDisplayName().toLowerCase() + ":capetec")) {
-                tResource = this.mCapes[6];
             }
             if ((tResource != null) && (!aPlayer.getHideCape())) {
                 bindTexture(tResource);

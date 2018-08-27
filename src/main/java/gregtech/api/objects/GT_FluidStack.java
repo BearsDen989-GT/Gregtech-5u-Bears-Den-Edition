@@ -3,20 +3,21 @@ package gregtech.api.objects;
 import gregtech.api.GregTech_API;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
-import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+
+import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Because Forge fucked this one up royally.
  */
 public class GT_FluidStack extends FluidStack {
     private static final Collection<GT_FluidStack> sAllFluidStacks = new ArrayList<GT_FluidStack>(5000);
-    private static boolean lock = false;
+    private static volatile boolean lock = false;
     private Fluid mFluid;
 
     public GT_FluidStack(Fluid aFluid, int aAmount) {
@@ -29,7 +30,7 @@ public class GT_FluidStack extends FluidStack {
         this(aFluid.getFluid(), aFluid.amount);
     }
 
-    public static void fixAllThoseFuckingFluidIDs() {
+    public static synchronized void fixAllThoseFuckingFluidIDs() {
         if (ForgeVersion.getBuildVersion() < 1355) {
             while (lock) {
                 try {

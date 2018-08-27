@@ -8,11 +8,12 @@ import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_ModHandler;
+
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.ArrayList;
 
 public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_LargeTurbine {
 
@@ -28,7 +29,7 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
 
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        return new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[1][aColorIndex + 1], aFacing == aSide ? aActive ? new GT_RenderedTexture(Textures.BlockIcons.LARGETURBINE_SS_ACTIVE5) : new GT_RenderedTexture(Textures.BlockIcons.LARGETURBINE_SS5) : Textures.BlockIcons.CASING_BLOCKS[58]};
+        return new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[1][aColorIndex + 1], aFacing == aSide ? aActive ? new GT_RenderedTexture(Textures.BlockIcons.LARGETURBINE_ACTIVE5) : new GT_RenderedTexture(Textures.BlockIcons.LARGETURBINE5) : Textures.BlockIcons.CASING_BLOCKS[57]};
     }
 
     public String[] getDescription() {
@@ -38,7 +39,7 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
                 "1x Input Hatch (side centered)", "1x Output Hatch(side centered)",
                 "1x Dynamo Hatch (back centered)",
                 "1x Maintenance Hatch (side centered)",
-                "Stainless Steel Turbine Casings for the rest (24 at least!)",
+                "Turbine Casings for the rest (24 at least!)",
                 "Needs a Turbine Item (inside controller GUI)"};
     }
 
@@ -54,12 +55,12 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
 
     @Override
     public byte getCasingMeta() {
-        return 10;
+        return 9;
     }
 
     @Override
     public byte getCasingTextureIndex() {
-        return 58;
+        return 46;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
         int remainingFlow = (int) (aOptFlow * 1.25f); // Allowed to use up to 125% of optimal flow
 
         for (int i = 0; i < aFluids.size() && remainingFlow > 0; i++) {
-            String fluidName = aFluids.get(i).getFluid().getUnlocalizedName(aFluids.get(i));
+        	String fluidName = aFluids.get(i).getFluid().getUnlocalizedName(aFluids.get(i));
             if (fluidName.equals("ic2.fluidSuperheatedSteam")) {
                 flow = aFluids.get(i).amount; // Get all (steam) in hatch
                 flow = Math.min(flow, Math.min(remainingFlow, (int) (aOptFlow * 1.25f))); // try to use up to 125% of optimal flow w/o exceeding remainingFlow
@@ -90,7 +91,7 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
                     achievement = true;
                 }
             }else if(fluidName.equals("fluid.steam") || fluidName.equals("ic2.fluidSteam") || fluidName.equals("fluid.mfr.steam.still.name")){
-                depleteInput(new FluidStack(aFluids.get(i), aFluids.get(i).amount));
+            	depleteInput(new FluidStack(aFluids.get(i), aFluids.get(i).amount));
             }
         }
 

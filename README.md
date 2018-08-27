@@ -4,7 +4,7 @@ This version is from Alkalus to be modified further for Bear989.
 This is to have a working baseline for all our modifications.
 
 # Changes  
-Things Alkalus did not add in this fork include:  
+Things not added in this fork include:  
 Advanced Miner 2 Multiblock  
 Diesel Generator Multiblock & Multiblock Turbine casing changes  
 Assembly Line Multiblock  
@@ -23,7 +23,7 @@ n/a
 
 ## Installation
 
-Download, CMD, Decompworkspace, Build. Get to work!
+Download, gradlew Decompworkspace, gradlew build. Get to work!
 
 ## Issues
 

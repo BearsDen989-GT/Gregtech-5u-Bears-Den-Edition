@@ -1,7 +1,5 @@
 package gregtech.common.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
@@ -10,13 +8,15 @@ import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 import java.util.List;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_IntegratedCircuit_Item
         extends GT_Generic_Item {
@@ -77,8 +77,8 @@ public class GT_IntegratedCircuit_Item
         return getModeString(aMetaData) + " " + (byte) (aMetaData & 0xFF);
     }
 
-    public void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
-        super.addAdditionalToolTips(aList, aStack, aPlayer);
+    public void addAdditionalToolTips(List aList, ItemStack aStack) {
+        super.addAdditionalToolTips(aList, aStack);
         aList.add(GT_LanguageManager.addStringLocalization(new StringBuilder().append(getUnlocalizedName()).append(".configuration").toString(), "Configuration: ") + getConfigurationString(getDamage(aStack)));
     }
 

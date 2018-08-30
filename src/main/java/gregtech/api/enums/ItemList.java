@@ -573,6 +573,7 @@ public enum ItemList implements IItemContainer {
     Machine_LV_Sifter, Machine_MV_Sifter, Machine_HV_Sifter, Machine_EV_Sifter, Machine_IV_Sifter,
     Machine_LV_ArcFurnace, Machine_MV_ArcFurnace, Machine_HV_ArcFurnace, Machine_EV_ArcFurnace, Machine_IV_ArcFurnace,
     Machine_LV_PlasmaArcFurnace, Machine_MV_PlasmaArcFurnace, Machine_HV_PlasmaArcFurnace, Machine_EV_PlasmaArcFurnace, Machine_IV_PlasmaArcFurnace,
+    Machine_LV_Roaster, Machine_MV_Roaster, Machine_HV_Roaster, Machine_EV_Roaster, Machine_IV_Roaster,
     Machine_LV_Oven, Machine_MV_Oven, Machine_HV_Oven, Machine_EV_Oven, Machine_IV_Oven,
     Machine_LV_E_Furnace, Machine_MV_E_Furnace, Machine_HV_E_Furnace, Machine_EV_E_Furnace, Machine_IV_E_Furnace,
     Machine_LV_Extractor, Machine_MV_Extractor, Machine_HV_Extractor, Machine_EV_Extractor, Machine_IV_Extractor,

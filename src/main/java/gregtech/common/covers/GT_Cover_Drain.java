@@ -28,7 +28,7 @@ extends GT_CoverBehavior {
 				if ((aSide == 1) &&
 						(aTileEntity.getWorld().isRaining()) &&
 						(aTileEntity.getWorld().getPrecipitationHeight(aTileEntity.getXCoord(), aTileEntity.getZCoord()) - 2 < aTileEntity.getYCoord())) {
-					int tAmount = (int) (aTileEntity.getBiome().rainfall * 10.0F);
+					int tAmount = (int) (aTileEntity.getBiome().rainfall * 100.0F);
 					if (tAmount > 0) {
 						((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Water.getFluid(aTileEntity.getWorld().isThundering() ? tAmount * 2 : tAmount), true);
 					}

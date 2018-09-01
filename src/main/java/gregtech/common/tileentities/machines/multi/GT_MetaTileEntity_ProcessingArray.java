@@ -109,9 +109,9 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 			return GT_Recipe.GT_Recipe_Map.sWiremillRecipes;
 		} else if (tmp.startsWith("arcfurnace")) {
 			return GT_Recipe.GT_Recipe_Map.sArcFurnaceRecipes;
-		}
-
-		else if (tmp.startsWith("plasmaarcfurnace")) {
+		} else if (tmp.startsWith("roaster")) {
+			return GT_Recipe.GT_Recipe_Map.sRoasterRecipes;
+		} else if (tmp.startsWith("plasmaarcfurnace")) {
 			return GT_Recipe.GT_Recipe_Map.sPlasmaArcFurnaceRecipes;
 		} else if (tmp.startsWith("printer")) {
 			return GT_Recipe.GT_Recipe_Map.sPrinterRecipes;

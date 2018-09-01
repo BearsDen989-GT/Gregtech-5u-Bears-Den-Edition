@@ -1,6 +1,5 @@
 package gregtech;
 
-import e99999.drainRecipes;
 import forestry.api.recipes.ICentrifugeRecipe;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.api.recipes.RecipeManagers;
@@ -468,7 +467,6 @@ implements IGT_Mod {
 		new GT_CropLoader().run();
 		new GT_Worldgenloader().run();
 		new GT_CoverLoader().run();
-		new drainRecipes().run();
 
 		GT_RecipeRegistrator.registerUsagesForMaterials(new ItemStack(Blocks.planks, 1), null, false);
 		GT_RecipeRegistrator.registerUsagesForMaterials(new ItemStack(Blocks.cobblestone, 1), null, false);

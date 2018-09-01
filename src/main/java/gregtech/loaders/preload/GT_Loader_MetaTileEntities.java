@@ -1,5 +1,6 @@
 package gregtech.loaders.preload;
 
+import e99999.tankBasic;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
@@ -1241,6 +1242,22 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Automation_SuperBuffer_ZPM.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"DMV", Character.valueOf('M'), ItemList.Hull_ZPM, Character.valueOf('V'), ItemList.Conveyor_Module_ZPM, Character.valueOf('D'), ItemList.Tool_DataOrb});
         GT_ModHandler.addCraftingRecipe(ItemList.Automation_SuperBuffer_UV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"DMV", Character.valueOf('M'), ItemList.Hull_UV, Character.valueOf('V'), ItemList.Conveyor_Module_UV, Character.valueOf('D'), ItemList.Tool_DataOrb});
         GT_ModHandler.addCraftingRecipe(ItemList.Automation_SuperBuffer_MAX.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"DMV", Character.valueOf('M'), ItemList.Hull_MAX, Character.valueOf('V'), ItemList.Conveyor_Module_UV, Character.valueOf('D'), ItemList.Tool_DataOrb});
+
+        /* e99999 adding in stuff, delete this comment before merge */
+
+        ItemList.Basic_Tank.set(new tankBasic(12000, "basic.tank.tier.01", "Basic Tank I", 1).getStackForm(1L));
+        ItemList.Basic_Tank_LV.set(new tankBasic(12001, "basic.tank.tier.02", "Basic Tank II", 2).getStackForm(1L));
+        ItemList.Basic_Tank_MV.set(new tankBasic(12002, "basic.tank.tier.03", "Basic Tank III", 3).getStackForm(1L));
+        ItemList.Basic_Tank_HV.set(new tankBasic(12003, "basic.tank.tier.04", "Basic Tank IV", 4).getStackForm(1L));
+
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('X'), OrePrefixes.stickLong.get(Materials.AnyIron) });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('X'), OrePrefixes.stickLong.get(Materials.Steel) });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('X'), OrePrefixes.stickLong.get(Materials.Titanium) });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.stickLong.get(Materials.TungstenSteel) });
+
+        /*adding in easier drain recipe */
+
+        GT_ModHandler.addCraftingRecipe(ItemList.Cover_Drain.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BBB", "BPB", "BBB", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), new ItemStack(Blocks.iron_bars, 1, 0) });
     }
 
     private static void makeWires(Materials aMaterial, int aStartID, long aLossInsulated, long aLoss, long aAmperage, long aVoltage, boolean aInsulatable, boolean aAutoInsulated) {

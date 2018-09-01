@@ -857,7 +857,7 @@ implements Runnable {
 		GT_Values.RA.addElectrolyzerRecipe(new ItemStack(Blocks.sand, 8), 0, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.SiliconDioxide, 1L), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, 500, 25);
 
 		GT_Values.RA.addRoasterRecipe(new ItemStack(Blocks.sand, 8),
-				Materials.Oxygen.getFluid(250),
+				Materials.Oxygen.getGas(250L),
 				new ItemStack[]{new ItemStack(Blocks.clay, 1)}, null, 100, 10);
 
 

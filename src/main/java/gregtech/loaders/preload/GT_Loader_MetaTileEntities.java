@@ -3,11 +3,7 @@ package gregtech.loaders.preload;
 import e99999.tankBasic;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OreDictNames;
-import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.*;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Fluid;
@@ -1260,14 +1256,14 @@ public class GT_Loader_MetaTileEntities
         ItemList.Basic_Tank_MV.set(new tankBasic(12002, "basic.tank.tier.03", "Basic Tank III", 3).getStackForm(1L));
         ItemList.Basic_Tank_HV.set(new tankBasic(12003, "basic.tank.tier.04", "Basic Tank IV", 4).getStackForm(1L));
 
-        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('X'), OrePrefixes.stickLong.get(Materials.AnyIron) });
-        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.Steel) });
-        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.Titanium) });
-        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PXP", "PXP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.TungstenSteel) });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('X'), OrePrefixes.ring.get(Materials.AnyIron), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.AnyIron), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.Steel), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.Steel), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.Titanium), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.Titanium), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
+        GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.pipeLarge.get(Materials.TungstenSteel), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.TungstenSteel), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
 
         /*adding in easier drain recipe */
 
-        GT_ModHandler.addCraftingRecipe(ItemList.Cover_Drain.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BBB", "BPB", "BBB", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), new ItemStack(Blocks.iron_bars, 1, 0) });
+        GT_ModHandler.addCraftingRecipe(ItemList.Cover_Drain.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BHB", "BPB", "BWB", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), new ItemStack(Blocks.iron_bars, 1, 0), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
     }
 
     private static void makeWires(Materials aMaterial, int aStartID, long aLossInsulated, long aLoss, long aAmperage, long aVoltage, boolean aInsulatable, boolean aAutoInsulated) {

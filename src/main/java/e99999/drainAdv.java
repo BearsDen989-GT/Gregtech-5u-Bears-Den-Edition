@@ -35,10 +35,10 @@ public class drainAdv
                 }
                 FluidStack tLiquid = null;
                 if (tBlock != null) {
-                    if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getBiome().biomeID == 0) || (aTileEntity.getBiome().biomeID == 7) && (aTileEntity.getYCoord()<= 64) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
+                    if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getBiome().biomeID == 0) || (aTileEntity.getBiome().biomeID == 7) && (aTileEntity.getYCoord()<= 63) && (aTileEntity.getYCoord()>= 50) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
                         tLiquid = Materials.Water.getFluid(1000L);
-                    } else if (((tBlock == Blocks.lava) || (tBlock == Blocks.flowing_lava)) && (aTileEntity.getBiome().biomeID == 8) && (aTileEntity.getYCoord()<= 64) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
-                        tLiquid = Materials.Lava.getFluid(1000L);
+                    /*} else if (((tBlock == Blocks.lava) || (tBlock == Blocks.flowing_lava)) && (aTileEntity.getBiome().biomeID == 8) && (aTileEntity.getYCoord()<= 28) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
+                        tLiquid = Materials.Lava.getFluid(1000L); */
                     } else if ((tBlock instanceof IFluidBlock)) {
                         tLiquid = ((IFluidBlock) tBlock).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
                     }

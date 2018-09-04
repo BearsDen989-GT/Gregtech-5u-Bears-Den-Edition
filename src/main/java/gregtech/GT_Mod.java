@@ -243,7 +243,7 @@ implements IGT_Mod {
 		GregTech_API.sConstantEnergy = tMainConfig.get("machines", "constant_need_of_energy", true).getBoolean(false);
 		GregTech_API.sColoredGUI = tMainConfig.get("machines", "colored_guis_when_painted", true).getBoolean(false);
 
-		GregTech_API.sTimber = tMainConfig.get("general", "timber_axe", false).getBoolean(false);
+		GregTech_API.sTimber = tMainConfig.get("general", "timber_axe", true).getBoolean(false);
 		GregTech_API.sDrinksAlwaysDrinkable = tMainConfig.get("general", "drinks_always_drinkable", false).getBoolean(false);
 		GregTech_API.sDoShowAllItemsInCreative = tMainConfig.get("general", "show_all_metaitems_in_creative_and_NEI", false).getBoolean(false);
 		GregTech_API.sMultiThreadedSounds = tMainConfig.get("general", "sound_multi_threading", false).getBoolean(false);

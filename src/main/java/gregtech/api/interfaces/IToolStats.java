@@ -1,9 +1,6 @@
 package gregtech.api.interfaces;
 
 import gregtech.api.items.GT_MetaGenerated_Tool;
-
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -11,7 +8,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
+
+import java.util.List;
 
 /**
  * The Stats for GT Tools. Not including any Material Modifiers.
@@ -99,10 +99,11 @@ public interface IToolStats {
 	public boolean isCrowbar();
 
 	/**
-	 * @return If this Tool can be used as an FR Gratfer.
+	 * @return If this Tool can be used as an FR Grafter.
 	 */
 	public boolean isGrafter();
 
+	public boolean isChainsaw();
 	/**
 	 * @return If this Tool can be used as an BC Wrench.
 	 */
@@ -156,4 +157,6 @@ public interface IToolStats {
 	public IIconContainer getIcon(boolean aIsToolHead, ItemStack aStack);
 
 	public short[] getRGBa(boolean aIsToolHead, ItemStack aStack);
+
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, EntityPlayer aPlayer, World worldObj,	int aX, int aY, int aZ);
 }

@@ -125,11 +125,21 @@ public class Textures {
                 new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[14].mRGBa)},
                 new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[15].mRGBa)}
         };
+
         /**
          * Machine Casings by Tier
          * 0 = 8V, 1 = LV, 2 = MV, 3 = HV, 4 = EV, 5 = IV, 6 = IV, 7 = IV, 8 = IV, 9 = IV
          */
         public static final IIconContainer[]
+                STORAGE_SIDE = new IIconContainer[]{
+                COVER_WOOD_PLATE,
+                MACHINE_BRONZEPLATEDBRICKS,
+                MACHINE_CASING_SOLID_STEEL,
+                MACHINE_CASING_STABLE_TITANIUM,
+                MACHINE_CASING_ROBUST_TUNGSTENSTEEL,
+
+        },
+
                 MACHINECASINGS_SIDE = new IIconContainer[]{
                 MACHINE_8V_SIDE,
                 MACHINE_LV_SIDE,
@@ -338,12 +348,19 @@ public class Textures {
                         new GT_RenderedTexture(OVERLAY_LOCKER_013),
                 },
                 CASING_BLOCKS = new ITexture[128],
-                MACHINE_CASINGS[] = new ITexture[10][17];
+                MACHINE_CASINGS[] = new ITexture[10][17],
+                STORAGESTUFF[] = new ITexture [5][3];
 
         static {
             for (byte i = 0; i < MACHINE_CASINGS.length; i++)
                 for (byte j = 0; j < MACHINE_CASINGS[i].length; j++)
                     MACHINE_CASINGS[i][j] = new GT_SidedTexture(MACHINECASINGS_BOTTOM[i], MACHINECASINGS_TOP[i], MACHINECASINGS_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
+        }
+
+        static {
+            for (byte i = 0; i < STORAGESTUFF.length; i++)
+                for (byte j = 0; j < STORAGESTUFF[i].length; j++)
+                    STORAGESTUFF[i][j] = new GT_SidedTexture(STORAGE_SIDE[i], STORAGE_SIDE[i], STORAGE_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
         }
 
         protected IIcon mIcon;

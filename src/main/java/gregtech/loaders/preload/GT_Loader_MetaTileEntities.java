@@ -1263,7 +1263,7 @@ public class GT_Loader_MetaTileEntities
 
         /*adding in easier drain recipe */
 
-        GT_ModHandler.addCraftingRecipe(ItemList.Cover_Drain.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BHB", "BPB", "BWB", Character.valueOf('P'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), new ItemStack(Blocks.iron_bars, 1, 0), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
+        GT_ModHandler.addCraftingRecipe(ItemList.Cover_Drain.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BHB", "BPB", "BWB", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('B'), new ItemStack(Blocks.iron_bars, 1, 0), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
     }
 
     private static void makeWires(Materials aMaterial, int aStartID, long aLossInsulated, long aLoss, long aAmperage, long aVoltage, boolean aInsulatable, boolean aAutoInsulated) {

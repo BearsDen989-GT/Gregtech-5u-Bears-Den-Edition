@@ -17,11 +17,11 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class tankBasic
         extends GT_MetaTileEntity_BasicTank {
     public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 0, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front");
+        super(aID, aName, aNameRegional, aTier, 3, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front");
     }
 
     public tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
-        super(aName, aTier, 0, aDescription, aTextures);
+        super(aName, aTier, 3, aDescription, aTextures);
     }
 
     @Override
@@ -41,7 +41,8 @@ public class tankBasic
 
     @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        GT_Utility.sendChatToPlayer(aPlayer, (mFluid.amount) + "L of "+ (mFluid.getLocalizedName()));
+        if (aBaseMetaTileEntity.isClientSide()) return true;
+        aBaseMetaTileEntity.openGUI(aPlayer);
         return true;
     }
 
@@ -72,12 +73,12 @@ public class tankBasic
 
     @Override
     public boolean doesFillContainers() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean doesEmptyContainers() {
-        return false;
+        return true;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class tankBasic
         if (getDrainableStack() != null){
             IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
             if (tTank != null) {
-                FluidStack tDrained = drain(1000, false);
+                FluidStack tDrained = drain(250, false);
                 if (tDrained != null) {
                     int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
                     if (tFilledAmount > 0)

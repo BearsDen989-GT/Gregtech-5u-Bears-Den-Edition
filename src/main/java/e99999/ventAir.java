@@ -23,13 +23,13 @@ public class ventAir
             }
         }
         if (aSide != 6) {
-
+            Block tBlock = aTileEntity.getBlockAtSide(aSide);
             if ((aCoverVariable < 3) && ((aTileEntity instanceof IFluidHandler))) {
                 if (
 
                         (aTileEntity.getYCoord() >= 28)) {
                     int tAmount = (int) (aTileEntity.getYCoord() * 5.0F);
-                    if (tAmount > 0) {
+                    if ((tAmount > 0) && (tBlock == Blocks.air)) {
                         ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Air.getGas(aTileEntity.getWorld().isThundering() ? tAmount * 2 : tAmount), true);
                     }
                 }

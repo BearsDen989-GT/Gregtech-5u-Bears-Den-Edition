@@ -12,12 +12,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-/* e99999's attempt at an early game tank remove comment before merge */
+/* i will fix the tooltip to display the melting temp next so shut up for now */
 
 public class tankBasic
         extends GT_MetaTileEntity_BasicTank {
     public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 3, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front");
+        super(aID, aName, aNameRegional, aTier, 3, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front, melts at internal pipe temp");
     }
 
     public tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -101,7 +101,28 @@ public class tankBasic
             }
 
         }
+        if (mFluid != null && mFluid.amount > 0) {
+            int tLimit = 1000; //default limit
+            if (mTier == 1) {
+                tLimit = 2000;
+            } else if (mTier == 2) {
+                tLimit = 2500;
+            } else if (mTier == 3) {
+                tLimit = 5000;
+            } else if (mTier == 4) {
+                tLimit = 12500;
+            }
 
+            int tTemperature = mFluid.getFluid().getTemperature(mFluid);
+            if (tTemperature > tLimit) {
+                if (aBaseMetaTileEntity.getRandomNumber(100) == 0) {
+                    aBaseMetaTileEntity.setToFire();
+                    return;
+                }
+                aBaseMetaTileEntity.setOnFire();
+            }
+
+        }
     }
 
     @Override

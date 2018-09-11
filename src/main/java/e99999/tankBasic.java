@@ -102,7 +102,7 @@ public class tankBasic
 
         }
         if (mFluid != null && mFluid.amount > 0) {
-            int tLimit = 1000; //default limit
+            int tLimit = 350; //default limit
             if (mTier == 1) {
                 tLimit = 2000;
             } else if (mTier == 2) {

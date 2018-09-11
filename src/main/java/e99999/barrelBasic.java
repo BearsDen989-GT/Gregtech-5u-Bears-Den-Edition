@@ -14,6 +14,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+//TODO: Make barrel/chest drop ALL items upon breaking
+//TODO: Waila support for contents?
+
 public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
     public int mItemCount = 0;
     public ItemStack mItemStack = null;

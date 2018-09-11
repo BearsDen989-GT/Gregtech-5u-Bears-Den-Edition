@@ -428,7 +428,6 @@ public enum OrePrefixes {
         plate.mGeneratedItems.add(Materials.Glowstone);
         plate.mGeneratedItems.add(Materials.Teslatite);
         plate.mGeneratedItems.add(Materials.Obsidian);
-
         plate.mGeneratedItems.add(Materials.Paper);
         plateDouble.mGeneratedItems.add(Materials.Paper);
         plateTriple.mGeneratedItems.add(Materials.Paper);

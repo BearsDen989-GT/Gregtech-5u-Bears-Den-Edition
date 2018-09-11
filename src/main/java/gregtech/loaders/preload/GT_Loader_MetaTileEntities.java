@@ -1068,6 +1068,7 @@ public class GT_Loader_MetaTileEntities
         makeWires(Materials.YttriumBariumCuprate, 1760, bEC ? 4L : 256L, bEC ? 8L : 512L, 4L, gregtech.api.enums.GT_Values.V[6], true, false);
 
         makeWires(Materials.RedAlloy, 2000, 0L, 1L, 1L, gregtech.api.enums.GT_Values.V[0], true, false);
+        makeWires(Materials.PurpleAlloy, 12060, bEC ? 1L : 2L, bEC ? 2L : 4L, 1L, gregtech.api.enums.GT_Values.V[2], true, false);
 
         makeWires(Materials.Superconductor, 2020, 1L, 1L, 4L, gregtech.api.enums.GT_Values.V[9], false, true);
         if (!GT_Mod.gregtechproxy.mDisableIC2Cables) {
@@ -1250,7 +1251,7 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Automation_SuperBuffer_UV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"DMV", Character.valueOf('M'), ItemList.Hull_UV, Character.valueOf('V'), ItemList.Conveyor_Module_UV, Character.valueOf('D'), ItemList.Tool_DataOrb});
         GT_ModHandler.addCraftingRecipe(ItemList.Automation_SuperBuffer_MAX.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"DMV", Character.valueOf('M'), ItemList.Hull_MAX, Character.valueOf('V'), ItemList.Conveyor_Module_UV, Character.valueOf('D'), ItemList.Tool_DataOrb});
 
-        /* e99999 adding in stuff, delete this comment before merge */
+        /* e99999 adding stuff in down here */
 
         ItemList.Basic_Tank.set(new tankBasic(12000, "basic.tank.tier.00", "Basic Tank I", 0).getStackForm(1L));
         ItemList.Basic_Tank_Steam.set(new tankBasic(12001, "basic.tank.tier.01", "Basic Tank II", 1).getStackForm(1L));
@@ -1264,11 +1265,11 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('X'), OrePrefixes.pipeMedium.get(Materials.Titanium), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.Titanium), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.pipeMedium.get(Materials.TungstenSteel), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.TungstenSteel), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
 
-        ItemList.Basic_Barrel.set(new barrelBasic(12030, "basic.barrel.tier.00", "Basic Chest I", 0).getStackForm(1L));
-        ItemList.Basic_Barrel_Steam.set(new barrelBasic(12031, "basic.barrel.tier.01", "Basic Chest II", 1).getStackForm(1L));
-        ItemList.Basic_Barrel_LV.set(new barrelBasic(12032, "basic.barrel.tier.02", "Basic Chest III", 2).getStackForm(1L));
-        ItemList.Basic_Barrel_MV.set(new barrelBasic(12033, "basic.barrel.tier.03", "Basic Chest IV", 3).getStackForm(1L));
-        ItemList.Basic_Barrel_HV.set(new barrelBasic(12034, "basic.barrel.tier.04", "Basic Chest V", 4).getStackForm(1L));
+        ItemList.Basic_Barrel.set(new barrelBasic(12030, "basic.barrel.tier.00", "Basic Item Barrel I", 0).getStackForm(1L));
+        ItemList.Basic_Barrel_Steam.set(new barrelBasic(12031, "basic.barrel.tier.01", "Basic Item Barrel II", 1).getStackForm(1L));
+        ItemList.Basic_Barrel_LV.set(new barrelBasic(12032, "basic.barrel.tier.02", "Basic Item Barrel III", 2).getStackForm(1L));
+        ItemList.Basic_Barrel_MV.set(new barrelBasic(12033, "basic.barrel.tier.03", "Basic Item Barrel IV", 3).getStackForm(1L));
+        ItemList.Basic_Barrel_HV.set(new barrelBasic(12034, "basic.barrel.tier.04", "Basic Item Barrel V", 4).getStackForm(1L));
 
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'),  new ItemStack(Blocks.planks, 1, 0), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolSoftMallet });
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel_Steam.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });

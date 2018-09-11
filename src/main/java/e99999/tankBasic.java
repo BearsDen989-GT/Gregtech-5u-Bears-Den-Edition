@@ -12,7 +12,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-/* i will fix the tooltip to display the melting temp next so shut up for now */
+//TODO: add melting temp to tooltip
+//TODO: output only bottom
 
 public class tankBasic
         extends GT_MetaTileEntity_BasicTank {

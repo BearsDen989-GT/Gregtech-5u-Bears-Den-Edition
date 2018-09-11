@@ -24,6 +24,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.Loader;
 
+
+/* CURRENT FREE SPACE = 2
+
 /**
  * This List contains every Material I know about, and is used to determine Recipes for the
  */
@@ -195,7 +198,6 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	Pokefennium(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 2, 255, 255, 255, 0, "Pokefennium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	Draconium(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 2, 255, 255, 255, 0, "Draconium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	DraconiumAwakened(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 2, 255, 255, 255, 0, "Awakened Draconium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
-	PurpleAlloy(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 0, 100, 180, 255, 0, "Purple Alloy", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	InfusedTeslatite(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 0, 100, 180, 255, 0, "Infused Teslatite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 
 	Adluorite(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 8, 255, 255, 255, 0, "Adluorite", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes._NULL),
@@ -253,7 +255,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	Firestone(347, TextureSet.SET_QUARTZ, 6.0F, 1280, 3, 1 | 4 | 8 | 64, 200, 20, 0, 0, "Firestone", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeRed),
 	Fluorite(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 8, 255, 255, 255, 0, "Fluorite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeGreen),
 	FoolsRuby(512, TextureSet.SET_RUBY, 1.0F, 0, 2, 1 | 4 | 8, 255, 100, 100, 127, "Ruby", 0, 0, -1, 0, false, true, 3, 1, 1, Dyes.dyeRed, Arrays.asList(new TC_AspectStack(TC_Aspects.LUCRUM, 2), new TC_AspectStack(TC_Aspects.VITREUS, 2))),
-	Force(521, TextureSet.SET_DIAMOND, 10.0F, 128, 3, 1 | 2 | 4 | 8 | 64 | 128, 255, 255, 0, 0, "Force", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeYellow, Arrays.asList(new TC_AspectStack(TC_Aspects.POTENTIA, 5))),
+	//Force(-1, TextureSet.SET_DIAMOND, 10.0F, 128, 3, 1 | 2 | 4 | 8 | 64 | 128, 255, 255, 0, 0, "Force", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeYellow, Arrays.asList(new TC_AspectStack(TC_Aspects.POTENTIA, 5))),
 	Forcicium(518, TextureSet.SET_DIAMOND, 1.0F, 0, 1, 1 | 4 | 8 | 16, 50, 50, 70, 0, "Forcicium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeGreen, Arrays.asList(new TC_AspectStack(TC_Aspects.POTENTIA, 2))),
 	Forcillium(519, TextureSet.SET_DIAMOND, 1.0F, 0, 1, 1 | 4 | 8 | 16, 50, 50, 70, 0, "Forcillium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeGreen, Arrays.asList(new TC_AspectStack(TC_Aspects.POTENTIA, 2))),
 	Gabbro(863, TextureSet.SET_DULL, 1.0F, 0, 1, 1, 255, 255, 255, 0, "Gabbro", 0, 0, -1, 0, false, false, 0, 1, 1, Dyes._NULL),
@@ -339,7 +341,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	Sugilite(-1, TextureSet.SET_NONE, 1.0F, 0, 1, 1, 255, 255, 255, 0, "Sugilite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	Sunstone(-1, TextureSet.SET_NONE, 1.0F, 0, 1, 1 | 8, 255, 255, 255, 0, "Sunstone", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeYellow, Arrays.asList(new TC_AspectStack(TC_Aspects.VITREUS, 1), new TC_AspectStack(TC_Aspects.ALIENIS, 1))),
 	Tar(-1, TextureSet.SET_NONE, 1.0F, 0, 1, 0, 10, 10, 10, 0, "Tar", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeBlack),
-	Tartarite(956, TextureSet.SET_METALLIC, 20.0F, 7680, 5, 1 | 2 | 8 | 16, 255, 118, 60, 0, "Tartarite", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes._NULL),
+	//Tartarite(-1, TextureSet.SET_METALLIC, 20.0F, 7680, 5, 1 | 2 | 8 | 16, 255, 118, 60, 0, "Tartarite", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes._NULL),
 	Tapazite(-1, TextureSet.SET_NONE, 1.0F, 0, 1, 1, 255, 255, 255, 0, "Tapazite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeGreen),
 	Thyrium(-1, TextureSet.SET_NONE, 1.0F, 0, 1, 1 | 2 | 8, 255, 255, 255, 0, "Thyrium", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	Tourmaline(-1, TextureSet.SET_RUBY, 1.0F, 0, 1, 1, 255, 255, 255, 0, "Tourmaline", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
@@ -631,6 +633,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	SteelMagnetic(355, TextureSet.SET_MAGNETIC, 6.0F, 512, 2, 1 | 2 | 64 | 128, 128, 128, 128, 0, "Magnetic Steel", 0, 0, 1000, 1000, true, false, 4, 51, 50, Dyes.dyeGray, 1, Arrays.asList(new MaterialStack(Steel, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.METALLUM, 1), new TC_AspectStack(TC_Aspects.ORDO, 1), new TC_AspectStack(TC_Aspects.MAGNETO, 1))),
 	NeodymiumMagnetic(356, TextureSet.SET_MAGNETIC, 7.0F, 512, 2, 1 | 2 | 64 | 128, 100, 100, 100, 0, "Magnetic Neodymium", 0, 0, 1297, 1297, true, false, 4, 51, 50, Dyes.dyeGray, 1, Arrays.asList(new MaterialStack(Neodymium, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.METALLUM, 1), new TC_AspectStack(TC_Aspects.MAGNETO, 3))),
 	TungstenCarbide(370, TextureSet.SET_METALLIC, 12.0F, 7168, 4, 1 | 2 | 64 | 128, 24, 28, 48, 0, "Tungsten Carbide", 0, 0, 2460, 2460, true, false, 4, 1, 1, Dyes.dyeBlack, 2, Arrays.asList(new MaterialStack(Carbon, 1), new MaterialStack(Tungsten, 1))),
+	PurpleAlloy(521, TextureSet.SET_DULL, 1.0F, 0, 0, 1 | 2, 224, 16, 232, 0, "Purple Alloy", 0, 0, -1, 0, false, false, 3, 5, 1, Dyes.dyePurple, 2, Arrays.asList(new MaterialStack(BlueAlloy, 1), new MaterialStack(RedAlloy, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.ELECTRUM, 3))),
 
 	/**
 	 * Unknown Material Components. Dead End Section.
@@ -761,7 +764,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		SubTag.BLASTFURNACE_CALCITE_TRIPLE.addTo(Iron, PigIron, DeepIron, ShadowIron, WroughtIron, MeteoricIron, BrownLimonite);
 		SubTag.WASHING_MERCURY.addTo(Gold, Silver, Osmium, Mithril, Platinum, Midasium, Cooperite, AstralSilver);
 		SubTag.WASHING_SODIUMPERSULFATE.addTo(Zinc, Nickel, Copper, Cobalt, Cobaltite, Tetrahedrite);
-		SubTag.METAL.addTo(AnyIron, AnyCopper, AnyBronze, Metal, Aluminium, Americium, Antimony, Beryllium, Bismuth, Caesium, Cerium, Chrome, Cobalt, Copper, Dysprosium, Erbium, Europium, Gadolinium, Gallium, Gold, Holmium, Indium, Iridium, Iron, Lanthanum, Lead, Lutetium, Magnesium, Manganese, Mercury, Niobium, Molybdenum, Neodymium, Neutronium, Nickel, Osmium, Palladium, Platinum, Plutonium, Plutonium241, Praseodymium, Promethium, Rubidium, Samarium, Scandium, Silicon, Silver, Tantalum, Tellurium, Terbium, Thorium, Thulium, Tin, Titanium, Tungsten, Uranium, Uranium235, Vanadium, Ytterbium, Yttrium, Zinc, Satinspar, Selenite, Microcline, Serpentine, Sylvite, Signalum, Lumium, PhasedIron, PhasedGold, DarkSteel, Terrasteel, TerrasteelAlloyRaw, TerrasteelAlloyStrengthened, TinAlloy, ConductiveIron, ElectricalSteel, EnergeticAlloy, VibrantAlloy, PulsatingIron, Manasteel, VoidMetal, ElvenElementium, EnrichedCopper, DiamondCopper, Staballoy, Amordrine, Angmallen, Ardite, Aredrite, Atlarus, Blutonium, Carmot, Celenegil, Ceruclase, DarkIron, Desh, Desichalkos, Duranium, ElectrumFlux, Enderium, EnderiumBase, Eximite, FierySteel, Force, Haderoth, Hematite, Hepatizon, HSLA, Infuscolium, InfusedGold, Inolashite, Mercassium, MeteoricIron, MeteoricSteel, Naquadah, NaquadahAlloy, NaquadahEnriched, Naquadria, ObsidianFlux, Orichalcum, Osmonium, Oureclase, Phoenixite, Prometheum, RefinedGlowstone, RefinedObsidian, Sanguinite, Starconium, Tartarite, Thyrium, Tritanium, Vulcanite, Vyroxeres, Yellorium, Zectium, AluminiumBrass, Osmiridium, Sunnarium, AnnealedCopper, BatteryAlloy, Brass, Bronze, ChromiumDioxide, Cupronickel, DeepIron, Electrum, Invar, IronCompressed, Kanthal, Magnalium, Nichrome, NiobiumNitride, NiobiumTitanium, PigIron, SolderingAlloy, StainlessSteel, Steel, Ultimet, VanadiumGallium, WroughtIron, YttriumBariumCuprate, IronWood, Alumite, Manyullyn, ShadowIron, ShadowSteel, Steeleaf, SterlingSilver, RoseGold, BlackBronze, BismuthBronze, BlackSteel, RedSteel, BlueSteel, DamascusSteel, TungstenSteel, AstralSilver, Midasium, Mithril, BlueAlloy, RedAlloy, CobaltBrass, Thaumium, IronMagnetic, SteelMagnetic, NeodymiumMagnetic, Knightmetal, BloodSteel, VoidMetal, ConductiveIron, ElectricalSteel, EnergeticAlloy, VibrantAlloy, PulsatingIron, RedstoneAlloy, Tantaloy60, TungstenCarbide);
+		SubTag.METAL.addTo(AnyIron, AnyCopper, AnyBronze, Metal, Aluminium, Americium, Antimony, Beryllium, Bismuth, Caesium, Cerium, Chrome, Cobalt, Copper, Dysprosium, Erbium, Europium, Gadolinium, Gallium, Gold, Holmium, Indium, Iridium, Iron, Lanthanum, Lead, Lutetium, Magnesium, Manganese, Mercury, Niobium, Molybdenum, Neodymium, Neutronium, Nickel, Osmium, Palladium, Platinum, Plutonium, Plutonium241, Praseodymium, Promethium, Rubidium, Samarium, Scandium, Silicon, Silver, Tantalum, Tellurium, Terbium, Thorium, Thulium, Tin, Titanium, Tungsten, Uranium, Uranium235, Vanadium, Ytterbium, Yttrium, Zinc, Satinspar, Selenite, Microcline, Serpentine, Sylvite, Signalum, Lumium, PhasedIron, PhasedGold, DarkSteel, Terrasteel, TerrasteelAlloyRaw, TerrasteelAlloyStrengthened, TinAlloy, ConductiveIron, ElectricalSteel, EnergeticAlloy, VibrantAlloy, PulsatingIron, Manasteel, VoidMetal, ElvenElementium, EnrichedCopper, DiamondCopper, Staballoy, Amordrine, Angmallen, Ardite, Aredrite, Atlarus, Blutonium, Carmot, Celenegil, Ceruclase, DarkIron, Desh, Desichalkos, Duranium, ElectrumFlux, Enderium, EnderiumBase, Eximite, FierySteel, Haderoth, Hematite, Hepatizon, HSLA, Infuscolium, InfusedGold, Inolashite, Mercassium, MeteoricIron, MeteoricSteel, Naquadah, NaquadahAlloy, NaquadahEnriched, Naquadria, ObsidianFlux, Orichalcum, Osmonium, Oureclase, Phoenixite, Prometheum, RefinedGlowstone, RefinedObsidian, Sanguinite, Starconium, Thyrium, Tritanium, Vulcanite, Vyroxeres, Yellorium, Zectium, AluminiumBrass, Osmiridium, Sunnarium, AnnealedCopper, BatteryAlloy, Brass, Bronze, ChromiumDioxide, Cupronickel, DeepIron, Electrum, Invar, IronCompressed, Kanthal, Magnalium, Nichrome, NiobiumNitride, NiobiumTitanium, PigIron, SolderingAlloy, StainlessSteel, Steel, Ultimet, VanadiumGallium, WroughtIron, YttriumBariumCuprate, IronWood, Alumite, Manyullyn, ShadowIron, ShadowSteel, Steeleaf, SterlingSilver, RoseGold, BlackBronze, BismuthBronze, BlackSteel, RedSteel, BlueSteel, DamascusSteel, TungstenSteel, AstralSilver, Midasium, Mithril, BlueAlloy, RedAlloy, PurpleAlloy, CobaltBrass, Thaumium, IronMagnetic, SteelMagnetic, NeodymiumMagnetic, Knightmetal, BloodSteel, VoidMetal, ConductiveIron, ElectricalSteel, EnergeticAlloy, VibrantAlloy, PulsatingIron, RedstoneAlloy, Tantaloy60, TungstenCarbide);
 
 		SubTag.FOOD.addTo(MeatRaw, MeatCooked, Ice, Water, Salt, Chili, Cocoa, Cheese, Coffee, Chocolate, Milk, Honey, FryingOilHot, FishOil, SeedOil, SeedOilLin, SeedOilHemp, Wheat, Sugar, FreshWater);
 
@@ -902,7 +905,6 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		Firestone.add(SubTag.CRYSTAL, SubTag.NO_SMASHING, SubTag.NO_SMELTING, SubTag.CRYSTALLISABLE, SubTag.MAGICAL, SubTag.QUARTZ, SubTag.UNBURNABLE, SubTag.BURNING);
 		Forcicium.add(SubTag.CRYSTAL, SubTag.NO_SMASHING, SubTag.NO_SMELTING, SubTag.CRYSTALLISABLE, SubTag.MAGICAL);
 		Forcillium.add(SubTag.CRYSTAL, SubTag.NO_SMASHING, SubTag.NO_SMELTING, SubTag.CRYSTALLISABLE, SubTag.MAGICAL);
-		Force.add(SubTag.CRYSTAL, SubTag.MAGICAL, SubTag.UNBURNABLE);
 		Magic.add(SubTag.CRYSTAL, SubTag.MAGICAL, SubTag.UNBURNABLE);
 
 		Primitive.add(SubTag.NO_SMASHING, SubTag.NO_SMELTING);
@@ -1032,7 +1034,6 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		Blaze.setEnchantmentForTools(Enchantment.fireAspect, 3);
 		InfusedFire.setEnchantmentForTools(Enchantment.fireAspect, 3);
 
-		Force.setEnchantmentForTools(Enchantment.silkTouch, 1);
 		Amber.setEnchantmentForTools(Enchantment.silkTouch, 1);
 		EnderPearl.setEnchantmentForTools(Enchantment.silkTouch, 1);
 		Enderium.setEnchantmentForTools(Enchantment.silkTouch, 1);
@@ -1256,7 +1257,6 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		BlueTopaz.addOreByProducts(Topaz);
 		Niter.addOreByProducts(Saltpeter);
 		Vinteum.addOreByProducts(Vinteum);
-		Force.addOreByProducts(Force);
 		Dilithium.addOreByProducts(Dilithium);
 		Neutronium.addOreByProducts(Neutronium);
 		Lithium.addOreByProducts(Lithium);

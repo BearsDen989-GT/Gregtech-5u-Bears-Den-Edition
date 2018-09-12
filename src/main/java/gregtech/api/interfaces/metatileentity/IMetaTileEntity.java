@@ -132,7 +132,12 @@ public interface IMetaTileEntity extends ISidedInventory, IFluidTank, IFluidHand
     /**
      * When a Player rightclicks the Facing with a Wrench.
      */
-    public boolean onWrenchRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ);
+    boolean onWrenchRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ);
+
+    /**
+     * When a Player rightclicks the Facing with a wire cutter.
+     */
+    boolean onWireCutterRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ);
 
     /**
      * Called right before this Machine explodes

@@ -270,6 +270,17 @@ public interface IGT_RecipeAdder {
      */
     public boolean addDistillationTowerRecipe(FluidStack aInput, FluidStack[] aOutputs, ItemStack aOutput2, int aDuration, int aEUt);
 
+    /**
+     * Adds Pyrolyse Recipe
+     *
+     * @param aInput
+     * @param intCircuit
+     * @param aOutput
+     * @param aFluidOutput
+     * @param aDuration
+     * @param aEUt
+     */
+    public boolean addPyrolyseRecipe(ItemStack aInput, FluidStack aFluidInput, int intCircuit, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt);
 
     public boolean addSimpleArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
 

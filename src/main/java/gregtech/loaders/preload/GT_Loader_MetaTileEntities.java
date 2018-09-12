@@ -57,25 +57,7 @@ import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Replicator;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_RockBreaker;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Scanner;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Teleporter;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_BronzeBlastFurnace;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_DistillationTower;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ElectricBlastFurnace;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer1;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer2;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer3;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_HeatExchanger;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ImplosionCompressor;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Bronze;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Steel;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Titanium;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_TungstenSteel;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Gas;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_HPSteam;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Plasma;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Steam;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_MultiFurnace;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ProcessingArray;
-import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_VacuumFreezer;
+import gregtech.common.tileentities.machines.multi.*;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_AlloySmelter_Bronze;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_AlloySmelter_Steel;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_Compressor_Bronze;
@@ -1293,6 +1275,10 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
+
+        ItemList.PyrolyseOven.set(new GT_MetaTileEntity_PyrolyseOven(12040, "multimachine.pyro", "Pyrolyse Oven").getStackForm(1));
+        //GT_ModHandler.addCraftingRecipe(ItemList.PyrolyseOven.get(1L, new Object[0]), bitsd, new Object[]{"WEP", "EME", "WCP", 'M', ItemList.Hull_MV, 'W', ItemList.Electric_Piston_MV, 'P', OrePrefixes.wireGt04.get(Materials.Cupronickel), 'E', OrePrefixes.circuit.get(Materials.Good), 'C', ItemList.Electric_Pump_MV});
+
 
         /*adding in easier drain recipe */
 

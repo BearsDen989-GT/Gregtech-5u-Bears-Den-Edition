@@ -25,7 +25,7 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.Loader;
 
 
-/* CURRENT FREE SPACE = 2
+/* CURRENT FREE SPACE = 1
 
 /**
  * This List contains every Material I know about, and is used to determine Recipes for the

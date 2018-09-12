@@ -249,7 +249,7 @@ public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
   
   public int getPollutionPerTick(ItemStack aStack)
   {
-    return 10;
+    return 0;
   }
   
   public int getDamageToComponent(ItemStack aStack)

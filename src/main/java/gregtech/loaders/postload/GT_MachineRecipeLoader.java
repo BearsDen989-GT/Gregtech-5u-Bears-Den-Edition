@@ -832,6 +832,8 @@ implements Runnable {
 
 		GT_Values.RA.addPyrolyseRecipe(GT_ModHandler.getIC2Item("biochaff", 1), Materials.Water.getFluid(1000), 1, null, new FluidStack(FluidRegistry.getFluid("ic2biomass"), 1500), 100, 10);
 		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 16), null, 1, (GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 20)), Materials.Creosote.getFluid(4000), 640, 30);
+		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
+		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), Materials.Nitrogen.getGas(500), 2, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 160, 64);
 
 		if (Loader.isModLoaded("Railcraft")) {
 			GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 16), null, 1, RailcraftToolItems.getCoalCoke(16), Materials.Creosote.getFluid(8000), 640, 32);

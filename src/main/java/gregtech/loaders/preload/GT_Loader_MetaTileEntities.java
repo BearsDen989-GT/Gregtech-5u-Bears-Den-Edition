@@ -1039,6 +1039,7 @@ public class GT_Loader_MetaTileEntities
         makeWires(Materials.TungstenSteel, 1540, bEC ? 2L : 14L, bEC ? 4L : 28L, 3L, gregtech.api.enums.GT_Values.V[4], true, false);
         makeWires(Materials.Tungsten, 1560, bEC ? 2L : 12L, bEC ? 4L : 24L, 4L, gregtech.api.enums.GT_Values.V[4], true, false);
         makeWires(Materials.Aluminium, 1580, bEC ? 1L : 8L, bEC ? 2L : 16L, 1L, gregtech.api.enums.GT_Values.V[4], true, false);
+        makeWires(Materials.Technetium, 12080, bEC ? 1L : 8L, bEC ? 2L : 16L, 1L, gregtech.api.enums.GT_Values.V[4], true, false);
 
         makeWires(Materials.Graphene, 1600, bEC ? 1L : 16L, bEC ? 2L : 32L, 1L, gregtech.api.enums.GT_Values.V[5], false, true);
         makeWires(Materials.Osmium, 1620, bEC ? 2L : 32L, bEC ? 4L : 64L, 4L, gregtech.api.enums.GT_Values.V[5], true, false);
@@ -1277,7 +1278,7 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Barrel_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PPP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('X'), OrePrefixes.plate.get(Materials.AnyIron), Character.valueOf('B'), OreDictNames.craftingChest, Character.valueOf('W'), ToolDictNames.craftingToolSaw, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });
 
         ItemList.PyrolyseOven.set(new GT_MetaTileEntity_PyrolyseOven(12040, "multimachine.pyro", "Pyrolyse Oven").getStackForm(1));
-        //GT_ModHandler.addCraftingRecipe(ItemList.PyrolyseOven.get(1L, new Object[0]), bitsd, new Object[]{"WEP", "EME", "WCP", 'M', ItemList.Hull_MV, 'W', ItemList.Electric_Piston_MV, 'P', OrePrefixes.wireGt04.get(Materials.Cupronickel), 'E', OrePrefixes.circuit.get(Materials.Good), 'C', ItemList.Electric_Pump_MV});
+        GT_ModHandler.addCraftingRecipe(ItemList.PyrolyseOven.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WEP", "EME", "WCP", 'M', ItemList.Hull_LV, 'W', ItemList.Electric_Piston_LV, 'P', OrePrefixes.wireGt04.get(Materials.Cupronickel), 'E', OrePrefixes.circuit.get(Materials.Basic), 'C', ItemList.Electric_Pump_LV});
 
 
         /*adding in easier drain recipe */

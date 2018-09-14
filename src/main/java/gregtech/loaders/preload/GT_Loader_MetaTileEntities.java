@@ -74,6 +74,8 @@ import gregtech.common.tileentities.storage.GT_MetaTileEntity_Locker;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumChest;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumTank;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.common.Loader;
@@ -370,7 +372,6 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Muffler_UV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"M", "P", Character.valueOf('M'), ItemList.Hull_UV, Character.valueOf('P'), OrePrefixes.pipeMedium.get(Materials.Steel)});
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Muffler_MAX.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"M", "P", Character.valueOf('M'), ItemList.Hull_MAX, Character.valueOf('P'), OrePrefixes.pipeMedium.get(Materials.Steel)});
 
-
         ItemList.Machine_Bronze_Boiler.set(new GT_MetaTileEntity_Boiler_Bronze(100, "boiler.bronze", "Small Coal Boiler").getStackForm(1L));
         ItemList.Machine_Steel_Boiler.set(new GT_MetaTileEntity_Boiler_Steel(101, "boiler.steel", "High Pressure Coal Boiler").getStackForm(1L));
         ItemList.Machine_Steel_Boiler_Lava.set(new GT_MetaTileEntity_Boiler_Lava(102, "boiler.lava", "High Pressure Lava Boiler").getStackForm(1L));
@@ -381,6 +382,12 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Machine_Steel_Boiler_Lava.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PPP", "GGG", "PMP", Character.valueOf('M'), ItemList.Hull_Steel_Bricks, Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
         GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_Boiler_Solar.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"GGG", "SSS", "PMP", Character.valueOf('M'), ItemList.Hull_Bronze_Bricks, Character.valueOf('P'), OrePrefixes.pipeSmall.get(Materials.Bronze), Character.valueOf('S'), OrePrefixes.plate.get(Materials.Silver), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
 
+        GT_ModHandler.addCraftingRecipe(ItemList.Casing_DenseBricks.get(1L, new Object[0]),GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[] {"IBI", "BPB", "IBI", 'B', OrePrefixes.dust.get(Materials.Clay), 'I', OrePrefixes.ingot.get(Materials.Brick), 'P', OrePrefixes.plate.get(Materials.AnyIron)});
+
+        ItemList.Machine_Bricked_BlastFurnace.set(new GT_MetaTileEntity_BrickedBlastFurnace(130, "multimachine.brickedblastfurnace", "Bricked Blast Furnace").getStackForm(1L));
+        if (!Loader.isModLoaded("terrafirmacraft")) {
+            GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bricked_BlastFurnace.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BFB", "FPF", "BFB", 'F', OreDictNames.craftingFurnace, 'B', ItemList.Casing_DenseBricks, 'P', OrePrefixes.block.get(Materials.AnyIron)});
+        }
         ItemList.Machine_Bronze_BlastFurnace.set(new GT_MetaTileEntity_BronzeBlastFurnace(108, "bronzemachine.blastfurnace", "Bronze Plated Blast Furnace").getStackForm(1L));
         if (!Loader.isModLoaded("terrafirmacraft")) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_BlastFurnace.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PFP", "FwF", "PFP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('F'), OreDictNames.craftingFurnace});

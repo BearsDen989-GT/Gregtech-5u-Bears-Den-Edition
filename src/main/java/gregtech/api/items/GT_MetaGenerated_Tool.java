@@ -252,6 +252,8 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 		return true;
 	}
 
+	//TODO: Below is what to use to for torches on right click
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
 		IToolStats tStats = getToolStats(aStack);

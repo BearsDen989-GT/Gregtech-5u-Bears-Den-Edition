@@ -3,16 +3,7 @@ package gregtech.common.items;
 import e99999.drainAdv;
 import e99999.ventAir;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OreDictNames;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.SubTag;
-import gregtech.api.enums.TC_Aspects;
-import gregtech.api.enums.Textures;
+import gregtech.api.enums.*;
 import gregtech.api.interfaces.IItemBehaviour;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.items.GT_MetaBase_Item;
@@ -554,7 +545,15 @@ public class GT_MetaGenerated_Item_01
         ItemList.FluidFilter.set(addItem(tLastID = 635, "Fluid Filter", "Set with Fluid Container to only accept one Fluid Type", new Object[]{}));
         GregTech_API.registerCover(ItemList.FluidFilter.get(1L, new Object[0]), new GT_MultiTexture(new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SHUTTER)}), new GT_Cover_Fluidfilter());
 
-        
+        /* e99999's custom items for broken electric tools*/
+
+        ItemList.ToolHull_LV.set(addItem(tLastID = 636, "LV Tool Hull", "You get what you give!", new Object[]{}));
+        ItemList.ToolHull_MV.set(addItem(tLastID = 637, "MV Tool Hull", "You get what you give!", new Object[]{}));
+        ItemList.ToolHull_HV.set(addItem(tLastID = 638, "HV Tool Hull", "You get what you give!", new Object[]{}));
+        GT_ModHandler.addCraftingRecipe(ItemList.ToolHull_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SNT", "GMG", "PBP", Character.valueOf('T'), ToolDictNames.craftingToolScrewdriver, Character.valueOf('M'), ItemList.Electric_Motor_LV, Character.valueOf('P'), OrePrefixes.plate.get(Materials.StainlessSteel), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.StainlessSteel), Character.valueOf('S'), OrePrefixes.screw.get(Materials.StainlessSteel), Character.valueOf('B'), ItemList.Battery_Hull_LV});
+        GT_ModHandler.addCraftingRecipe(ItemList.ToolHull_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SNT", "GMG", "PBP", Character.valueOf('T'), ToolDictNames.craftingToolScrewdriver, Character.valueOf('M'), ItemList.Electric_Motor_MV, Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.Titanium), Character.valueOf('S'), OrePrefixes.screw.get(Materials.Titanium), Character.valueOf('B'), ItemList.Battery_Hull_MV});
+        GT_ModHandler.addCraftingRecipe(ItemList.ToolHull_HV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SNT", "GMG", "PBP", Character.valueOf('T'), ToolDictNames.craftingToolScrewdriver, Character.valueOf('M'), ItemList.Electric_Motor_HV, Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.TungstenSteel), Character.valueOf('S'), OrePrefixes.screw.get(Materials.TungstenSteel), Character.valueOf('B'), ItemList.Battery_Hull_HV});
+
         //Retrying to fix this, without breaking IHL compat.
         /*ItemList.Rotor_LV.set(addItem(tLastID = 620, "Tin Rotor", "", new Object[]{OrePrefixes.rotor.get(Materials.Tin), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.MOTUS, 1L)}));
         ItemList.Rotor_MV.set(addItem(tLastID = 621, "Bronze Rotor", "", new Object[]{OrePrefixes.rotor.get(Materials.Bronze), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.MOTUS, 2L)}));

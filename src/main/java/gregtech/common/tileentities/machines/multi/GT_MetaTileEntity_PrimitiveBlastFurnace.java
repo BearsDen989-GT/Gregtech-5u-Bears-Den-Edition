@@ -10,7 +10,9 @@ import gregtech.api.objects.GT_ItemStack;
 import gregtech.api.objects.XSTR;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.gui.GT_Container_BrickedBlastFurnace;
 import gregtech.common.gui.GT_Container_BronzeBlastFurnace;
+import gregtech.common.gui.GT_GUIContainer_BrickedBlastFurnace;
 import gregtech.common.gui.GT_GUIContainer_BronzeBlastFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -131,11 +133,11 @@ public abstract class GT_MetaTileEntity_PrimitiveBlastFurnace
     }
 
     public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_Container_BronzeBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
+        return new GT_Container_BrickedBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
     }
 
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_BronzeBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
+        return new GT_GUIContainer_BrickedBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
     }
 
     private boolean checkMachine() {

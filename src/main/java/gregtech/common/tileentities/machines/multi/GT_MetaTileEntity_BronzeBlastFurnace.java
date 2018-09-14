@@ -5,7 +5,12 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.common.gui.GT_Container_BrickedBlastFurnace;
+import gregtech.common.gui.GT_Container_BronzeBlastFurnace;
+import gregtech.common.gui.GT_GUIContainer_BrickedBlastFurnace;
+import gregtech.common.gui.GT_GUIContainer_BronzeBlastFurnace;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.InventoryPlayer;
 
 public class GT_MetaTileEntity_BronzeBlastFurnace
         extends GT_MetaTileEntity_PrimitiveBlastFurnace {
@@ -47,5 +52,13 @@ public class GT_MetaTileEntity_BronzeBlastFurnace
         return metaID == 10;
     }
 
+    @Override
+    public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
+        return new GT_Container_BronzeBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
+    }
 
+    @Override
+    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
+        return new GT_GUIContainer_BronzeBlastFurnace(aPlayerInventory, aBaseMetaTileEntity);
+    }
 }

@@ -381,6 +381,11 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.Machine_Steel_Boiler_Lava.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PPP", "GGG", "PMP", Character.valueOf('M'), ItemList.Hull_Steel_Bricks, Character.valueOf('P'), OrePrefixes.plate.get(Materials.Steel), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
         GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_Boiler_Solar.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"GGG", "SSS", "PMP", Character.valueOf('M'), ItemList.Hull_Bronze_Bricks, Character.valueOf('P'), OrePrefixes.pipeSmall.get(Materials.Bronze), Character.valueOf('S'), OrePrefixes.plate.get(Materials.Silver), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
 
+        GT_ModHandler.addCraftingRecipe(ItemList.Casing_DenseBricks.get(1L, new Object[0]),GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[] {"IBI", "BPB", "IBI", 'B', OrePrefixes.dust.get(Materials.Clay), 'I', OrePrefixes.ingot.get(Materials.Brick), 'P', OrePrefixes.plate.get(Materials.AnyIron)});
+        ItemList.Machine_Bricked_BlastFurnace.set(new GT_MetaTileEntity_BrickedBlastFurnace(130, "multimachine.brickedblastfurnace", "Bricked Blast Furnace").getStackForm(1L));
+        if (!Loader.isModLoaded("terrafirmacraft")) {
+            GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bricked_BlastFurnace.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BFB", "FPF", "BFB", 'F', OreDictNames.craftingFurnace, 'B', ItemList.Casing_DenseBricks, 'P', OrePrefixes.block.get(Materials.AnyIron)});
+        }
         ItemList.Machine_Bronze_BlastFurnace.set(new GT_MetaTileEntity_BronzeBlastFurnace(108, "bronzemachine.blastfurnace", "Bronze Plated Blast Furnace").getStackForm(1L));
         if (!Loader.isModLoaded("terrafirmacraft")) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_BlastFurnace.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PFP", "FwF", "PFP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('F'), OreDictNames.craftingFurnace});
@@ -1293,7 +1298,7 @@ public class GT_Loader_MetaTileEntities
     }
 
     private static void generateItemPipes(Materials aMaterial, String name, int startID, int baseInvSlots){
-    	generateItemPipes(aMaterial, name, aMaterial.mDefaultLocalName, startID, baseInvSlots);
+        generateItemPipes(aMaterial, name, aMaterial.mDefaultLocalName, startID, baseInvSlots);
     }
 
     private static void generateItemPipes(Materials aMaterial, String name, String displayName, int startID, int baseInvSlots){
@@ -1307,7 +1312,7 @@ public class GT_Loader_MetaTileEntities
     }
 
     private static void generateFluidPipes(Materials aMaterial, String name, int startID, int baseCapacity, int heatCapacity, boolean gasProof){
-    	generateFluidPipes(aMaterial, name, aMaterial.mDefaultLocalName, startID, baseCapacity, heatCapacity, gasProof);
+        generateFluidPipes(aMaterial, name, aMaterial.mDefaultLocalName, startID, baseCapacity, heatCapacity, gasProof);
     }
 
     private static void generateFluidPipes(Materials aMaterial, String name, String displayName, int startID, int baseCapacity, int heatCapacity, boolean gasProof){
@@ -1321,7 +1326,7 @@ public class GT_Loader_MetaTileEntities
     }
 
     private static void generateFluidMultiPipes(Materials aMaterial, String name, String displayName, int startID, int baseCapacity, int heatCapacity, boolean gasProof){
-    	GT_OreDictUnificator.registerOre(OrePrefixes.pipeQuadruple.get(aMaterial), 	new GT_MetaPipeEntity_Fluid(startID, 		"GT_Pipe_" + name + "_Quadruple", 	"Quadruple " + displayName + " Fluid Pipe", 	1.0F, 	aMaterial, baseCapacity, 	heatCapacity, gasProof, 4).getStackForm(1L));
-    	GT_OreDictUnificator.registerOre(OrePrefixes.pipeNonuple.get(aMaterial), 	new GT_MetaPipeEntity_Fluid(startID + 1,	"GT_Pipe_" + name + "_Nonuple", 	"Nonuple "	 + displayName + " Fluid Pipe", 	1.0F, 	aMaterial, baseCapacity / 3, 	heatCapacity, gasProof, 9).getStackForm(1L));
+        GT_OreDictUnificator.registerOre(OrePrefixes.pipeQuadruple.get(aMaterial), 	new GT_MetaPipeEntity_Fluid(startID, 		"GT_Pipe_" + name + "_Quadruple", 	"Quadruple " + displayName + " Fluid Pipe", 	1.0F, 	aMaterial, baseCapacity, 	heatCapacity, gasProof, 4).getStackForm(1L));
+        GT_OreDictUnificator.registerOre(OrePrefixes.pipeNonuple.get(aMaterial), 	new GT_MetaPipeEntity_Fluid(startID + 1,	"GT_Pipe_" + name + "_Nonuple", 	"Nonuple "	 + displayName + " Fluid Pipe", 	1.0F, 	aMaterial, baseCapacity / 3, 	heatCapacity, gasProof, 9).getStackForm(1L));
     }
 }

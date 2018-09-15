@@ -173,6 +173,7 @@ implements IGT_Mod {
 		GregTech_API.sOPStuff = new GT_Config(new Configuration(new File(new File(aEvent.getModConfigurationDirectory(), "GregTech"), "OverpoweredStuff.cfg")));
 
 		GregTech_API.sClientDataFile = new GT_Config(new Configuration(new File(aEvent.getModConfigurationDirectory().getParentFile(), "GregTech.cfg")));
+        GregTech_API.mGalacticraft = Loader.isModLoaded("GalacticraftCore");
 
 		GT_Log.mLogFile = new File(aEvent.getModConfigurationDirectory().getParentFile(), "logs/GregTech.log");
 		if (!GT_Log.mLogFile.exists()) {
@@ -274,7 +275,9 @@ implements IGT_Mod {
 		gregtechproxy.mDisableIC2Cables = tMainConfig.get("general", "DisableIC2Cables", false).getBoolean(false);
 		gregtechproxy.mAchievements = tMainConfig.get("general", "EnableAchievements", true).getBoolean(true);
 		gregtechproxy.mAE2Integration = tMainConfig.get("general", "EnableAE2Integration", Loader.isModLoaded("appliedenergistics2")).getBoolean(Loader.isModLoaded("appliedenergistics2"));
-
+		gregtechproxy.gt6Pipe = tMainConfig.get("general", "GT6StyledPipesConnection", true).getBoolean(true);
+		gregtechproxy.gt6Cable = tMainConfig.get("general", "GT6StyledWiresConnection", true).getBoolean(true);
+		gregtechproxy.ic2EnergySourceCompat = tMainConfig.get("general", "Ic2EnergySourceCompat", true).getBoolean(true);
 
 		GregTech_API.mOutputRF = GregTech_API.sOPStuff.get(ConfigCategories.general, "OutputRF", true);
 		GregTech_API.mInputRF = GregTech_API.sOPStuff.get(ConfigCategories.general, "InputRF", false);
@@ -282,6 +285,7 @@ implements IGT_Mod {
 		GregTech_API.mRFtoEU = GregTech_API.sOPStuff.get(ConfigCategories.general, "100RFtoEU", 20);
 		GregTech_API.mRFExplosions = GregTech_API.sOPStuff.get(ConfigCategories.general, "RFExplosions", true);
 		GregTech_API.meIOLoaded = Loader.isModLoaded("EnderIO");
+
 
 		if (tMainConfig.get("general", "hardermobspawners", true).getBoolean(true)) {
 			Blocks.mob_spawner.setHardness(500.0F).setResistance(6000000.0F);

@@ -139,7 +139,15 @@ public class GregTech_API {
     /**
      * The List of Tools, which can be used. Accepts regular damageable Items and Electric Items
      */
-    public static final GT_HashSet<GT_ItemStack> sToolList = new GT_HashSet<GT_ItemStack>(), sCrowbarList = new GT_HashSet<GT_ItemStack>(), sScrewdriverList = new GT_HashSet<GT_ItemStack>(), sWrenchList = new GT_HashSet<GT_ItemStack>(), sSoftHammerList = new GT_HashSet<GT_ItemStack>(), sHardHammerList = new GT_HashSet<GT_ItemStack>(), sSolderingToolList = new GT_HashSet<GT_ItemStack>(), sSolderingMetalList = new GT_HashSet<GT_ItemStack>();
+    public static final GT_HashSet<GT_ItemStack> sToolList = new GT_HashSet<GT_ItemStack>(),
+        sCrowbarList = new GT_HashSet<GT_ItemStack>(),
+        sScrewdriverList = new GT_HashSet<GT_ItemStack>(),
+        sWrenchList = new GT_HashSet<GT_ItemStack>(),
+        sSoftHammerList = new GT_HashSet<GT_ItemStack>(),
+        sHardHammerList = new GT_HashSet<GT_ItemStack>(),
+        sSolderingToolList = new GT_HashSet<GT_ItemStack>(),
+        sSolderingMetalList = new GT_HashSet<GT_ItemStack>(),
+        sWireCutterList = new GT_HashSet<GT_ItemStack>();
     /**
      * The List of Hazmat Armors
      */
@@ -204,6 +212,7 @@ public class GregTech_API {
     public static int mRFtoEU = 20;
     public static boolean mRFExplosions = true;
     public static boolean mServerStarted = false;
+    public static boolean mGalacticraft = false;
     /**
      * Getting assigned by the Mod loading
      */

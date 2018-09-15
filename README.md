@@ -19,7 +19,7 @@ GT Platinum metals group sludge processing chain (I'm still using IHL ihl-tools_
 
 ## Downloads
 
-n/a
+https://github.com/e99999/GT5u-BDE-latestbuilds
 
 ## Installation
 

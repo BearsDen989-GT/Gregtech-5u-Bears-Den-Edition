@@ -9,13 +9,11 @@ Advanced Miner 2 Multiblock
 Diesel Generator Multiblock & Multiblock Turbine casing changes  
 Assembly Line Multiblock  
 Oil Cracker Multiblock  
-Pyrolusite Oven Multiblock  
-  
+
 GT Bees (Use Gendustry || Binnies, save time)  
 GT Crop changes (I was/am tempted to remove crops entirely)  
 GT Titanium Processing chain (The game is grindy enough without the need for extra realism)  
 GT Plastics/Rubber Processing Chain (Default is better for my players, cannot add it anyway without a server reset and the addition of oil cracking)  
-GT Platinum metals group sludge processing chain (I'm still using IHL ihl-tools_n_machines-0.578-1.7.10, soon after it was moved from IHL to GT. I may eventually move it over, but without the changes made)  
 
 ## Downloads
 

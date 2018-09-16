@@ -887,6 +887,8 @@ implements Runnable {
 		GT_Values.RA.addElectrolyzerRecipe(ItemList.Dye_Bonemeal.get(3L, new Object[0]), 0, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Calcium, 1L), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, 98, 26);
 		GT_Values.RA.addElectrolyzerRecipe(new ItemStack(Blocks.sand, 8), 0, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.SiliconDioxide, 1L), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, 500, 25);
 
+		GT_Values.RA.addElectrolyzerRecipe(GT_Values.NI, ItemList.Cell_Empty.get(6L, new Object[0]), Materials.SulfuricAcid.getFluid(7000L), null , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1L), GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Hydrogen, 2L), GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Oxygen, 4L), GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 380, 90);
+
 		GT_Values.RA.addRoasterRecipe(new ItemStack(Blocks.sand, 8),
 				Materials.Oxygen.getGas(250L),
 				new ItemStack[]{new ItemStack(Blocks.clay, 1)}, null, 100, 10);

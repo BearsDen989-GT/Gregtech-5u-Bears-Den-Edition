@@ -23,7 +23,7 @@ public class GT_Config implements Runnable {
 
     public static int addIDConfig(Object aCategory, String aName, int aDefault) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = sConfigFileIDs.get(aCategory.toString().replaceAll("\\|", "."), aName.replaceAll("\\|", "."), aDefault);
+        Property tProperty = sConfigFileIDs.get(aCategory.toString(), aName, aDefault, String.format("Default: %d",aDefault));
         int rResult = tProperty.getInt(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) sConfigFileIDs.save();
         return rResult;
@@ -49,7 +49,7 @@ public class GT_Config implements Runnable {
 
     public boolean get(Object aCategory, String aName, boolean aDefault) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %b",aDefault));
         boolean rResult = tProperty.getBoolean(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;
@@ -61,7 +61,7 @@ public class GT_Config implements Runnable {
 
     public int get(Object aCategory, String aName, int aDefault) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %d",aDefault));
         int rResult = tProperty.getInt(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;
@@ -73,7 +73,7 @@ public class GT_Config implements Runnable {
 
     public double get(Object aCategory, String aName, double aDefault) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %f",aDefault));
         double rResult = tProperty.getDouble(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;

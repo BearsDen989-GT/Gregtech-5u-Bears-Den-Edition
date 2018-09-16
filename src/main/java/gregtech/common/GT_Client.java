@@ -13,6 +13,7 @@ import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.ITurnable;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
+import gregtech.api.metatileentity.BaseTileEntity;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_PlayedSound;
@@ -326,6 +327,11 @@ public class GT_Client extends GT_Proxy
                     drawGrid(aEvent);
                     return;
                 }
+                if (aTileEntity instanceof BaseTileEntity && (GT_Utility.isStackInList(aEvent.currentItem, GregTech_API.sWireCutterList))) {
+                    drawGrid(aEvent);
+                    return;
+                }
+
             } catch (Throwable e) {
                 if (GT_Values.D1) {
                     e.printStackTrace(GT_Log.err);

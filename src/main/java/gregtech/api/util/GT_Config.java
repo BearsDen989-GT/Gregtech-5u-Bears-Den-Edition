@@ -6,10 +6,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
+import java.text.DecimalFormat;
+
 public class GT_Config implements Runnable {
     public static boolean troll = false;
 
-    public static Configuration sConfigFileIDs;
     public final Configuration mConfig;
 
     public GT_Config(Configuration aConfig) {
@@ -21,12 +22,8 @@ public class GT_Config implements Runnable {
         GregTech_API.sAfterGTPostload.add(this);
     }
 
-    public static int addIDConfig(Object aCategory, String aName, int aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = sConfigFileIDs.get(aCategory.toString(), aName, aDefault, String.format("Default: %d",aDefault));
-        int rResult = tProperty.getInt(aDefault);
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) sConfigFileIDs.save();
-        return rResult;
+    public void setCathegoryComment(String aCategry, String aComment) {
+        mConfig.setCategoryComment(aCategry, aComment);
     }
 
     public static String getStackConfigName(ItemStack aStack) {
@@ -48,20 +45,29 @@ public class GT_Config implements Runnable {
     }
 
     public boolean get(Object aCategory, String aName, boolean aDefault) {
+        return get(aCategory, aName, aDefault, "Boolean");
+    }
+
+    public boolean get(Object aCategory, String aName, boolean aDefault, String aComment) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %b",aDefault));
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("%s default: %b", aComment, aDefault));
         boolean rResult = tProperty.getBoolean(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;
     }
+
 
     public int get(Object aCategory, ItemStack aStack, int aDefault) {
         return get(aCategory, getStackConfigName(aStack), aDefault);
     }
 
     public int get(Object aCategory, String aName, int aDefault) {
+        return get(aCategory, aName, aDefault, "Integer");
+    }
+
+    public int get(Object aCategory, String aName, int aDefault, String aComment) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %d",aDefault));
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("%s default: %d", aComment, aDefault));
         int rResult = tProperty.getInt(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;
@@ -72,8 +78,12 @@ public class GT_Config implements Runnable {
     }
 
     public double get(Object aCategory, String aName, double aDefault) {
+        return get(aCategory, aName, aDefault, "Double");
+    }
+
+    public double get(Object aCategory, String aName, double aDefault, String aComment) {
         if (GT_Utility.isStringInvalid(aName)) return aDefault;
-        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("Default: %f",aDefault));
+        Property tProperty = mConfig.get(aCategory.toString(), aName, aDefault, String.format("%s default: %s", aComment, new DecimalFormat("#.##").format(aDefault)));
         double rResult = tProperty.getDouble(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;

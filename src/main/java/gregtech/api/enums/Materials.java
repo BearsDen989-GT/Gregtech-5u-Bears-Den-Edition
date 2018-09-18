@@ -1460,12 +1460,15 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * @param aConfiguration
 	 */
 	public static void init(GT_Config aConfiguration) {
+		aConfiguration.setCathegoryComment("blastfurnacerequirements", "Materials needing a Blast Furnace to smelt switches");
+		aConfiguration.setCathegoryComment("blastinductionsmelter", "Materials needing an Alloy Smelter switches");
+		aConfiguration.setCathegoryComment("heatdamage", "Materials causing Heat Damage");
 		for (Materials tMaterial : VALUES) {
 			String tString = tMaterial.toString().toLowerCase();
-			tMaterial.mHeatDamage = (float) aConfiguration.get(ConfigCategories.Materials.heatdamage, tString, tMaterial.mHeatDamage);
+			tMaterial.mHeatDamage = (float) aConfiguration.get(ConfigCategories.Materials.heatdamage, tString, tMaterial.mHeatDamage, "Heat Damage amount");
 			if (tMaterial.mBlastFurnaceRequired)
-				tMaterial.mBlastFurnaceRequired = aConfiguration.get(ConfigCategories.Materials.blastfurnacerequirements, tString, true);
-			if (tMaterial.mBlastFurnaceRequired && aConfiguration.get(ConfigCategories.Materials.blastinductionsmelter, tString, tMaterial.mBlastFurnaceTemp < 1500))
+				tMaterial.mBlastFurnaceRequired = aConfiguration.get(ConfigCategories.Materials.blastfurnacerequirements, tString, true, "Need Blast Furnace");
+			if (tMaterial.mBlastFurnaceRequired && aConfiguration.get(ConfigCategories.Materials.blastinductionsmelter, tString, tMaterial.mBlastFurnaceTemp < 1500, "Need Alloy Smelter"))
 				GT_ModHandler.ThermalExpansion.addSmelterBlastOre(tMaterial);
 			tMaterial.mHandleMaterial = (tMaterial == Desh ? tMaterial.mHandleMaterial : tMaterial == Diamond || tMaterial == Thaumium ? Wood : tMaterial.contains(SubTag.BURNING) ? Blaze : tMaterial.contains(SubTag.MAGICAL) && tMaterial.contains(SubTag.CRYSTAL) && Loader.isModLoaded(MOD_ID_TC) ? Thaumium : tMaterial.getMass() > Element.Tc.getMass() * 2 ? TungstenSteel : tMaterial.getMass() > Element.Tc.getMass() ? Steel : Wood);
 		}

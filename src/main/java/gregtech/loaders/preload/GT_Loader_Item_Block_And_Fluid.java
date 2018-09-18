@@ -1,8 +1,8 @@
 package gregtech.loaders.preload;
 
+import cpw.mods.fml.common.Loader;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
@@ -407,7 +407,7 @@ public class GT_Loader_Item_Block_And_Fluid
             try {
                 Class.forName("codechicken.nei.api.API");
                 GT_Log.out.println("GT_Mod: Hiding certain Items from NEI.");
-                API.hideItem(ItemList.Display_Fluid.getWildcard(1L, new Object[0]));
+                API.hideItem(ItemList.Display_Fluid.getWildcard(1L));
             } catch (Throwable e) {
                 if (GT_Values.D1) {
                     e.printStackTrace(GT_Log.err);
@@ -437,33 +437,35 @@ public class GT_Loader_Item_Block_And_Fluid
         GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Amber, GT_ModHandler.getModItem("Thaumcraft", "ItemResource", 1L, 6));
         GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Firestone, GT_ModHandler.getModItem("Railcraft", "firestone.raw", 1L));
 
-        if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateIron", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 0));
-        } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 0), false, false);
+        if (Loader.isModLoaded(GT_Values.MOD_ID_RC)) {
+            GregTech_API.sUnification.setCathegoryComment("specialunificationtargets.railcraft", "RailCraft unification targets");
+            if (GregTech_API.sUnification.get("specialunificationtargets.railcraft", "plateIron", true, "Unify plateIron to RailCraft")) {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 0));
+            } else {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 0), false, false);
+            }
+
+            if (GregTech_API.sUnification.get("specialunificationtargets.railcraft", "plateSteel", true, "Unify plateSteel to RailCraft")) {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 1));
+            } else {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 1), false, false);
+            }
+
+            if (GregTech_API.sUnification.get("specialunificationtargets.railcraft", "plateTinAlloy", true, "Unify plateTinAlloy to RailCraft")) {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 2));
+            } else {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 2), false, false);
+            }
+
+
+            if (GregTech_API.sUnification.get("specialunificationtargets.railcraft", "plateCopper", true, "Unify plateCopper to RailCraft")) {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 3));
+            } else {
+                GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 3), false, false);
+            }
         }
-
-        if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateSteel", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 1));
-        } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 1), false, false);
-        }
-
-        if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateTinAlloy", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 2));
-        } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 2), false, false);
-        }
-
-
-        if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateCopper", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 3));
-        } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem("Railcraft", "part.plate", 1L, 3), false, false);
-        }
-
 
         GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Cocoa, GT_ModHandler.getModItem("harvestcraft", "cocoapowderItem", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Coffee, ItemList.IC2_CoffeePowder.get(1L, new Object[0]));
+        GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Coffee, ItemList.IC2_CoffeePowder.get(1L));
     }
 }

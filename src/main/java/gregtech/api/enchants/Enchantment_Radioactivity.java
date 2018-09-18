@@ -1,5 +1,6 @@
 package gregtech.api.enchants;
 
+import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Materials;
 import gregtech.api.util.GT_Config;
@@ -14,7 +15,7 @@ public class Enchantment_Radioactivity extends EnchantmentDamage {
     public static Enchantment_Radioactivity INSTANCE;
 
     public Enchantment_Radioactivity() {
-        super(GT_Config.addIDConfig(ConfigCategories.IDs.enchantments, "Radioactivity", 14), 0, -1);
+        super(GregTech_API.sConfigFileIDs.get(ConfigCategories.IDs.enchantments, "Radioactivity", 14,"Radioactivity Enchantment ID" ), 0, -1);
         GT_LanguageManager.addStringLocalization(getName(), "Radioactivity");
         Materials.Plutonium.setEnchantmentForTools(this, 1).setEnchantmentForArmors(this, 1);
         Materials.Uranium235.setEnchantmentForTools(this, 2).setEnchantmentForArmors(this, 2);

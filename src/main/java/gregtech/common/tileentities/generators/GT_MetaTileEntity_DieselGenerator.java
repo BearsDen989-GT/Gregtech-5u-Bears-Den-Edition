@@ -9,6 +9,7 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicGenerator;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Recipe;
 import net.minecraft.item.ItemStack;
@@ -46,7 +47,7 @@ public class GT_MetaTileEntity_DieselGenerator
     }
 
     public void onConfigLoad() {
-        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "DieselGenerator.efficiency.tier." + this.mTier, (100 - this.mTier * 10));
+        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "DieselGenerator.efficiency.tier." + this.mTier, (100 - this.mTier * 10), "Efficiency percent");
     }
 
     public int getEfficiency() {

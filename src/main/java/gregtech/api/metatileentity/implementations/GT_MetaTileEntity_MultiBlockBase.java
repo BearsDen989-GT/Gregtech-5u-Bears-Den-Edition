@@ -45,12 +45,12 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity {
 
     public GT_MetaTileEntity_MultiBlockBase(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional, 2);
-        this.disableMaintenance = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MultiBlockMachines.disableMaintenance", false);
+        this.disableMaintenance = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MultiBlockMachines.disableMaintenance", false, "Disable maintenance need");
     }
 
     public GT_MetaTileEntity_MultiBlockBase(String aName) {
         super(aName, 2);
-        this.disableMaintenance = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MultiBlockMachines.disableMaintenance", false);
+        this.disableMaintenance = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MultiBlockMachines.disableMaintenance", false, "Disable maintenance need");
     }
 
     public static boolean isValidMetaTileEntity(MetaTileEntity aMetaTileEntity) {

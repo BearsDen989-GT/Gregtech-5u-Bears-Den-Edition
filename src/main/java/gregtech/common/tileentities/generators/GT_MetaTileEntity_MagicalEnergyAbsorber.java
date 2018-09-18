@@ -71,11 +71,11 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
 
     public void onConfigLoad() {
         this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.efficiency.tier." + this.mTier,
-                100 - this.mTier * 10);
-        this.sAllowMultipleEggs = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.AllowMultipleEggs", false);
-        this.sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32);
-        this.sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500) * 10);
-        this.sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048);
+                100 - this.mTier * 10, "Efficiency percent");
+        this.sAllowMultipleEggs = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.AllowMultipleEggs", false, "Dragon Egg exclusivity");
+        this.sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32, "EUt per EnderCrystal");
+        this.sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500, "VISEU Divisor") * 10);
+        this.sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048, "Peak EUt from Dragon Egg");
         this.isThaumcraftLoaded = Loader.isModLoaded("Thaumcraft");
     }
 

@@ -1,6 +1,8 @@
 package gregtech.api.util;
 
 import static gregtech.api.enums.GT_Values.E;
+
+import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import ic2.api.crops.CropCard;
 import ic2.api.crops.Crops;
@@ -34,7 +36,7 @@ public class GT_BaseCrop extends CropCard {
      */
     public GT_BaseCrop(int aID, String aCropName, String aDiscoveredBy, ItemStack aDrop, ItemStack[] aSpecialDrops, ItemStack aBaseSeed, int aTier, int aMaxSize, int aGrowthSpeed, int aAfterHarvestSize, int aHarvestSize, int aStatChemical, int aStatFood, int aStatDefensive, int aStatColor, int aStatWeed, String[] aAttributes) {
         mName = aCropName;
-        aID = GT_Config.addIDConfig(ConfigCategories.IDs.crops, mName.replaceAll(" ", "_"), aID);
+        aID = GregTech_API.sConfigFileIDs.get(ConfigCategories.IDs.crops, mName.replaceAll(" ", "_"), aID, String.format("%s Crop ID", mName));
         if (aDiscoveredBy != null && !aDiscoveredBy.equals(E)) mDiscoveredBy = aDiscoveredBy;
         if (aDrop != null && aID > 0 && aID < 256) {
             mDrop = GT_Utility.copy(aDrop);

@@ -42,7 +42,7 @@ public class GT_MetaTileEntity_PlasmaGenerator
     }
 
     public void onConfigLoad() {
-        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "PlasmaGenerator.efficiency.tier." + this.mTier, (10 + (this.mTier * 10)));
+        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "PlasmaGenerator.efficiency.tier." + this.mTier, (10 + (this.mTier * 10)), "Efficiency percent");
     }
 
 

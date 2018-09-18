@@ -162,7 +162,7 @@ public class GT_MetaGenerated_Tool_01 extends GT_MetaGenerated_Tool {
         GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(46, 1, Materials.StainlessSteel, Materials.StainlessSteel, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"  S", " I ", "S f", Character.valueOf('I'), OrePrefixes.ingot.get(Materials.StainlessSteel), Character.valueOf('S'), OrePrefixes.stick.get(Materials.StainlessSteel)});
 
 
-        if (!GregTech_API.sSpecialFile.get(ConfigCategories.general, "DisableFlintTools", false)) {
+        if (!GregTech_API.sSpecialFile.get(ConfigCategories.Main.general, "DisableFlintTools", false)) {
             GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(0, 1, Materials.Flint, Materials.Wood, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"F", "F", "S", Character.valueOf('S'), OrePrefixes.stick.get(Materials.Wood), Character.valueOf('F'), new ItemStack(Items.flint, 1)});
             GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(2, 1, Materials.Flint, Materials.Wood, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"FFF", " S ", " S ", Character.valueOf('S'), OrePrefixes.stick.get(Materials.Wood), Character.valueOf('F'), new ItemStack(Items.flint, 1)});
             GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(4, 1, Materials.Flint, Materials.Wood, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"F", "S", "S", Character.valueOf('S'), OrePrefixes.stick.get(Materials.Wood), Character.valueOf('F'), new ItemStack(Items.flint, 1)});

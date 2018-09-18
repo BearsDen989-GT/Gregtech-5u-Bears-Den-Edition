@@ -18,11 +18,11 @@ public abstract class GT_Worldgen_Ore extends GT_Worldgen {
         mDimensionType = aDimensionType;
         mBlock = aBlock;
         mBlockMeta = Math.min(Math.max(aBlockMeta, 0), 15);
-        mProbability = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Probability", aProbability);
-        mAmount = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Amount", aAmount);
-        mSize = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Size", aSize);
-        mMinY = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "MinHeight", aMinY);
-        mMaxY = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "MaxHeight", aMaxY);
+        mProbability = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Probability", aProbability, "Probability");
+        mAmount = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Amount", aAmount, "Amount");
+        mSize = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "Size", aSize, "Size");
+        mMinY = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "MinHeight", aMinY, "Minimum height");
+        mMaxY = GregTech_API.sWorldgenFile.get("worldgen." + mWorldGenName, "MaxHeight", aMaxY, "Maximum height");
         if (aBiomeList == null) mBiomeList = new ArrayList<String>();
         else mBiomeList = aBiomeList;
         mAllowToGenerateinVoid = aAllowToGenerateinVoid;

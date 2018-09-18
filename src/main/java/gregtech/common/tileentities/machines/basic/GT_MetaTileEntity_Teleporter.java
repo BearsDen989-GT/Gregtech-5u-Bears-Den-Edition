@@ -183,7 +183,7 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
     }
 
     public void onConfigLoad(GT_Config aConfig) {
-        sInterDimensionalTeleportAllowed = aConfig.get(ConfigCategories.machineconfig, "Teleporter.Interdimensional", true);
+        sInterDimensionalTeleportAllowed = aConfig.get(ConfigCategories.machineconfig, "Teleporter.Interdimensional", true, "Enable teleportation across dimensions");
     }
 
     public void onFirstTick() {

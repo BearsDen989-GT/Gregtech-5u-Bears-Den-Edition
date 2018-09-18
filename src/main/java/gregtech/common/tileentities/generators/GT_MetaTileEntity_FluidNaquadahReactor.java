@@ -45,7 +45,7 @@ public class GT_MetaTileEntity_FluidNaquadahReactor
     }
 
     public void onConfigLoad() {
-        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "FluidNaquadah.efficiency.tier." + this.mTier, 100);
+        this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "FluidNaquadah.efficiency.tier." + this.mTier, 100, "Efficiency percent");
     }
 
     public ITexture[] getFront(byte aColor) {

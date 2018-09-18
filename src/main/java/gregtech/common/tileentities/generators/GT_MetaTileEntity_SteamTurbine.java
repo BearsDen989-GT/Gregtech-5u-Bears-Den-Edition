@@ -48,7 +48,7 @@ public class GT_MetaTileEntity_SteamTurbine extends GT_MetaTileEntity_BasicGener
 	}
 
 	public void onConfigLoad() {
-		this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "SteamTurbine.efficiency.tier." + this.mTier,6+this.mTier);
+		this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "SteamTurbine.efficiency.tier." + this.mTier,6+this.mTier, "Efficiency percent");
 	}
 
 	public int getEfficiency() {

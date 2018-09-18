@@ -830,16 +830,11 @@ implements Runnable {
 		GT_Values.RA.addFluidExtractionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Quartzite, 1L), null, Materials.Glass.getMolten(250), 10000, 600, 28);//(GT_OreDictUnificator.get(OrePrefixes.cell, Materials.SiliconDioxide,1L), GT_OreDictUnificator.get(OrePrefixes.dust,Materials.SiliconDioxide,2L),GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Glass,1L)/** GT_Utility.fillFluidContainer(Materials.Glass.getMolten(1000), ItemList.Cell_Empty.get(1, new Object[0]), true, true)**/, 600, 16);
 
         GT_Values.RA.addPyrolyseRecipe(GT_ModHandler.getIC2Item("biochaff", 1), Materials.Water.getFluid(1000), 1, null, new FluidStack(FluidRegistry.getFluid("ic2biomass"), 1500), 100, 10);
-		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 16), null, 1, (GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 20)), Materials.Creosote.getFluid(4000), 640, 30);
-		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 16), Materials.Nitrogen.getGas(500), 2, (GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 20)),   Materials.Water.getFluid(4000), 320, 60);
-
-		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
+        GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
 		GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), Materials.Nitrogen.getGas(500), 2, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 160, 64);
 //		GT_Values.RA.addPyrolyseRecipe(GT_ModHandler.getIC2Item("biochaff", 1), Materials.Water.getFluid(1000), 1, null,   Materials.Biomass.getFluid(1500), 100, 10);
 
-		//i probably need to switch the values below to GT_ModHandler.getModItem to make them work...
-
-        if (Loader.isModLoaded("Railcraft")) {
+		if (Loader.isModLoaded("Railcraft")) {
 			GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 16), null, 1, RailcraftToolItems.getCoalCoke(16), Materials.Creosote.getFluid(8000), 640, 32);
 			GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 16), Materials.Nitrogen.getGas(1000), 2, RailcraftToolItems.getCoalCoke(16), Materials.Creosote.getFluid(8000), 320, 64);
 			GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.block, Materials.Coal, 8), null, 1, EnumCube.COKE_BLOCK.getItem(8), Materials.Creosote.getFluid(32000), 2560, 32);

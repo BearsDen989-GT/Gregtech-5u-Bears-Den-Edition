@@ -1,9 +1,11 @@
 package gregtech.loaders.oreprocessing;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_Utility;
 import gregtech.common.items.GT_MetaGenerated_Tool_01;
 import net.minecraft.item.ItemStack;
 
@@ -26,5 +28,11 @@ public class ProcessingToolHeadDrill implements gregtech.api.interfaces.IOreReci
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(130, 1, aMaterial, Materials.Titanium, new long[]{1600000L, 512L, 3L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "PRP", "MPB", Character.valueOf('X'), OrePrefixes.stickLong.get(aMaterial), Character.valueOf('M'), ItemList.Electric_Piston_HV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.Titanium), Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('R'), OrePrefixes.spring.get(Materials.Titanium), Character.valueOf('B'), ItemList.Battery_RE_HV_Lithium.get(1L, new Object[0])});
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(130, 1, aMaterial, Materials.Titanium, new long[]{1200000L, 512L, 3L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "PRP", "MPB", Character.valueOf('X'), OrePrefixes.stickLong.get(aMaterial), Character.valueOf('M'), ItemList.Electric_Piston_HV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.Titanium), Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('R'), OrePrefixes.spring.get(Materials.Titanium), Character.valueOf('B'), ItemList.Battery_RE_HV_Cadmium.get(1L, new Object[0])});
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(130, 1, aMaterial, Materials.Titanium, new long[]{800000L, 512L, 3L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "PRP", "MPB", Character.valueOf('X'), OrePrefixes.stickLong.get(aMaterial), Character.valueOf('M'), ItemList.Electric_Piston_HV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.Titanium), Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('R'), OrePrefixes.spring.get(Materials.Titanium), Character.valueOf('B'), ItemList.Battery_RE_HV_Sodium.get(1L, new Object[0])});
+
+        /*Below is a placeholder recipe for tools out of broken hulls, proper implementation will be after I add in the 6 input assembler - e99999 */
+
+        GT_Values.RA.addAssemblerRecipe(ItemList.ToolHull_LV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})) , Materials.Lithium.getMolten(288L) , GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(100, 1, aMaterial, Materials.StainlessSteel, new long[]{100000L, 32L, 1L, -1L}), 20, 16 );
+        GT_Values.RA.addAssemblerRecipe(ItemList.ToolHull_MV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})) , Materials.Lithium.getMolten(1152L) , GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(102, 1, aMaterial, Materials.Titanium, new long[]{400000L, 128L, 2L, -1L}), 20, 16 );
+        GT_Values.RA.addAssemblerRecipe(ItemList.ToolHull_HV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})) , Materials.Lithium.getMolten(4608L) , GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(104, 1, aMaterial, Materials.TungstenSteel, new long[]{1600000L, 512L, 3L, -1L}), 20, 16 );
     }
 }

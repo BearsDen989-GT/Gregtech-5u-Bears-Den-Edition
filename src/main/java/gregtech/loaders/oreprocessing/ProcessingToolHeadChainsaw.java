@@ -1,9 +1,12 @@
 package gregtech.loaders.oreprocessing;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GT_Utility;
 import gregtech.common.items.GT_MetaGenerated_Tool_01;
 import net.minecraft.item.ItemStack;
 
@@ -22,5 +25,19 @@ public class ProcessingToolHeadChainsaw implements gregtech.api.interfaces.IOreR
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(110, 1, aMaterial, Materials.StainlessSteel, new long[]{50000L, 32L, 1L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "GMG", "PBP", Character.valueOf('X'), aOreDictName, Character.valueOf('M'), ItemList.Electric_Motor_LV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.StainlessSteel), Character.valueOf('P'), OrePrefixes.plate.get(Materials.StainlessSteel), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.StainlessSteel), Character.valueOf('B'), ItemList.Battery_RE_LV_Sodium.get(1L, new Object[0])});
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(112, 1, aMaterial, Materials.Titanium, new long[]{200000L, 128L, 2L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "GMG", "PBP", Character.valueOf('X'), aOreDictName, Character.valueOf('M'), ItemList.Electric_Motor_MV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.Titanium), Character.valueOf('P'), OrePrefixes.plate.get(Materials.Titanium), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.Titanium), Character.valueOf('B'), ItemList.Battery_RE_MV_Sodium.get(1L, new Object[0])});
         GT_ModHandler.addCraftingRecipe(GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(114, 1, aMaterial, Materials.TungstenSteel, new long[]{800000L, 512L, 3L, -1L}), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"SXd", "GMG", "PBP", Character.valueOf('X'), aOreDictName, Character.valueOf('M'), ItemList.Electric_Motor_HV.get(1L, new Object[0]), Character.valueOf('S'), OrePrefixes.screw.get(Materials.TungstenSteel), Character.valueOf('P'), OrePrefixes.plate.get(Materials.TungstenSteel), Character.valueOf('G'), OrePrefixes.gearGtSmall.get(Materials.TungstenSteel), Character.valueOf('B'), ItemList.Battery_RE_HV_Sodium.get(1L, new Object[0])});
+
+        /*Recipes in part assembler to repair tools - e99999 */
+
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_LV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lithium, 2L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(110, 1, aMaterial, Materials.StainlessSteel, new long[]{100000L, 32L, 1L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_LV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Cadmium, 2L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(110, 1, aMaterial, Materials.StainlessSteel, new long[]{75000L, 32L, 1L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_LV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 2L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(110, 1, aMaterial, Materials.StainlessSteel, new long[]{50000L, 32L, 1L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_MV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lithium, 8L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(112, 1, aMaterial, Materials.Titanium, new long[]{400000L, 128L, 2L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_MV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Cadmium, 8L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(112, 1, aMaterial, Materials.Titanium, new long[]{30000L, 128L, 2L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_MV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 8L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(112, 1, aMaterial, Materials.Titanium, new long[]{200000L, 128L, 2L, -1L}), 100, 16);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_HV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lithium, 32L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(114, 1, aMaterial, Materials.TungstenSteel, new long[]{1600000L, 512L, 3L, -1L}), 100, 64);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_HV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Cadmium, 32L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(114, 1, aMaterial, Materials.TungstenSteel, new long[]{1200000L, 512L, 3L, -1L}), 100, 64);
+        GT_Values.RA.addPartAssemblerRecipe(ItemList.ToolHull_HV.get(1, new Object[0]), (GT_Utility.copyAmount(1, new Object[]{aStack})), GT_Values.NI , GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 32L), GT_Values.NI, GT_Values.NI, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(114, 1, aMaterial, Materials.TungstenSteel, new long[]{800000L, 512L, 3L, -1L}), 100, 64);
+
+
     }
 }

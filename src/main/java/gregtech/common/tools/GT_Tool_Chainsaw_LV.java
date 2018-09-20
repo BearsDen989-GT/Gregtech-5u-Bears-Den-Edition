@@ -2,6 +2,7 @@ package gregtech.common.tools;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
@@ -82,6 +83,10 @@ public class GT_Tool_Chainsaw_LV
 
     public boolean isWeapon() {
         return true;
+    }
+
+    public ItemStack getBrokenItem(ItemStack aStack) {
+        return (ItemList.ToolHull_LV.get(1L, new Object[0]));
     }
 
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {

@@ -122,7 +122,10 @@ public class tankBasic
                 }
                 aBaseMetaTileEntity.setOnFire();
             }
+        if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0)
+            {mFluid.amount -= 100;
 
+            }
         }
     }
 

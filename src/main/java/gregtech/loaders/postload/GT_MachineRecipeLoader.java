@@ -831,7 +831,7 @@ implements Runnable {
 		GT_Values.RA.addFluidExtractionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Quartzite, 1L), null, Materials.Glass.getMolten(250), 10000, 600, 28);//(GT_OreDictUnificator.get(OrePrefixes.cell, Materials.SiliconDioxide,1L), GT_OreDictUnificator.get(OrePrefixes.dust,Materials.SiliconDioxide,2L),GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Glass,1L)/** GT_Utility.fillFluidContainer(Materials.Glass.getMolten(1000), ItemList.Cell_Empty.get(1, new Object[0]), true, true)**/, 600, 16);
 
         GT_Values.RA.addPyrolyseRecipe(GT_ModHandler.getIC2Item("biochaff", 1), Materials.Water.getFluid(1000), 1, null, new FluidStack(FluidRegistry.getFluid("ic2biomass"), 1500), 100, 10);
-        GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 23), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
+        GT_Values.RA.addPyrolyseRecipe(new ItemStack(Items.reeds, 24, 0), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
 
         if (Loader.isModLoaded("Railcraft")) {
 			GT_Values.RA.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 16), null, 1, RailcraftToolItems.getCoalCoke(16), Materials.Creosote.getFluid(8000), 640, 32);

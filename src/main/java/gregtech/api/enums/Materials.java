@@ -960,29 +960,30 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		Snow.setSmeltingInto(Water);
 
 		Mercury.add(SubTag.SMELTING_TO_GEM);
-		Cinnabar.setDirectSmelting(Mercury).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT).add(SubTag.SMELTING_TO_GEM);
-		Celestine.setDirectSmelting(Strontium).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Tetrahedrite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Chalcopyrite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Malachite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Pentlandite.setDirectSmelting(Nickel).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Sphalerite.setDirectSmelting(Zinc).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Pyrite.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		BasalticMineralSand.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		GraniticMineralSand.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		YellowLimonite.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		BrownLimonite.setDirectSmelting(Iron);
-		BandedIron.setDirectSmelting(Iron);
-		Cassiterite.setDirectSmelting(Tin);
-		CassiteriteSand.setDirectSmelting(Tin);
-		Chromite.setDirectSmelting(Chrome);
-		Garnierite.setDirectSmelting(Nickel);
-		Cobaltite.setDirectSmelting(Cobalt);
-		Stibnite.setDirectSmelting(Antimony);
-		Cooperite.setDirectSmelting(Platinum);
-		Pyrolusite.setDirectSmelting(Manganese);
-		Magnesite.setDirectSmelting(Magnesium);
-		Molybdenite.setDirectSmelting(Molybdenum);
+		Cinnabar.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT).add(SubTag.SMELTING_TO_GEM); //Mercury
+		Celestine.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);	//Strontium
+		Tetrahedrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Chalcopyrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Malachite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Pentlandite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Nickel
+		Sphalerite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Zinc
+		Pyrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		BasalticMineralSand.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		GraniticMineralSand.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		YellowLimonite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+//		BrownLimonite.setDirectSmelting(Iron);
+//		BandedIron.setDirectSmelting(Iron);
+//		Magnetite.setDirectSmelting(Iron);
+//		Cassiterite.setDirectSmelting(Tin);
+//		CassiteriteSand.setDirectSmelting(Tin);
+//		Chromite.setDirectSmelting(Chrome);
+//		Garnierite.setDirectSmelting(Nickel);
+//		Cobaltite.setDirectSmelting(Cobalt);
+//		Stibnite.setDirectSmelting(Antimony);
+//		Cooperite.setDirectSmelting(Platinum);
+//		Pyrolusite.setDirectSmelting(Manganese);
+//		Magnesite.setDirectSmelting(Magnesium);
+//		Molybdenite.setDirectSmelting(Molybdenum);
 
 		Amber.setOreMultiplier(2).setSmeltingMultiplier(2);
 		InfusedAir.setOreMultiplier(2).setSmeltingMultiplier(2);

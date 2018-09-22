@@ -73,8 +73,8 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 			return GT_Recipe.GT_Recipe_Map.sAlloySmelterRecipes;
 		} else if (tmp.startsWith("assembler")) {
 			return GT_Recipe.GT_Recipe_Map.sAssemblerRecipes;
-		} else if (tmp.startsWith("partassembler")) {
-			return GT_Recipe.GT_Recipe_Map.sPartAssemblerRecipes;
+		} else if (tmp.startsWith("partfactory")) {
+			return GT_Recipe.GT_Recipe_Map.sPartFactoryRecipes;
 		} else if (tmp.startsWith("compressor")) {
 			return GT_Recipe.GT_Recipe_Map.sCompressorRecipes;
 		} else if (tmp.startsWith("extractor")) {

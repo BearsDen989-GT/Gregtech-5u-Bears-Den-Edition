@@ -188,14 +188,14 @@ public class GT_RecipeAdder
         return true;
     }
 
-    public boolean addPartAssemblerRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt) {
+    public boolean addPartFactoryRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt) {
         if ((aInput1 == null) || (aOutput1 == null)) {
             return false;
         }
-        if ((aDuration = GregTech_API.sRecipeFile.get("partassembling", aOutput1, aDuration)) <= 0) {
+        if ((aDuration = GregTech_API.sRecipeFile.get("partfactory", aOutput1, aDuration)) <= 0) {
             return false;
         }
-        GT_Recipe.GT_Recipe_Map.sPartAssemblerRecipes.addRecipe(true, new ItemStack[]{aInput1, aInput2, aInput3, aInput4, aInput5, aInput6}, new ItemStack[]{aOutput1}, null, null, null, aDuration, aEUt, 0);
+        GT_Recipe.GT_Recipe_Map.sPartFactoryRecipes.addRecipe(true, new ItemStack[]{aInput1, aInput2, aInput3, aInput4, aInput5, aInput6}, new ItemStack[]{aOutput1}, null, null, null, aDuration, aEUt, 0);
         return true;
     }
 

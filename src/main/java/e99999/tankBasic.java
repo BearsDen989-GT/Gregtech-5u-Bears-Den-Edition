@@ -1,4 +1,5 @@
 package e99999;
+import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -124,7 +125,7 @@ public class tankBasic
             }
         if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0)
             {mFluid.amount -= 100;
-
+                sendSound((byte) 9);
             }
         }
     }
@@ -143,6 +144,18 @@ public class tankBasic
     public boolean displaysStackSize() {
         return false;
     }
+
+    @Override
+    public void doSound(byte aIndex, double aX, double aY, double aZ) {
+        super.doSound(aIndex, aX, aY, aZ);
+        if (aIndex == 9) {
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(4), 5, 1.0F, aX, aY, aZ);
+            for (byte i = 0; i < 6; i++)
+                for (int l = 0; l < 2; ++l)
+                    getBaseMetaTileEntity().getWorld().spawnParticle("largesmoke", aX - 0.5 + Math.random(), aY - 0.5 + Math.random(), aZ - 0.5 + Math.random(), ForgeDirection.getOrientation(i).offsetX / 5.0, ForgeDirection.getOrientation(i).offsetY / 5.0, ForgeDirection.getOrientation(i).offsetZ / 5.0);
+        }
+    }
+
 
     @Override
     public String[] getInfoData() {

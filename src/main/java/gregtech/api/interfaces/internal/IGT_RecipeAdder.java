@@ -178,14 +178,14 @@ public interface IGT_RecipeAdder {
     public boolean addAssemblerRecipe(ItemStack aInput1, ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput1, int aDuration, int aEUt);
 
     /**
-     * Adds a Part Assembler Recipe
+     * Adds a Part Factory Recipe
      *
      * @param aInput1   must be != null
      * @param aOutput1  must be != null
      * @param aDuration must be > 0
      * @param aEUt      should be > 0
      */
-    public boolean addPartAssemblerRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt);
+    public boolean addPartFactoryRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt);
 
     /**
      * Adds a Forge Hammer Recipe

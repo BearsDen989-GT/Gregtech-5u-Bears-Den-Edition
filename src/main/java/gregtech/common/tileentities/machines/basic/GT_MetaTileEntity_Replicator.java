@@ -10,11 +10,10 @@ import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.items.behaviors.Behaviour_DataOrb;
-
-import java.util.Iterator;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.Iterator;
 
 public class GT_MetaTileEntity_Replicator
         extends GT_MetaTileEntity_BasicMachine {

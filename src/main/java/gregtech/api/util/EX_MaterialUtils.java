@@ -1,14 +1,14 @@
 package gregtech.api.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class EX_MaterialUtils {
 	

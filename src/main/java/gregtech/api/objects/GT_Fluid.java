@@ -1,8 +1,9 @@
 package gregtech.api.objects;
 
-import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK;
 import gregtech.api.GregTech_API;
 import net.minecraftforge.fluids.Fluid;
+
+import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK;
 
 public class GT_Fluid extends Fluid implements Runnable {
     public final String mTextureName;

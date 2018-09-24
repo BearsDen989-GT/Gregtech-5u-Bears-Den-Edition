@@ -3,11 +3,7 @@ package gregtech.api.metatileentity.implementations;
 import static gregtech.api.enums.GT_Values.D1;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.SubTag;
-import gregtech.api.enums.Textures;
+import gregtech.api.enums.*;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.ICoverable;
@@ -188,7 +184,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     public void saveNBTData(NBTTagCompound aNBT) {
     	for (int i = 0; i < mPipeAmount; i++)
     		if (mFluids[i] != null)
-    			aNBT.setTag("mFluid"+(i==0?"":i), mFluids[i].writeToNBT(new NBTTagCompound()));
+    			aNBT.setTag("mFluid"+(i==0? GT_Values.E:i), mFluids[i].writeToNBT(new NBTTagCompound()));
         aNBT.setByte("mLastReceivedFrom", mLastReceivedFrom);
         if (GT_Mod.gregtechproxy.gt6Pipe) {
         	aNBT.setByte("mConnections", mConnections);
@@ -199,7 +195,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
     	for (int i = 0; i < mPipeAmount; i++)
-    		mFluids[i] = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluid"+(i==0?"":i)));
+    		mFluids[i] = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluid"+(i==0?GT_Values.E:i)));
         mLastReceivedFrom = aNBT.getByte("mLastReceivedFrom");
         if (GT_Mod.gregtechproxy.gt6Pipe) {
         	mConnections = aNBT.getByte("mConnections");

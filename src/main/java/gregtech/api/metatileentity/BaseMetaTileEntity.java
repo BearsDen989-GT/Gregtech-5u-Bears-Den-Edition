@@ -4,6 +4,7 @@ import static gregtech.api.enums.GT_Values.NW;
 import static gregtech.api.enums.GT_Values.V;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -62,7 +63,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
     private int mDisplayErrorCode = 0, oX = 0, oY = 0, oZ = 0, mTimeStatisticsIndex = 0, mLagWarningCount = 0;
     private short mID = 0;
     private long mTickTimer = 0, oOutput = 0, mAcceptedAmperes = Long.MAX_VALUE;
-    private String mOwnerName = "";
+    private String mOwnerName = GT_Values.E;
     private NBTTagCompound mRecipeStuff = new NBTTagCompound();
 
     public BaseMetaTileEntity() {
@@ -749,7 +750,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
     public String getInventoryName() {
         if (canAccessData()) return mMetaTileEntity.getInventoryName();
         if (GregTech_API.METATILEENTITIES[mID] != null) return GregTech_API.METATILEENTITIES[mID].getInventoryName();
-        return "";
+        return GT_Values.E;
     }
 
     @Override
@@ -1091,8 +1092,8 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
 
     public boolean playerOwnsThis(EntityPlayer aPlayer, boolean aCheckPrecicely) {
         if (!canAccessData()) return false;
-        if (aCheckPrecicely || privateAccess() || mOwnerName.equals(""))
-            if (mOwnerName.equals("") && isServerSide()) setOwnerName(aPlayer.getDisplayName());
+        if (aCheckPrecicely || privateAccess() || mOwnerName.equals(GT_Values.E))
+            if (mOwnerName.equals(GT_Values.E) && isServerSide()) setOwnerName(aPlayer.getDisplayName());
             else
                 return !privateAccess() || aPlayer.getDisplayName().equals("Player") || mOwnerName.equals("Player") || mOwnerName.equals(aPlayer.getDisplayName());
         return true;

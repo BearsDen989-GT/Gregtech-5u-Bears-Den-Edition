@@ -39,7 +39,7 @@ public class ProcessingCell
                 }
                 long tItemAmount = 0L;
                 long tCapsuleCount = GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(aStack) * -tAllAmount;
-                long tDensityMultiplier = aMaterial.getDensity() > 3628800L ? aMaterial.getDensity() / 3628800L : 1L;
+                long tDensityMultiplier = aMaterial.getDensity() > GT_Values.M ? aMaterial.getDensity() / GT_Values.M : 1L;
                 ArrayList<ItemStack> tList = new ArrayList();
                 for (MaterialStack tMat : aMaterial.mMaterialList) {
                     if (tMat.mAmount > 0L) {
@@ -52,8 +52,8 @@ public class ProcessingCell
                                 tStack = GT_OreDictUnificator.get(OrePrefixes.cell, tMat.mMaterial, tMat.mAmount);
                             }
                         }
-                        if (tItemAmount + tMat.mAmount * 3628800L <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
-                            tItemAmount += tMat.mAmount * 3628800L;
+                        if (tItemAmount + tMat.mAmount * GT_Values.M <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
+                            tItemAmount += tMat.mAmount * GT_Values.M;
                             if (tStack != null) {
                                 ItemStack tmp397_395 = tStack;
                                 tmp397_395.stackSize = ((int) (tmp397_395.stackSize * tDensityMultiplier));

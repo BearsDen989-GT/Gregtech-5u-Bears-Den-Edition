@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This is some kind of Periodic Table, which I use to determine Properties of the Materials.
  */
 public enum Element {
-    _NULL(0, 0, 0, -1, null, "", false),
+    _NULL(0, 0, 0, -1, null, GT_Values.E, false),
     H(1, 0, 0, -1, null, "Hydrogen", false),
     D(1, 1, 0, -1, "H", "Deuterium", true),
     T(1, 2, 0, -1, "D", "Tritium", true),

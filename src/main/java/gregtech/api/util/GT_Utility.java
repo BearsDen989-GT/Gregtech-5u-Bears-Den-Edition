@@ -12,6 +12,7 @@ import static gregtech.api.enums.GT_Values.W;
 import gregtech.api.GregTech_API;
 import gregtech.api.damagesources.GT_DamageSources;
 import gregtech.api.enchants.Enchantment_Radioactivity;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.SubTag;
 import gregtech.api.events.BlockScanningEvent;
@@ -1448,7 +1449,7 @@ public class GT_Utility {
                 return true;
         } catch (Throwable e) {/*Do nothing*/}
         try {
-            if (DimensionManager.getProvider(aDimensionID).getClass().getName().contains("TwilightForest")) return true;
+            if (DimensionManager.getProvider(aDimensionID).getClass().getName().contains(GT_Values.MOD_ID_TF)) return true;
         } catch (Throwable e) {/*Do nothing*/}
         return GregTech_API.sDimensionalList.contains(aDimensionID);
     }

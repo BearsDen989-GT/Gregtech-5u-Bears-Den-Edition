@@ -5,6 +5,7 @@ import static gregtech.api.enums.GT_Values.MOD_ID_RC;
 import forestry.api.arboriculture.IToolGrafter;
 import gregtech.api.GregTech_API;
 import gregtech.api.enchants.Enchantment_Radioactivity;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.TC_Aspects.TC_AspectStack;
 import gregtech.api.interfaces.IDamagableItem;
@@ -143,7 +144,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	 * @return An ItemStack containing the newly created Item, but without specific Stats.
 	 */
 	public final ItemStack addTool(int aID, String aEnglish, String aToolTip, IToolStats aToolStats, Object... aOreDictNamesAndAspects) {
-		if (aToolTip == null) aToolTip = "";
+		if (aToolTip == null) aToolTip = GT_Values.E;
 		if (aID >= 0 && aID < 32766 && aID % 2 == 0) {
 			GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + aID + ".name", aEnglish);
 			GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + aID + ".tooltip", aToolTip);
@@ -305,7 +306,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 			String name = aStack.getUnlocalizedName();
 			if (name.equals("gt.metatool.01.170") || name.equals("gt.metatool.01.172") || name.equals("gt.metatool.01.174") || name.equals("gt.metatool.01.176")) {
 				aList.add(tOffset + 0, EnumChatFormatting.WHITE + "Durability: " + EnumChatFormatting.GREEN + (tMaxDamage - getToolDamage(aStack)) + " / " + tMaxDamage + EnumChatFormatting.GRAY);
-				aList.add(tOffset + 1, EnumChatFormatting.WHITE + tMaterial.mDefaultLocalName + EnumChatFormatting.YELLOW + " lvl " + getHarvestLevel(aStack, "") + EnumChatFormatting.GRAY);
+				aList.add(tOffset + 1, EnumChatFormatting.WHITE + tMaterial.mDefaultLocalName + EnumChatFormatting.YELLOW + " lvl " + getHarvestLevel(aStack, GT_Values.E) + EnumChatFormatting.GRAY);
 				aList.add(tOffset + 2, EnumChatFormatting.WHITE + "Turbine Efficency: " + EnumChatFormatting.BLUE + (50.0F + (10.0F * getToolCombatDamage(aStack))) + EnumChatFormatting.GRAY);
 				aList.add(tOffset + 3, EnumChatFormatting.WHITE + "Optimal Steam flow: " + EnumChatFormatting.LIGHT_PURPLE + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed * 1000) + EnumChatFormatting.GRAY + "L/sec");
 				aList.add(tOffset + 3, EnumChatFormatting.WHITE + "Optimal Gas flow(EU burnvalue per tick): " + EnumChatFormatting.LIGHT_PURPLE + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed * 25) + EnumChatFormatting.GRAY + "EU/t");
@@ -313,7 +314,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 
 			} else {
 				aList.add(tOffset + 0, EnumChatFormatting.WHITE + "Durability: " + EnumChatFormatting.GREEN + (tMaxDamage - getToolDamage(aStack)) + " / " + tMaxDamage + EnumChatFormatting.GRAY);
-				aList.add(tOffset + 1, EnumChatFormatting.WHITE + tMaterial.mDefaultLocalName + EnumChatFormatting.YELLOW + " lvl " + getHarvestLevel(aStack, "") + EnumChatFormatting.GRAY);
+				aList.add(tOffset + 1, EnumChatFormatting.WHITE + tMaterial.mDefaultLocalName + EnumChatFormatting.YELLOW + " lvl " + getHarvestLevel(aStack, GT_Values.E) + EnumChatFormatting.GRAY);
 				aList.add(tOffset + 2, EnumChatFormatting.WHITE + "Attack Damage: " + EnumChatFormatting.BLUE + getToolCombatDamage(aStack) + EnumChatFormatting.GRAY);
 				aList.add(tOffset + 3, EnumChatFormatting.WHITE + "Mining Speed: " + EnumChatFormatting.LIGHT_PURPLE + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) + EnumChatFormatting.GRAY);
 			}
@@ -384,7 +385,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	public float getDigSpeed(ItemStack aStack, Block aBlock, int aMetaData) {
 		if (!isItemStackUsable(aStack)) return 0.0F;
 		IToolStats tStats = getToolStats(aStack);
-		if (tStats == null || Math.max(0, getHarvestLevel(aStack, "")) < aBlock.getHarvestLevel(aMetaData)) return 0.0F;
+		if (tStats == null || Math.max(0, getHarvestLevel(aStack, GT_Values.E)) < aBlock.getHarvestLevel(aMetaData)) return 0.0F;
 		return tStats.isMinableBlock(aBlock, (byte) aMetaData) ? Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) : 0.0F;
 	}
 
@@ -445,7 +446,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	@Override
 	public float getSaplingModifier(ItemStack aStack, World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ) {
 		IToolStats tStats = getToolStats(aStack);
-		return tStats != null && tStats.isGrafter() ? Math.min(100.0F, (1 + getHarvestLevel(aStack, "")) * 20.0F) : 0.0F;
+		return tStats != null && tStats.isGrafter() ? Math.min(100.0F, (1 + getHarvestLevel(aStack, GT_Values.E)) * 20.0F) : 0.0F;
 	}
 
 	@Override

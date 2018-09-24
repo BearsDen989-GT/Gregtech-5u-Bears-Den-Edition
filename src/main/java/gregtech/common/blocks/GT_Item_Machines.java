@@ -4,10 +4,6 @@ import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.metatileentity.IConnectable;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
-import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Fluid;
-import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Frame;
-import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Item;
 import gregtech.api.util.GT_ItsNotMyFaultException;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Log;
@@ -100,12 +96,12 @@ public class GT_Item_Machines
     public String getUnlocalizedName(ItemStack aStack) {
         short tDamage = (short) getDamage(aStack);
         if ((tDamage < 0) || (tDamage >= GregTech_API.METATILEENTITIES.length)) {
-            return "";
+            return GT_Values.E;
         }
         if (GregTech_API.METATILEENTITIES[tDamage] != null) {
             return getUnlocalizedName() + "." + GregTech_API.METATILEENTITIES[tDamage].getMetaName();
         }
-        return "";
+        return GT_Values.E;
     }
 
     public void onCreated(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {

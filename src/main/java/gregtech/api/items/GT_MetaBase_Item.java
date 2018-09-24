@@ -2,6 +2,8 @@ package gregtech.api.items;
 
 import static gregtech.api.enums.GT_Values.D1;
 import static gregtech.api.enums.GT_Values.V;
+
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.SubTag;
 import gregtech.api.interfaces.IItemBehaviour;
 import gregtech.api.util.GT_LanguageManager;
@@ -207,7 +209,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                 if (tStats[3] == -2 && tCharge <= 0) {
                     aList.add(EnumChatFormatting.AQUA + "Empty. You should recycle it properly." + EnumChatFormatting.GRAY);
                 } else {
-                    aList.add(EnumChatFormatting.AQUA + "" + GT_Utility.formatNumbers(tCharge) + " / " + GT_Utility.formatNumbers(Math.abs(tStats[0])) + " EU - Voltage: " + V[(int) (tStats[2] >= 0 ? tStats[2] < V.length ? tStats[2] : V.length - 1 : 1)] + EnumChatFormatting.GRAY);
+                    aList.add(EnumChatFormatting.AQUA + GT_Values.E + GT_Utility.formatNumbers(tCharge) + " / " + GT_Utility.formatNumbers(Math.abs(tStats[0])) + " EU - Voltage: " + V[(int) (tStats[2] >= 0 ? tStats[2] < V.length ? tStats[2] : V.length - 1 : 1)] + EnumChatFormatting.GRAY);
                 }
             }
         }

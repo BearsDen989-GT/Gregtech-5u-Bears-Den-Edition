@@ -5,6 +5,7 @@ import static gregtech.api.enums.GT_Values.MOD_ID_APC;
 import static gregtech.api.enums.GT_Values.RA;
 import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.SubTag;
@@ -106,7 +107,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return An ItemStack containing the newly created Item.
      */
     public final ItemStack addItem(int aID, String aEnglish, String aToolTip, Object... aRandomData) {
-        if (aToolTip == null) aToolTip = "";
+        if (aToolTip == null) aToolTip = GT_Values.E;
         if (aID >= 0 && aID < mItemAmount) {
             ItemStack rStack = new ItemStack(this, 1, mOffset + aID);
             mEnabledItems.set(aID);

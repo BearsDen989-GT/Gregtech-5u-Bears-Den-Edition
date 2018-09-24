@@ -3,6 +3,7 @@ package gregtech.api.metatileentity;
 import static gregtech.api.enums.GT_Values.GT;
 import static gregtech.api.enums.GT_Values.V;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
@@ -645,7 +646,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     public String getInventoryName() {
         if (GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()] != null)
             return GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()].getMetaName();
-        return "";
+        return GT_Values.E;
     }
 
     @Override

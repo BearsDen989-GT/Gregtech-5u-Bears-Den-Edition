@@ -314,7 +314,7 @@ public class GT_NEI_DefaultHandler
             ArrayList<ItemStack> tDisplayStacks = new ArrayList();
             for (ItemStack tStack : this.items) {
                 if (GT_Utility.isStackValid(tStack)) {
-                    if (tStack.getItemDamage() == 32767) {
+                    if (tStack.getItemDamage() == GT_Values.W) {
                         List<ItemStack> permutations = codechicken.nei.ItemList.itemMap.get(tStack.getItem());
                         if (!permutations.isEmpty()) {
                             ItemStack stack;

@@ -1,6 +1,7 @@
 package gregtech.common.tileentities.machines.multi;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
@@ -64,7 +65,7 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 
 	public GT_Recipe.GT_Recipe_Map getRecipeMap() {
 		if (mInventory[1] == null) return null;
-		String tmp = mInventory[1].getUnlocalizedName().replaceAll("gt.blockmachines.basicmachine.", "");
+		String tmp = mInventory[1].getUnlocalizedName().replaceAll("gt.blockmachines.basicmachine.", GT_Values.E);
 		if (tmp.startsWith("centrifuge")) {
 			return GT_Recipe.GT_Recipe_Map.sCentrifugeRecipes;
 		} else if (tmp.startsWith("electrolyzer")) {

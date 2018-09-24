@@ -33,7 +33,7 @@ public class ProcessingPlank implements gregtech.api.interfaces.IOreRecipeRegist
             GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(8L, aStack), ItemList.Circuit_Integrated.getWithDamage(0L, 8L), new ItemStack(Blocks.chest, 1), 800, 4);
             GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(6L, aStack), new ItemStack(Items.book, 3), new ItemStack(Blocks.bookshelf, 1), 400, 4);
 
-            if (aStack.getItemDamage() == 32767) {
+            if (aStack.getItemDamage() == GT_Values.W) {
                 for (byte i = 0; i < 64; i = (byte) (i + 1)) {
                     ItemStack tStack = GT_Utility.copyMetaData(i, aStack);
                     ItemStack tOutput = GT_ModHandler.getRecipeOutput(tStack, tStack, tStack);

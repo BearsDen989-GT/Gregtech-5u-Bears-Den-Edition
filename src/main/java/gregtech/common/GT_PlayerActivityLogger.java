@@ -1,6 +1,7 @@
 package gregtech.common;
 
 import gregtech.GT_Mod;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.util.GT_Log;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class GT_PlayerActivityLogger
                 }
                 ArrayList<String> tList = GT_Mod.gregtechproxy.mBufferedPlayerActivity;
                 GT_Mod.gregtechproxy.mBufferedPlayerActivity = new ArrayList();
-                String tLastOutput = "";
+                String tLastOutput = GT_Values.E;
                 int i = 0;
                 for (int j = tList.size(); i < j; i++) {
                     if (!tLastOutput.equals(tList.get(i))) {

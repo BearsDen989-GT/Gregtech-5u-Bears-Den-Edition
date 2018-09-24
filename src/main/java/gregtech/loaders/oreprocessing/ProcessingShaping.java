@@ -20,8 +20,8 @@ public class ProcessingShaping implements gregtech.api.interfaces.IOreRecipeRegi
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (((aMaterial == Materials.Glass) || (GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L) != null)) && (!aMaterial.contains(SubTag.NO_SMELTING))) {
-            int tAmount = (int) (aPrefix.mMaterialAmount / 3628800L);
-            if ((tAmount > 0) && (tAmount <= 64) && (aPrefix.mMaterialAmount % 3628800L == 0L)) {
+            int tAmount = (int) (aPrefix.mMaterialAmount / GT_Values.M);
+            if ((tAmount > 0) && (tAmount <= 64) && (aPrefix.mMaterialAmount % GT_Values.M == 0L)) {
                 int tVoltageMultiplier = aMaterial.mBlastFurnaceTemp >= 2800 ? 64 : 16;
 
                 if (aMaterial.contains(SubTag.NO_SMASHING)) {

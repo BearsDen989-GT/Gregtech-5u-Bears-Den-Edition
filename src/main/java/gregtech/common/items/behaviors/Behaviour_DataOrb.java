@@ -1,5 +1,6 @@
 package gregtech.common.items.behaviors;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.util.GT_Utility;
 
@@ -24,7 +25,7 @@ public class Behaviour_DataOrb
     public static String getDataName(ItemStack aStack) {
         NBTTagCompound tNBT = aStack.getTagCompound();
         if (tNBT == null) {
-            return "";
+            return GT_Values.E;
         }
         return tNBT.getString("mDataName");
     }
@@ -32,7 +33,7 @@ public class Behaviour_DataOrb
     public static String getDataTitle(ItemStack aStack) {
         NBTTagCompound tNBT = aStack.getTagCompound();
         if (tNBT == null) {
-            return "";
+            return GT_Values.E;
         }
         return tNBT.getString("mDataTitle");
     }
@@ -95,7 +96,7 @@ public class Behaviour_DataOrb
     }
 
     public List<String> getAdditionalToolTips(GT_MetaBase_Item aItem, List<String> aList, ItemStack aStack) {
-        if (!getDataTitle(aStack).equals("")) {
+        if (!getDataTitle(aStack).equals(GT_Values.E)) {
             aList.add(getDataTitle(aStack));
             aList.add(getDataName(aStack));
         }

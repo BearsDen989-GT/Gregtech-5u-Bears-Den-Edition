@@ -3,6 +3,7 @@ package gregtech.common.tileentities.generators;
 import static gregtech.api.enums.GT_Values.V;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.TC_Aspects;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -76,7 +77,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
         sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32);
         sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500) * 10);
         sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048);
-        isThaumcraftLoaded = Loader.isModLoaded("Thaumcraft");
+        isThaumcraftLoaded = Loader.isModLoaded(GT_Values.MOD_ID_TC);
     }
 
     @Override

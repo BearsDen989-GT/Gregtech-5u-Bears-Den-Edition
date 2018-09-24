@@ -1,5 +1,6 @@
 package gregtech.common.tileentities.automation;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -88,7 +89,7 @@ public class GT_MetaTileEntity_TypeFilter
                 this.mInventory[9] = null;
             } else {
                 this.mInventory[9] = GT_Utility.copyAmount(1L, this.mPrefix.mPrefixedItems.get(this.mRotationIndex = (this.mRotationIndex + 1) % this.mPrefix.mPrefixedItems.size()));
-                if (this.mInventory[9].getItemDamage() == 32767) {
+                if (this.mInventory[9].getItemDamage() == GT_Values.W) {
                     this.mInventory[9].setItemDamage(0);
                 }
                 this.mInventory[9].setStackDisplayName(this.mPrefix.toString());

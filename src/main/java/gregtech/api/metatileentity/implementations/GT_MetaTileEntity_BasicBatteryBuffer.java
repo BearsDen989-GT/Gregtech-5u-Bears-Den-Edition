@@ -1,5 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.*;
 import gregtech.api.interfaces.ITexture;
@@ -309,9 +310,9 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
                 GT_Utility.formatNumbers(mStored) + " EU /",
                 GT_Utility.formatNumbers(mMax) + " EU",
                 "Average input:",
-                getBaseMetaTileEntity().getAverageElectricInput()+"",
+                getBaseMetaTileEntity().getAverageElectricInput()+ GT_Values.E,
                 "Average output:",
-                getBaseMetaTileEntity().getAverageElectricOutput()+""};
+                getBaseMetaTileEntity().getAverageElectricOutput()+GT_Values.E};
     }
 
     @Override

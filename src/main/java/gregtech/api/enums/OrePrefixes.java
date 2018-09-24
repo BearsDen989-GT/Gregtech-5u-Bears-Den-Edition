@@ -15,7 +15,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.*;
+import static gregtech.api.enums.GT_Values.B;
+import static gregtech.api.enums.GT_Values.D2;
+import static gregtech.api.enums.GT_Values.M;
 
 public enum OrePrefixes {
     @Deprecated pulp("Pulps", GT_Values.E, GT_Values.E, false, false, false, false, false, false, false, false, false, false, B[0] | B[1] | B[2] | B[3], -1, 64, -1),

@@ -31,9 +31,16 @@ import net.minecraft.world.World;
 import squeek.applecore.api.food.FoodValues;
 import squeek.applecore.api.food.IEdible;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.List;
 
-import static gregtech.api.enums.GT_Values.*;
+import static gregtech.api.enums.GT_Values.D1;
+import static gregtech.api.enums.GT_Values.MOD_ID_APC;
+import static gregtech.api.enums.GT_Values.RA;
+import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 
 /**
  * @author Gregorius Techneticies

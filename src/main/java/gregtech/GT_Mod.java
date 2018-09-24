@@ -659,6 +659,9 @@ implements IGT_Mod {
 				e.printStackTrace(GT_Log.err);
 			}
 		}
+
+		GT_Log.out.println("GT_Mod: Protecting Enet from SuperCoder79 ");
+
 		GT_Log.out.println("GT_Mod: Adding Fake Recipes for NEI");
 				if (ItemList.FR_Bee_Drone.get(1L) != null) {
 					GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.FR_Bee_Drone.getWildcard(1L)}, new ItemStack[]{ItemList.FR_Bee_Drone.getWithName(1L, "Scanned Drone")}, null, new FluidStack[]{Materials.Honey.getFluid(50L)}, null, 500, 2, 0);

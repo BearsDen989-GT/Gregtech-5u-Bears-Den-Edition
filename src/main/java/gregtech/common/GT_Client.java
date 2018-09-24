@@ -13,6 +13,7 @@ import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.ITurnable;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
+import gregtech.api.metatileentity.BaseTileEntity;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_PlayedSound;
@@ -288,6 +289,9 @@ public class GT_Client extends GT_Proxy
             if ((this.isFirstClientPlayerTick) && (aEvent.player == GT_Values.GT.getThePlayer())) {
                 this.isFirstClientPlayerTick = false;
                 GT_FluidStack.fixAllThoseFuckingFluidIDs();
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Hi "+ Minecraft.getMinecraft().thePlayer.getDisplayName() +", welcome to GT5u: Bears Den Edition!"));
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Visit http://bearsden.overminddl1.com/ for more info."));
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Not ready for public use, still in alpha"));
                 if ((this.mMessage.length() > 5) && (GregTech_API.sSpecialFile.get(ConfigCategories.news, this.mMessage, true))) {
                     aEvent.player.addChatComponentMessage(new ChatComponentText(this.mMessage));
                 }
@@ -326,6 +330,11 @@ public class GT_Client extends GT_Proxy
                     drawGrid(aEvent);
                     return;
                 }
+                if (aTileEntity instanceof BaseTileEntity && (GT_Utility.isStackInList(aEvent.currentItem, GregTech_API.sWireCutterList))) {
+                    drawGrid(aEvent);
+                    return;
+                }
+
             } catch (Throwable e) {
                 if (GT_Values.D1) {
                     e.printStackTrace(GT_Log.err);

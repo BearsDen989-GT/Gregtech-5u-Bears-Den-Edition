@@ -25,7 +25,7 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.Loader;
 
 
-/* CURRENT FREE SPACE = 1
+/* CURRENT FREE SPACE = 0 */
 
 /**
  * This List contains every Material I know about, and is used to determine Recipes for the
@@ -437,7 +437,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	AnnealedCopper(345, TextureSet.SET_SHINY, 1.0F, 0, 2, 1 | 2 | 128, 255, 120, 20, 0, "Annealed Copper", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeOrange, 2, Arrays.asList(new MaterialStack(Copper, 1))),
 	Asbestos(946, TextureSet.SET_DULL, 1.0F, 0, 1, 1 | 8, 230, 230, 230, 0, "Asbestos", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeWhite, 1, Arrays.asList(new MaterialStack(Magnesium, 3), new MaterialStack(Silicon, 2), new MaterialStack(Hydrogen, 4), new MaterialStack(Oxygen, 9))), // Mg3Si2O5(OH)4
 	Ash(815, TextureSet.SET_DULL, 1.0F, 0, 1, 1, 150, 150, 150, 0, "Ashes", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeLightGray, 2, Arrays.asList(new MaterialStack(Carbon, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.PERDITIO, 1))),
-	BandedIron(917, TextureSet.SET_DULL, 1.0F, 0, 2, 1 | 8, 145, 90, 90, 0, "Banded Iron", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeBrown, 1, Arrays.asList(new MaterialStack(Iron, 2), new MaterialStack(Oxygen, 3))),
+	BandedIron(917, TextureSet.SET_DULL, 1.0F, 0, 2, 1 | 8, 145, 90, 90, 0, "Banded Iron", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeBrown, 1, Arrays.asList(new MaterialStack(Iron, 2),new MaterialStack(Silicon, 1), new MaterialStack(Oxygen, 2))),
 	BatteryAlloy(315, TextureSet.SET_DULL, 1.0F, 0, 1, 1 | 2, 156, 124, 160, 0, "Battery Alloy", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyePurple, 2, Arrays.asList(new MaterialStack(Lead, 4), new MaterialStack(Antimony, 1))),
 	Bauxite(822, TextureSet.SET_DULL, 1.0F, 0, 1, 1 | 8, 200, 100, 0, 0, "Bauxite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeBrown, 1, Arrays.asList(new MaterialStack(Titanium, 1), new MaterialStack(Aluminium, 16), new MaterialStack(Hydrogen, 10), new MaterialStack(Oxygen, 12))),
 	BlueTopaz(513, TextureSet.SET_GEM_HORIZONTAL, 7.0F, 256, 3, 1 | 4 | 8 | 64, 0, 0, 255, 127, "Blue Topaz", 0, 0, -1, 0, false, true, 3, 1, 1, Dyes.dyeBlue, 1, Arrays.asList(new MaterialStack(Aluminium, 2), new MaterialStack(Silicon, 1), new MaterialStack(Fluorine, 2), new MaterialStack(Hydrogen, 2), new MaterialStack(Oxygen, 6)), Arrays.asList(new TC_AspectStack(TC_Aspects.LUCRUM, 6), new TC_AspectStack(TC_Aspects.VITREUS, 4))),
@@ -517,6 +517,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	Steel(305, TextureSet.SET_METALLIC, 6.0F, 512, 2, 1 | 2 | 64 | 128, 128, 128, 128, 0, "Steel", 0, 0, 1811, 1000, true, false, 4, 51, 50, Dyes.dyeGray, 1, Arrays.asList(new MaterialStack(Iron, 50), new MaterialStack(Carbon, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.METALLUM, 2), new TC_AspectStack(TC_Aspects.ORDO, 1))),
 	Stibnite(945, TextureSet.SET_METALLIC, 1.0F, 0, 2, 1 | 8, 70, 70, 70, 0, "Stibnite", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeWhite, 2, Arrays.asList(new MaterialStack(Antimony, 2), new MaterialStack(Sulfur, 3))),
 	SulfuricAcid(720, TextureSet.SET_FLUID, 1.0F, 0, 2, 16, 255, 128, 0, 0, "Sulfuric Acid", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeOrange, 1, Arrays.asList(new MaterialStack(Hydrogen, 2), new MaterialStack(Sulfur, 1), new MaterialStack(Oxygen, 4))),
+	SulfurDioxide(795, TextureSet.SET_FLUID, 1.0F, 0, 2, 16, 186, 155, 46, 0, "Sulfur Dioxide", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeYellow, 1, Arrays.asList(new MaterialStack(Sulfur, 1), new MaterialStack(Oxygen, 2))),
 	Tanzanite(508, TextureSet.SET_GEM_VERTICAL, 7.0F, 256, 2, 1 | 4 | 8 | 64, 64, 0, 200, 127, "Tanzanite", 0, 0, -1, 0, false, true, 5, 1, 1, Dyes.dyePurple, 1, Arrays.asList(new MaterialStack(Calcium, 2), new MaterialStack(Aluminium, 3), new MaterialStack(Silicon, 3), new MaterialStack(Hydrogen, 1), new MaterialStack(Oxygen, 13)), Arrays.asList(new TC_AspectStack(TC_Aspects.LUCRUM, 5), new TC_AspectStack(TC_Aspects.VITREUS, 3))),
 	Tetrahedrite(840, TextureSet.SET_DULL, 1.0F, 0, 2, 1 | 8, 200, 32, 0, 0, "Tetrahedrite", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes.dyeRed, 2, Arrays.asList(new MaterialStack(Copper, 3), new MaterialStack(Antimony, 1), new MaterialStack(Sulfur, 3), new MaterialStack(Iron, 1))), //Cu3SbS3 + x(Fe,Zn)6Sb2S9
 	TinAlloy(363, TextureSet.SET_METALLIC, 6.5F, 96, 2, 1 | 2 | 64 | 128, 200, 200, 200, 0, "Tin Alloy", 0, 0, -1, 0, false, false, 1, 1, 1, Dyes.dyeWhite, 2, Arrays.asList(new MaterialStack(Tin, 1), new MaterialStack(Iron, 1)), Arrays.asList(new TC_AspectStack(TC_Aspects.METALLUM, 2), new TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1))),
@@ -959,29 +960,30 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		Snow.setSmeltingInto(Water);
 
 		Mercury.add(SubTag.SMELTING_TO_GEM);
-		Cinnabar.setDirectSmelting(Mercury).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT).add(SubTag.SMELTING_TO_GEM);
-		Celestine.setDirectSmelting(Strontium).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Tetrahedrite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Chalcopyrite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Malachite.setDirectSmelting(Copper).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Pentlandite.setDirectSmelting(Nickel).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Sphalerite.setDirectSmelting(Zinc).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		Pyrite.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		BasalticMineralSand.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		GraniticMineralSand.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		YellowLimonite.setDirectSmelting(Iron).add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);
-		BrownLimonite.setDirectSmelting(Iron);
-		BandedIron.setDirectSmelting(Iron);
-		Cassiterite.setDirectSmelting(Tin);
-		CassiteriteSand.setDirectSmelting(Tin);
-		Chromite.setDirectSmelting(Chrome);
-		Garnierite.setDirectSmelting(Nickel);
-		Cobaltite.setDirectSmelting(Cobalt);
-		Stibnite.setDirectSmelting(Antimony);
-		Cooperite.setDirectSmelting(Platinum);
-		Pyrolusite.setDirectSmelting(Manganese);
-		Magnesite.setDirectSmelting(Magnesium);
-		Molybdenite.setDirectSmelting(Molybdenum);
+		Cinnabar.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT).add(SubTag.SMELTING_TO_GEM); //Mercury
+		Celestine.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT);	//Strontium
+		Tetrahedrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Chalcopyrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Malachite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Copper
+		Pentlandite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Nickel
+		Sphalerite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Zinc
+		Pyrite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		BasalticMineralSand.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		GraniticMineralSand.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+		YellowLimonite.add(SubTag.INDUCTIONSMELTING_LOW_OUTPUT); //Iron
+//		BrownLimonite.setDirectSmelting(Iron);
+//		BandedIron.setDirectSmelting(Iron);
+//		Magnetite.setDirectSmelting(Iron);
+//		Cassiterite.setDirectSmelting(Tin);
+//		CassiteriteSand.setDirectSmelting(Tin);
+//		Chromite.setDirectSmelting(Chrome);
+//		Garnierite.setDirectSmelting(Nickel);
+//		Cobaltite.setDirectSmelting(Cobalt);
+//		Stibnite.setDirectSmelting(Antimony);
+//		Cooperite.setDirectSmelting(Platinum);
+//		Pyrolusite.setDirectSmelting(Manganese);
+//		Magnesite.setDirectSmelting(Magnesium);
+//		Molybdenite.setDirectSmelting(Molybdenum);
 
 		Amber.setOreMultiplier(2).setSmeltingMultiplier(2);
 		InfusedAir.setOreMultiplier(2).setSmeltingMultiplier(2);

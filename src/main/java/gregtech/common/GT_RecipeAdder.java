@@ -188,6 +188,19 @@ public class GT_RecipeAdder
         return true;
     }
 
+    public boolean addPartFactoryRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt) {
+        if ((aInput1 == null) || (aOutput1 == null)) {
+            return false;
+        }
+        if ((aDuration = GregTech_API.sRecipeFile.get("partfactory", aOutput1, aDuration)) <= 0) {
+            return false;
+        }
+        GT_Recipe.GT_Recipe_Map.sPartFactoryRecipes.addRecipe(true, new ItemStack[]{aInput1, aInput2, aInput3, aInput4, aInput5, aInput6}, new ItemStack[]{aOutput1}, null, null, null, aDuration, aEUt, 0);
+        return true;
+    }
+
+    //T_Recipe.GT_Recipe_Map.sMixerRecipes.addRecipe(true, new ItemStack[]{aInput1, aInput2, aInput3, aInput4}, new ItemStack[]{aOutput}, null, null, new FluidStack[]{aFluidInput}, new FluidStack[]{aFluidOutput}, aDuration, aEUt, 0);
+
     public boolean addWiremillRecipe(ItemStack aInput, ItemStack aOutput, int aDuration, int aEUt) {
         if ((aInput == null) || (aOutput == null)) {
             return false;
@@ -614,25 +627,20 @@ public class GT_RecipeAdder
     }
 
     @Override
-    public boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt) {
-        if ((aInput == null) || (aOutputs == null) || aFluidInput == null) {
+    public boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack aOutput1 , ItemStack aOutput2, ItemStack aOutput3, FluidStack aFluidOutput, int[] aChances, int aDuration, int aEUt) {
+        if ((aInput == null) || (aOutput1 == null) || aFluidInput == null) {
             return false;
         }
-        for (ItemStack tStack : aOutputs) {
-            if (tStack != null) {
-                if ((aDuration = GregTech_API.sRecipeFile.get("roaster", aInput, aDuration)) <= 0) {
+        if ((aDuration = GregTech_API.sRecipeFile.get("roaster", aInput, aDuration)) <= 0) {
                     return false;
                 }
                 GT_Recipe.GT_Recipe_Map.sRoasterRecipes.addRecipe(
-                        true, new ItemStack[]{aInput}, aOutputs,
+                        true, new ItemStack[]{aInput},new ItemStack[]{aOutput1, aOutput2, aOutput3},
                         null, aChances,
-                        new FluidStack[]{aFluidInput}, null,
+                        new FluidStack[]{aFluidInput},new FluidStack[]{aFluidOutput},
                         Math.max(1, aDuration), Math.max(1, aEUt), 0);
                 return true;
             }
-        }
-        return false;
-    }
 
     public boolean addPlasmaArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt) {
         if ((aInput == null) || (aOutputs == null) || aFluidInput == null) {

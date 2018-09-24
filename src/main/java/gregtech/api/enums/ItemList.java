@@ -566,6 +566,7 @@ public enum ItemList implements IItemContainer {
     Machine_Multi_LargeBoiler_Bronze, Machine_Multi_LargeBoiler_Steel, Machine_Multi_LargeBoiler_Titanium, Machine_Multi_LargeBoiler_TungstenSteel, Machine_Multi_BlastFurnace, Machine_Multi_ImplosionCompressor, Machine_Multi_VacuumFreezer, Machine_Multi_Furnace,
     Machine_LV_AlloySmelter, Machine_MV_AlloySmelter, Machine_HV_AlloySmelter, Machine_EV_AlloySmelter, Machine_IV_AlloySmelter,
     Machine_LV_Assembler, Machine_MV_Assembler, Machine_HV_Assembler, Machine_EV_Assembler, Machine_IV_Assembler,
+    Machine_LV_PartFactory, Machine_MV_PartFactory, Machine_HV_PartFactory, Machine_EV_PartFactory, Machine_IV_PartFactory,
     Machine_LV_Bender, Machine_MV_Bender, Machine_HV_Bender, Machine_EV_Bender, Machine_IV_Bender,
     Machine_LV_Canner, Machine_MV_Canner, Machine_HV_Canner, Machine_EV_Canner, Machine_IV_Canner,
     Machine_LV_Compressor, Machine_MV_Compressor, Machine_HV_Compressor, Machine_EV_Compressor, Machine_IV_Compressor,

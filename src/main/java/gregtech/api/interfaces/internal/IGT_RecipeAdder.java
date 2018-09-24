@@ -178,6 +178,16 @@ public interface IGT_RecipeAdder {
     public boolean addAssemblerRecipe(ItemStack aInput1, ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput1, int aDuration, int aEUt);
 
     /**
+     * Adds a Part Factory Recipe
+     *
+     * @param aInput1   must be != null
+     * @param aOutput1  must be != null
+     * @param aDuration must be > 0
+     * @param aEUt      should be > 0
+     */
+    public boolean addPartFactoryRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aInput3, ItemStack aInput4, ItemStack aInput5, ItemStack aInput6, ItemStack aOutput1, int aDuration, int aEUt);
+
+    /**
      * Adds a Forge Hammer Recipe
      *
      * @param aInput1   must be != null
@@ -284,11 +294,11 @@ public interface IGT_RecipeAdder {
 
     public boolean addSimpleArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
 
-    public boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
+    public boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack aOutput1, ItemStack aOutput2, ItemStack aOutput3, FluidStack aFluidOutput, int[] aChances, int aDuration, int aEUt);
 
     public boolean addPlasmaArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
 
-    public boolean addPlasmaArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, FluidStack aFluidPutput, int[] aChances, int aDuration, int aEUt);
+    public boolean addPlasmaArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, FluidStack aFluidOutput, int[] aChances, int aDuration, int aEUt);
 
 
     /**

@@ -95,5 +95,6 @@ public class GT_Loader_OreProcessing
         new ProcessingWire08();
         new ProcessingWire12();
         new ProcessingWire16();
+        new ProcessingFix();
     }
 }

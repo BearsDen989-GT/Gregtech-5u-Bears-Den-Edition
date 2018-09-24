@@ -29,6 +29,7 @@ public class GT_Worldgen_GT_Ore_Layer
     public final boolean mOverworld;
     public final boolean mNether;
     public final boolean mEnd;
+    public final boolean mEndAsteroid;
 
     public GT_Worldgen_GT_Ore_Layer(String aName, boolean aDefault, int aMinY, int aMaxY, int aWeight, int aDensity, int aSize, boolean aOverworld, boolean aNether, boolean aEnd, Materials aPrimary, Materials aSecondary, Materials aBetween, Materials aSporadic) {
         super(aName, sList, aDefault);
@@ -44,6 +45,7 @@ public class GT_Worldgen_GT_Ore_Layer
         this.mSecondaryMeta = ((short) GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "OreSecondaryLayer", aSecondary.mMetaItemSubID, "Meta ID of secondary ore layer"));
         this.mBetweenMeta = ((short) GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "OreSporadiclyInbetween", aBetween.mMetaItemSubID, "Meta ID of sporadic ore in-between ore"));
         this.mSporadicMeta = ((short) GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "OreSporaticlyAround", aSporadic.mMetaItemSubID, "Meta ID of sporadic around ore"));
+        this.mEndAsteroid = GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "EndAsteroid", aEnd, "Generates End Asteroids");
         if (this.mEnabled) {
             GT_Achievements.registerOre(aPrimary, aMinY, aMaxY, aWeight, aOverworld, aNether, aEnd);
             GT_Achievements.registerOre(aSecondary, aMinY, aMaxY, aWeight, aOverworld, aNether, aEnd);

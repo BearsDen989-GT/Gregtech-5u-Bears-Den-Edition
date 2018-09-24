@@ -1,21 +1,13 @@
 package gregtech.loaders.load;
 
+import buildcraft.api.tools.IToolWrench;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.GT_Values;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OreDictNames;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.ToolDictNames;
+import gregtech.api.enums.*;
 import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
-
-import java.util.Iterator;
-
 import mods.railcraft.api.core.items.IToolCrowbar;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -24,7 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import buildcraft.api.tools.IToolWrench;
+
+import java.util.Iterator;
 
 public class GT_ItemIterator
         implements Runnable {

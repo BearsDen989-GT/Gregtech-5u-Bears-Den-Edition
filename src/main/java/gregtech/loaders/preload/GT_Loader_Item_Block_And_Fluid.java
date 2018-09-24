@@ -1,14 +1,11 @@
 package gregtech.loaders.preload;
 
+import codechicken.nei.api.API;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.SubTag;
+import gregtech.api.enums.*;
 import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.items.GT_RadioactiveCellIC_Item;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
@@ -18,14 +15,7 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.blocks.*;
-import gregtech.common.items.GT_DepletetCell_Item;
-import gregtech.common.items.GT_FluidDisplayItem;
-import gregtech.common.items.GT_IntegratedCircuit_Item;
-import gregtech.common.items.GT_MetaGenerated_Item_01;
-import gregtech.common.items.GT_MetaGenerated_Item_02;
-import gregtech.common.items.GT_MetaGenerated_Item_03;
-import gregtech.common.items.GT_MetaGenerated_Tool_01;
-import gregtech.common.items.GT_NeutronReflector_Item;
+import gregtech.common.items.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -34,9 +24,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import codechicken.nei.api.API;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GT_Loader_Item_Block_And_Fluid
         implements Runnable {

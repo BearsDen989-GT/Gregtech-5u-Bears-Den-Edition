@@ -1,5 +1,6 @@
 package gregtech.loaders.postload;
 
+import cpw.mods.fml.common.Loader;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.*;
@@ -10,7 +11,6 @@ import gregtech.api.util.GT_Utility;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.Loader;
 
 public class GT_CraftingRecipeLoader
         implements Runnable {

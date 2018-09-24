@@ -1,7 +1,10 @@
 package gregtech.api.items;
 
-import static gregtech.api.enums.GT_Values.MOD_ID_FR;
-import static gregtech.api.enums.GT_Values.MOD_ID_RC;
+import buildcraft.api.tools.IToolWrench;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import crazypants.enderio.api.tool.ITool;
 import forestry.api.arboriculture.IToolGrafter;
 import gregtech.api.GregTech_API;
 import gregtech.api.enchants.Enchantment_Radioactivity;
@@ -14,13 +17,6 @@ import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import mods.railcraft.api.core.items.IToolCrowbar;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -44,11 +40,15 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
-import buildcraft.api.tools.IToolWrench;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import crazypants.enderio.api.tool.ITool;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+
+import static gregtech.api.enums.GT_Values.MOD_ID_FR;
+import static gregtech.api.enums.GT_Values.MOD_ID_RC;
 
 /**
  * This is an example on how you can create a Tool ItemStack, in this case a Bismuth Wrench:

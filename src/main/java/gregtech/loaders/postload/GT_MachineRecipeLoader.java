@@ -117,6 +117,8 @@ implements Runnable {
 		
 		GT_Values.RA.addExtruderRecipe(ItemList.FR_Wax.get(1L, new Object[0]), ItemList.Shape_Extruder_Cell.get(0L, new Object[0]), ItemList.FR_WaxCapsule.get(1L, new Object[0]), 64, 16);
 		GT_Values.RA.addExtruderRecipe(ItemList.FR_RefractoryWax.get(1L, new Object[0]), ItemList.Shape_Extruder_Cell.get(0L, new Object[0]), ItemList.FR_RefractoryCapsule.get(1L, new Object[0]), 128, 16);
+		GT_Values.RA.addExtruderRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Plastic, 9L), ItemList.Shape_Extruder_Block.get(0L, new Object[0]), ItemList.Casing_Plastic.get(1L, new Object[0]), 128, 16);
+		GT_Values.RA.addExtruderRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Plastic, 9L), ItemList.Shape_Extruder_Block.get(0L, new Object[0]), ItemList.Casing_Plastic.get(1L, new Object[0]), 128, 16);
 
 		GT_Values.RA.addFluidCannerRecipe(ItemList.Battery_Hull_LV.get(1L, new Object[0]), ItemList.IC2_ReBattery.get(1L, new Object[0]), Materials.Redstone.getMolten(288L), GT_Values.NF);
 		GT_Values.RA.addFluidCannerRecipe(ItemList.Battery_Hull_LV.get(1L, new Object[0]), ItemList.Battery_SU_LV_Mercury.getWithCharge(1L, Integer.MAX_VALUE, new Object[0]), Materials.Mercury.getFluid(1000L), GT_Values.NF);
@@ -163,6 +165,10 @@ implements Runnable {
 		if (tMaterial.mStandardMoltenFluid != null) {
 			GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Casing.get(0L, new Object[0]), tMaterial.getMolten(72L), ItemList.IC2_Item_Casing_Steel.get(1L, new Object[0]), 16, 8);
 		}
+        tMaterial = Materials.Plastic;
+        if (tMaterial.mStandardMoltenFluid != null) {
+            GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Block.get(0L, new Object[0]), tMaterial.getMolten(1296L), ItemList.Casing_Plastic.get(1L, new Object[0]), 16, 8);
+        }
 		GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Ball.get(0L, new Object[0]), Materials.Mercury.getFluid(1000L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Mercury, 1L), 128, 4);
 		GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Ball.get(0L, new Object[0]), Materials.Water.getFluid(250L), new ItemStack(Items.snowball, 1, 0), 128, 4);
 		GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Ball.get(0L, new Object[0]), GT_ModHandler.getDistilledWater(250L), new ItemStack(Items.snowball, 1, 0), 128, 4);
@@ -1342,10 +1348,6 @@ implements Runnable {
 		GT_Utility.removeSimpleIC2MachineRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lapis, 1L), GT_ModHandler.getMaceratorRecipeList(), ItemList.IC2_Plantball.get(1L, new Object[0]));
 		GT_Utility.removeSimpleIC2MachineRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), GT_ModHandler.getMaceratorRecipeList(), ItemList.IC2_Plantball.get(1L, new Object[0]));
 		GT_Utility.removeSimpleIC2MachineRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 1L), GT_ModHandler.getMaceratorRecipeList(), ItemList.IC2_Plantball.get(1L, new Object[0]));
-
-		/*temporary charcoal dust smelting recipe until i figure out what the fucking fuck I did to charcoal - e9*/
-
-		GT_ModHandler.addSmeltingRecipe((GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 1)), (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 1)));
 
 		if (GregTech_API.sThaumcraftCompat != null) {
 			String tKey = "GT_WOOD_TO_CHARCOAL";

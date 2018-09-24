@@ -43,11 +43,11 @@ public class GT_MetaTileEntity_BrickedBlastFurnace extends GT_MetaTileEntity_Pri
 
     @Override
     protected boolean isCorrectCasingBlock(Block block) {
-        return block == GregTech_API.sBlockCasings5;
+        return block == GregTech_API.sBlockCasings4;
     }
 
     @Override
     protected boolean isCorrectCasingMetaID(int metaID) {
-        return metaID == 0;
+        return metaID == 15;
     }
 }

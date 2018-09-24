@@ -17,13 +17,17 @@ public class GT_Cover_SolarPanel
                 aCoverVariable = 0;
             } else {
                 boolean bRain = (aTileEntity.getWorld().isRaining()) && (aTileEntity.getBiome().rainfall > 0.0F);
-                aCoverVariable = bRain && aTileEntity.getWorld().skylightSubtracted >= 4 || !aTileEntity.getSkyAtSide(aSide) ? 0 : ((int) (!bRain && aTileEntity.getWorld().isDaytime() ? 1 : 2));
+                aCoverVariable = bRain && aTileEntity.getWorld().skylightSubtracted >= 4 || !aTileEntity.getSkyAtSide(aSide) ? 0 : !bRain && aTileEntity.getWorld().isDaytime() ? 1 : 2;
             }
         }
         if ((aCoverVariable == 1) || ((aCoverVariable == 2) && (aTimer % 8L == 0L))) {
             aTileEntity.injectEnergyUnits((byte) 6, this.mVoltage, 1L);
         }
         return aCoverVariable;
+    }
+
+    public boolean alwaysLookConnected(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+        return true;
     }
 
     public int getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {

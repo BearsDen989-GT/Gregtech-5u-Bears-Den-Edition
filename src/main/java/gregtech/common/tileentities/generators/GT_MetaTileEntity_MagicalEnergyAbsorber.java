@@ -44,7 +44,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
     public EntityEnderCrystal mTargetedCrystal;
 
     public GT_MetaTileEntity_MagicalEnergyAbsorber(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, "Feasts on magic close to it", new ITexture[0]);
+        super(aID, aName, aNameRegional, aTier, "Feasts on magic close to it");
         onConfigLoad();
     }
 
@@ -72,11 +72,11 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
     public void onConfigLoad() {
         this.mEfficiency = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.efficiency.tier." + this.mTier,
                 100 - this.mTier * 10);
-        this.sAllowMultipleEggs = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.AllowMultipleEggs", false);
-        this.sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32);
-        this.sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500) * 10);
-        this.sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048);
-        this.isThaumcraftLoaded = Loader.isModLoaded("Thaumcraft");
+        sAllowMultipleEggs = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.AllowMultipleEggs", false);
+        sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32);
+        sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500) * 10);
+        sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048);
+        isThaumcraftLoaded = Loader.isModLoaded("Thaumcraft");
     }
 
     @Override
@@ -129,7 +129,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
                     if (water > 4)
                         mult += 15;
                     visEU = (visEU * mult) / 100;
-                    getBaseMetaTileEntity().increaseStoredEnergyUnits(Math.min(maxEUOutput(), visEU * getEfficiency() / this.sEnergyFromVis), false);
+                    getBaseMetaTileEntity().increaseStoredEnergyUnits(Math.min(maxEUOutput(), visEU * getEfficiency() / sEnergyFromVis), false);
                 } catch (Throwable e) {
                 }
             }
@@ -144,7 +144,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
                     if ((tList != null) && (!tList.isEmpty())) {
                         tList.removeAll(sUsedDragonCrystalList);
                         if (tList.size() > 0) {
-                            this.mTargetedCrystal = ((EntityEnderCrystal) tList.get(0));
+                            this.mTargetedCrystal = tList.get(0);
                             if (this.mTargetedCrystal != null) {
                                 sUsedDragonCrystalList.add(this.mTargetedCrystal);
                             }
@@ -181,8 +181,8 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
                             NBTTagList tEnchantments = this.mInventory[0].getEnchantmentTagList();
                             if (tEnchantments != null) {
                                 for (int i = 0; i < tEnchantments.tagCount(); i++) {
-                                    short tID = ((NBTTagCompound) tEnchantments.getCompoundTagAt(i)).getShort("id");
-                                    short tLevel = ((NBTTagCompound) tEnchantments.getCompoundTagAt(i)).getShort("lvl");
+                                    short tID = tEnchantments.getCompoundTagAt(i).getShort("id");
+                                    short tLevel = tEnchantments.getCompoundTagAt(i).getShort("lvl");
                                     if ((tID > -1) && (tID < Enchantment.enchantmentsList.length)) {
                                         Enchantment tEnchantment = Enchantment.enchantmentsList[tID];
                                         if (tEnchantment != null) {
@@ -197,8 +197,8 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
                             NBTTagList tEnchantments = ((ItemEnchantedBook) this.mInventory[0].getItem()).func_92110_g(this.mInventory[0]);
                             if (tEnchantments != null) {
                                 for (int i = 0; i < tEnchantments.tagCount(); i++) {
-                                    short tID = ((NBTTagCompound) tEnchantments.getCompoundTagAt(i)).getShort("id");
-                                    short tLevel = ((NBTTagCompound) tEnchantments.getCompoundTagAt(i)).getShort("lvl");
+                                    short tID = tEnchantments.getCompoundTagAt(i).getShort("id");
+                                    short tLevel = tEnchantments.getCompoundTagAt(i).getShort("lvl");
                                     if ((tID > -1) && (tID < Enchantment.enchantmentsList.length)) {
                                     	Enchantment tEnchantment = Enchantment.enchantmentsList[tID];
                                         if (tEnchantment != null) {

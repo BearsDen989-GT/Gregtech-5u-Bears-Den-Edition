@@ -2,6 +2,7 @@ package gregtech.common.tools;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -50,19 +51,19 @@ public class GT_Tool_Drill_LV
     }
 
     public String getCraftingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(106));
+        return GregTech_API.sSoundList.get(Integer.valueOf(106));
     }
 
     public String getEntityHitSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(106));
+        return GregTech_API.sSoundList.get(Integer.valueOf(106));
     }
 
     public String getBreakingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(106));
+        return GregTech_API.sSoundList.get(Integer.valueOf(100));
     }
 
     public String getMiningSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(106));
+        return GregTech_API.sSoundList.get(Integer.valueOf(106));
     }
 
     public boolean canBlock() {
@@ -79,7 +80,7 @@ public class GT_Tool_Drill_LV
     }
 
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return null;
+        return (ItemList.ToolHull_LV.get(1L));
     }
 
     public IIconContainer getIcon(boolean aIsToolHead, ItemStack aStack) {
@@ -98,7 +99,7 @@ public class GT_Tool_Drill_LV
         aPlayer.triggerAchievement(AchievementList.buildPickaxe);
         aPlayer.triggerAchievement(AchievementList.buildBetterPickaxe);
         try {
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "driltime");
+            GT_Mod.achievements.issueAchievement(aPlayer, "driltime");
         } catch (Exception e) {
         }
     }

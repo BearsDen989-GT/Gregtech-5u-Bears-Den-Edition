@@ -30,7 +30,7 @@ public class GT_Circuit_Equals
     }
 
     public void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
-        aRedstoneCircuitBlock.setRedstone(((byte) ((aCircuitData[1] != 0 ? getStrongestRedstone(aRedstoneCircuitBlock) == aCircuitData[0] : getStrongestRedstone(aRedstoneCircuitBlock) != aCircuitData[0]) ? 0 : 15)), aRedstoneCircuitBlock.getOutputFacing());
+        aRedstoneCircuitBlock.setRedstone(((byte) (((aCircuitData[1] != 0) == (getStrongestRedstone(aRedstoneCircuitBlock) == aCircuitData[0])) ? 0 : 15)), aRedstoneCircuitBlock.getOutputFacing());
     }
 
     public String getName() {

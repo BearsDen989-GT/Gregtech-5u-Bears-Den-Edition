@@ -1,5 +1,6 @@
 package gregtech.common.tools;
 
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -29,6 +30,11 @@ public class GT_Tool_Wrench_HV
 
     public float getBaseDamage() {
         return 2.0F;
+    }
+
+    @Override
+    public ItemStack getBrokenItem(ItemStack aStack) {
+        return (ItemList.ToolHull_HV.get(1L));
     }
 
     public float getSpeedMultiplier() {

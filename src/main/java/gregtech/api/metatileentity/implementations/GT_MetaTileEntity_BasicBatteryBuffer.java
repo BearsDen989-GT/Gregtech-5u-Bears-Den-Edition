@@ -1,15 +1,7 @@
 package gregtech.api.metatileentity.implementations;
 
-import static gregtech.api.enums.GT_Values.V;
 import gregtech.api.enums.Textures;
-import gregtech.api.gui.GT_Container_1by1;
-import gregtech.api.gui.GT_Container_2by2;
-import gregtech.api.gui.GT_Container_3by3;
-import gregtech.api.gui.GT_Container_4by4;
-import gregtech.api.gui.GT_GUIContainer_1by1;
-import gregtech.api.gui.GT_GUIContainer_2by2;
-import gregtech.api.gui.GT_GUIContainer_3by3;
-import gregtech.api.gui.GT_GUIContainer_4by4;
+import gregtech.api.gui.*;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -21,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import static gregtech.api.enums.GT_Values.V;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -250,7 +244,7 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
                     name.equals("gt.metaitem.01.32521") ||
                     name.equals("gt.metaitem.01.32530") ||
                     name.equals("gt.metaitem.01.32531")) {
-                return true;
+                return ic2.api.item.ElectricItem.manager.getCharge(aStack) == 0;
             }
         }
         return false;
@@ -261,15 +255,20 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
         if (!GT_Utility.isStackValid(aStack)) {
             return false;
         }
-        if (GT_ModHandler.isElectricItem(aStack, this.mTier)) {
-            return true;
-        }
-        return false;
+        return mInventory[aIndex] == null && GT_ModHandler.isElectricItem(aStack, this.mTier);
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
     }
 
     public long[] getStoredEnergy() {
+        boolean scaleOverflow =false;
+        boolean storedOverflow = false;
         long tScale = getBaseMetaTileEntity().getEUCapacity();
         long tStored = getBaseMetaTileEntity().getStoredEU();
+        long tStep = 0;
         if (mInventory != null) {
             for (ItemStack aStack : mInventory) {
                 if (GT_ModHandler.isElectricItem(aStack)) {
@@ -277,8 +276,11 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
                     if (aStack.getItem() instanceof GT_MetaBase_Item) {
                         Long[] stats = ((GT_MetaBase_Item) aStack.getItem()).getElectricStats(aStack);
                         if (stats != null) {
+                            if(stats[0]>Long.MAX_VALUE/2){scaleOverflow=true;}
                             tScale = tScale + stats[0];
-                            tStored = tStored + ((GT_MetaBase_Item) aStack.getItem()).getRealCharge(aStack);
+                            tStep = ((GT_MetaBase_Item) aStack.getItem()).getRealCharge(aStack);
+                            if(tStep > Long.MAX_VALUE/2){storedOverflow=true;}
+                            tStored = tStored + tStep;
                         }
                     } else if (aStack.getItem() instanceof IElectricItem) {
                         tStored = tStored + (long) ic2.api.item.ElectricItem.manager.getCharge(aStack);
@@ -288,6 +290,8 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
             }
 
         }
+        if(scaleOverflow){tScale=Long.MAX_VALUE;}
+        if(storedOverflow){tStored=Long.MAX_VALUE;}
         return new long[]{tStored, tScale};
     }
 
@@ -299,12 +303,15 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
             mStored = tmp[0];
             mMax = tmp[1];
         }
-
         return new String[]{
                 getLocalName(),
                 "Stored Items:",
                 GT_Utility.formatNumbers(mStored) + " EU /",
-                GT_Utility.formatNumbers(mMax) + " EU"};
+                GT_Utility.formatNumbers(mMax) + " EU",
+                "Average input:",
+                getBaseMetaTileEntity().getAverageElectricInput()+"",
+                "Average output:",
+                getBaseMetaTileEntity().getAverageElectricOutput()+""};
     }
 
     @Override

@@ -34,6 +34,7 @@ public class GT_Block_Casings4
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".8.name", "Fusion Casing MK II");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".9.name", "Turbine Casing");
 
+
         ItemList.Casing_RobustTungstenSteel.set(new ItemStack(this, 1, 0));
         ItemList.Casing_CleanStainlessSteel.set(new ItemStack(this, 1, 1));
         ItemList.Casing_StableTitanium.set(new ItemStack(this, 1, 2));
@@ -42,6 +43,7 @@ public class GT_Block_Casings4
         ItemList.Casing_Fusion_Coil.set(new ItemStack(this, 1, 7));
         ItemList.Casing_Fusion2.set(new ItemStack(this, 1, 8));
         ItemList.Casing_Turbine.set(new ItemStack(this, 1, 9));
+
     }
 
     public IIcon getIcon(int aSide, int aMeta) {

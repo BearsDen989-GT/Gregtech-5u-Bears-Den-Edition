@@ -26,22 +26,28 @@ public interface IEnergyConnected extends IColoredTileEntity, IHasWorldObjectAnd
      * @param aSide 0 - 5 = Vanilla Directions of YOUR Block the Energy gets inserted to. 6 = No specific Side (don't do Side checks for this Side)
      * @return amount of used Amperes. 0 if not accepted anything.
      */
-    public long injectEnergyUnits(byte aSide, long aVoltage, long aAmperage);
+    long injectEnergyUnits(byte aSide, long aVoltage, long aAmperage);
 
     /**
      * Sided Energy Input
      */
-    public boolean inputEnergyFrom(byte aSide);
+    boolean inputEnergyFrom(byte aSide);
+    default boolean inputEnergyFrom(byte aSide, boolean waitForActive) {
+        return inputEnergyFrom(aSide);
+    }
 
     /**
      * Sided Energy Output
      */
-    public boolean outputsEnergyTo(byte aSide);
+    boolean outputsEnergyTo(byte aSide);
+    default boolean outputsEnergyTo(byte aSide, boolean waitForActive) {
+        return outputsEnergyTo(aSide);
+    }
 
     /**
      * Utility for the Network
      */
-    public static class Util {
+    class Util {
         /**
          * Emits Energy to the E-net. Also compatible with adjacent IC2 TileEntities.
          *
@@ -59,10 +65,6 @@ public interface IEnergyConnected extends IColoredTileEntity, IHasWorldObjectAnd
                             if (tColor >= 0 && tColor != aEmitter.getColorization()) continue;
                         }
                         rUsedAmperes += ((IEnergyConnected) tTileEntity).injectEnergyUnits(j, aVoltage, aAmperage - rUsedAmperes);
-//				} else if (tTileEntity instanceof IEnergySink) {
-//	        		if (((IEnergySink)tTileEntity).acceptsEnergyFrom((TileEntity)aEmitter, ForgeDirection.getOrientation(j))) {
-//	        			while (aAmperage > rUsedAmperes && ((IEnergySink)tTileEntity).demandedEnergyUnits() > 0 && ((IEnergySink)tTileEntity).injectEnergyUnits(ForgeDirection.getOrientation(j), aVoltage) < aVoltage) rUsedAmperes++;
-//	        		}
                     } else if (tTileEntity instanceof IEnergySink) {
                         if (((IEnergySink) tTileEntity).acceptsEnergyFrom((TileEntity) aEmitter, ForgeDirection.getOrientation(j))) {
                             while (aAmperage > rUsedAmperes && ((IEnergySink) tTileEntity).getDemandedEnergy() > 0 && ((IEnergySink) tTileEntity).injectEnergy(ForgeDirection.getOrientation(j), aVoltage, aVoltage) < aVoltage)

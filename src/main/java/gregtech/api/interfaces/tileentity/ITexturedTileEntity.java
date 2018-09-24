@@ -6,5 +6,5 @@ public interface ITexturedTileEntity {
     /**
      * @return the Textures rendered by the GT Rendering
      */
-    public ITexture[] getTexture(byte aSide);
+    ITexture[] getTexture(byte aSide);
 }

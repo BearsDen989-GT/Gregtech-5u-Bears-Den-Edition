@@ -91,7 +91,7 @@ public class GT_MetaTileEntity_Transformer extends GT_MetaTileEntity_TieredMachi
 
     @Override
     public boolean isInputFacing(byte aSide) {
-        return getBaseMetaTileEntity().isAllowedToWork() ? aSide == getBaseMetaTileEntity().getFrontFacing() : aSide != getBaseMetaTileEntity().getFrontFacing();
+        return getBaseMetaTileEntity().isAllowedToWork() == (aSide == getBaseMetaTileEntity().getFrontFacing());
     }
 
     @Override

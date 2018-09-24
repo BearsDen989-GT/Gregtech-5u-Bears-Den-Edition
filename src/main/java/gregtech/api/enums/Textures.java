@@ -99,7 +99,6 @@ public class Textures {
         PIPE_RESTRICTOR_UP, PIPE_RESTRICTOR_DOWN, PIPE_RESTRICTOR_LEFT, PIPE_RESTRICTOR_RIGHT, PIPE_RESTRICTOR_NU, PIPE_RESTRICTOR_ND, PIPE_RESTRICTOR_NL, PIPE_RESTRICTOR_NR,
         PIPE_RESTRICTOR_UD, PIPE_RESTRICTOR_UL, PIPE_RESTRICTOR_UR, PIPE_RESTRICTOR_DL, PIPE_RESTRICTOR_DR, PIPE_RESTRICTOR_LR, MACHINE_CASING_DENSEBRICKS, MACHINE_CASING_BRICKEDBLASTFURNACE_ACTIVE, MACHINE_CASING_BRICKEDBLASTFURNACE_INACTIVE,
         STORAGE_SIDE_WOOD, STORAGE_VERTICAL_WOOD;
-        ;
 
 
         /**
@@ -377,7 +376,7 @@ public class Textures {
 
         protected IIcon mIcon;
 
-        private BlockIcons() {
+        BlockIcons() {
             GregTech_API.sGTBlockIconload.add(this);
         }
 
@@ -464,7 +463,7 @@ public class Textures {
 
         protected IIcon mIcon, mOverlay;
 
-        private ItemIcons() {
+        ItemIcons() {
             GregTech_API.sGTItemIconload.add(this);
         }
 

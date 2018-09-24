@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class GT_MetaTileEntity_Boiler_Lava
         extends GT_MetaTileEntity_Boiler {
     public GT_MetaTileEntity_Boiler_Lava(int aID, String aName, String aNameRegional) {
-        super(aID, aName, aNameRegional, "A Boiler running off Lava", new ITexture[0]);
+        super(aID, aName, aNameRegional, "A Boiler running off Lava");
     }
 
     public GT_MetaTileEntity_Boiler_Lava(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {

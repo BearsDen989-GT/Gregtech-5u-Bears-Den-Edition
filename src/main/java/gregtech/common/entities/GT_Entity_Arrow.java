@@ -167,7 +167,7 @@ public class GT_Entity_Arrow
                         if ((!(tHitEntity instanceof EntityPlayer)) && (EnchantmentHelper.getEnchantmentLevel(Enchantment.looting.effectId, this.mArrow) > 0)) {
                             EntityPlayer tPlayer = null;
                             if ((this.worldObj instanceof WorldServer)) {
-                                tPlayer = FakePlayerFactory.get((WorldServer) this.worldObj, new GameProfile(new UUID(0L, 0L), (tShootingEntity instanceof EntityLivingBase) ? ((EntityLivingBase) tShootingEntity).getCommandSenderName() : "Arrow"));
+                                tPlayer = FakePlayerFactory.get((WorldServer) this.worldObj, new GameProfile(new UUID(0L, 0L), (tShootingEntity instanceof EntityLivingBase) ? tShootingEntity.getCommandSenderName() : "Arrow"));
                             }
                             if (tPlayer != null) {
                                 tPlayer.inventory.currentItem = 0;
@@ -333,11 +333,11 @@ public class GT_Entity_Arrow
     }
 
     public ItemStack getArrowItem() {
-        return GT_Utility.copy(new Object[]{this.mArrow});
+        return GT_Utility.copy(this.mArrow);
     }
 
     public void setArrowItem(ItemStack aStack) {
-        this.mArrow = GT_Utility.updateItemStack(GT_Utility.copyAmount(1L, new Object[]{aStack}));
+        this.mArrow = GT_Utility.updateItemStack(GT_Utility.copyAmount(1L, aStack));
     }
 
     public boolean breaksOnImpact() {

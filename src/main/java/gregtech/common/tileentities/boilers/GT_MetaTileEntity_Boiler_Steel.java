@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class GT_MetaTileEntity_Boiler_Steel
         extends GT_MetaTileEntity_Boiler {
     public GT_MetaTileEntity_Boiler_Steel(int aID, String aName, String aNameRegional) {
-        super(aID, aName, aNameRegional, "Faster than the Bronze Boiler", new ITexture[0]);
+        super(aID, aName, aNameRegional, "Faster than the Bronze Boiler");
     }
 
     public GT_MetaTileEntity_Boiler_Steel(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {

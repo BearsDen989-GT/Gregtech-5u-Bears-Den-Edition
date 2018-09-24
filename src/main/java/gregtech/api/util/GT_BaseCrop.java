@@ -120,7 +120,7 @@ public class GT_BaseCrop extends CropCard {
     @Override
     public boolean rightclick(ICropTile aCrop, EntityPlayer aPlayer) {
         if (!canBeHarvested(aCrop)) return false;
-        return aCrop.harvest(aPlayer == null ? false : aPlayer instanceof EntityPlayerMP);
+        return aCrop.harvest(aPlayer != null && aPlayer instanceof EntityPlayerMP);
     }
 
     @Override

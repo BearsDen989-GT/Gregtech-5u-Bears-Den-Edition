@@ -123,7 +123,7 @@ public class GT_MetaTileEntity_HeatExchanger extends GT_MetaTileEntity_MultiBloc
     private int useWater(float input) {
         water = water + input;
         int usage = (int) water;
-        water = water - (int) usage;
+        water = water - usage;
         return usage;
     }
 
@@ -203,10 +203,7 @@ public class GT_MetaTileEntity_HeatExchanger extends GT_MetaTileEntity_MultiBloc
     }
 
     public boolean ignoreController(Block tTileEntity) {
-        if (!controller && tTileEntity == GregTech_API.sBlockMachines) {
-            return true;
-        }
-        return false;
+        return !controller && tTileEntity == GregTech_API.sBlockMachines;
     }
 
     public boolean addColdFluidOutputToMachineList(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {

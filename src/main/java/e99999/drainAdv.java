@@ -47,7 +47,6 @@ public class drainAdv
                     if ((tLiquid != null) && (tLiquid.getFluid() != null) && ((aSide > 1) || ((aSide == 0) && (tLiquid.getFluid().getDensity() <= 0)) || ((aSide == 1) && (tLiquid.getFluid().getDensity() >= 0))) &&
                             (((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), tLiquid, false) == tLiquid.amount)) {
                         ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), tLiquid, true);
-                        ;
                     }
                 }
             }

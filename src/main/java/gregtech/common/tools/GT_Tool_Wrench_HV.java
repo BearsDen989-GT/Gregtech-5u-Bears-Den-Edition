@@ -34,7 +34,7 @@ public class GT_Tool_Wrench_HV
 
     @Override
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return (ItemList.ToolHull_HV.get(1L, new Object[0]));
+        return (ItemList.ToolHull_HV.get(1L));
     }
 
     public float getSpeedMultiplier() {

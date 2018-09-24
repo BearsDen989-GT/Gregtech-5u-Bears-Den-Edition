@@ -35,7 +35,7 @@ public class GT_Tool_Drill_HV
 
     @Override
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return (ItemList.ToolHull_HV.get(1L, new Object[0]));
+        return (ItemList.ToolHull_HV.get(1L));
     }
 
     public float getSpeedMultiplier() {
@@ -49,7 +49,7 @@ public class GT_Tool_Drill_HV
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "highpowerdrill");
+            GT_Mod.achievements.issueAchievement(aPlayer, "highpowerdrill");
         } catch (Exception e) {
         }
     }

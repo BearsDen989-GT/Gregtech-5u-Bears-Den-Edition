@@ -400,7 +400,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
             FluidTankInfo[] tInfo = fTileEntity.getTankInfo(ForgeDirection.getOrientation(tSide));
             if (tInfo != null) {
                 if (tInfo.length > 0) return true;
-                if (gTileEntity != null && gTileEntity.getCoverBehaviorAtSide(tSide) instanceof GT_Cover_FluidRegulator) return true;
+                return gTileEntity != null && gTileEntity.getCoverBehaviorAtSide(tSide) instanceof GT_Cover_FluidRegulator;
             }
         }
         return false;

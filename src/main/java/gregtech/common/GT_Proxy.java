@@ -21,7 +21,6 @@ import gregtech.api.items.GT_MetaGenerated_Tool;
 import gregtech.api.objects.GT_Fluid;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.objects.ItemData;
-import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
@@ -968,7 +967,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			aMod = "UNKNOWN";
 		}
 		if ((aEvent == null) || (aEvent.Ore == null) || (aEvent.Ore.getItem() == null) || (aEvent.Name == null) || (aEvent.Name.isEmpty())
-				|| (aEvent.Name.replaceAll("_", "").length() - aEvent.Name.length() == 9)) {
+				|| (aEvent.Name.replaceAll("_", GT_Values.E).length() - aEvent.Name.length() == 9)) {
 			if (aOriginalMod.equals(GT_Values.MOD_ID)) {
 				aOriginalMod = "UNKNOWN";
 			}
@@ -1076,7 +1075,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			}
 			if (aEvent.Name.contains(" ")) {
 				GT_Log.ore.println(tModToName + " is getting re-registered because the OreDict Name containing invalid spaces.");
-				GT_OreDictUnificator.registerOre(aEvent.Name.replaceAll(" ", ""), GT_Utility.copyAmount(1L, aEvent.Ore));
+				GT_OreDictUnificator.registerOre(aEvent.Name.replaceAll(" ", GT_Values.E), GT_Utility.copyAmount(1L, aEvent.Ore));
 				aEvent.Ore.setStackDisplayName("Invalid OreDictionary Tag");
 				return;
 			}
@@ -1114,7 +1113,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 					GT_OreDictUnificator.registerOre(tNewName, aEvent.Ore);
 					return;
 				}
-				String tName = aEvent.Name.replaceFirst(aPrefix.toString(), "");
+				String tName = aEvent.Name.replaceFirst(aPrefix.toString(), GT_Values.E);
 				if (tName.length() > 0) {
 					char firstChar = tName.charAt(0);
 					if (Character.isUpperCase(firstChar) || Character.isLowerCase(firstChar) || firstChar == '_') {
@@ -1207,7 +1206,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 									break;
 								case lens:
 									if ((aMaterial.contains(SubTag.TRANSPARENT)) && (aMaterial.mColor != Dyes._NULL)) {
-										GT_OreDictUnificator.registerOre("craftingLens" + aMaterial.mColor.toString().replaceFirst("dye", ""), aEvent.Ore);
+										GT_OreDictUnificator.registerOre("craftingLens" + aMaterial.mColor.toString().replaceFirst("dye", GT_Values.E), aEvent.Ore);
 									}
 									break;
 								case plate:
@@ -1314,7 +1313,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 								}
 							} else {
 								for (Dyes tDye : Dyes.VALUES) {
-									if (aEvent.Name.endsWith(tDye.name().replaceFirst("dye", ""))) {
+									if (aEvent.Name.endsWith(tDye.name().replaceFirst("dye", GT_Values.E))) {
 										GT_OreDictUnificator.addToBlacklist(aEvent.Ore);
 										GT_Log.ore.println(tModToName + " Oh man, why the fuck would anyone need a OreDictified Color for this, that is even too much for GregTech... do not report this, this is just a random Comment about how ridiculous this is.");
 										return;

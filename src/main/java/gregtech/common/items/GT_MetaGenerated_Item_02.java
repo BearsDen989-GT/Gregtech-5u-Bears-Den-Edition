@@ -11,7 +11,6 @@ import gregtech.api.enums.TC_Aspects;
 import gregtech.api.items.GT_MetaGenerated_Item_X32;
 import gregtech.api.objects.GT_CopiedBlockTexture;
 import gregtech.api.objects.ItemData;
-import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.GT_FoodStat;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
@@ -151,7 +150,7 @@ public class GT_MetaGenerated_Item_02
 
         ItemList.Dye_Indigo.set(addItem(tLastID = 410, "Indigo Dye", "Blue Dye", new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L), Dyes.dyeBlue));
         for (byte i = 0; i < 16; i = (byte) (i + 1)) {
-            ItemList.DYE_ONLY_ITEMS[i].set(addItem(tLastID = 414 + i, Dyes.get(i).mName + " Dye", "", Dyes.get(i).name(), new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L)));
+            ItemList.DYE_ONLY_ITEMS[i].set(addItem(tLastID = 414 + i, Dyes.get(i).mName + " Dye", GT_Values.E, Dyes.get(i).name(), new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L)));
         }
         ItemList.Plank_Oak.set(addItem(tLastID = 470, "Oak Plank", "Usable as Cover", new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 1L)));
         setBurnValue(32000 + tLastID, 200);
@@ -293,8 +292,8 @@ public class GT_MetaGenerated_Item_02
         ItemList.Crop_Drop_Tine.set(addItem(tLastID = 540, "Tine Twig", "Source of Tin", new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 1L)));
         setBurnValue(32000 + tLastID, 100);
 
-        ItemList.PlatinumGroupSludge.set(addItem(tLastID = 536, "Platinum group metals sludge", ""));
-        ItemList.PlatinumGroupSludgeTiny.set(addItem(tLastID = 537, "Tiny Pile Platinum group metals sludge", ""));
+        ItemList.PlatinumGroupSludge.set(addItem(tLastID = 536, "Platinum group metals sludge", GT_Values.E));
+        ItemList.PlatinumGroupSludgeTiny.set(addItem(tLastID = 537, "Tiny Pile Platinum group metals sludge", GT_Values.E));
 
         ItemList.Crop_Drop_Chilly.set(addItem(tLastID = 550, "Chilly Pepper", "It is red and hot", "cropChilipepper", new GT_FoodStat(1, 0.3F, EnumAction.eat, null, false, true, false, Potion.confusion.id, 200, 1, 40), new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.FAMES, 1L)));
         ItemList.Crop_Drop_Lemon.set(addItem(tLastID = 551, "Lemon", "Don't make Lemonade", "cropLemon", new GT_FoodStat(1, 0.3F, EnumAction.eat, null, false, true, false), new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.HERBA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.FAMES, 1L)));

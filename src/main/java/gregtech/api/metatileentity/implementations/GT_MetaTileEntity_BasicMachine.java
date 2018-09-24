@@ -2,6 +2,7 @@ package gregtech.api.metatileentity.implementations;
 
 import static gregtech.api.enums.GT_Values.V;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_BasicMachine;
@@ -46,7 +47,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     public boolean mAllowInputFromOutputSide = false, mFluidTransfer = false, mItemTransfer = false, mHasBeenUpdated = false, mStuttering = false, mCharge = false, mDecharge = false;
     public int mMainFacing = -1, mProgresstime = 0, mMaxProgresstime = 0, mEUt = 0, mOutputBlocked = 0;
     public FluidStack mOutputFluid;
-    public String mGUIName = "", mNEIName = "";
+    public String mGUIName = GT_Values.E, mNEIName = GT_Values.E;
     private NBTTagCompound mRecipeStuff = new NBTTagCompound();
     /**
      * Contains the Recipe which has been previously used, or null if there was no previous Recipe, which could have been buffered
@@ -335,7 +336,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     @Override
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_BasicMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), mGUIName, GT_Utility.isStringValid(mNEIName) ? mNEIName : getRecipeList() != null ? getRecipeList().mUnlocalizedName : "");
+        return new GT_GUIContainer_BasicMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), mGUIName, GT_Utility.isStringValid(mNEIName) ? mNEIName : getRecipeList() != null ? getRecipeList().mUnlocalizedName : GT_Values.E);
     }
 
     @Override

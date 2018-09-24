@@ -1,5 +1,6 @@
 package gregtech.common.tileentities.machines.basic;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
@@ -19,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class GT_MetaTileEntity_PotionBrewer
         extends GT_MetaTileEntity_BasicMachine {
     public GT_MetaTileEntity_PotionBrewer(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 1, "Brewing your Drinks", 1, 0, "PotionBrewer.png", "", new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_POTIONBREWER));
+        super(aID, aName, aNameRegional, aTier, 1, "Brewing your Drinks", 1, 0, "PotionBrewer.png", GT_Values.E, new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_POTIONBREWER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_POTIONBREWER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_POTIONBREWER));
     }
 
     public GT_MetaTileEntity_PotionBrewer(String aName, int aTier, String aDescription, ITexture[][][] aTextures, String aGUIName, String aNEIName) {
@@ -43,11 +44,11 @@ public class GT_MetaTileEntity_PotionBrewer
         if ((getDrainableStack() == null) && (aFluid != null) && (getInputAt(0) != null)) {
             String tInputName = aFluid.getFluid().getName();
             if (tInputName.startsWith("potion.")) {
-                tInputName = tInputName.replaceFirst("potion.", "");
+                tInputName = tInputName.replaceFirst("potion.", GT_Values.E);
                 int tFirstDot = tInputName.indexOf('.') + 1;
-                String tModifier = tFirstDot <= 0 ? "" : tInputName.substring(tFirstDot);
+                String tModifier = tFirstDot <= 0 ? GT_Values.E : tInputName.substring(tFirstDot);
                 if (!tModifier.isEmpty()) {
-                    tInputName = tInputName.replaceFirst("." + tModifier, "");
+                    tInputName = tInputName.replaceFirst("." + tModifier, GT_Values.E);
                 }
                 if (GT_Utility.areStacksEqual(new ItemStack(Items.fermented_spider_eye, 1, 0), getInputAt(0))) {
                     if (tInputName.equals("poison")) {
@@ -78,19 +79,19 @@ public class GT_MetaTileEntity_PotionBrewer
                 }
                 if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 1L), getInputAt(0))) {
                     if (!tModifier.startsWith("strong")) {
-                        return setOutput("potion." + tInputName + ".strong" + (tModifier.isEmpty() ? "" : new StringBuilder().append(".").append(tModifier).toString()));
+                        return setOutput("potion." + tInputName + ".strong" + (tModifier.isEmpty() ? GT_Values.E : new StringBuilder().append(".").append(tModifier).toString()));
                     }
                     if (tModifier.startsWith("long")) {
-                        return setOutput("potion." + tInputName + tModifier.replaceFirst("long", ""));
+                        return setOutput("potion." + tInputName + tModifier.replaceFirst("long", GT_Values.E));
                     }
                     return setOutput("potion.thick");
                 }
                 if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), getInputAt(0))) {
                     if (!tModifier.startsWith("long")) {
-                        return setOutput("potion." + tInputName + ".long" + (tModifier.isEmpty() ? "" : new StringBuilder().append(".").append(tModifier).toString()));
+                        return setOutput("potion." + tInputName + ".long" + (tModifier.isEmpty() ? GT_Values.E : new StringBuilder().append(".").append(tModifier).toString()));
                     }
                     if (tModifier.startsWith("strong")) {
-                        return setOutput("potion." + tInputName + tModifier.replaceFirst("strong", ""));
+                        return setOutput("potion." + tInputName + tModifier.replaceFirst("strong", GT_Values.E));
                     }
                     return setOutput("potion.mundane");
                 }

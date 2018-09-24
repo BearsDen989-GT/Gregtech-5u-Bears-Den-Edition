@@ -331,7 +331,7 @@ public class GT_CraftingRecipeLoader
         if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.harderrecipes, "railcraft_stuff_use_plates", true)) {
             tIngot = OrePrefixes.plate;
         }
-        GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 2L, 3), tBitMask | GT_ModHandler.RecipeBits.MIRRORED, new Object[]{tHammer + "" + tFile, "XX", "XX", Character.valueOf('X'), tIngot.get(Materials.Tin)});
+        GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 2L, 3), tBitMask | GT_ModHandler.RecipeBits.MIRRORED, new Object[]{tHammer + GT_Values.E + tFile, "XX", "XX", Character.valueOf('X'), tIngot.get(Materials.Tin)});
 
         GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 1L, 0), tBitMask, new Object[]{tHammer + "X ", "XGX", " X" + tFile, Character.valueOf('X'), OrePrefixes.nugget.get(Materials.Gold), Character.valueOf('G'), GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 1L, 3)});
         GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 1L, 1), tBitMask, new Object[]{tHammer + "X ", "XGX", " X" + tFile, Character.valueOf('X'), tIngot.get(Materials.AnyIron), Character.valueOf('G'), GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.gear", 1L, 3)});

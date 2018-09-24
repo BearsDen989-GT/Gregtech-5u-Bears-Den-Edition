@@ -1,5 +1,6 @@
 package gregtech.api.objects;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 
@@ -123,7 +124,7 @@ public class ItemData {
 
     @Override
     public String toString() {
-        if (mPrefix == null || mMaterial == null || mMaterial.mMaterial == null) return "";
+        if (mPrefix == null || mMaterial == null || mMaterial.mMaterial == null) return GT_Values.E;
         return mPrefix.name() + mMaterial.mMaterial.name();
     }
 }

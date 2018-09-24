@@ -1,5 +1,6 @@
 package gregtech.common.tileentities.machines.basic;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -15,7 +16,7 @@ import net.minecraft.item.ItemStack;
 public class GT_MetaTileEntity_Boxinator
         extends GT_MetaTileEntity_BasicMachine {
     public GT_MetaTileEntity_Boxinator(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 1, "Puts things into Boxes", 2, 1, "Packager.png", "", new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_BOXINATOR));
+        super(aID, aName, aNameRegional, aTier, 1, "Puts things into Boxes", 2, 1, "Packager.png", GT_Values.E, new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_BOXINATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_BOXINATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_BOXINATOR));
     }
 
     public GT_MetaTileEntity_Boxinator(String aName, int aTier, String aDescription, ITexture[][][] aTextures, String aGUIName, String aNEIName) {

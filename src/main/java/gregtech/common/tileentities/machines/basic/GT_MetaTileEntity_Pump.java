@@ -1,6 +1,8 @@
 package gregtech.common.tileentities.machines.basic;
 
 import static gregtech.api.enums.GT_Values.V;
+
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_BasicTank;
 import gregtech.api.gui.GT_GUIContainer_BasicTank;
@@ -48,8 +50,8 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
 
     public void saveNBTData(NBTTagCompound aNBT) {
         super.saveNBTData(aNBT);
-        aNBT.setString("mPumpedBlock1", this.mPumpedBlock1 == null ? "" : this.mPumpedBlock1.getUnlocalizedName());
-        aNBT.setString("mPumpedBlock2", this.mPumpedBlock2 == null ? "" : this.mPumpedBlock2.getUnlocalizedName());
+        aNBT.setString("mPumpedBlock1", this.mPumpedBlock1 == null ? GT_Values.E : this.mPumpedBlock1.getUnlocalizedName());
+        aNBT.setString("mPumpedBlock2", this.mPumpedBlock2 == null ? GT_Values.E : this.mPumpedBlock2.getUnlocalizedName());
     }
 
     public void loadNBTData(NBTTagCompound aNBT) {

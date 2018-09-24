@@ -4,6 +4,7 @@ import static gregtech.api.enums.GT_Values.V;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.gui.GT_Container_MultiMachine;
@@ -776,7 +777,7 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity {
 
     @Override
     public String[] getInfoData() {
-        return new String[]{"Progress:", (mProgresstime / 20) + "secs", (mMaxProgresstime / 20) + "secs", "Efficiency:", (mEfficiency / 100.0F) + "%", "Problems:", "" + (getIdealStatus() - getRepairStatus())};
+        return new String[]{"Progress:", (mProgresstime / 20) + "secs", (mMaxProgresstime / 20) + "secs", "Efficiency:", (mEfficiency / 100.0F) + "%", "Problems:", GT_Values.E + (getIdealStatus() - getRepairStatus())};
     }
 
     @Override

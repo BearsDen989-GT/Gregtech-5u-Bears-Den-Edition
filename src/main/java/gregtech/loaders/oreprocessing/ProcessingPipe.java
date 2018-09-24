@@ -41,7 +41,7 @@ public class ProcessingPipe implements gregtech.api.interfaces.IOreRecipeRegistr
             case pipeRestrictiveMedium:
             case pipeRestrictiveSmall:
             case pipeRestrictiveTiny:
-                gregtech.api.enums.GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(aOreDictName.replaceFirst("Restrictive", ""), null, 1L, false, true), GT_OreDictUnificator.get(OrePrefixes.ring, Materials.Steel, aPrefix.mSecondaryMaterial.mAmount / OrePrefixes.ring.mMaterialAmount), GT_Utility.copyAmount(1L, aStack), (int) (aPrefix.mSecondaryMaterial.mAmount * 400L / OrePrefixes.ring.mMaterialAmount), 4);
+                gregtech.api.enums.GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(aOreDictName.replaceFirst("Restrictive", GT_Values.E), null, 1L, false, true), GT_OreDictUnificator.get(OrePrefixes.ring, Materials.Steel, aPrefix.mSecondaryMaterial.mAmount / OrePrefixes.ring.mMaterialAmount), GT_Utility.copyAmount(1L, aStack), (int) (aPrefix.mSecondaryMaterial.mAmount * 400L / OrePrefixes.ring.mMaterialAmount), 4);
                 break;
             case pipeQuadruple:
                 GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(1, aStack), GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"PP ", "PP ", "   ", 'P', GT_OreDictUnificator.get(aOreDictName.replaceFirst("Quadruple", "Medium"), null, 1L, false, true)});

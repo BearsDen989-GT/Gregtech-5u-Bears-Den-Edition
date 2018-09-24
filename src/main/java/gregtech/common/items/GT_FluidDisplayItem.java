@@ -67,14 +67,14 @@ public class GT_FluidDisplayItem
         if (aStack != null) {
             return GT_Utility.getFluidName(FluidRegistry.getFluid(aStack.getItemDamage()), false);
         }
-        return "";
+        return GT_Values.E;
     }
 
     public String getItemStackDisplayName(ItemStack aStack) {
         if (aStack != null) {
             return GT_Utility.getFluidName(FluidRegistry.getFluid(aStack.getItemDamage()), true);
         }
-        return "";
+        return GT_Values.E;
     }
 
     @SideOnly(Side.CLIENT)

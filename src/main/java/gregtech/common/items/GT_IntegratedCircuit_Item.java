@@ -1,6 +1,7 @@
 package gregtech.common.items;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -21,7 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GT_IntegratedCircuit_Item
         extends GT_Generic_Item {
     public GT_IntegratedCircuit_Item() {
-        super("integrated_circuit", "Integrated Circuit", "");
+        super("integrated_circuit", "Integrated Circuit", GT_Values.E);
         setHasSubtypes(true);
         setMaxDamage(0);
 
@@ -70,7 +71,7 @@ public class GT_IntegratedCircuit_Item
             case 4:
                 return ">";
         }
-        return "";
+        return GT_Values.E;
     }
 
     private static String getConfigurationString(int aMetaData) {

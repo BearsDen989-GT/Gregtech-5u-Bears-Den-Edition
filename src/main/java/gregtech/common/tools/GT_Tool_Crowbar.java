@@ -1,6 +1,7 @@
 package gregtech.common.tools;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.interfaces.IToolStats;
@@ -85,7 +86,7 @@ public class GT_Tool_Crowbar
             return true;
         }
         String tTool = aBlock.getHarvestTool(aMetaData);
-        if ((tTool == null) || (tTool.equals(""))) {
+        if ((tTool == null) || (tTool.equals(GT_Values.E))) {
             for (Iterator i$ = GT_MetaGenerated_Tool_01.INSTANCE.mToolStats.values().iterator(); i$.hasNext(); i$.next()) {
                 if (((i$ instanceof GT_Tool_Crowbar)) && (!((IToolStats) i$).isMinableBlock(aBlock, aMetaData))) {
                     return false;

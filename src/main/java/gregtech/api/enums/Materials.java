@@ -1269,9 +1269,9 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 
 		Glue.mChemicalFormula = "No Horses were harmed for the Production";
 		UUAmplifier.mChemicalFormula = "Accelerates the Mass Fabricator";
-		LiveRoot.mChemicalFormula = "";
-		WoodSealed.mChemicalFormula = "";
-		Wood.mChemicalFormula = "";
+		LiveRoot.mChemicalFormula = GT_Values.E;
+		WoodSealed.mChemicalFormula = GT_Values.E;
+		Wood.mChemicalFormula = GT_Values.E;
 		FoolsRuby.mChemicalFormula = Ruby.mChemicalFormula;
 
 		// Naquadah is green when molten, so this reflects the Color change approciately
@@ -1424,7 +1424,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor);
 		mExtraData = aExtraData;
 		mMaterialList.addAll(aMaterialList);
-		mChemicalFormula = "";
+		mChemicalFormula = GT_Values.E;
 		for (MaterialStack tMaterial : mMaterialList) mChemicalFormula += tMaterial.toString();
 		mChemicalFormula = mChemicalFormula.replaceAll("_", "-");
 
@@ -1529,7 +1529,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	}
 
 	public String getToolTip(long aMultiplier, boolean aShowQuestionMarks) {
-		if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return "";
+		if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return GT_Values.E;
 		if (aMultiplier >= M * 2 && !mMaterialList.isEmpty()) {
 			return ((mElement != null || (mMaterialList.size() < 2 && mMaterialList.get(0).mAmount == 1)) ? mChemicalFormula : "(" + mChemicalFormula + ")") + aMultiplier;
 		}

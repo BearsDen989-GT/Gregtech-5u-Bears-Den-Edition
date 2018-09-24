@@ -77,7 +77,7 @@ public class GT_Worldgenloader
 
         int i = 0;
         for (int j = GregTech_API.sWorldgenFile.get("worldgen", "AmountOfCustomSmallOreSlots", 16); i < j; i++) {
-            new GT_Worldgen_GT_Ore_SmallPieces("ore.small.custom." + (i < 10 ? "0" : "") + i, false, 0, 0, 0, false, false, false, Materials._NULL);
+            new GT_Worldgen_GT_Ore_SmallPieces("ore.small.custom." + (i < 10 ? "0" : GT_Values.E) + i, false, 0, 0, 0, false, false, false, Materials._NULL);
         }
         new GT_Worldgen_GT_Ore_Layer("ore.mix.naquadah", false, 10, 60, 10, 5, 32, false, false, true, Materials.Naquadah, Materials.Naquadah, Materials.Naquadah, Materials.NaquadahEnriched);
         new GT_Worldgen_GT_Ore_Layer("ore.mix.lignite", true, 50, 130, 160, 8, 32, !tPFAA, false, false, Materials.Lignite, Materials.Lignite, Materials.Lignite, Materials.Coal);
@@ -113,7 +113,7 @@ public class GT_Worldgenloader
 
         i = 0;
         for (int j = GregTech_API.sWorldgenFile.get("worldgen", "AmountOfCustomLargeVeinSlots", 16); i < j; i++) {
-            new GT_Worldgen_GT_Ore_Layer("ore.mix.custom." + (i < 10 ? "0" : "") + i, false, 0, 0, 0, 0, 0, false, false, false, Materials._NULL, Materials._NULL, Materials._NULL, Materials._NULL);
+            new GT_Worldgen_GT_Ore_Layer("ore.mix.custom." + (i < 10 ? "0" : GT_Values.E) + i, false, 0, 0, 0, 0, 0, false, false, false, Materials._NULL, Materials._NULL, Materials._NULL, Materials._NULL);
         }
         new GT_Worldgen_GT_Ore_Layer("ore.mix.custom.00", false, 0, 0, 0, 0, 0, false, false, false, Materials._NULL, Materials._NULL, Materials._NULL, Materials._NULL);
         new GT_Worldgen_GT_Ore_Layer("ore.mix.custom.01", false, 0, 0, 0, 0, 0, false, false, false, Materials._NULL, Materials._NULL, Materials._NULL, Materials._NULL);

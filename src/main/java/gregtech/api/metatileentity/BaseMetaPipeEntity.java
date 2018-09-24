@@ -2,6 +2,7 @@ package gregtech.api.metatileentity;
 
 import static gregtech.api.enums.GT_Values.NW;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
@@ -494,7 +495,7 @@ public class BaseMetaPipeEntity extends BaseTileEntity implements IGregTechTileE
     public String getInventoryName() {
         if (canAccessData()) return mMetaTileEntity.getInventoryName();
         if (GregTech_API.METATILEENTITIES[mID] != null) return GregTech_API.METATILEENTITIES[mID].getInventoryName();
-        return "";
+        return GT_Values.E;
     }
 
     @Override

@@ -313,7 +313,7 @@ public class GT_RecipeAdder
     }
 
     public boolean addSonictronSound(ItemStack aItemStack, String aSoundName) {
-        if ((aItemStack == null) || (aSoundName == null) || (aSoundName.equals(""))) {
+        if ((aItemStack == null) || (aSoundName == null) || (aSoundName.equals(GT_Values.E))) {
             return false;
         }
         GT_Mod.gregtechproxy.mSoundItems.add(aItemStack);

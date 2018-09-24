@@ -542,7 +542,7 @@ implements IGT_Mod {
 			}
 			}
 	
-		String tName = "";
+		String tName = GT_Values.E;
 		if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.disabledrecipes, "ic2_" + (tName = "blastfurnace"), true)) {
 			GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item(tName, 1L));
 		}
@@ -928,7 +928,7 @@ implements IGT_Mod {
 				for (String tOreName : tList) {
 					int tAmount = OreDictionary.getOres(tOreName).size();
 					if (tAmount > 0) {
-						GT_Log.out.println((tAmount < 10 ? " " : "") + tAmount + "x " + tOreName);
+						GT_Log.out.println((tAmount < 10 ? " " : GT_Values.E) + tAmount + "x " + tOreName);
 					}
 				}
 				GT_Log.out.println("*");

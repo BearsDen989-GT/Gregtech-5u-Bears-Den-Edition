@@ -444,7 +444,7 @@ public class GT_Achievements {
             } else if (data.mMaterial.mMaterial == Materials.Steel) {
                 if (data.mPrefix == OrePrefixes.ingot && stack.stackSize == stack.getMaxStackSize()) {
                     issueAchievement(player, "steel");
-                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded("Thaumcraft")) {
+                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded(GT_Values.MOD_ID_TC)) {
                     if (ThaumcraftApiHelper.isResearchComplete(player.getDisplayName(), "GT_IRON_TO_STEEL")) {
                         issueAchievement(player, "steel");
                     }

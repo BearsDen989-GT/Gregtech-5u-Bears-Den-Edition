@@ -53,7 +53,7 @@ public class ProcessingGem implements gregtech.api.interfaces.IOreRecipeRegistra
                     GT_ModHandler.removeRecipe(GT_Utility.copyAmount(1L, aStack), null, null, new ItemStack(net.minecraft.init.Items.stick, 1, 0));
                 break;
             case CertusQuartz:
-                GT_Values.RA.addElectrolyzerRecipe(aStack, 0, GT_ModHandler.getModItem("appliedenergistics2", "item.ItemMultiMaterial", 1L, 1), null, null, null, null, null, 2000, 30);
+                GT_Values.RA.addElectrolyzerRecipe(aStack, 0, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 1), null, null, null, null, null, 2000, 30);
         }
     }
 }

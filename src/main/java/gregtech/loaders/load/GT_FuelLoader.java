@@ -21,7 +21,7 @@ public class GT_FuelLoader
         GT_Recipe.GT_Recipe_Map.sLargeNaquadahReactorFuels.addRecipe(true, new ItemStack[]{GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.NaquadahEnriched, 1L)}, new ItemStack[]{GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Naquadah, 1L)}, null, null, null, 0, 0, 200000);
         GT_Recipe.GT_Recipe_Map.sFluidNaquadahReactorFuels.addRecipe(true, new ItemStack[]{GT_OreDictUnificator.get(OrePrefixes.cell, Materials.NaquadahEnriched, 1L)}, new ItemStack[]{GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Empty, 1L)}, null, null, null, 0, 0, 200000);
 
-        GT_Values.RA.addFuel(GT_ModHandler.getModItem("Thaumcraft", "ItemResource", 1L, 4), null, 4, 5);
+        GT_Values.RA.addFuel(GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemResource", 1L, 4), null, 4, 5);
         GT_Values.RA.addFuel(new ItemStack(Items.experience_bottle, 1), null, 10, 5);
         GT_Values.RA.addFuel(new ItemStack(Items.ghast_tear, 1), null, 50, 5);
         GT_Values.RA.addFuel(new ItemStack(Blocks.beacon, 1), null, Materials.NetherStar.mFuelPower * 2, Materials.NetherStar.mFuelType);

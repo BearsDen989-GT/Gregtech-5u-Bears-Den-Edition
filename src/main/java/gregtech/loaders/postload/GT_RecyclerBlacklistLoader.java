@@ -2,6 +2,7 @@ package gregtech.loaders.postload;
 
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
@@ -33,12 +34,12 @@ public class GT_RecyclerBlacklistLoader
                 GT_ModHandler.addToRecyclerBlackList(tStack);
                 tStack = GT_ModHandler.getRecipeOutput(tStack, tStack, tStack, tStack, tStack, tStack, tStack, tStack, tStack);
             }
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.gravel, 1, 32767));
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Items.flint, 1, 32767));
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.cobblestone_wall, 1, 32767));
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.sandstone_stairs, 1, 32767));
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.stone_stairs, 1, 32767));
-            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.stone_brick_stairs, 1, 32767));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.gravel, 1, GT_Values.W));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Items.flint, 1, GT_Values.W));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.cobblestone_wall, 1, GT_Values.W));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.sandstone_stairs, 1, GT_Values.W));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.stone_stairs, 1, GT_Values.W));
+            GT_ModHandler.addToRecyclerBlackList(new ItemStack(Blocks.stone_brick_stairs, 1, GT_Values.W));
             GT_ModHandler.addToRecyclerBlackList(GT_ModHandler.getSmeltingOutput(new ItemStack(Blocks.stone, 1, 0), false, null));
             GT_ModHandler.addToRecyclerBlackList(GT_ModHandler.getRecipeOutput(new ItemStack(Blocks.glass, 1, 0), null, null, new ItemStack(Blocks.glass, 1, 0)));
             GT_ModHandler.addToRecyclerBlackList(GT_ModHandler.getRecipeOutput(new ItemStack(Blocks.stone, 1, 0), null, null, new ItemStack(Blocks.stone, 1, 0)));

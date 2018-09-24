@@ -1,6 +1,7 @@
 package gregtech.common.blocks;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.items.GT_Generic_Block;
 import gregtech.api.util.GT_LanguageManager;
 
@@ -30,7 +31,7 @@ public abstract class GT_Block_Casings_Abstract
         setStepSound(soundTypeMetal);
         setCreativeTab(GregTech_API.TAB_GREGTECH);
         GregTech_API.registerMachineBlock(this, -1);
-        GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + 32767 + ".name", "Any Sub Block of this");
+        GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + GT_Values.W + ".name", "Any Sub Block of this");
     }
 
     public String getHarvestTool(int aMeta) {

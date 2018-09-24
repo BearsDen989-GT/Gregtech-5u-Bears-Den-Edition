@@ -32,7 +32,7 @@ public class ProcessingLog implements gregtech.api.interfaces.IOreRecipeRegistra
         GT_Values.RA.addLatheRecipe(GT_Utility.copyAmount(1L, aStack), GT_OreDictUnificator.get(OrePrefixes.stickLong, Materials.Wood, 4L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 2L), 160, 8);
         GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(1L, aStack), ItemList.Circuit_Integrated.getWithDamage(0L, 2L), Materials.SeedOil.getFluid(50L), ItemList.FR_Stick.get(1L), 16, 8);
         GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(8L, aStack), ItemList.Circuit_Integrated.getWithDamage(0L, 8L), Materials.SeedOil.getFluid(250L), ItemList.FR_Casing_Impregnated.get(1L), 64, 16);
-        GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, aStack), Materials.Creosote.getFluid(1000L), GT_ModHandler.getModItem("Railcraft", "tile.railcraft.cube", 1L, 8), null, null, null, 16, 16);
+        GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, aStack), Materials.Creosote.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tile.railcraft.cube", 1L, 8), null, null, null, 16, 16);
         GT_Values.RA.addPyrolyseRecipe(GT_Utility.copyAmount(16, aStack), null, 1,  (GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 20)), Materials.Creosote.getFluid(4000), 640, 30);
 
         short aMeta = (short) aStack.getItemDamage();
@@ -43,7 +43,7 @@ public class ProcessingLog implements gregtech.api.interfaces.IOreRecipeRegistra
                     GT_ModHandler.removeFurnaceSmelting(GT_Utility.copyAmount(1L, aStack));
                 }
             }
-            for (int i = 0; i < 32767; i++) {
+            for (int i = 0; i < GT_Values.W; i++) {
                 if ((GT_Utility.areStacksEqual(GT_ModHandler.getSmeltingOutput(new ItemStack(aStack.getItem(), 1, i), false, null), new ItemStack(Items.coal, 1, 1)))) {
                     if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.disabledrecipes, "wood2charcoalsmelting", false)) {
                         GT_ModHandler.removeFurnaceSmelting(new ItemStack(aStack.getItem(), 1, i));

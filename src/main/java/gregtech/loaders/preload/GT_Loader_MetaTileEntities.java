@@ -383,11 +383,11 @@ public class GT_Loader_MetaTileEntities
 
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_DenseBricks.get(1L),GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[] {"IBI", "BPB", "IBI", 'B', OrePrefixes.dust.get(Materials.Clay), 'I', OrePrefixes.ingot.get(Materials.Brick), 'P', OrePrefixes.stick.get(Materials.AnyIron)});
         ItemList.Machine_Bricked_BlastFurnace.set(new GT_MetaTileEntity_BrickedBlastFurnace(130, "multimachine.brickedblastfurnace", "Bricked Blast Furnace").getStackForm(1L));
-        if (!Loader.isModLoaded("terrafirmacraft")) {
+        if (!Loader.isModLoaded(GT_Values.MOD_ID_TFC)) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bricked_BlastFurnace.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BFB", "FPF", "BFB", 'F', OreDictNames.craftingFurnace, 'B', ItemList.Casing_DenseBricks, 'P', OrePrefixes.block.get(Materials.AnyIron)});
         }
         ItemList.Machine_Bronze_BlastFurnace.set(new GT_MetaTileEntity_BronzeBlastFurnace(108, "bronzemachine.blastfurnace", "Bronze Plated Blast Furnace").getStackForm(1L));
-        if (!Loader.isModLoaded("terrafirmacraft")) {
+        if (!Loader.isModLoaded(GT_Values.MOD_ID_TFC)) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_BlastFurnace.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PFP", "FwF", "PFP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('F'), OreDictNames.craftingFurnace});
         }
         ItemList.Machine_Bronze_Furnace.set(new GT_MetaTileEntity_Furnace_Bronze(103, "bronzemachine.furnace", "Steam Furnace").getStackForm(1L));
@@ -935,7 +935,7 @@ public class GT_Loader_MetaTileEntities
         ItemList.MagicEnergyAbsorber_MV.set(new GT_MetaTileEntity_MagicalEnergyAbsorber(1128, "basicgenerator.magicenergyabsorber.tier.02", "Adept Magic Energy Absorber", 2).getStackForm(1L));
         ItemList.MagicEnergyAbsorber_HV.set(new GT_MetaTileEntity_MagicalEnergyAbsorber(1129, "basicgenerator.magicenergyabsorber.tier.03", "Master Magic Energy Absorber", 3).getStackForm(1L));
         ItemList.MagicEnergyAbsorber_EV.set(new GT_MetaTileEntity_MagicalEnergyAbsorber(1130, "basicgenerator.magicenergyabsorber.tier.04", "Grandmaster Magic Energy Absorber", 4).getStackForm(1L));
-        if (!Loader.isModLoaded("Thaumcraft")) {
+        if (!Loader.isModLoaded(GT_Values.MOD_ID_TC)) {
 
             GT_ModHandler.addCraftingRecipe(ItemList.MagicEnergyConverter_LV.get(1L), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"CTC", "FMF", "CBC", Character.valueOf('M'), ItemList.Hull_LV, Character.valueOf('B'), new ItemStack(Blocks.beacon), Character.valueOf('C'), OrePrefixes.circuit.get(Materials.Advanced), Character.valueOf('T'), ItemList.Field_Generator_LV, Character.valueOf('F'), OrePrefixes.plate.get(Materials.Platinum)});
             GT_ModHandler.addCraftingRecipe(ItemList.MagicEnergyConverter_MV.get(1L), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"CTC", "FMF", "CBC", Character.valueOf('M'), ItemList.Hull_MV, Character.valueOf('B'), new ItemStack(Blocks.beacon), Character.valueOf('C'), OrePrefixes.circuit.get(Materials.Data), Character.valueOf('T'), ItemList.Field_Generator_MV, Character.valueOf('F'), OrePrefixes.plate.get(Materials.Iridium)});

@@ -2,6 +2,7 @@ package gregtech.common;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -415,10 +416,10 @@ public class GT_RecipeAdder
         if ((aMold == null) || (aInput == null) || (aOutput == null)) {
             return false;
         }
-        if (aInput.isFluidEqual(Materials.PhasedGold.getMolten(144))) {
+        if (aInput.isFluidEqual(Materials.PhasedGold.getMolten(GT_Values.L))) {
             aInput = Materials.VibrantAlloy.getMolten(aInput.amount);
         }
-        if (aInput.isFluidEqual(Materials.PhasedIron.getMolten(144))) {
+        if (aInput.isFluidEqual(Materials.PhasedIron.getMolten(GT_Values.L))) {
             aInput = Materials.PulsatingIron.getMolten(aInput.amount);
         }
 

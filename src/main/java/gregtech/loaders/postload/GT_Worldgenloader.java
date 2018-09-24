@@ -2,6 +2,7 @@ package gregtech.loaders.postload;
 
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.common.GT_Worldgen_GT_Ore_Layer;
 import gregtech.common.GT_Worldgen_GT_Ore_SmallPieces;
@@ -12,7 +13,7 @@ import cpw.mods.fml.common.Loader;
 public class GT_Worldgenloader
         implements Runnable {
     public void run() {
-        boolean tPFAA = (GregTech_API.sWorldgenFile.get(ConfigCategories.general, "AutoDetectPFAA", true)) && (Loader.isModLoaded("PFAAGeologica"));
+        boolean tPFAA = (GregTech_API.sWorldgenFile.get(ConfigCategories.general, "AutoDetectPFAA", true)) && (Loader.isModLoaded(GT_Values.MOD_ID_PFAA));
 
         new GT_Worldgenerator();
 

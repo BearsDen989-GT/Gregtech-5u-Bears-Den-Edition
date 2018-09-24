@@ -81,7 +81,7 @@ public class GT_MetaGenerated_Item_01
         ItemStack tStack = new ItemStack(this, 1, 17000 + Materials.Wood.mMetaItemSubID);
         tStack.setStackDisplayName("The holy Planks of Sengir");
         GT_Utility.ItemNBT.addEnchantment(tStack, Enchantment.smite, 10);
-        GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"XXX", "XDX", "XXX", Character.valueOf('X'), OrePrefixes.gem.get(Materials.NetherStar), Character.valueOf('D'), new ItemStack(Blocks.dragon_egg, 1, 32767)});
+        GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"XXX", "XDX", "XXX", Character.valueOf('X'), OrePrefixes.gem.get(Materials.NetherStar), Character.valueOf('D'), new ItemStack(Blocks.dragon_egg, 1, GT_Values.W)});
 
         ItemList.Credit_Greg_Copper.set(addItem(tLastID = 0, "Copper GT Credit", "0.125 Credits"));
         ItemList.Credit_Greg_Cupronickel.set(addItem(tLastID = 1, "Cupronickel GT Credit", "1 Credit", new ItemData(Materials.Cupronickel, 907200L)));
@@ -360,17 +360,17 @@ public class GT_MetaGenerated_Item_01
 
         GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Platinum, 2L), new ItemStack(Items.flint, 1), ItemList.Tool_Lighter_Platinum_Empty.get(1L), 256, 256);
 
-        if (Loader.isModLoaded("GalacticraftMars")) {
+        if (Loader.isModLoaded(GT_Values.MOD_ID_GC_MARS)) {
             ItemList.Ingot_Heavy1.set(addItem(tLastID = 462, "Heavy Duty Alloy Ingot", "Used to make Heavy Duty Plates"));
             ItemList.Ingot_Heavy2.set(addItem(tLastID = 463, "Heavy Duty Alloy Ingot T2", "Used to make Heavy Duty Plates T2"));
             ItemList.Ingot_Heavy3.set(addItem(tLastID = 464, "Heavy Duty Alloy Ingot T3", "Used to make Heavy Duty Plates T3"));
 
             GT_ModHandler.addCraftingRecipe(ItemList.Ingot_Heavy1.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"BhB", "CAS", "B B", 'B', OrePrefixes.bolt.get(Materials.StainlessSteel), 'C', OrePrefixes.compressed.get(Materials.Bronze), 'A', OrePrefixes.compressed.get(Materials.Aluminium), 'S', OrePrefixes.compressed.get(Materials.Steel)});
-            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy1.get(1L), 8, GT_ModHandler.getModItem("GalacticraftCore", "item.heavyPlating", 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.StainlessSteel, 2L));
-            GT_ModHandler.addCraftingRecipe(ItemList.Ingot_Heavy2.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" BB", "hPC", " BB", 'B', OrePrefixes.bolt.get(Materials.Tungsten), 'C', OrePrefixes.compressed.get(Materials.MeteoricIron), 'P', GT_ModHandler.getModItem("GalacticraftCore", "item.heavyPlating", 1L)});
-            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy2.get(1L), 8, GT_ModHandler.getModItem("GalacticraftMars", "item.null", 1L, 3), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Tungsten, 2L));
-            GT_ModHandler.addCraftingRecipe(ItemList.Ingot_Heavy3.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" BB", "hPC", " BB", 'B', OrePrefixes.bolt.get(Materials.TungstenSteel), 'C', OrePrefixes.compressed.get(Materials.Desh), 'P', GT_ModHandler.getModItem("GalacticraftMars", "item.null", 1L, 3)});
-            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy3.get(1L), 8, GT_ModHandler.getModItem("GalacticraftMars", "item.itemBasicAsteroids", 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.TungstenSteel, 2L));
+            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy1.get(1L), 8, GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_CORE, "item.heavyPlating", 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.StainlessSteel, 2L));
+            GT_ModHandler.addCraftingRecipe(ItemList.Ingot_Heavy2.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" BB", "hPC", " BB", 'B', OrePrefixes.bolt.get(Materials.Tungsten), 'C', OrePrefixes.compressed.get(Materials.MeteoricIron), 'P', GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_CORE, "item.heavyPlating", 1L)});
+            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy2.get(1L), 8, GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_MARS, "item.null", 1L, 3), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Tungsten, 2L));
+            GT_ModHandler.addCraftingRecipe(ItemList.Ingot_Heavy3.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" BB", "hPC", " BB", 'B', OrePrefixes.bolt.get(Materials.TungstenSteel), 'C', OrePrefixes.compressed.get(Materials.Desh), 'P', GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_MARS, "item.null", 1L, 3)});
+            GT_Values.RA.addImplosionRecipe(ItemList.Ingot_Heavy3.get(1L), 8, GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_MARS, "item.itemBasicAsteroids", 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.TungstenSteel, 2L));
         }
         ItemList.Ingot_IridiumAlloy.set(addItem(tLastID = 480, "Iridium Alloy Ingot", "Used to make Iridium Plates", new TC_Aspects.TC_AspectStack(TC_Aspects.TUTAMEN, 4L), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 4L)));
 

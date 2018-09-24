@@ -292,6 +292,18 @@ public interface IGT_RecipeAdder {
      */
     boolean addPyrolyseRecipe(ItemStack aInput, FluidStack aFluidInput, int intCircuit, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt);
 
+    /**
+     * Adds HydroFarm Recipe
+     *
+     * @param aInput1
+     * @param aInput2
+     * @param aOutput
+     * @param aFluidOutput
+     * @param aDuration
+     * @param aEUt
+     */
+    boolean addHydroFarmRecipe(ItemStack aInput1 ,ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt);
+
     boolean addSimpleArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
 
     boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack aOutput1, ItemStack aOutput2, ItemStack aOutput3, FluidStack aFluidOutput, int[] aChances, int aDuration, int aEUt);

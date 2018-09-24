@@ -671,7 +671,7 @@ public class GT_RecipeAdder
         return false;
     }
 
-    @Override
+
     public boolean addPyrolyseRecipe(ItemStack aInput, FluidStack aFluidInput, int intCircuit, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt) {
         if (aInput == null) {
             return false;
@@ -680,6 +680,18 @@ public class GT_RecipeAdder
             return false;
         }
         GT_Recipe.GT_Recipe_Map.sPyrolyseRecipes.addRecipe(false, new ItemStack[]{aInput, ItemList.Circuit_Integrated.getWithDamage(0L, intCircuit)}, new ItemStack[]{aOutput}, null, null, new FluidStack[]{aFluidInput}, new FluidStack[]{aFluidOutput}, aDuration, aEUt, 0);
+        return true;
+    }
+
+
+    public boolean addHydroFarmRecipe(ItemStack aInput1,ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt) {
+        if (aInput1 == null) {
+            return false;
+        }
+        if ((aDuration = GregTech_API.sRecipeFile.get("hydrofarm", aOutput, aDuration)) <= 0) {
+            return false;
+        }
+        GT_Recipe.GT_Recipe_Map.sHydroFarmRecipes.addRecipe(false, new ItemStack[]{aInput1, aInput2}, new ItemStack[]{aOutput}, null, null, new FluidStack[]{aFluidInput}, new FluidStack[]{aFluidOutput}, aDuration, aEUt, 0);
         return true;
     }
 

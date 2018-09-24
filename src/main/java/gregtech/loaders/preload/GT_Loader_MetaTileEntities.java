@@ -1269,6 +1269,7 @@ public class GT_Loader_MetaTileEntities
         ItemList.PyrolyseOven.set(new GT_MetaTileEntity_PyrolyseOven(12040, "multimachine.pyro", "Pyrolyse Oven").getStackForm(1));
         GT_ModHandler.addCraftingRecipe(ItemList.PyrolyseOven.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WEP", "EME", "WCP", 'M', ItemList.Hull_LV, 'W', ItemList.Electric_Piston_LV, 'P', OrePrefixes.wireGt04.get(Materials.Cupronickel), 'E', OrePrefixes.circuit.get(Materials.Basic), 'C', ItemList.Electric_Pump_LV});
 
+        ItemList.HydroFarm.set(new GT_MetaTileEntity_HydroFarm(12041, "multimachine.hydrofarm", "Hydroponic Farm").getStackForm(1));
 
         /*adding in easier drain recipe */
 

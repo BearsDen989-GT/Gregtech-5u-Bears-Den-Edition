@@ -64,7 +64,7 @@ public class GT_Container_Filter
                     	if(GT_Utility.isStackInvalid(tStack)){tStack=null;}
                     }
                 } else {
-                    tSlot.putStack(GT_Utility.copyAmount(1L, new Object[]{tStack}));
+                    tSlot.putStack(GT_Utility.copyAmount(1L, tStack));
                 }
                 return null;
             }

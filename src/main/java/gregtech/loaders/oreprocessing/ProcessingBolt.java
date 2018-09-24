@@ -15,6 +15,6 @@ public class ProcessingBolt implements gregtech.api.interfaces.IOreRecipeRegistr
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (!aMaterial.contains(SubTag.NO_WORKING))
-            GT_Values.RA.addLatheRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.screw, aMaterial, 1L), null, (int) Math.max(aMaterial.getMass() / 8L, 1L), 4);
+            GT_Values.RA.addLatheRecipe(GT_Utility.copyAmount(1L, aStack), GT_OreDictUnificator.get(OrePrefixes.screw, aMaterial, 1L), null, (int) Math.max(aMaterial.getMass() / 8L, 1L), 4);
     }
 }

@@ -168,7 +168,7 @@ private boolean firstRun = true;
 @Override
 public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
 	if (mProgresstime>0&&firstRun) {firstRun = false;try{
-		GT_Mod.instance.achievements.issueAchievement(aBaseMetaTileEntity.getWorld().getPlayerEntityByName(aBaseMetaTileEntity.getOwnerName()), "extremepressure");}catch (Exception e){}
+		GT_Mod.achievements.issueAchievement(aBaseMetaTileEntity.getWorld().getPlayerEntityByName(aBaseMetaTileEntity.getOwnerName()), "extremepressure");}catch (Exception e){}
 	}
 	super.onPostTick(aBaseMetaTileEntity, aTick);
 }

@@ -331,7 +331,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
             }
             else if (rfReceiver.receiveEnergy(tDirection, rfOut, true) > 0) {
                             if (mRestRF == 0) {
-                    int RFtrans = rfReceiver.receiveEnergy(tDirection, (int) rfOut, false);
+                    int RFtrans = rfReceiver.receiveEnergy(tDirection, rfOut, false);
                                 rUsedAmperes++;
                                 mRestRF = rfOut - RFtrans;
                             } else {
@@ -446,11 +446,9 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
             return true;
 
         // RF Input Compat
-        if (GregTech_API.mInputRF && (tTileEntity instanceof IEnergyEmitter && ((IEnergyEmitter) tTileEntity).emitsEnergyTo((TileEntity)baseMetaTile, tDir)))
-            return true;
+        return GregTech_API.mInputRF && (tTileEntity instanceof IEnergyEmitter && ((IEnergyEmitter) tTileEntity).emitsEnergyTo((TileEntity) baseMetaTile, tDir));
 
 
-        return false;
     }
 
 	@Override

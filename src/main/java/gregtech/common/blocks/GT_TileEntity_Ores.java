@@ -220,7 +220,7 @@ public class GT_TileEntity_Ores
             {
                 int i = 0;
                 for (int j = Math.max(1, aMaterial.mOreMultiplier + (aFortune > 0 ? tRandom.nextInt(1 + aFortune * aMaterial.mOreMultiplier) : 0) / 2); i < j; i++) {
-                    rList.add(GT_Utility.copyAmount(1L, new Object[] { tSelector.get(tRandom.nextInt(tSelector.size())) }));
+                    rList.add(GT_Utility.copyAmount(1L, tSelector.get(tRandom.nextInt(tSelector.size()))));
                 }
             }
             if (tRandom.nextInt(3 + aFortune) > 1) {

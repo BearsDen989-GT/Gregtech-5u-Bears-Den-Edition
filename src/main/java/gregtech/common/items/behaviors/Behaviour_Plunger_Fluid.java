@@ -37,7 +37,7 @@ extends Behaviour_None {
 				if (((IFluidHandler) aTileEntity).drain(tDirection, 1000, false) != null) {
 					if ((aPlayer.capabilities.isCreativeMode) || (((GT_MetaGenerated_Tool) aItem).doDamage(aStack, this.mCosts))) {
 						((IFluidHandler) aTileEntity).drain(tDirection, 1000, true);
-						GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(101)), 1.0F, -1.0F, aX, aY, aZ);
+						GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(101)), 1.0F, -1.0F, aX, aY, aZ);
 						return true;
 					}
 				}

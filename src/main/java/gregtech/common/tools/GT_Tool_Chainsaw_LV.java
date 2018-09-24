@@ -58,19 +58,19 @@ public class GT_Tool_Chainsaw_LV
     }
 
     public String getCraftingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(Integer.valueOf(104));
     }
 
     public String getEntityHitSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(105));
+        return GregTech_API.sSoundList.get(Integer.valueOf(105));
     }
 
     public String getBreakingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(Integer.valueOf(0));
     }
 
     public String getMiningSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(Integer.valueOf(104));
     }
 
     public boolean canBlock() {
@@ -86,14 +86,14 @@ public class GT_Tool_Chainsaw_LV
     }
 
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return (ItemList.ToolHull_LV.get(1L, new Object[0]));
+        return (ItemList.ToolHull_LV.get(1L));
     }
 
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "brrrr");
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "buildChainsaw");
+            GT_Mod.achievements.issueAchievement(aPlayer, "brrrr");
+            GT_Mod.achievements.issueAchievement(aPlayer, "buildChainsaw");
         } catch (Exception e) {
         }
     }

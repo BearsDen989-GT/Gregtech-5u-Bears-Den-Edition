@@ -23,7 +23,7 @@ import net.minecraft.util.IChatComponent;
 
 public class GT_Tool_Wrench
 extends GT_Tool {
-	public static final List<String> mEffectiveList = Arrays.asList(new String[]{EntityIronGolem.class.getName(), "EntityTowerGuardian"});
+	public static final List<String> mEffectiveList = Arrays.asList(EntityIronGolem.class.getName(), "EntityTowerGuardian");
 
 	public float getNormalDamageAgainstEntity(float aOriginalDamage, Entity aEntity, ItemStack aStack, EntityPlayer aPlayer) {
 		String tName = aEntity.getClass().getName();
@@ -68,7 +68,7 @@ extends GT_Tool {
 	}
 
 	public String getCraftingSound() {
-		return (String) GregTech_API.sSoundList.get(Integer.valueOf(100));
+		return GregTech_API.sSoundList.get(Integer.valueOf(100));
 	}
 
 	public String getEntityHitSound() {
@@ -76,11 +76,11 @@ extends GT_Tool {
 	}
 
 	public String getBreakingSound() {
-		return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
+		return GregTech_API.sSoundList.get(Integer.valueOf(0));
 	}
 
 	public String getMiningSound() {
-		return (String) GregTech_API.sSoundList.get(Integer.valueOf(100));
+		return GregTech_API.sSoundList.get(Integer.valueOf(100));
 	}
 
 	public boolean canBlock() {

@@ -34,7 +34,7 @@ public class GT_Tool_Drill_MV
 
     @Override
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return (ItemList.ToolHull_MV.get(1L, new Object[0]));
+        return (ItemList.ToolHull_MV.get(1L));
     }
 
     public float getSpeedMultiplier() {

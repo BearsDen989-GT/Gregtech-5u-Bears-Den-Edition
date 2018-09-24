@@ -695,7 +695,7 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
         if (tTileEntity instanceof IColoredTileEntity) {
             if (getBaseMetaTileEntity().getColorization() >= 0) {
                 byte tColor = ((IColoredTileEntity) tTileEntity).getColorization();
-                if (tColor >= 0 && tColor != getBaseMetaTileEntity().getColorization()) return false;
+                return tColor < 0 || tColor == getBaseMetaTileEntity().getColorization();
             }
         }
 

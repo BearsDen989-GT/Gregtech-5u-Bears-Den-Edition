@@ -60,7 +60,7 @@ public class ProcessingDust implements gregtech.api.interfaces.IOreRecipeRegistr
         if ((aMaterial.mMaterialList.size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
             long tItemAmount = 0L;
             long tCapsuleCount = 0L;
-            long tDensityMultiplier = aMaterial.getDensity() > 3628800L ? aMaterial.getDensity() / 3628800L : 1L;
+            long tDensityMultiplier = aMaterial.getDensity() > GT_Values.M ? aMaterial.getDensity() / GT_Values.M : 1L;
             ArrayList<ItemStack> tList = new ArrayList();
             for (MaterialStack tMat : aMaterial.mMaterialList)
                 if (tMat.mAmount > 0L) {
@@ -71,8 +71,8 @@ public class ProcessingDust implements gregtech.api.interfaces.IOreRecipeRegistr
                         if (tStack == null)
                             tStack = GT_OreDictUnificator.get(OrePrefixes.cell, tMat.mMaterial, tMat.mAmount);
                     }
-                    if (tItemAmount + tMat.mAmount * 3628800L <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
-                        tItemAmount += tMat.mAmount * 3628800L;
+                    if (tItemAmount + tMat.mAmount * GT_Values.M <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
+                        tItemAmount += tMat.mAmount * GT_Values.M;
                         if (tStack != null) {
                             ItemStack tmp793_791 = tStack;
                             tmp793_791.stackSize = ((int) (tmp793_791.stackSize * tDensityMultiplier));

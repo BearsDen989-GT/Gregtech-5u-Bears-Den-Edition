@@ -18,7 +18,7 @@ public class ProcessingFood implements gregtech.api.interfaces.IOreRecipeRegistr
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (aOreDictName.equals("foodCheese")) {
             GT_Values.RA.addSlicerRecipe(aStack, ItemList.Shape_Slicer_Flat.get(0L), ItemList.Food_Sliced_Cheese.get(4L), 64, 4);
-            GT_OreDictUnificator.addItemData(aStack, new gregtech.api.objects.ItemData(Materials.Cheese, 3628800L));
+            GT_OreDictUnificator.addItemData(aStack, new gregtech.api.objects.ItemData(Materials.Cheese, GT_Values.M));
         } else if (aOreDictName.equals("foodDough")) {
             GT_ModHandler.removeFurnaceSmelting(aStack);
             GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, aStack), ItemList.Food_Flat_Dough.get(1L), 16, 4);

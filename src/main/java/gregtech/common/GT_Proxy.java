@@ -1139,14 +1139,14 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 								}
 								aMaterial.add(GT_Utility.copyAmount(1L, aEvent.Ore));
 								if ((GregTech_API.sThaumcraftCompat != null) && (aPrefix.doGenerateItem(aMaterial)) && (!aPrefix.isIgnored(aMaterial))) {
-									long tAmount = aPrefix.mMaterialAmount < 0L ? 3628800L : aPrefix.mMaterialAmount;
+									long tAmount = aPrefix.mMaterialAmount < 0L ? GT_Values.M : aPrefix.mMaterialAmount;
 									List<TC_Aspects.TC_AspectStack> tAspects = new ArrayList();
 									TC_Aspects.TC_AspectStack tAspect;
 									for (Iterator i$ = aPrefix.mAspects.iterator(); i$.hasNext(); tAspect.addToAspectList(tAspects)) {
 										tAspect = (TC_Aspects.TC_AspectStack) i$.next();
 									}
 									tAspect = null;
-									for (Iterator i$ = aMaterial.mAspects.iterator(); i$.hasNext(); tAspect.copy(tAspect.mAmount * tAmount / 3628800L)
+									for (Iterator i$ = aMaterial.mAspects.iterator(); i$.hasNext(); tAspect.copy(tAspect.mAmount * tAmount / GT_Values.M)
 											.addToAspectList(tAspects)) {
 										tAspect = (TC_Aspects.TC_AspectStack) i$.next();
 									}
@@ -1349,7 +1349,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 					break;
 				case plank:
 					if (tName.equals("Wood")) {
-						GT_OreDictUnificator.addItemData(aEvent.Ore, new ItemData(Materials.Wood, 3628800L));
+						GT_OreDictUnificator.addItemData(aEvent.Ore, new ItemData(Materials.Wood, GT_Values.M));
 					}
 					break;
 				case slab:

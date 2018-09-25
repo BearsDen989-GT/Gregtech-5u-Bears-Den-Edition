@@ -689,7 +689,7 @@ public class GT_RecipeAdder
         if (aInput1 == null) {
             return false;
         }
-        if ((aDuration = GregTech_API.sRecipeFile.get("hydrofarm", aOutput, aDuration)) <= 0) {
+        if ((aDuration = GregTech_API.sRecipeFile.get("hydrofarm", aInput1, aDuration)) <= 0) {
             return false;
         }
         GT_Recipe.GT_Recipe_Map.sHydroFarmRecipes.addRecipe(false, new ItemStack[]{aInput1, aInput2}, new ItemStack[]{aOutput}, null, null, new FluidStack[]{aFluidInput}, new FluidStack[]{aFluidOutput}, aDuration, aEUt, 0);

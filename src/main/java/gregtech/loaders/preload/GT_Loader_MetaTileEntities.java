@@ -390,6 +390,9 @@ public class GT_Loader_MetaTileEntities
         if (!Loader.isModLoaded(GT_Values.MOD_ID_TFC)) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_BlastFurnace.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PFP", "FwF", "PFP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('F'), OreDictNames.craftingFurnace});
         }
+
+        GT_ModHandler.addCraftingRecipe(ItemList.Casing_Plastic.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PhP", "PFP", "PwP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Plastic), Character.valueOf('F'), OrePrefixes.frameGt.get(Materials.AnyIron)});
+
         ItemList.Machine_Bronze_Furnace.set(new GT_MetaTileEntity_Furnace_Bronze(103, "bronzemachine.furnace", "Steam Furnace").getStackForm(1L));
         ItemList.Machine_Steel_Furnace.set(new GT_MetaTileEntity_Furnace_Steel(104, "steelmachine.furnace", "High Pressure Furnace").getStackForm(1L));
         ItemList.Machine_Bronze_Macerator.set(new GT_MetaTileEntity_Macerator_Bronze(106, "bronzemachine.macerator", "Steam Macerator").getStackForm(1L));

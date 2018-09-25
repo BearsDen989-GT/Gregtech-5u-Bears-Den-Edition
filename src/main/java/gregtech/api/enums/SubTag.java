@@ -46,6 +46,14 @@ public final class SubTag implements ICondition<ISubTagContainer> {
      */
     public static final SubTag WASHING_MERCURY = getNewSubTag("WASHING_MERCURY");
     /**
+     * Add this to your Material if you want to have its Ore bathed into Green Vitriol.
+     */
+    public static final SubTag WASHING_GREENV = getNewSubTag("WASHING_GREENV");
+    /**
+     * Add this to your Material if you want to have its Ore bathed into Blue Vitriol.
+     */
+    public static final SubTag WASHING_BLUEV = getNewSubTag("WASHING_BLUEV");
+    /**
      * Add this to your Material if you want to have its Ore electromagnetically separated to give Gold.
      */
     public static final SubTag ELECTROMAGNETIC_SEPERATION_GOLD = getNewSubTag("ELECTROMAGNETIC_SEPERATION_GOLD");

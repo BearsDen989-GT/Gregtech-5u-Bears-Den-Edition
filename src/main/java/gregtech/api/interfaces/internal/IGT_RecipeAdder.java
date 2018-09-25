@@ -410,7 +410,7 @@ public interface IGT_RecipeAdder {
     /**
      * Adds a Recipe for the Chemical Bath
      */
-    boolean addChemicalBathRecipe(ItemStack aInput, FluidStack aBathingFluid, ItemStack aOutput1, ItemStack aOutput2, ItemStack aOutput3, int[] aChances, int aDuration, int aEUt);
+    boolean addChemicalBathRecipe(ItemStack aInput, FluidStack aBathingFluid, FluidStack aFluidOutput, ItemStack aOutput1, ItemStack aOutput2, ItemStack aOutput3, int[] aChances, int aDuration, int aEUt);
 
     /**
      * Adds a Recipe for the Electromagnetic Separator

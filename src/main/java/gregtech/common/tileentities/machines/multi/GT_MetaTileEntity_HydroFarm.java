@@ -103,15 +103,15 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
             for (int j = -2; j < 3; j++) {
                 for (int h = 0; h < 5; h++) {
                     IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, h, zDir + j);
-                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// innerer 3x3 ohne h�he
-                        if (h == 0) {// innen boden (plastic casings)
+                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// inner 3 x 3
+                        if (h == 0) {//inner bottom (plastic casings)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                 return false;
                             }
                             if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, h, zDir + j) != 14) {
                                 return false;
                             }
-                        } else if (h == 4) {// innen decke (plastic casings + input + muffler)
+                        } else if (h == 4) {//inner top (plastic casings + input + muffler)
                             if ((!addInputToMachineList(tTileEntity, 62)) && (!addMufflerToMachineList(tTileEntity, 62))) {
                                 if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                     return false;
@@ -120,13 +120,13 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                                     return false;
                                 }
                             }
-                        } else {// innen air
+                        } else {// inside air
                             if (!aBaseMetaTileEntity.getAirOffset(xDir + i, h, zDir + j)) {
                                 return false;
                             }
                         }
-                    } else {// Au�erer 5x5 ohne h�he
-                        if (h == 0) {// au�en boden (controller, output, energy, maintainance, rest plastic casings)
+                    } else {// outer 5x5
+                        if (h == 0) {// outer bottom
                             if ((!addMaintenanceToMachineList(tTileEntity, 62)) && (!addOutputToMachineList(tTileEntity, 62)) && (!addEnergyInputToMachineList(tTileEntity, 62))) {
                                 if ((xDir + i != 0) || (zDir + j != 0)) {//no controller
                                     if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
@@ -137,7 +137,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                                     }
                                 }
                             }
-                        } else {// au�en �ber boden (plastic)
+                        } else {// rest (plastic)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                 return false;
                             }

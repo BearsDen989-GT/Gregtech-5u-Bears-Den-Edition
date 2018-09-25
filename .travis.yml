@@ -6,7 +6,7 @@ deploy:
   provider: releases
   api_key:
     secure: $OAUTH_TOKEN
-  file: README.md
+  file: build/libs/*.jar
   skip_cleanup: true
   on:
     tags: false

@@ -317,7 +317,7 @@ public class GT_Container extends Container {
 
                 if (!(var7 instanceof GT_Slot_Holo) && !(var7 instanceof GT_Slot_Output) && var8 != null && var8.getItem() == aStack.getItem() && (!aStack.getHasSubtypes() || aStack.getItemDamage() == var8.getItemDamage()) && ItemStack.areItemStackTagsEqual(aStack, var8)) {
                     int var9 = var8.stackSize + aStack.stackSize;
-
+                    if(var8.stackSize<mTileEntity.getInventoryStackLimit()){
                     if (var9 <= aStack.getMaxStackSize()) {
                         aStack.stackSize = 0;
                         var8.stackSize = var9;
@@ -328,7 +328,7 @@ public class GT_Container extends Container {
                         var8.stackSize = aStack.getMaxStackSize();
                         var7.onSlotChanged();
                         var5 = true;
-                    }
+                    }}
                 }
 
                 if (par4) {
@@ -351,9 +351,10 @@ public class GT_Container extends Container {
                 var8 = var7.getStack();
 
                 if (var8 == null) {
-                    var7.putStack(GT_Utility.copy(aStack));
+                    int var10 = Math.min(aStack.stackSize, mTileEntity.getInventoryStackLimit());
+                    var7.putStack(GT_Utility.copyAmount(var10, aStack));
                     var7.onSlotChanged();
-                    aStack.stackSize = 0;
+                    aStack.stackSize -= var10;
                     var5 = true;
                     break;
                 }

@@ -200,6 +200,7 @@ public class GT_Loader_Item_Block_And_Fluid
         ItemList.sNitricAcid = GT_Mod.gregtechproxy.addFluid("nitricacid", "Nitric acid ", null, 1, 295);
         ItemList.sBlueVitriol = GT_Mod.gregtechproxy.addFluid("solution.bluevitriol", "Blue Vitriol water solution", null, 1, 295);
         ItemList.sGreenVitriol = GT_Mod.gregtechproxy.addFluid("solution.greenvitriol", "Green Vitriol water solution", null, 1, 295);
+        ItemList.sNickelSulfate = GT_Mod.gregtechproxy.addFluid("solution.nickelsulfate", "Nickel Sulfate water solution", null, 1, 295);
 
         GT_Mod.gregtechproxy.addFluid("UUAmplifier", "UU Amplifier", Materials.UUAmplifier, 1, 295, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.UUAmplifier, 1L), ItemList.Cell_Empty.get(1L), 1000);
         GT_Mod.gregtechproxy.addFluid("Chlorine", "Chlorine", Materials.Chlorine, 1, 295, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Chlorine, 1L), ItemList.Cell_Empty.get(1L), 1000);

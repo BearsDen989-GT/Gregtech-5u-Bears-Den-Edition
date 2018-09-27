@@ -25,5 +25,7 @@ public class ProcessingCrushedPurified implements gregtech.api.interfaces.IOreRe
             GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, aStack), Materials.SulfuricAcid.getFluid(3000L), new FluidStack(ItemList.sBlueVitriol,3000), GT_OreDictUnificator.get(OrePrefixes.crushedCentrifuged, aMaterial, 1), GT_OreDictUnificator.get(OrePrefixes.dustTiny, aMaterial, 3), GT_Values.NI,  new int[]{10000, 5000}, 800, 2);
         if (aMaterial.contains(SubTag.WASHING_GREENV))
             GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, aStack), Materials.SulfuricAcid.getFluid(3000L), new FluidStack(ItemList.sGreenVitriol,3000), GT_OreDictUnificator.get(OrePrefixes.crushedCentrifuged, aMaterial, 1), GT_OreDictUnificator.get(OrePrefixes.dustTiny, aMaterial, 3), GT_Values.NI,  new int[]{10000, 5000}, 800, 2);
+        if (aMaterial.contains(SubTag.WASHING_NICKELS))
+            GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, aStack), Materials.SulfuricAcid.getFluid(3000L), new FluidStack(ItemList.sNickelSulfate,3000), GT_OreDictUnificator.get(OrePrefixes.crushedCentrifuged, aMaterial, 1), GT_OreDictUnificator.get(OrePrefixes.dustTiny, aMaterial, 3), GT_Values.NI,  new int[]{10000, 5000}, 800, 2);
     }
 }

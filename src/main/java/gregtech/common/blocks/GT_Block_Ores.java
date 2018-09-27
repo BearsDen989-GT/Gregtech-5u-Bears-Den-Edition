@@ -51,17 +51,23 @@ public class GT_Block_Ores
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 2000) + ".name", getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 3000) + ".name", getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 4000) + ".name", getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
+                GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 5000) + ".name", getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
+                GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 6000) + ".name", getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 16000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 17000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 18000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 19000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 20000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
+                GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 21000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
+                GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + 22000) + ".name", "Small " + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                 if ((GregTech_API.sGeneratedMaterials[i].mTypes & 0x8) != 0) {
                     GT_OreDictUnificator.registerOre(OrePrefixes.ore.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i));
                     GT_OreDictUnificator.registerOre(OrePrefixes.oreNetherrack.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 1000));
                     GT_OreDictUnificator.registerOre(OrePrefixes.oreEndstone.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 2000));
                     GT_OreDictUnificator.registerOre(OrePrefixes.oreBlackgranite.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 3000));
                     GT_OreDictUnificator.registerOre(OrePrefixes.oreRedgranite.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 4000));
+                    GT_OreDictUnificator.registerOre(OrePrefixes.oreMarble.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 5000));
+                    GT_OreDictUnificator.registerOre(OrePrefixes.oreBasalt.get(GregTech_API.sGeneratedMaterials[i]), new ItemStack(this, 1, i + 6000));
                 }
             }
         }
@@ -134,7 +140,7 @@ public class GT_Block_Ores
     }
 
     public int getHarvestLevel(int aMeta) {
-        return aMeta % 8;
+        return aMeta == 5 || aMeta == 6 ? 2 : aMeta % 8;
     }
 
     public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {
@@ -239,11 +245,15 @@ public class GT_Block_Ores
                 aList.add(new ItemStack(aItem, 1, i + 2000));
                 aList.add(new ItemStack(aItem, 1, i + 3000));
                 aList.add(new ItemStack(aItem, 1, i + 4000));
+                aList.add(new ItemStack(aItem, 1, i + 5000));
+                aList.add(new ItemStack(aItem, 1, i + 6000));
                 aList.add(new ItemStack(aItem, 1, i + 16000));
                 aList.add(new ItemStack(aItem, 1, i + 17000));
                 aList.add(new ItemStack(aItem, 1, i + 18000));
                 aList.add(new ItemStack(aItem, 1, i + 19000));
                 aList.add(new ItemStack(aItem, 1, i + 20000));
+                aList.add(new ItemStack(aItem, 1, i + 21000));
+                aList.add(new ItemStack(aItem, 1, i + 22000));
             }
         }
     }

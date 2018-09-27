@@ -142,6 +142,7 @@ public class GT_Loader_Item_Block_And_Fluid
         GregTech_API.sBlockCasings4 = new GT_Block_Casings4();
         GregTech_API.sBlockGranites = new GT_Block_Granites();
         GregTech_API.sBlockConcretes = new GT_Block_Concretes();
+        GregTech_API.sBlockStones = new GT_Block_Stones();
         GregTech_API.sBlockOres1 = new GT_Block_Ores();
 
         GT_Log.out.println("GT_Mod: Register TileEntities.");

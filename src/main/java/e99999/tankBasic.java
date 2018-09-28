@@ -83,35 +83,49 @@ public class tankBasic
         return new String[]{
                 "Stores " + ((int) (Math.pow(2, mTier) * 8000)),
                 "Melts at" + sMaxTemps[mTier],
+                (mFluid.getFluid().isGaseous(mFluid) && mTier == 0) ?
+                        "Leaks gaseous fluids" :
+                        "Can store gaseous fluids",
                 "Outputs to Facing"};
     }
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPostTick(aBaseMetaTileEntity, aTick);
-        if (getDrainableStack() != null){
-            IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
-            if (tTank != null) {
-                FluidStack tDrained = drain(250, false);
-                if (tDrained != null) {
-                    int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
-                    if (tFilledAmount > 0)
-                        tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
-                }
-            }
-
-        }
         if (mFluid == null || mFluid.amount > 0) return;
 
+        doFluidTransfer(aBaseMetaTileEntity);
+
+        if (aTick % 20 == 0) {
+            checkHeat(aBaseMetaTileEntity);
+            checkGasLeak();
+        }
+    }
+
+    private void doFluidTransfer(IGregTechTileEntity aBaseMetaTileEntity) {
+        if (getDrainableStack() == null) return;
+        IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
+        if (tTank == null) return;
+        FluidStack tDrained = drain(250, false);
+        if (tDrained == null) return;
+        int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
+        if (tFilledAmount > 0)
+            tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
+    }
+
+    private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
         int tTemperature = mFluid.getFluid().getTemperature();
         if (tTemperature > sMaxTemps[mTier]) {
             aBaseMetaTileEntity.setToFire();
-            return;
+            aBaseMetaTileEntity.setOnFire();
         }
-        aBaseMetaTileEntity.setOnFire();
+    }
 
+    private void checkGasLeak() {
         if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0) {
+            this.drain(100, true);
             mFluid.amount -= 100;
+            if (mFluid.amount < 0) mFluid.amount = 0;
             sendSound((byte) 9);
         }
     }

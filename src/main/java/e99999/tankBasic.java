@@ -8,18 +8,17 @@ import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-//TODO: add melting temp to tooltip
-//TODO: output only bottom
+//TODO: make portable, then only output bottom
+//TODO: output pressure reflects crafting tier pipe
 
 public class tankBasic
         extends GT_MetaTileEntity_BasicTank {
     public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 3, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front, melts at internal pipe temp");
+        super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
     public tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -37,15 +36,8 @@ public class tankBasic
     }
 
     @Override
-    public void saveNBTData(NBTTagCompound aNBT) {
-        super.saveNBTData(aNBT);
-    }
-
-    @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-        aBaseMetaTileEntity.openGUI(aPlayer);
-        return true;
+        return (aBaseMetaTileEntity.isClientSide() || aBaseMetaTileEntity.openGUI(aPlayer));
     }
 
     @Override
@@ -61,11 +53,6 @@ public class tankBasic
     @Override
     public boolean isAccessAllowed(EntityPlayer aPlayer) {
         return true;
-    }
-
-    @Override
-    public void loadNBTData(NBTTagCompound aNBT) {
-        super.loadNBTData(aNBT);
     }
 
     @Override
@@ -88,6 +75,17 @@ public class tankBasic
         return true;
     }
 
+    private static final int[] sMaxTemps = {350, 2000, 2500, 5000, 12500};
+
+
+    @Override
+    public String[] getDescription() {
+        return new String[]{
+                "Stores " + ((int) (Math.pow(2, mTier) * 8000)),
+                "Melts at" + sMaxTemps[mTier],
+                "Outputs to Facing"};
+    }
+
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPostTick(aBaseMetaTileEntity, aTick);
@@ -103,30 +101,18 @@ public class tankBasic
             }
 
         }
-        if (mFluid != null && mFluid.amount > 0) {
-            int tLimit = 350; //default limit
-            if (mTier == 1) {
-                tLimit = 2000;
-            } else if (mTier == 2) {
-                tLimit = 2500;
-            } else if (mTier == 3) {
-                tLimit = 5000;
-            } else if (mTier == 4) {
-                tLimit = 12500;
-            }
+        if (mFluid == null || mFluid.amount > 0) return;
 
-            int tTemperature = mFluid.getFluid().getTemperature(mFluid);
-            if (tTemperature > tLimit) {
-                if (aBaseMetaTileEntity.getRandomNumber(100) == 0) {
-                    aBaseMetaTileEntity.setToFire();
-                    return;
-                }
-                aBaseMetaTileEntity.setOnFire();
-            }
-        if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0)
-            {mFluid.amount -= 100;
-                sendSound((byte) 9);
-            }
+        int tTemperature = mFluid.getFluid().getTemperature();
+        if (tTemperature > sMaxTemps[mTier]) {
+            aBaseMetaTileEntity.setToFire();
+            return;
+        }
+        aBaseMetaTileEntity.setOnFire();
+
+        if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0) {
+            mFluid.amount -= 100;
+            sendSound((byte) 9);
         }
     }
 

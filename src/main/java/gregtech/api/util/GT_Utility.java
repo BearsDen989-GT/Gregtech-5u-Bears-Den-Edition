@@ -385,6 +385,14 @@ public class GT_Utility {
      * @return the Amount of moved Items
      */
     public static byte moveStackIntoPipe(IInventory aTileEntity1, Object aTileEntity2, int[] aGrabSlots, int aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, byte aMaxTargetStackSize, byte aMinTargetStackSize, byte aMaxMoveAtOnce, byte aMinMoveAtOnce) {
+        return moveStackIntoPipe(aTileEntity1, aTileEntity2, aGrabSlots, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, true);
+    }
+    /**
+     * Moves Stack from Inv-Slot to Inv-Slot, without checking if its even allowed.
+     *
+     * @return the Amount of moved Items
+     */
+    public static byte moveStackIntoPipe(IInventory aTileEntity1, Object aTileEntity2, int[] aGrabSlots, int aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, byte aMaxTargetStackSize, byte aMinTargetStackSize, byte aMaxMoveAtOnce, byte aMinMoveAtOnce, boolean dropItem) {
         if (aTileEntity1 == null || aMaxTargetStackSize <= 0 || aMinTargetStackSize <= 0 || aMinTargetStackSize > aMaxTargetStackSize || aMaxMoveAtOnce <= 0 || aMinMoveAtOnce > aMaxMoveAtOnce)
             return 0;
         if (aTileEntity2 != null) {
@@ -433,7 +441,7 @@ public class GT_Utility {
         ForgeDirection tDirection = ForgeDirection.getOrientation(aGrabFrom);
         if (aTileEntity1 instanceof TileEntity && tDirection != ForgeDirection.UNKNOWN && tDirection.getOpposite() == ForgeDirection.getOrientation(aPutTo)) {
             int tX = ((TileEntity) aTileEntity1).xCoord + tDirection.offsetX, tY = ((TileEntity) aTileEntity1).yCoord + tDirection.offsetY, tZ = ((TileEntity) aTileEntity1).zCoord + tDirection.offsetZ;
-            if (!hasBlockHitBox(((TileEntity) aTileEntity1).getWorldObj(), tX, tY, tZ)) {
+            if (!hasBlockHitBox(((TileEntity) aTileEntity1).getWorldObj(), tX, tY, tZ) && dropItem) {
                 for (int i = 0; i < aGrabSlots.length; i++) {
                     if (listContainsItem(aFilter, aTileEntity1.getStackInSlot(aGrabSlots[i]), true, aInvertFilter)) {
                         if (isAllowedToTakeFromSlot(aTileEntity1, aGrabSlots[i], (byte) aGrabFrom, aTileEntity1.getStackInSlot(aGrabSlots[i]))) {
@@ -602,7 +610,7 @@ public class GT_Utility {
             }
         }
 
-        return moveStackIntoPipe(aTileEntity1, aTileEntity2, tGrabSlots, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce);
+        return moveStackIntoPipe(aTileEntity1, aTileEntity2, tGrabSlots, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, aDoCheckChests);
     }
 
     /**
@@ -1450,6 +1458,9 @@ public class GT_Utility {
         } catch (Throwable e) {/*Do nothing*/}
         try {
             if (DimensionManager.getProvider(aDimensionID).getClass().getName().contains(GT_Values.MOD_ID_TF)) return true;
+        } catch (Throwable e) {/*Do nothing*/}
+        try {
+            if (DimensionManager.getProvider(aDimensionID).getClass().getName().contains("galacticraft")) return true;
         } catch (Throwable e) {/*Do nothing*/}
         return GregTech_API.sDimensionalList.contains(aDimensionID);
     }

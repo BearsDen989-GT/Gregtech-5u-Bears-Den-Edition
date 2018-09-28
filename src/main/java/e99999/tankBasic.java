@@ -81,11 +81,11 @@ public class tankBasic
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Stores " + ((int) (Math.pow(2, mTier) * 8000)),
-                "Melts at" + sMaxTemps[mTier],
+                "Stores " + ((int) (Math.pow(2, mTier) * 8000)) + "L",
+                "Melts at " + sMaxTemps[mTier] + "k",
                 (mTier == 0) ?
-                        "Leaks gaseous fluids" :
-                        "Can store gaseous fluids",
+                "Leaks gaseous fluids" :
+                "Can store gaseous fluids",
                 "Outputs to Facing"};
     }
 
@@ -124,7 +124,7 @@ public class tankBasic
     private void checkGasLeak() {
         if ( mTier != 0 || !(mFluid.getFluid().isGaseous())) return;
 
-        FluidStack tDrained = drain(100, true);
+        FluidStack tDrained = drain(1000, true);
         mFluid.amount -= tDrained.amount;
         sendSound((byte) 9);
     }

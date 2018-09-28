@@ -83,7 +83,7 @@ public class tankBasic
         return new String[]{
                 "Stores " + ((int) (Math.pow(2, mTier) * 8000)),
                 "Melts at" + sMaxTemps[mTier],
-                (mFluid.getFluid().isGaseous(mFluid) && mTier == 0) ?
+                (mTier == 0) ?
                         "Leaks gaseous fluids" :
                         "Can store gaseous fluids",
                 "Outputs to Facing"};
@@ -92,7 +92,7 @@ public class tankBasic
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPostTick(aBaseMetaTileEntity, aTick);
-        if (mFluid == null || mFluid.amount > 0) return;
+        if (mFluid == null || mFluid.amount <= 0) return;
 
         doFluidTransfer(aBaseMetaTileEntity);
 
@@ -122,7 +122,7 @@ public class tankBasic
     }
 
     private void checkGasLeak() {
-        if ( mTier != 0 || !(mFluid.getFluid().isGaseous(mFluid))) return;
+        if ( mTier != 0 || !(mFluid.getFluid().isGaseous())) return;
 
         FluidStack tDrained = drain(100, true);
         mFluid.amount -= tDrained.amount;

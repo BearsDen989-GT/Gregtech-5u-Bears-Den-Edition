@@ -181,6 +181,11 @@ public interface IGT_RecipeAdder {
      * Adds a Part Factory Recipe
      *
      * @param aInput1   must be != null
+     * @param aInput2
+     * @param aInput3
+     * @param aInput4
+     * @param aInput5
+     * @param aInput6
      * @param aOutput1  must be != null
      * @param aDuration must be > 0
      * @param aEUt      should be > 0

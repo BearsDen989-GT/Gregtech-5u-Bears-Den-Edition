@@ -593,12 +593,19 @@ public class GT_CraftingRecipeLoader
         GT_ModHandler.addCraftingRecipe(GT_ModHandler.getIC2Item("luminator", 16L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"RTR", "GHG", "GGG", Character.valueOf('H'), OrePrefixes.cell.get(Materials.Helium), Character.valueOf('T'), OrePrefixes.ingot.get(Materials.Tin), Character.valueOf('R'), OrePrefixes.ingot.get(Materials.AnyIron), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
         GT_ModHandler.addCraftingRecipe(GT_ModHandler.getIC2Item("luminator", 16L), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"RTR", "GHG", "GGG", Character.valueOf('H'), OrePrefixes.cell.get(Materials.Mercury), Character.valueOf('T'), OrePrefixes.ingot.get(Materials.Tin), Character.valueOf('R'), OrePrefixes.ingot.get(Materials.AnyIron), Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
 
+        if (Loader.isModLoaded("GraviSuite")) {
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 1, 6));
+            GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 1, 6), new Object[]{"GPG", "CUC", "PVP", 'G', OrePrefixes.dust.get(Materials.Glowstone), 'P', GT_ModHandler.getIC2Item("advancedAlloy", 1), 'C', OrePrefixes.circuit.get(Materials.Advanced), 'U', OrePrefixes.circuit.get(Materials.Basic), 'V',GT_ModHandler.getIC2Item("reactorVentDiamond", 1)});
+        }
         if (Loader.isModLoaded("GraviSuite") && (GT_Mod.gregtechproxy.mDisableIC2Cables)) {
             GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getModItem("GraviSuite", "advJetpack", 1));
             GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem("GraviSuite", "advJetpack", 1), new Object[]{"PJP", "BLB", "WCW", 'P', OrePrefixes.plateAlloy.get(Materials.Carbon), 'J', GT_ModHandler.getIC2Item("electricJetpack", 1), 'B', GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 1, 6), 'L', GT_ModHandler.getModItem("GraviSuite", "advLappack", 1), 'W', OrePrefixes.wireGt04.get(Materials.Platinum), 'C', OrePrefixes.circuit.get(Materials.Advanced)});
 
             GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 3, 1));
             GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 3, 1), new Object[]{"CCC", "WWW", "CCC", 'C', GT_ModHandler.getModItem("GraviSuite", "itemSimpleItem", 1), 'W', OrePrefixes.wireGt01.get(Materials.Superconductor)});
+
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getModItem("GraviSuite", "advNanoChestPlate", 1));
+            GT_ModHandler.addCraftingRecipe(GT_ModHandler.getModItem("GraviSuite", "advNanoChestPlate", 1), new Object[]{"PJP", "PLP", "WCW", 'P', OrePrefixes.plateAlloy.get(Materials.Carbon), 'J', GT_ModHandler.getModItem("GraviSuite", "advJetpack", 1), 'L', GT_ModHandler.getIC2Item("nanoBodyarmor", 1), 'W', OrePrefixes.wireGt04.get(Materials.Platinum), 'C', OrePrefixes.circuit.get(Materials.Advanced)});
         }
 
         GT_ModHandler.removeRecipe(tStack = GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1L), tStack, tStack, tStack, new ItemStack(Items.coal, 1, 0), tStack, tStack, tStack, tStack);

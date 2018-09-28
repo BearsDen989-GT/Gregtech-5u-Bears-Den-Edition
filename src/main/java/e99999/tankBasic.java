@@ -122,12 +122,11 @@ public class tankBasic
     }
 
     private void checkGasLeak() {
-        if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0) {
-            this.drain(100, true);
-            mFluid.amount -= 100;
-            if (mFluid.amount < 0) mFluid.amount = 0;
-            sendSound((byte) 9);
-        }
+        if ( mTier != 0 || !(mFluid.getFluid().isGaseous(mFluid))) return;
+
+        FluidStack tDrained = drain(100, true);
+        mFluid.amount -= tDrained.amount;
+        sendSound((byte) 9);
     }
 
     @Override

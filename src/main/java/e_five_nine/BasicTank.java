@@ -86,9 +86,9 @@ public class BasicTank
         return new String[]{
                 "Stores " + Integer.toString(getCapacity()) + "L",
                 "Melts at " + sMaxTemps[mTier] + "k",
-                (mTier == 0) ?
-                "Leaks gaseous fluids" :
-                "Can store gaseous fluids",
+                isGasProof() ?
+                        "Can store gaseous fluids" :
+                        "Leaks gaseous fluids",
                 "Outputs to Facing"};
     }
 
@@ -139,12 +139,16 @@ public class BasicTank
     }
 
     private void checkGasLeak(long aTick) {
-        if ( mTier != 0 || !(mFluid.getFluid().isGaseous())) return;
+        if (isGasProof() || !(mFluid.getFluid().isGaseous())) return;
 
         FluidStack tDrained = drain(5, true);
         if (tDrained == null) return;
         mFluid.amount -= tDrained.amount;
         if (aTick % 200 == 0) sendSound((byte) 9); // Avoid sound spamming
+    }
+
+    private boolean isGasProof() {
+        return (mTier > 0);
     }
 
     @Override

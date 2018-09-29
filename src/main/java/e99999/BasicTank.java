@@ -18,16 +18,16 @@ import net.minecraftforge.fluids.IFluidHandler;
 //TODO: make portable, then only output bottom
 //TODO: output pressure reflects crafting tier pipe
 
-public class tankBasic
+public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
 
     private static final int[] sMaxTemps = {350, 2000, 2500, 5000, 12500};
 
-    public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
+    public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
-    private tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    private BasicTank(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
 
@@ -200,7 +200,7 @@ public class tankBasic
 
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new tankBasic(mName, mTier, mDescription, mTextures);
+        return new BasicTank(mName, mTier, mDescription, mTextures);
     }
 
     @Override

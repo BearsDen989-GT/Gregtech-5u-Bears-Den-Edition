@@ -1,5 +1,4 @@
 package e99999;
-import forestry.core.fluids.Fluids;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -12,22 +11,23 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import javax.swing.*;
 
 //TODO: make portable, then only output bottom
 //TODO: output pressure reflects crafting tier pipe
 
 public class tankBasic
         extends GT_MetaTileEntity_BasicTank {
+
+    private static final int[] sMaxTemps = {350, 2000, 2500, 5000, 12500};
+
     public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
-    public tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    private tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
 
@@ -81,9 +81,6 @@ public class tankBasic
         return true;
     }
 
-    private static final int[] sMaxTemps = {350, 2000, 2500, 5000, 12500};
-
-
     @Override
     public String[] getDescription() {
         return new String[]{
@@ -98,13 +95,14 @@ public class tankBasic
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPostTick(aBaseMetaTileEntity, aTick);
+        if (aBaseMetaTileEntity.isClientSide()) return;
         if (mFluid == null || mFluid.amount <= 0) return;
 
+        checkGasLeak(aTick);
         doFluidTransfer(aBaseMetaTileEntity);
 
         if (aTick % 20 == 0) {
             checkHeat(aBaseMetaTileEntity);
-            checkGasLeak();
         }
     }
 
@@ -112,7 +110,7 @@ public class tankBasic
         if (getDrainableStack() == null) return;
         IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
         if (tTank == null) return;
-        FluidStack tDrained = drain(250, false);
+        FluidStack tDrained = drain(250, true);
         if (tDrained == null) return;
         int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
         if (tFilledAmount > 0)
@@ -120,30 +118,33 @@ public class tankBasic
     }
 
     private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
-        if (aBaseMetaTileEntity.getWorld().isRemote) return;
         int tTemperature = mFluid.getFluid().getTemperature();
         if (tTemperature > sMaxTemps[mTier]) {
             Block tFluidBlock = mFluid.getFluid().getBlock();
             if (tFluidBlock == null) {
-                if (mFluid.getFluid().getTemperature() < Fluids.LAVA.getTemperature())
+                if (mFluid.getFluid().getTemperature() < 1300) {
                     tFluidBlock = Blocks.fire;
-                else tFluidBlock = Blocks.lava;
+                }
+                else {
+                    tFluidBlock = Blocks.lava;
+                }
             }
             int tX = aBaseMetaTileEntity.getXCoord();
             int tY = aBaseMetaTileEntity.getYCoord();
             int tZ = aBaseMetaTileEntity.getZCoord();
-            aBaseMetaTileEntity.getWorld().setBlock(tX, tY, tZ, tFluidBlock,10,2);
+            aBaseMetaTileEntity.getWorld().setBlock(tX, tY, tZ, tFluidBlock,7,2);
             aBaseMetaTileEntity.setOnFire();
             inValidate();
         }
     }
 
-    private void checkGasLeak() {
+    private void checkGasLeak(long aTick) {
         if ( mTier != 0 || !(mFluid.getFluid().isGaseous())) return;
 
-        FluidStack tDrained = drain(1000, true);
+        FluidStack tDrained = drain(5, true);
+        if (tDrained == null) return;
         mFluid.amount -= tDrained.amount;
-        sendSound((byte) 9);
+        if (aTick % 200 == 0) sendSound((byte) 9); // Avoid sound spamming
     }
 
     @Override

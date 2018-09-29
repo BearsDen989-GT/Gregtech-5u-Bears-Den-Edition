@@ -84,7 +84,7 @@ public class tankBasic
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Stores " + ((int) (Math.pow(2, mTier) * 8000)) + "L",
+                "Stores " + Integer.toString(getCapacity()) + "L",
                 "Melts at " + sMaxTemps[mTier] + "k",
                 (mTier == 0) ?
                 "Leaks gaseous fluids" :

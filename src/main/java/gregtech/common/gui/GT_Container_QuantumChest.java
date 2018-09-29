@@ -1,6 +1,6 @@
 package gregtech.common.gui;
 
-import e99999.barrelBasic;
+import e_five_nine.barrelBasic;
 import gregtech.api.gui.GT_ContainerMetaTile_Machine;
 import gregtech.api.gui.GT_Slot_Output;
 import gregtech.api.gui.GT_Slot_Render;

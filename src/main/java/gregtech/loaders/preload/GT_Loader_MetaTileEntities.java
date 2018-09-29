@@ -1,7 +1,7 @@
 package gregtech.loaders.preload;
 
-import e99999.barrelBasic;
-import e99999.BasicTank;
+import e_five_nine.barrelBasic;
+import e_five_nine.BasicTank;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.*;

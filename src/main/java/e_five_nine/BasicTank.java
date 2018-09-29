@@ -1,5 +1,6 @@
 package e_five_nine;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -10,7 +11,11 @@ import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
@@ -21,7 +26,10 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
 
-    private static final int[] sMaxTemps = {350, 2000, 2500, 5000, 12500};
+    private static final int[] HEAT_CAPACITY = {350, 2000, 2500, 5000, 12500};
+    private static final String TAGNAME_TANK_CONTENT = "tankContent";
+    private static final String TAGNAME_FLUID_ID = "fluidId";
+    private static final String TAGNAME_AMOUNT = "amount";
 
     public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
@@ -29,6 +37,50 @@ public class BasicTank
 
     private BasicTank(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound aNBT) {
+        super.saveNBTData(aNBT);
+        aNBT.setTag(TAGNAME_TANK_CONTENT, getContentNBTTagCompond());
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound aNBT) {
+        super.loadNBTData(aNBT);
+        int tFluidID = aNBT.getCompoundTag(TAGNAME_TANK_CONTENT).getInteger(TAGNAME_FLUID_ID);
+        int tAmount = aNBT.getCompoundTag(TAGNAME_TANK_CONTENT).getInteger(TAGNAME_AMOUNT);
+        this.mFluid = (tAmount > 0)?
+                new FluidStack(FluidRegistry.getFluid(tFluidID), tAmount) :
+                GT_Values.NF;
+    }
+
+    @Override
+    public ItemStack getStackForm(long aAmount) {
+        ItemStack tItemStack = super.getStackForm(aAmount);
+        NBTTagCompound tNBT = tItemStack.getTagCompound();
+        if (tNBT == null) tNBT = new NBTTagCompound();
+        tNBT.setTag(TAGNAME_TANK_CONTENT, getContentNBTTagCompond());
+        tItemStack.setTagCompound(tNBT);
+        return tItemStack;
+    }
+
+    private NBTTagCompound getContentNBTTagCompond() {
+        int tFluidID;
+        int tAmount;
+        NBTTagCompound tNBT = new NBTTagCompound();
+
+        if (mFluid != GT_Values.NF) {
+            tFluidID = mFluid.getFluidID();
+            tAmount = mFluid.amount;
+        } else {
+            tFluidID = 0;
+            tAmount = 0;
+        }
+            
+        tNBT.setTag(TAGNAME_FLUID_ID, new NBTTagInt(tFluidID));
+        tNBT.setTag(TAGNAME_AMOUNT, new NBTTagInt(tAmount));
+        return tNBT;
     }
 
     @Override
@@ -85,7 +137,7 @@ public class BasicTank
     public String[] getDescription() {
         return new String[]{
                 "Stores " + Integer.toString(getCapacity()) + "L",
-                "Melts at " + sMaxTemps[mTier] + "k",
+                "Melts at " + HEAT_CAPACITY[mTier] + "k",
                 isGasProof() ?
                         "Can store gaseous fluids" :
                         "Leaks gaseous fluids",
@@ -119,7 +171,7 @@ public class BasicTank
 
     private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
         int tTemperature = mFluid.getFluid().getTemperature();
-        if (tTemperature > sMaxTemps[mTier]) {
+        if (tTemperature > HEAT_CAPACITY[mTier]) {
             Block tFluidBlock = mFluid.getFluid().getBlock();
             if (tFluidBlock == null) {
                 if (mFluid.getFluid().getTemperature() < 1300) {

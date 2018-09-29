@@ -7,17 +7,19 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
+
+import java.util.ArrayList;
 
 
 //TODO: make portable, then only output bottom
@@ -27,9 +29,7 @@ public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
 
     private static final int[] HEAT_CAPACITY = {350, 2000, 2500, 5000, 12500};
-    private static final String TAGNAME_TANK_CONTENT = "tankContent";
-    private static final String TAGNAME_FLUID_ID = "fluidId";
-    private static final String TAGNAME_AMOUNT = "amount";
+    private static final String FLUID_TAG = "mFluid";
 
     public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
@@ -40,47 +40,10 @@ public class BasicTank
     }
 
     @Override
-    public void saveNBTData(NBTTagCompound aNBT) {
-        super.saveNBTData(aNBT);
-        aNBT.setTag(TAGNAME_TANK_CONTENT, getContentNBTTagCompond());
-    }
-
-    @Override
-    public void loadNBTData(NBTTagCompound aNBT) {
-        super.loadNBTData(aNBT);
-        int tFluidID = aNBT.getCompoundTag(TAGNAME_TANK_CONTENT).getInteger(TAGNAME_FLUID_ID);
-        int tAmount = aNBT.getCompoundTag(TAGNAME_TANK_CONTENT).getInteger(TAGNAME_AMOUNT);
-        this.mFluid = (tAmount > 0)?
-                new FluidStack(FluidRegistry.getFluid(tFluidID), tAmount) :
-                GT_Values.NF;
-    }
-
-    @Override
-    public ItemStack getStackForm(long aAmount) {
-        ItemStack tItemStack = super.getStackForm(aAmount);
-        NBTTagCompound tNBT = tItemStack.getTagCompound();
-        if (tNBT == null) tNBT = new NBTTagCompound();
-        tNBT.setTag(TAGNAME_TANK_CONTENT, getContentNBTTagCompond());
-        tItemStack.setTagCompound(tNBT);
-        return tItemStack;
-    }
-
-    private NBTTagCompound getContentNBTTagCompond() {
-        int tFluidID;
-        int tAmount;
-        NBTTagCompound tNBT = new NBTTagCompound();
-
-        if (mFluid != GT_Values.NF) {
-            tFluidID = mFluid.getFluidID();
-            tAmount = mFluid.amount;
-        } else {
-            tFluidID = 0;
-            tAmount = 0;
-        }
-            
-        tNBT.setTag(TAGNAME_FLUID_ID, new NBTTagInt(tFluidID));
-        tNBT.setTag(TAGNAME_AMOUNT, new NBTTagInt(tAmount));
-        return tNBT;
+    public void setItemNBT(NBTTagCompound aNBT) {
+        super.setItemNBT(aNBT);
+        GT_Log.out.println("Call to setItemNBT");
+        if (mFluid != null) aNBT.setTag(FLUID_TAG, mFluid.writeToNBT(new NBTTagCompound()));
     }
 
     @Override

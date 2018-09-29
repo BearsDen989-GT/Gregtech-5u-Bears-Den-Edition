@@ -351,6 +351,19 @@ implements IDebugableBlock, ITileEntityProvider {
 		return mTemporaryTileEntity.get() == null ? new ArrayList() : mTemporaryTileEntity.get().getDrops();
 	}
 
+	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+		if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
+		return super.removedByPlayer(world, player, x, y, z, willHarvest);
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta)
+	{
+		super.harvestBlock(world, player, x, y, z, meta);
+		world.setBlockToAir(x, y, z);
+	}
+
 	public int getComparatorInputOverride(World aWorld, int aX, int aY, int aZ, int aSide) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechTileEntity))) {

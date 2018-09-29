@@ -1,4 +1,5 @@
 package e99999;
+import forestry.core.fluids.Fluids;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -7,10 +8,15 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Utility;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
+
+import javax.swing.*;
 
 //TODO: make portable, then only output bottom
 //TODO: output pressure reflects crafting tier pipe
@@ -114,10 +120,21 @@ public class tankBasic
     }
 
     private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
+        if (aBaseMetaTileEntity.getWorld().isRemote) return;
         int tTemperature = mFluid.getFluid().getTemperature();
         if (tTemperature > sMaxTemps[mTier]) {
-            aBaseMetaTileEntity.setToFire();
+            Block tFluidBlock = mFluid.getFluid().getBlock();
+            if (tFluidBlock == null) {
+                if (mFluid.getFluid().getTemperature() < Fluids.LAVA.getTemperature())
+                    tFluidBlock = Blocks.fire;
+                else tFluidBlock = Blocks.lava;
+            }
+            int tX = aBaseMetaTileEntity.getXCoord();
+            int tY = aBaseMetaTileEntity.getYCoord();
+            int tZ = aBaseMetaTileEntity.getZCoord();
+            aBaseMetaTileEntity.getWorld().setBlock(tX, tY, tZ, tFluidBlock,10,2);
             aBaseMetaTileEntity.setOnFire();
+            inValidate();
         }
     }
 

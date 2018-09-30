@@ -352,16 +352,19 @@ implements IDebugableBlock, ITileEntityProvider {
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-		if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
-		return super.removedByPlayer(world, player, x, y, z, willHarvest);
+	public boolean removedByPlayer(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, boolean aWillHarvest) {
+		if (aWillHarvest) {
+			return true; // This delays deletion of the block until after getDrops
+		} else {
+			return super.removedByPlayer(aWorld, aPlayer, aX, aY, aZ, false);
+		}
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta)
+	public void harvestBlock(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, int aMeta)
 	{
-		super.harvestBlock(world, player, x, y, z, meta);
-		world.setBlockToAir(x, y, z);
+		super.harvestBlock(aWorld, aPlayer, aX, aY, aZ, aMeta);
+		aWorld.setBlockToAir(aX, aY, aZ);
 	}
 
 	public int getComparatorInputOverride(World aWorld, int aX, int aY, int aZ, int aSide) {

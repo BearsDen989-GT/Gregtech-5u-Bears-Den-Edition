@@ -7,19 +7,15 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtech.api.objects.GT_RenderedTexture;
-import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-
-import java.util.ArrayList;
 
 
 //TODO: make portable, then only output bottom
@@ -29,7 +25,7 @@ public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
 
     private static final int[] HEAT_CAPACITY = {350, 2000, 2500, 5000, 12500};
-    private static final String FLUID_TAG = "mFluid";
+    private static final String FLUID_TAG = "GT.FluidContent";
 
     public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
@@ -40,9 +36,18 @@ public class BasicTank
     }
 
     @Override
+    public void saveNBTData(NBTTagCompound aNBT) {
+        if (mFluid != null) aNBT.setTag(FLUID_TAG, mFluid.writeToNBT(new NBTTagCompound()));
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound aNBT) {
+        mFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag(FLUID_TAG));
+    }
+
+    @Override
     public void setItemNBT(NBTTagCompound aNBT) {
         super.setItemNBT(aNBT);
-        GT_Log.out.println("Call to setItemNBT");
         if (mFluid != null) aNBT.setTag(FLUID_TAG, mFluid.writeToNBT(new NBTTagCompound()));
     }
 
@@ -191,7 +196,6 @@ public class BasicTank
                     getBaseMetaTileEntity().getWorld().spawnParticle("largesmoke", aX - 0.5 + Math.random(), aY - 0.5 + Math.random(), aZ - 0.5 + Math.random(), ForgeDirection.getOrientation(i).offsetX / 5.0, ForgeDirection.getOrientation(i).offsetY / 5.0, ForgeDirection.getOrientation(i).offsetZ / 5.0);
         }
     }
-
 
     @Override
     public String[] getInfoData() {

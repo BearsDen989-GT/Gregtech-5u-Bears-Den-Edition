@@ -3,14 +3,13 @@ package gregtech.api.objects;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
+import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import net.minecraft.item.ItemStack;
 
 public class ItemData {
     private static final MaterialStack[] EMPTY_MATERIALSTACK_ARRAY = new MaterialStack[0];

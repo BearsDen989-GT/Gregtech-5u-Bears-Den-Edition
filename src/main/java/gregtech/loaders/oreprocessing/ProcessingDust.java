@@ -10,11 +10,10 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_RecipeRegistrator;
 import gregtech.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.ArrayList;
 
 public class ProcessingDust implements gregtech.api.interfaces.IOreRecipeRegistrator {
     public ProcessingDust() {

@@ -1,6 +1,6 @@
 package gregtech.api.interfaces.tileentity;
 
-import static gregtech.api.enums.GT_Values.V;
+import cofh.api.energy.IEnergyReceiver;
 import gregtech.api.GregTech_API;
 import gregtech.api.util.GT_Utility;
 import ic2.api.energy.tile.IEnergySink;
@@ -8,7 +8,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.IEnergyReceiver;
+
+import static gregtech.api.enums.GT_Values.V;
 
 /**
  * Interface for getting Connected to the GregTech Energy Network.

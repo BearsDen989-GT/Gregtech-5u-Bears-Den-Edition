@@ -1,6 +1,10 @@
 package gregtech.api.metatileentity.implementations;
 
-import static gregtech.api.enums.GT_Values.V;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyStorage;
+import crazypants.enderio.machine.capbank.TileCapBank;
+import crazypants.enderio.machine.capbank.network.ICapBankNetwork;
+import crazypants.enderio.power.IPowerContainer;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -13,11 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyStorage;
-import crazypants.enderio.machine.capbank.TileCapBank;
-import crazypants.enderio.machine.capbank.network.ICapBankNetwork;
-import crazypants.enderio.power.IPowerContainer;
+
+import static gregtech.api.enums.GT_Values.V;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!

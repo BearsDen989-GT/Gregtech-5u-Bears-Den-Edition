@@ -1,5 +1,8 @@
 package gregtech.loaders.preload;
 
+import codechicken.nei.api.API;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
@@ -17,7 +20,16 @@ import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
-import gregtech.common.blocks.*;
+import gregtech.common.blocks.GT_Block_Casings1;
+import gregtech.common.blocks.GT_Block_Casings2;
+import gregtech.common.blocks.GT_Block_Casings3;
+import gregtech.common.blocks.GT_Block_Casings4;
+import gregtech.common.blocks.GT_Block_Concretes;
+import gregtech.common.blocks.GT_Block_Granites;
+import gregtech.common.blocks.GT_Block_Machines;
+import gregtech.common.blocks.GT_Block_Ores;
+import gregtech.common.blocks.GT_Block_Stones;
+import gregtech.common.blocks.GT_TileEntity_Ores;
 import gregtech.common.items.GT_DepletetCell_Item;
 import gregtech.common.items.GT_FluidDisplayItem;
 import gregtech.common.items.GT_IntegratedCircuit_Item;
@@ -34,9 +46,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import codechicken.nei.api.API;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GT_Loader_Item_Block_And_Fluid
         implements Runnable {

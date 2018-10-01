@@ -1,5 +1,9 @@
 package gregtech.common;
 
+import codechicken.lib.vec.Rotation;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
@@ -21,16 +25,6 @@ import gregtech.common.render.GT_MetaGenerated_Tool_Renderer;
 import gregtech.common.render.GT_Renderer_Block;
 import gregtech.common.render.GT_Renderer_Entity_Arrow;
 import ic2.api.tile.IWrenchable;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,13 +34,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-
 import org.lwjgl.opengl.GL11;
 
-import codechicken.lib.vec.Rotation;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 // Referenced classes of package gregtech.common:
 //            GT_Proxy

@@ -1,7 +1,5 @@
 package gregtech.api.metatileentity;
 
-import static gregtech.api.enums.GT_Values.NW;
-import static gregtech.api.enums.GT_Values.V;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
@@ -19,11 +17,6 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import ic2.api.Direction;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
@@ -42,6 +35,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static gregtech.api.enums.GT_Values.NW;
+import static gregtech.api.enums.GT_Values.V;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!

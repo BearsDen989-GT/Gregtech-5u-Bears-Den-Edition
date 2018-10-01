@@ -1,7 +1,8 @@
 package gregtech.api.metatileentity.implementations;
 
+import appeng.api.parts.IPartHost;
+import cofh.api.energy.IEnergyReceiver;
 import com.google.common.collect.Sets;
-import static gregtech.api.enums.GT_Values.VN;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
@@ -33,8 +34,6 @@ import micdoodle8.mods.galacticraft.api.power.IEnergyHandlerGC;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
 import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
-import java.util.ArrayList;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,11 +44,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.IEnergyReceiver;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import appeng.api.parts.IPartHost;
+
+import static gregtech.api.enums.GT_Values.VN;
 
 public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTileEntityCable {
     public final float mThickNess;

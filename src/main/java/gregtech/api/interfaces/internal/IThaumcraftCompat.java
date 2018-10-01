@@ -2,11 +2,10 @@ package gregtech.api.interfaces.internal;
 
 import gregtech.api.enums.TC_Aspects;
 import gregtech.api.enums.TC_Aspects.TC_AspectStack;
-
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public interface IThaumcraftCompat {
     int RESEARCH_TYPE_NORMAL = 0, RESEARCH_TYPE_SECONDARY = 1, RESEARCH_TYPE_FREE = 2, RESEARCH_TYPE_HIDDEN = 4, RESEARCH_TYPE_VIRTUAL = 8, RESEARCH_TYPE_ROUND = 16, RESEARCH_TYPE_SPECIAL = 32, RESEARCH_TYPE_AUTOUNLOCK = 64;

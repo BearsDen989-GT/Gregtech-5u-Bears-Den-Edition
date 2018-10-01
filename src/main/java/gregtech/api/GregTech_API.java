@@ -1,9 +1,7 @@
 package gregtech.api;
 
-import static gregtech.api.enums.GT_Values.B;
-import static gregtech.api.enums.GT_Values.L;
-import static gregtech.api.enums.GT_Values.M;
-import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IDamagableItem;
@@ -29,6 +27,13 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.world.GT_Worldgen;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,15 +42,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static gregtech.api.enums.GT_Values.B;
+import static gregtech.api.enums.GT_Values.L;
+import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
 
 /**
  * Please do not include this File in your Mod-download as it ruins compatiblity, like with the IC2-API

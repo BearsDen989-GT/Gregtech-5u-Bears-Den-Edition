@@ -8,9 +8,6 @@ import gregtech.api.util.GT_ItsNotMyFaultException;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
-
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -20,6 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public class GT_Item_Machines
         extends ItemBlock {

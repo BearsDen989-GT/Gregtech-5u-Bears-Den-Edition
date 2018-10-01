@@ -1,12 +1,9 @@
 package gregtech.common.entities;
 
+import com.mojang.authlib.GameProfile;
 import gregtech.api.objects.ItemData;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
-
-import java.util.List;
-import java.util.UUID;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -33,7 +30,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
-import com.mojang.authlib.GameProfile;
+import java.util.List;
+import java.util.UUID;
 
 public class GT_Entity_Arrow
         extends EntityArrow {

@@ -1,17 +1,16 @@
 package gregtech.api.util;
 
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import gregtech.api.metatileentity.BaseMetaTileEntity;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_MonsterRepellent;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GT_SpawnEventHandler {
 

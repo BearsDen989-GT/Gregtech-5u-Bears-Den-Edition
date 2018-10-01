@@ -1,5 +1,7 @@
 package gregtech.loaders.oreprocessing;
 
+import appeng.api.config.TunnelType;
+import appeng.core.Api;
 import gregtech.GT_Mod;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -7,8 +9,6 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
-import appeng.api.config.TunnelType;
-import appeng.core.Api;
 
 public class ProcessingWire16 implements gregtech.api.interfaces.IOreRecipeRegistrator {
     public ProcessingWire16() {

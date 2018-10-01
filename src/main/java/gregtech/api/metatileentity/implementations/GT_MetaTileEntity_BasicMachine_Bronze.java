@@ -1,6 +1,5 @@
 package gregtech.api.metatileentity.implementations;
 
-import static gregtech.api.enums.GT_Values.D1;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.GT_Values;
@@ -10,13 +9,14 @@ import gregtech.api.objects.GT_ItemStack;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+
+import static gregtech.api.enums.GT_Values.D1;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!

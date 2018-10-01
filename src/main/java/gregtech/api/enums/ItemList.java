@@ -1,6 +1,5 @@
 package gregtech.api.enums;
 
-import static gregtech.api.enums.GT_Values.W;
 import gregtech.api.interfaces.IItemContainer;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
@@ -9,6 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+
+import static gregtech.api.enums.GT_Values.W;
 
 /**
  * Class containing all non-OreDict Items of GregTech.

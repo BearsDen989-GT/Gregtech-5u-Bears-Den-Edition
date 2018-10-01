@@ -1,10 +1,17 @@
 package gregtech.loaders.preload;
 
-import e_five_nine.barrelBasic;
-import e_five_nine.BasicTank;
+import cpw.mods.fml.common.Loader;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.*;
+import gregtech.api.enums.Dyes;
+import gregtech.api.enums.GT_Values;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.Materials;
+import gregtech.api.enums.OreDictNames;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.ToolDictNames;
+import e_five_nine.barrelBasic;
+import e_five_nine.BasicTank;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Fluid;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Frame;
@@ -56,7 +63,28 @@ import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Replicator;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_RockBreaker;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Scanner;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Teleporter;
-import gregtech.common.tileentities.machines.multi.*;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_BrickedBlastFurnace;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_BronzeBlastFurnace;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_DistillationTower;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ElectricBlastFurnace;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer1;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer2;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_FusionComputer3;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_HeatExchanger;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_HydroFarm;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ImplosionCompressor;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Bronze;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Steel;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_Titanium;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeBoiler_TungstenSteel;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Gas;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_HPSteam;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Plasma;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_LargeTurbine_Steam;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_MultiFurnace;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_ProcessingArray;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_PyrolyseOven;
+import gregtech.common.tileentities.machines.multi.GT_MetaTileEntity_VacuumFreezer;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_AlloySmelter_Bronze;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_AlloySmelter_Steel;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_Compressor_Bronze;
@@ -75,7 +103,6 @@ import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumTank;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import cpw.mods.fml.common.Loader;
 
 public class GT_Loader_MetaTileEntities
         implements Runnable {

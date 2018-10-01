@@ -1,5 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
+import appeng.core.Api;
 import gregtech.GT_Mod;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
@@ -11,7 +12,6 @@ import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_RecipeRegistrator;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
-import appeng.core.Api;
 
 public class ProcessingNugget implements gregtech.api.interfaces.IOreRecipeRegistrator {
     public ProcessingNugget() {

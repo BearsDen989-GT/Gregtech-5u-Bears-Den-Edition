@@ -19,14 +19,14 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class drainAdv
         extends GT_CoverBehavior {
     public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
-        if ((aCoverVariable % 3 > 1) && ((aTileEntity instanceof IMachineProgress))) {
-            if (((IMachineProgress) aTileEntity).isAllowedToWork() != aCoverVariable % 3 < 2) {
+        if ((aCoverVariable % 3 > 1) && (aTileEntity instanceof IMachineProgress) &&
+                ((IMachineProgress) aTileEntity).isAllowedToWork() != aCoverVariable % 3 < 2) {
                 return aCoverVariable;
             }
-        }
+
         if (aSide != 6) {
             Block tBlock = aTileEntity.getBlockAtSide(aSide);
-            if ((aCoverVariable < 3) && ((aTileEntity instanceof IFluidHandler))) {
+            if ((aCoverVariable < 3) && (aTileEntity instanceof IFluidHandler)) {
                 if ((aSide == 1) &&
                         (aTileEntity.getWorld().isRaining()) &&
                         (aTileEntity.getWorld().getPrecipitationHeight(aTileEntity.getXCoord(), aTileEntity.getZCoord()) - 2 < aTileEntity.getYCoord())) {
@@ -39,8 +39,6 @@ public class drainAdv
                 if (tBlock != null) {
                     if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getBiome().biomeID == 0) || (aTileEntity.getBiome().biomeID == 7) && (aTileEntity.getYCoord()<= 63) && (aTileEntity.getYCoord()>= 50) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
                         tLiquid = Materials.Water.getFluid(1000L);
-                    /*} else if (((tBlock == Blocks.lava) || (tBlock == Blocks.flowing_lava)) && (aTileEntity.getBiome().biomeID == 8) && (aTileEntity.getYCoord()<= 28) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
-                        tLiquid = Materials.Lava.getFluid(1000L); */
                     } else if ((tBlock instanceof IFluidBlock)) {
                         tLiquid = ((IFluidBlock) tBlock).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
                     }
@@ -50,8 +48,6 @@ public class drainAdv
                     }
                 }
             }
-            if ((aCoverVariable >= 3) && (tBlock != null) && (
-                    (tBlock == Blocks.lava) || (tBlock == Blocks.flowing_lava) || (tBlock == Blocks.water) || (tBlock == Blocks.flowing_water) || ((tBlock instanceof IFluidBlock)))) { }
         }
         return aCoverVariable;
     }
@@ -71,8 +67,6 @@ public class drainAdv
     }
 
     public boolean letsFluidIn(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
-        if ((aCoverVariable > 1) && ((aTileEntity instanceof IMachineProgress))) {
-        }
         return ((IMachineProgress) aTileEntity).isAllowedToWork() == aCoverVariable < 2;
     }
 

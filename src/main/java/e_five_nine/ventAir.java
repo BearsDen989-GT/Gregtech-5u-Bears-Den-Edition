@@ -13,30 +13,21 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class ventAir
         extends GT_CoverBehavior {
     public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
-        if ((aCoverVariable % 3 > 1) && ((aTileEntity instanceof IMachineProgress))) {
-            if (((IMachineProgress) aTileEntity).isAllowedToWork() != aCoverVariable % 3 < 2) {
+        if ((aCoverVariable % 3 > 1) && (aTileEntity instanceof IMachineProgress) &&
+                ((IMachineProgress) aTileEntity).isAllowedToWork() != aCoverVariable % 3 < 2) {
                 return aCoverVariable;
             }
-        }
         if (aSide != 6) {
             Block tBlock = aTileEntity.getBlockAtSide(aSide);
-            if ((aCoverVariable < 3) && ((aTileEntity instanceof IFluidHandler))) {
-                if (
-
-                        (aTileEntity.getYCoord() >= 28)) {
-                    int tAmount = (int) (aTileEntity.getYCoord() * 5.0F);
-                    if ((tAmount > 0) && (tBlock == Blocks.air)) {
-                        ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Air.getGas(aTileEntity.getWorld().isThundering() ? tAmount * 2 : tAmount), true);
+            if ((aCoverVariable < 3) && (aTileEntity instanceof IFluidHandler)
+                && (tBlock == Blocks.air)) {
+                        ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Air.getGas(1000), true);
                     }
                 }
-            }
-        }
-        return aCoverVariable;
+                return aCoverVariable;
     }
 
     public boolean letsFluidIn(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
-        if ((aCoverVariable > 1) && ((aTileEntity instanceof IMachineProgress))) {
-        }
         return ((IMachineProgress) aTileEntity).isAllowedToWork() == aCoverVariable < 2;
     }
 

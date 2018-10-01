@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 //TODO: Make barrel/chest drop ALL items upon breaking
-//TODO: Waila support for contents?
+//TODO: Item Render on Front Facing
 
 public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
     public int mItemCount = 0;
@@ -55,12 +55,8 @@ public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
 
     @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-        aBaseMetaTileEntity.openGUI(aPlayer);
-        return true;
+        return (aBaseMetaTileEntity.isClientSide() || aBaseMetaTileEntity.openGUI(aPlayer));
     }
-
-
 
     @Override
     public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
@@ -164,19 +160,23 @@ public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
         return true;
     }
 
+    private static final String COUNT = "mItemCount";
+
+    private static final String STACK = "mItemStack";
+
     @Override
     public void saveNBTData(NBTTagCompound aNBT) {
-        aNBT.setInteger("mItemCount", this.mItemCount);
+        aNBT.setInteger(COUNT, this.mItemCount);
         if (this.mItemStack != null)
-            aNBT.setTag("mItemStack", this.mItemStack.writeToNBT(new NBTTagCompound()));
+            aNBT.setTag(STACK, this.mItemStack.writeToNBT(new NBTTagCompound()));
     }
 
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
-        if (aNBT.hasKey("mItemCount"))
-            this.mItemCount = aNBT.getInteger("mItemCount");
-        if (aNBT.hasKey("mItemStack"))
-            this.mItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) aNBT.getTag("mItemStack"));
+        if (aNBT.hasKey(COUNT))
+            this.mItemCount = aNBT.getInteger(COUNT);
+        if (aNBT.hasKey(STACK))
+            this.mItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) aNBT.getTag(STACK));
     }
 
     @Override

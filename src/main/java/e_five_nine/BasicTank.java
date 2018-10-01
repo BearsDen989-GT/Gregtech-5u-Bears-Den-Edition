@@ -18,8 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
 
-//TODO: make portable, then only output bottom
+//TODO: only output bottom
 //TODO: output pressure reflects crafting tier pipe
+//TODO: Void gases and make sound/particles at least 2x faster
 
 public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
@@ -127,14 +128,17 @@ public class BasicTank
     }
 
     private void doFluidTransfer(IGregTechTileEntity aBaseMetaTileEntity) {
-        if (getDrainableStack() == null) return;
-        IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
-        if (tTank == null) return;
-        FluidStack tDrained = drain(250, true);
-        if (tDrained == null) return;
-        int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
-        if (tFilledAmount > 0)
-            tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
+        if (getDrainableStack() != null){
+            IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
+            if (tTank != null) {
+                FluidStack tDrained = drain(250, false);
+                if (tDrained != null) {
+                    int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
+                    if (tFilledAmount > 0)
+                        tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
+                }
+            }
+        }
     }
 
     private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
@@ -160,11 +164,10 @@ public class BasicTank
 
     private void checkGasLeak(long aTick) {
         if (isGasProof() || !(mFluid.getFluid().isGaseous())) return;
-
-        FluidStack tDrained = drain(5, true);
+        FluidStack tDrained = drain(20, true);
         if (tDrained == null) return;
         mFluid.amount -= tDrained.amount;
-        if (aTick % 200 == 0) sendSound((byte) 9); // Avoid sound spamming
+        if (aTick % 5 == 0) sendSound((byte) 9); // Avoid sound spamming
     }
 
     private boolean isGasProof() {

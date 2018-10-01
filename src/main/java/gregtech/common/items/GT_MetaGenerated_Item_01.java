@@ -1,17 +1,15 @@
 package gregtech.common.items;
 
-import e99999.drainAdv;
-import e99999.ventAir;
+import e_five_nine.drainAdv;
+import e_five_nine.ventAir;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.*;
 import gregtech.api.interfaces.IItemBehaviour;
-import gregtech.api.interfaces.ITexture;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.items.GT_MetaGenerated_Item_X32;
 import gregtech.api.objects.GT_MultiTexture;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.objects.ItemData;
-import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.GT_FoodStat;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;

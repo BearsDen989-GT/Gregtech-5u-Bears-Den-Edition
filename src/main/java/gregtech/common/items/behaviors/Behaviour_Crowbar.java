@@ -1,6 +1,7 @@
 package gregtech.common.items.behaviors;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
@@ -24,7 +25,7 @@ public class Behaviour_Crowbar
         if (aWorld.isRemote) {
             return false;
         }
-        if (GT_ModHandler.getModItem("Railcraft", "fluid.creosote.bucket", 1L) != null) {
+        if (GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "fluid.creosote.bucket", 1L) != null) {
             return false;
         }
         Block aBlock = aWorld.getBlock(aX, aY, aZ);
@@ -37,7 +38,7 @@ public class Behaviour_Crowbar
                 aWorld.isRemote = true;
                 aWorld.setBlock(aX, aY, aZ, aBlock, (aMeta + 1) % 10, 0);
                 aWorld.isRemote = false;
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }
@@ -46,7 +47,7 @@ public class Behaviour_Crowbar
                 aWorld.isRemote = true;
                 aWorld.setBlock(aX, aY, aZ, aBlock, aMeta / 8 * 8 + (aMeta % 8 + 1) % 6, 0);
                 aWorld.isRemote = false;
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }

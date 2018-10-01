@@ -1,6 +1,5 @@
 package gregtech.api.enums;
 
-import static gregtech.api.enums.GT_Values.W;
 import gregtech.api.interfaces.IItemContainer;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
@@ -9,6 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+
+import static gregtech.api.enums.GT_Values.W;
 
 /**
  * Class containing all non-OreDict Items of GregTech.
@@ -168,6 +169,7 @@ public enum ItemList implements IItemContainer {
     Shape_Extruder_File,
     Shape_Extruder_Saw,
     Shape_Extruder_Gear,
+    Shape_Extruder_Gear_Small,
     Crate_Empty,
     Credit_Copper,
     Credit_Iron,
@@ -565,6 +567,7 @@ public enum ItemList implements IItemContainer {
     Machine_Multi_LargeBoiler_Bronze, Machine_Multi_LargeBoiler_Steel, Machine_Multi_LargeBoiler_Titanium, Machine_Multi_LargeBoiler_TungstenSteel, Machine_Multi_BlastFurnace, Machine_Multi_ImplosionCompressor, Machine_Multi_VacuumFreezer, Machine_Multi_Furnace,
     Machine_LV_AlloySmelter, Machine_MV_AlloySmelter, Machine_HV_AlloySmelter, Machine_EV_AlloySmelter, Machine_IV_AlloySmelter,
     Machine_LV_Assembler, Machine_MV_Assembler, Machine_HV_Assembler, Machine_EV_Assembler, Machine_IV_Assembler,
+    Machine_LV_PartFactory, Machine_MV_PartFactory, Machine_HV_PartFactory, Machine_EV_PartFactory, Machine_IV_PartFactory,
     Machine_LV_Bender, Machine_MV_Bender, Machine_HV_Bender, Machine_EV_Bender, Machine_IV_Bender,
     Machine_LV_Canner, Machine_MV_Canner, Machine_HV_Canner, Machine_EV_Canner, Machine_IV_Canner,
     Machine_LV_Compressor, Machine_MV_Compressor, Machine_HV_Compressor, Machine_EV_Compressor, Machine_IV_Compressor,
@@ -573,6 +576,7 @@ public enum ItemList implements IItemContainer {
     Machine_LV_Sifter, Machine_MV_Sifter, Machine_HV_Sifter, Machine_EV_Sifter, Machine_IV_Sifter,
     Machine_LV_ArcFurnace, Machine_MV_ArcFurnace, Machine_HV_ArcFurnace, Machine_EV_ArcFurnace, Machine_IV_ArcFurnace,
     Machine_LV_PlasmaArcFurnace, Machine_MV_PlasmaArcFurnace, Machine_HV_PlasmaArcFurnace, Machine_EV_PlasmaArcFurnace, Machine_IV_PlasmaArcFurnace,
+    Machine_LV_Roaster, Machine_MV_Roaster, Machine_HV_Roaster, Machine_EV_Roaster, Machine_IV_Roaster,
     Machine_LV_Oven, Machine_MV_Oven, Machine_HV_Oven, Machine_EV_Oven, Machine_IV_Oven,
     Machine_LV_E_Furnace, Machine_MV_E_Furnace, Machine_HV_E_Furnace, Machine_EV_E_Furnace, Machine_IV_E_Furnace,
     Machine_LV_Extractor, Machine_MV_Extractor, Machine_HV_Extractor, Machine_EV_Extractor, Machine_IV_Extractor,
@@ -613,6 +617,8 @@ public enum ItemList implements IItemContainer {
     Machine_LV_Hammer, Machine_MV_Hammer, Machine_HV_Hammer, Machine_EV_Hammer, Machine_IV_Hammer,
     Machine_LV_FluidHeater, Machine_MV_FluidHeater, Machine_HV_FluidHeater, Machine_EV_FluidHeater, Machine_IV_FluidHeater,
 
+    PlatinumGroupSludge, PlatinumGroupSludgeTiny,
+
     Neutron_Reflector,
     Reactor_Coolant_He_1,
     Reactor_Coolant_He_3,
@@ -647,6 +653,12 @@ public enum ItemList implements IItemContainer {
     Energy_LapotronicOrb2,
     ZPM2, Quantum_Tank_LV, Quantum_Tank_MV, Quantum_Tank_HV, Quantum_Tank_EV, Quantum_Tank_IV, Quantum_Chest_LV, Quantum_Chest_MV, Quantum_Chest_HV, Quantum_Chest_EV, Quantum_Chest_IV,
 
+    /* e99999 adding in names remove comment before*/
+
+    Basic_Tank,Basic_Tank_Steam, Basic_Tank_LV, Basic_Tank_MV, Basic_Tank_HV,
+    Basic_Barrel,Basic_Barrel_Steam, Basic_Barrel_LV, Basic_Barrel_MV, Basic_Barrel_HV,
+    Drain_Adv,Vent_Air,PyrolyseOven,ToolHull_LV,ToolHull_MV,ToolHull_HV,Machine_Bricked_BlastFurnace,Casing_DenseBricks,Casing_Plastic,HydroFarm,
+
     NULL, Cover_RedstoneTransmitterExternal, Cover_RedstoneTransmitterInternal, Cover_RedstoneReceiverExternal, Cover_RedstoneReceiverInternal,
     LargeSteamTurbine,
     Ingot_Heavy1, Ingot_Heavy2, Ingot_Heavy3,
@@ -658,7 +670,7 @@ public enum ItemList implements IItemContainer {
 
     public static final ItemList[]
             DYE_ONLY_ITEMS = {Color_00, Color_01, Color_02, Color_03, Color_04, Color_05, Color_06, Color_07, Color_08, Color_09, Color_10, Color_11, Color_12, Color_13, Color_14, Color_15}, SPRAY_CAN_DYES = {Spray_Color_00, Spray_Color_01, Spray_Color_02, Spray_Color_03, Spray_Color_04, Spray_Color_05, Spray_Color_06, Spray_Color_07, Spray_Color_08, Spray_Color_09, Spray_Color_10, Spray_Color_11, Spray_Color_12, Spray_Color_13, Spray_Color_14, Spray_Color_15}, SPRAY_CAN_DYES_USED = {Spray_Color_Used_00, Spray_Color_Used_01, Spray_Color_Used_02, Spray_Color_Used_03, Spray_Color_Used_04, Spray_Color_Used_05, Spray_Color_Used_06, Spray_Color_Used_07, Spray_Color_Used_08, Spray_Color_Used_09, Spray_Color_Used_10, Spray_Color_Used_11, Spray_Color_Used_12, Spray_Color_Used_13, Spray_Color_Used_14, Spray_Color_Used_15}, TRANSFORMERS = {Transformer_LV_ULV, Transformer_MV_LV, Transformer_HV_MV, Transformer_EV_HV, Transformer_IV_EV, Transformer_LuV_IV, Transformer_ZPM_LuV, Transformer_UV_ZPM, Transformer_MAX_UV}, MACHINE_HULLS = {Hull_ULV, Hull_LV, Hull_MV, Hull_HV, Hull_EV, Hull_IV, Hull_LuV, Hull_ZPM, Hull_UV, Hull_MAX}, HATCHES_DYNAMO = {Hatch_Dynamo_ULV, Hatch_Dynamo_LV, Hatch_Dynamo_MV, Hatch_Dynamo_HV, Hatch_Dynamo_EV, Hatch_Dynamo_IV, Hatch_Dynamo_LuV, Hatch_Dynamo_ZPM, Hatch_Dynamo_UV, Hatch_Dynamo_MAX}, HATCHES_ENERGY = {Hatch_Energy_ULV, Hatch_Energy_LV, Hatch_Energy_MV, Hatch_Energy_HV, Hatch_Energy_EV, Hatch_Energy_IV, Hatch_Energy_LuV, Hatch_Energy_ZPM, Hatch_Energy_UV, Hatch_Energy_MAX}, HATCHES_INPUT = {Hatch_Input_ULV, Hatch_Input_LV, Hatch_Input_MV, Hatch_Input_HV, Hatch_Input_EV, Hatch_Input_IV, Hatch_Input_LuV, Hatch_Input_ZPM, Hatch_Input_UV, Hatch_Input_MAX}, HATCHES_INPUT_BUS = {Hatch_Input_Bus_ULV, Hatch_Input_Bus_LV, Hatch_Input_Bus_MV, Hatch_Input_Bus_HV, Hatch_Input_Bus_EV, Hatch_Input_Bus_IV, Hatch_Input_Bus_LuV, Hatch_Input_Bus_ZPM, Hatch_Input_Bus_UV, Hatch_Input_Bus_MAX}, HATCHES_OUTPUT = {Hatch_Output_ULV, Hatch_Output_LV, Hatch_Output_MV, Hatch_Output_HV, Hatch_Output_EV, Hatch_Output_IV, Hatch_Output_LuV, Hatch_Output_ZPM, Hatch_Output_UV, Hatch_Output_MAX}, HATCHES_OUTPUT_BUS = {Hatch_Output_Bus_ULV, Hatch_Output_Bus_LV, Hatch_Output_Bus_MV, Hatch_Output_Bus_HV, Hatch_Output_Bus_EV, Hatch_Output_Bus_IV, Hatch_Output_Bus_LuV, Hatch_Output_Bus_ZPM, Hatch_Output_Bus_UV, Hatch_Output_Bus_MAX}, HATCHES_MUFFLER = {Hatch_Muffler_LV, Hatch_Muffler_LV, Hatch_Muffler_MV, Hatch_Muffler_HV, Hatch_Muffler_EV, Hatch_Muffler_IV, Hatch_Muffler_LuV, Hatch_Muffler_ZPM, Hatch_Muffler_UV, Hatch_Muffler_MAX};
-    public static Fluid sOilExtraHeavy, sOilHeavy, sOilMedium, sOilLight, sNaturalGas;
+    public static Fluid sOilExtraHeavy, sOilHeavy, sOilMedium, sOilLight, sNaturalGas, sNitricAcid, sBlueVitriol, sGreenVitriol, sNickelSulfate;
     private ItemStack mStack;
     private boolean mHasNotBeenSet = true;
 

@@ -1,12 +1,10 @@
 package gregtech.common.items.behaviors;
 
+import codechicken.lib.math.MathHelper;
 import gregtech.api.GregTech_API;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Utility;
-
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import codechicken.lib.math.MathHelper;
+
+import java.util.List;
 
 public class Behaviour_Lighter
         extends Behaviour_None {
@@ -44,7 +43,7 @@ public class Behaviour_Lighter
             prepare(aStack);
             long tFuelAmount = GT_Utility.ItemNBT.getLighterFuel(aStack);
             if (GT_Utility.areStacksEqual(aStack, this.mUsedLighter, true)) {
-                GT_Utility.sendSoundToPlayers(aPlayer.worldObj, (String) GregTech_API.sSoundList.get(Integer.valueOf(6)), 1.0F, 1.0F, MathHelper.floor_double(aEntity.posX), MathHelper.floor_double(aEntity.posY), MathHelper.floor_double(aEntity.posZ));
+                GT_Utility.sendSoundToPlayers(aPlayer.worldObj, GregTech_API.sSoundList.get(Integer.valueOf(6)), 1.0F, 1.0F, MathHelper.floor_double(aEntity.posX), MathHelper.floor_double(aEntity.posY), MathHelper.floor_double(aEntity.posZ));
                 ((EntityCreeper) aEntity).func_146079_cb();
                 if (!aPlayer.capabilities.isCreativeMode) {
                     tFuelAmount -= 1L;
@@ -79,7 +78,7 @@ public class Behaviour_Lighter
         prepare(aStack);
         long tFuelAmount = GT_Utility.ItemNBT.getLighterFuel(aStack);
         if (GT_Utility.areStacksEqual(aStack, this.mUsedLighter, true)) {
-            GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(6)), 1.0F, 1.0F, aX, aY, aZ);
+            GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(6)), 1.0F, 1.0F, aX, aY, aZ);
             aWorld.setBlock(aX, aY, aZ, Blocks.fire);
             if (!aPlayer.capabilities.isCreativeMode) {
                 tFuelAmount -= 1L;

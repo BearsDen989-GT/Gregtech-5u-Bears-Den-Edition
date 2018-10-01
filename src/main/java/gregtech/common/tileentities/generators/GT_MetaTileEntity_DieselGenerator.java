@@ -1,5 +1,6 @@
 package gregtech.common.tileentities.generators;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.ItemList;
@@ -12,7 +13,6 @@ import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Recipe;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GT_MetaTileEntity_DieselGenerator
         extends GT_MetaTileEntity_BasicGenerator {
@@ -20,7 +20,7 @@ public class GT_MetaTileEntity_DieselGenerator
     public int mEfficiency;
 
     public GT_MetaTileEntity_DieselGenerator(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, "Requires liquid Fuel", new ITexture[0]);
+        super(aID, aName, aNameRegional, aTier, "Requires liquid Fuel");
         onConfigLoad();
     }
 

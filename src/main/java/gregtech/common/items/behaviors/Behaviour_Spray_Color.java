@@ -6,11 +6,6 @@ import gregtech.api.enums.ItemList;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Utility;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +16,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 public class Behaviour_Spray_Color
         extends Behaviour_None {
     private final ItemStack mEmpty;
@@ -28,7 +27,7 @@ public class Behaviour_Spray_Color
     private final ItemStack mFull;
     private final long mUses;
     private final byte mColor;
-    private final Collection<Block> mAllowedVanillaBlocks = Arrays.asList(new Block[]{Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.carpet, Blocks.hardened_clay, ItemList.TE_Rockwool.getBlock()});
+    private final Collection<Block> mAllowedVanillaBlocks = Arrays.asList(Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.carpet, Blocks.hardened_clay, ItemList.TE_Rockwool.getBlock());
     private final String mTooltip;
     private final String mTooltipUses = GT_LanguageManager.addStringLocalization("gt.behaviour.paintspray.uses", "Remaining Uses:");
     private final String mTooltipUnstackable = GT_LanguageManager.addStringLocalization("gt.behaviour.unstackable", "Not usable when stacked!");
@@ -62,7 +61,7 @@ public class Behaviour_Spray_Color
         }
         if ((GT_Utility.areStacksEqual(aStack, this.mUsed, true)) &&
                 (colorize(aWorld, aX, aY, aZ, aSide))) {
-            GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(102)), 1.0F, 1.0F, aX, aY, aZ);
+            GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(102)), 1.0F, 1.0F, aX, aY, aZ);
             if (!aPlayer.capabilities.isCreativeMode) {
                 tUses -= 1L;
             }

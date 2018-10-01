@@ -1,5 +1,6 @@
 package gregtech.common.redstonecircuits;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.IRedstoneCircuitBlock;
 import gregtech.api.util.GT_CircuitryBehavior;
 
@@ -48,7 +49,7 @@ public class GT_Circuit_RedstoneMeter
 
     public void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         byte tRedstone = getStrongestRedstone(aRedstoneCircuitBlock);
-        aRedstoneCircuitBlock.setRedstone((byte) (((tRedstone >= aCircuitData[0]) && (tRedstone <= aCircuitData[1]) ? 1 : 0) != (aCircuitData[2] != 0 ? 1 : 0) ? (byte) aCircuitData[3] : 0), aRedstoneCircuitBlock.getOutputFacing());
+        aRedstoneCircuitBlock.setRedstone((((tRedstone >= aCircuitData[0]) && (tRedstone <= aCircuitData[1]) ? 1 : 0) != (aCircuitData[2] != 0 ? 1 : 0) ? (byte) aCircuitData[3] : 0), aRedstoneCircuitBlock.getOutputFacing());
     }
 
     public String getName() {
@@ -70,7 +71,7 @@ public class GT_Circuit_RedstoneMeter
             case 3:
                 return "RS Out:";
         }
-        return "";
+        return GT_Values.E;
     }
 
     public boolean displayItemStack(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex) {

@@ -1,15 +1,10 @@
 package gregtech.api.util;
 
-import static gregtech.api.enums.GT_Values.B;
-import static gregtech.api.enums.GT_Values.D1;
-import static gregtech.api.enums.GT_Values.DW;
-import static gregtech.api.enums.GT_Values.E;
-import static gregtech.api.enums.GT_Values.M;
-import static gregtech.api.enums.GT_Values.RA;
-import static gregtech.api.enums.GT_Values.V;
-import static gregtech.api.enums.GT_Values.W;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OreDictNames;
@@ -28,17 +23,6 @@ import ic2.api.reactor.IReactorComponent;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeOutput;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
@@ -62,8 +46,25 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import static gregtech.api.enums.GT_Values.B;
+import static gregtech.api.enums.GT_Values.D1;
+import static gregtech.api.enums.GT_Values.DW;
+import static gregtech.api.enums.GT_Values.E;
+import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.RA;
+import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.W;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -1751,7 +1752,7 @@ public class GT_ModHandler {
             toSend.setTag("output", new NBTTagCompound());
             input.writeToNBT(toSend.getCompoundTag("input"));
             output.writeToNBT(toSend.getCompoundTag("output"));
-            FMLInterModComms.sendMessage("ThermalExpansion", "FurnaceRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "FurnaceRecipe", toSend);
         }
 
         public static void addPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput) {
@@ -1773,7 +1774,7 @@ public class GT_ModHandler {
             primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
             if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
             toSend.setInteger("secondaryChance", secondaryChance);
-            FMLInterModComms.sendMessage("ThermalExpansion", "PulverizerRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "PulverizerRecipe", toSend);
         }
 
         public static void addSawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput) {
@@ -1795,7 +1796,7 @@ public class GT_ModHandler {
             primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
             if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
             toSend.setInteger("secondaryChance", secondaryChance);
-            FMLInterModComms.sendMessage("ThermalExpansion", "SawmillRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "SawmillRecipe", toSend);
         }
 
         public static void addSmelterRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput) {
@@ -1819,13 +1820,13 @@ public class GT_ModHandler {
             primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
             if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
             toSend.setInteger("secondaryChance", secondaryChance);
-            FMLInterModComms.sendMessage("ThermalExpansion", "SmelterRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "SmelterRecipe", toSend);
         }
 
         public static void addSmelterBlastOre(Materials aMaterial) {
             NBTTagCompound toSend = new NBTTagCompound();
             toSend.setString("oreType", aMaterial.toString());
-            FMLInterModComms.sendMessage("ThermalExpansion", "SmelterBlastOreType", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "SmelterBlastOreType", toSend);
         }
 
         public static void addCrucibleRecipe(int energy, ItemStack input, FluidStack output) {
@@ -1836,7 +1837,7 @@ public class GT_ModHandler {
             toSend.setTag("output", new NBTTagCompound());
             input.writeToNBT(toSend.getCompoundTag("input"));
             output.writeToNBT(toSend.getCompoundTag("output"));
-            FMLInterModComms.sendMessage("ThermalExpansion", "CrucibleRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "CrucibleRecipe", toSend);
         }
 
         public static void addTransposerFill(int energy, ItemStack input, ItemStack output, FluidStack fluid, boolean reversible) {
@@ -1850,7 +1851,7 @@ public class GT_ModHandler {
             output.writeToNBT(toSend.getCompoundTag("output"));
             toSend.setBoolean("reversible", reversible);
             fluid.writeToNBT(toSend.getCompoundTag("fluid"));
-            FMLInterModComms.sendMessage("ThermalExpansion", "TransposerFillRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "TransposerFillRecipe", toSend);
         }
 
         public static void addTransposerExtract(int energy, ItemStack input, ItemStack output, FluidStack fluid, int chance, boolean reversible) {
@@ -1865,28 +1866,28 @@ public class GT_ModHandler {
             toSend.setBoolean("reversible", reversible);
             toSend.setInteger("chance", chance);
             fluid.writeToNBT(toSend.getCompoundTag("fluid"));
-            FMLInterModComms.sendMessage("ThermalExpansion", "TransposerExtractRecipe", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "TransposerExtractRecipe", toSend);
         }
 
         public static void addMagmaticFuel(String fluidName, int energy) {
             NBTTagCompound toSend = new NBTTagCompound();
             toSend.setString("fluidName", fluidName);
             toSend.setInteger("energy", energy);
-            FMLInterModComms.sendMessage("ThermalExpansion", "MagmaticFuel", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "MagmaticFuel", toSend);
         }
 
         public static void addCompressionFuel(String fluidName, int energy) {
             NBTTagCompound toSend = new NBTTagCompound();
             toSend.setString("fluidName", fluidName);
             toSend.setInteger("energy", energy);
-            FMLInterModComms.sendMessage("ThermalExpansion", "CompressionFuel", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "CompressionFuel", toSend);
         }
 
         public static void addCoolant(String fluidName, int energy) {
             NBTTagCompound toSend = new NBTTagCompound();
             toSend.setString("fluidName", fluidName);
             toSend.setInteger("energy", energy);
-            FMLInterModComms.sendMessage("ThermalExpansion", "Coolant", toSend);
+            FMLInterModComms.sendMessage(GT_Values.MOD_ID_TE, "Coolant", toSend);
         }
     }
 }

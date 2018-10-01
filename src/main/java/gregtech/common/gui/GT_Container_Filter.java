@@ -1,5 +1,6 @@
 package gregtech.common.gui;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.gui.GT_ContainerMetaTile_Machine;
 import gregtech.api.gui.GT_Slot_Holo;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -60,11 +61,11 @@ public class GT_Container_Filter
                     if (aMouseclick == 0) {
                         tSlot.putStack(null);
                     } else if (tStack != null) {
-                    	tStack = GT_Utility.copyAmountAndMetaData(tStack.stackSize, 32767, tStack);
+                    	tStack = GT_Utility.copyAmountAndMetaData(tStack.stackSize, GT_Values.W, tStack);
                     	if(GT_Utility.isStackInvalid(tStack)){tStack=null;}
                     }
                 } else {
-                    tSlot.putStack(GT_Utility.copyAmount(1L, new Object[]{tStack}));
+                    tSlot.putStack(GT_Utility.copyAmount(1L, tStack));
                 }
                 return null;
             }

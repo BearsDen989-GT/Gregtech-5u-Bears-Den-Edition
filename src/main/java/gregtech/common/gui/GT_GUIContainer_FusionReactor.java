@@ -1,16 +1,18 @@
 package gregtech.common.gui;
 
-import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.gui.GT_Container_MultiMachine;
 import gregtech.api.gui.GT_GUIContainerMetaTile_Machine;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+
 public class GT_GUIContainer_FusionReactor extends GT_GUIContainerMetaTile_Machine {
 
     public String mNEI;
-    String mName = "";
+    String mName = GT_Values.E;
 
     public GT_GUIContainer_FusionReactor(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aName, String aTextureFile, String aNEI) {
         super(new GT_Container_MultiMachine(aInventoryPlayer, aTileEntity, false), RES_PATH_GUI + "multimachines/" + (aTextureFile == null ? "MultiblockDisplay" : aTextureFile));

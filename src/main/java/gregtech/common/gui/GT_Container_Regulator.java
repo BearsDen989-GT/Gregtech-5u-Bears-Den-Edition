@@ -1,20 +1,19 @@
 package gregtech.common.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.gui.GT_ContainerMetaTile_Machine;
 import gregtech.api.gui.GT_Slot_Holo;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.tileentities.automation.GT_MetaTileEntity_Regulator;
-
-import java.util.Iterator;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.Iterator;
 
 public class GT_Container_Regulator
         extends GT_ContainerMetaTile_Machine {
@@ -81,7 +80,7 @@ public class GT_Container_Regulator
             if ((aSlotIndex >= 9) && (aSlotIndex < 18)) {
                 ItemStack tStack = aPlayer.inventory.getItemStack();
                 if (tStack != null) {
-                    tSlot.putStack(GT_Utility.copy(new Object[]{tStack}));
+                    tSlot.putStack(GT_Utility.copy(tStack));
                 } else if (tSlot.getStack() != null) {
                     if (aMouseclick == 0) {
                         tSlot.getStack().stackSize -= (aShifthold == 1 ? 8 : 1);

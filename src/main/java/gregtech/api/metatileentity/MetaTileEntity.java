@@ -1,20 +1,17 @@
 package gregtech.api.metatileentity;
 
-import static gregtech.api.enums.GT_Values.GT;
-import static gregtech.api.enums.GT_Values.V;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.objects.GT_ItemStack;
 import gregtech.api.util.GT_Config;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,6 +21,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -31,8 +29,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static gregtech.api.enums.GT_Values.GT;
+import static gregtech.api.enums.GT_Values.V;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -160,6 +163,18 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
         }
         return false;
     }
+
+    @Override
+    public boolean onWireCutterRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+        if(!aPlayer.isSneaking()) return false;
+		byte tSide = GT_Utility.getOppositeSide(aWrenchingSide);
+		TileEntity tTileEntity = getBaseMetaTileEntity().getTileEntityAtSide(aWrenchingSide);
+        if (tTileEntity != null && (tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() instanceof GT_MetaPipeEntity_Cable)) {
+			// The tile entity we're facing is a cable, let's try to connect to it
+            return ((IGregTechTileEntity) tTileEntity).getMetaTileEntity().onWireCutterRightClick(aWrenchingSide, tSide, aPlayer, aX, aY, aZ);
+        }
+        return false;
+		}
 
     @Override
     public void onExplosion() {/*Do nothing*/}
@@ -631,7 +646,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     public String getInventoryName() {
         if (GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()] != null)
             return GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()].getMetaName();
-        return "";
+        return GT_Values.E;
     }
 
     @Override
@@ -806,12 +821,20 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
 
     @Override
     public void onColorChangeServer(byte aColor) {
-        //
+        final IGregTechTileEntity meta = getBaseMetaTileEntity();
+        final int aX = meta.getXCoord(), aY = meta.getYCoord(), aZ = meta.getZCoord();
+        for (byte aSide = 0; aSide < 6 ; aSide++ ) {
+            // Flag surrounding pipes/cables to revaluate their connection with us if we got painted
+            final TileEntity tTileEntity = meta.getTileEntityAtSide(aSide);
+            if ((tTileEntity instanceof BaseMetaPipeEntity)) {
+                ((BaseMetaPipeEntity) tTileEntity).onNeighborBlockChange(aX, aY, aZ);
+            }
+        }
     }
 
     @Override
     public void onColorChangeClient(byte aColor) {
-        //
+        // Do nothing apparently
     }
 
     @Override

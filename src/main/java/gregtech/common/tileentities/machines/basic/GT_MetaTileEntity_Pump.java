@@ -1,6 +1,6 @@
 package gregtech.common.tileentities.machines.basic;
 
-import static gregtech.api.enums.GT_Values.V;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_BasicTank;
 import gregtech.api.gui.GT_GUIContainer_BasicTank;
@@ -12,10 +12,6 @@ import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,6 +20,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static gregtech.api.enums.GT_Values.V;
 
 public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
 
@@ -48,8 +49,8 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
 
     public void saveNBTData(NBTTagCompound aNBT) {
         super.saveNBTData(aNBT);
-        aNBT.setString("mPumpedBlock1", this.mPumpedBlock1 == null ? "" : this.mPumpedBlock1.getUnlocalizedName());
-        aNBT.setString("mPumpedBlock2", this.mPumpedBlock2 == null ? "" : this.mPumpedBlock2.getUnlocalizedName());
+        aNBT.setString("mPumpedBlock1", this.mPumpedBlock1 == null ? GT_Values.E : this.mPumpedBlock1.getUnlocalizedName());
+        aNBT.setString("mPumpedBlock2", this.mPumpedBlock2 == null ? GT_Values.E : this.mPumpedBlock2.getUnlocalizedName());
     }
 
     public void loadNBTData(NBTTagCompound aNBT) {
@@ -151,9 +152,9 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
                         }
                         if ((!tMovedOneDown) && (this.mPumpTimer <= 0)) {
                             while ((!this.mPumpList.isEmpty())
-                                    && (!consumeFluid(((ChunkPosition) this.mPumpList.get(this.mPumpList.size() - 1)).chunkPosX,
-                                    ((ChunkPosition) this.mPumpList.get(this.mPumpList.size() - 1)).chunkPosY,
-                                    ((ChunkPosition) this.mPumpList.remove(this.mPumpList.size() - 1)).chunkPosZ))) {
+                                    && (!consumeFluid(this.mPumpList.get(this.mPumpList.size() - 1).chunkPosX,
+                                    this.mPumpList.get(this.mPumpList.size() - 1).chunkPosY,
+                                    this.mPumpList.remove(this.mPumpList.size() - 1).chunkPosZ))) {
                             }
                             this.mPumpTimer = 160 / ((int) Math.pow(2, this.mTier));
                         }

@@ -2,13 +2,12 @@ package gregtech.loaders.postload;
 
 import gregtech.GT_Mod;
 import gregtech.api.util.GT_Utility;
-
-import java.util.Set;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemPickaxe;
+
+import java.util.Set;
 
 public class GT_BlockResistanceLoader
         implements Runnable {
@@ -35,8 +34,8 @@ public class GT_BlockResistanceLoader
         Blocks.sponge.setHarvestLevel("axe", 0);
         Blocks.monster_egg.setHarvestLevel("pickaxe", 0);
 
-        GT_Utility.callMethod(Material.tnt, "func_85158_p", true, false, false, new Object[0]);
-        GT_Utility.callMethod(Material.tnt, "setAdventureModeExempt", true, false, false, new Object[0]);
+        GT_Utility.callMethod(Material.tnt, "func_85158_p", true, false, false);
+        GT_Utility.callMethod(Material.tnt, "setAdventureModeExempt", true, false, false);
 
         Set tSet = (Set) GT_Utility.getFieldContent(ItemAxe.class, "field_150917_c", true, true);
         tSet.add(Blocks.bed);

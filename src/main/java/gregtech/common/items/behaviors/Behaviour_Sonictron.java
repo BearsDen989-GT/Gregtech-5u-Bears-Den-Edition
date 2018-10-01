@@ -92,7 +92,7 @@ public class Behaviour_Sonictron
             if (aNewContent[i] == null) {
                 aInventory[i] = null;
             } else {
-                aInventory[i] = GT_Utility.copy(new Object[]{aNewContent[i]});
+                aInventory[i] = GT_Utility.copy(aNewContent[i]);
             }
         }
     }

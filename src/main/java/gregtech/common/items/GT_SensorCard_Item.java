@@ -1,14 +1,11 @@
 package gregtech.common.items;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.tileentity.IGregTechDeviceInformation;
 import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.util.GT_LanguageManager;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,8 +19,11 @@ import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
 import shedar.mods.ic2.nuclearcontrol.api.IRemoteSensor;
 import shedar.mods.ic2.nuclearcontrol.api.PanelSetting;
 import shedar.mods.ic2.nuclearcontrol.api.PanelString;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 public class GT_SensorCard_Item
         extends GT_Generic_Item
@@ -43,7 +43,7 @@ public class GT_SensorCard_Item
                 aList.add("Missing Coodinates!");
             } else {
                 aList.add("Device at:");
-                aList.add(String.format("x: %d, y: %d, z: %d", new Object[]{Integer.valueOf(tNBT.getInteger("x")), Integer.valueOf(tNBT.getInteger("y")), Integer.valueOf(tNBT.getInteger("z"))}));
+                aList.add(String.format("x: %d, y: %d, z: %d", Integer.valueOf(tNBT.getInteger("x")), Integer.valueOf(tNBT.getInteger("y")), Integer.valueOf(tNBT.getInteger("z"))));
             }
         }
     }
@@ -57,7 +57,7 @@ public class GT_SensorCard_Item
         ChunkCoordinates target = aCard.getTarget();
 
         TileEntity tTileEntity = world.getTileEntity(target.posX, target.posY, target.posZ);
-        if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechDeviceInformation)) && (((IGregTechDeviceInformation) tTileEntity).isGivingInformation())) {
+        if ((tTileEntity != null) && (tTileEntity instanceof IGregTechDeviceInformation) && (((IGregTechDeviceInformation) tTileEntity).isGivingInformation())) {
             String[] tInfoData = ((IGregTechDeviceInformation) tTileEntity).getInfoData();
             for (int i = 0; i < tInfoData.length; i++) {
                 aCard.setString("mString" + i, tInfoData[i]);
@@ -82,7 +82,7 @@ public class GT_SensorCard_Item
     public List<PanelSetting> getSettingsList() {
         List<PanelSetting> rList = new ArrayList(30);
         for (int i = 0; i < 8; i++) {
-            rList.add(new PanelSetting("" + (i + 1), 1 << i, getCardType()));
+            rList.add(new PanelSetting(GT_Values.E + (i + 1), 1 << i, getCardType()));
         }
         return rList;
     }

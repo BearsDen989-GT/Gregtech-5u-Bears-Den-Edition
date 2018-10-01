@@ -1,6 +1,8 @@
 package gregtech.api.metatileentity.implementations;
 
 import static gregtech.api.enums.GT_Values.V;
+
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_1by1;
 import gregtech.api.gui.GT_Container_2by2;
@@ -292,6 +294,11 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
     }
 
     @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
     public String[] getInfoData() {
         count++;
         if (mMax == 0 || count % 20 == 0) {
@@ -304,7 +311,11 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
                 getLocalName(),
                 "Stored Items:",
                 GT_Utility.formatNumbers(mStored) + " EU /",
-                GT_Utility.formatNumbers(mMax) + " EU"};
+                GT_Utility.formatNumbers(mMax) + " EU",
+                "Average input:",
+                getBaseMetaTileEntity().getAverageElectricInput()+ GT_Values.E,
+                "Average output:",
+                getBaseMetaTileEntity().getAverageElectricOutput()+ GT_Values.E};
     }
 
     @Override

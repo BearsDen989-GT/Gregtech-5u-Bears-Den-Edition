@@ -1,9 +1,7 @@
 package gregtech.api;
 
-import static gregtech.api.enums.GT_Values.B;
-import static gregtech.api.enums.GT_Values.L;
-import static gregtech.api.enums.GT_Values.M;
-import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IDamagableItem;
@@ -29,6 +27,13 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.world.GT_Worldgen;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,15 +42,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static gregtech.api.enums.GT_Values.B;
+import static gregtech.api.enums.GT_Values.L;
+import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
 
 /**
  * Please do not include this File in your Mod-download as it ruins compatiblity, like with the IC2-API
@@ -97,6 +97,7 @@ public class GregTech_API {
      * 9728 - 10239 are reserved for 28Smiles.
      * 10240 - 10751 are reserved for VirMan.
      * 10752 - 11263 are reserved for the next one who asks me.
+     * 12000 - 13000 are reserved for e99999.
      * 9728 - 32766 are currently free.
      * <p/>
      * Contact me if you need a free ID-Range, which doesn't conflict with other Addons.
@@ -138,7 +139,15 @@ public class GregTech_API {
     /**
      * The List of Tools, which can be used. Accepts regular damageable Items and Electric Items
      */
-    public static final GT_HashSet<GT_ItemStack> sToolList = new GT_HashSet<GT_ItemStack>(), sCrowbarList = new GT_HashSet<GT_ItemStack>(), sScrewdriverList = new GT_HashSet<GT_ItemStack>(), sWrenchList = new GT_HashSet<GT_ItemStack>(), sSoftHammerList = new GT_HashSet<GT_ItemStack>(), sHardHammerList = new GT_HashSet<GT_ItemStack>(), sSolderingToolList = new GT_HashSet<GT_ItemStack>(), sSolderingMetalList = new GT_HashSet<GT_ItemStack>();
+    public static final GT_HashSet<GT_ItemStack> sToolList = new GT_HashSet<GT_ItemStack>(),
+        sCrowbarList = new GT_HashSet<GT_ItemStack>(),
+        sScrewdriverList = new GT_HashSet<GT_ItemStack>(),
+        sWrenchList = new GT_HashSet<GT_ItemStack>(),
+        sSoftHammerList = new GT_HashSet<GT_ItemStack>(),
+        sHardHammerList = new GT_HashSet<GT_ItemStack>(),
+        sSolderingToolList = new GT_HashSet<GT_ItemStack>(),
+        sSolderingMetalList = new GT_HashSet<GT_ItemStack>(),
+        sWireCutterList = new GT_HashSet<GT_ItemStack>();
     /**
      * The List of Hazmat Armors
      */
@@ -190,12 +199,12 @@ public class GregTech_API {
      */
     public static Block sBlockMachines;
     public static Block sBlockOres1;
-    public static Block sBlockGranites, sBlockConcretes;
+    public static Block sBlockGranites, sBlockConcretes, sBlockStones;
     public static Block sBlockCasings1, sBlockCasings2, sBlockCasings3, sBlockCasings4;
     /**
      * Getting assigned by the Config
      */
-    public static boolean sTimber = false, sDrinksAlwaysDrinkable = false, sMultiThreadedSounds = false, sDoShowAllItemsInCreative = false, sColoredGUI = true, sConstantEnergy = true, sMachineExplosions = true, sMachineFlammable = true, sMachineNonWrenchExplosions = true, sMachineRainExplosions = true, sMachineThunderExplosions = true, sMachineFireExplosions = true, sMachineWireFire = true;
+    public static boolean sTimber = true, sDrinksAlwaysDrinkable = false, sMultiThreadedSounds = false, sDoShowAllItemsInCreative = false, sColoredGUI = true, sConstantEnergy = true, sMachineExplosions = true, sMachineFlammable = true, sMachineNonWrenchExplosions = true, sMachineRainExplosions = true, sMachineThunderExplosions = true, sMachineFireExplosions = true, sMachineWireFire = true;
     public static boolean mOutputRF = false;
     public static boolean mInputRF = false;
     public static boolean meIOLoaded = false;
@@ -203,6 +212,7 @@ public class GregTech_API {
     public static int mRFtoEU = 20;
     public static boolean mRFExplosions = true;
     public static boolean mServerStarted = false;
+    public static boolean mGalacticraft = false;
     /**
      * Getting assigned by the Mod loading
      */

@@ -9,12 +9,11 @@ import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.gui.GT_Container_Regulator;
 import gregtech.common.gui.GT_GUIContainer_Regulator;
-
-import java.util.Arrays;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.Arrays;
 
 public class GT_MetaTileEntity_Regulator
         extends GT_MetaTileEntity_Buffer {
@@ -78,7 +77,7 @@ public class GT_MetaTileEntity_Regulator
         int i = 0;
         for (int tCosts = 0; i < 9; i++) {
             if (this.mInventory[(i + 9)] != null) {
-                tCosts = GT_Utility.moveOneItemStackIntoSlot(getBaseMetaTileEntity(), getBaseMetaTileEntity().getTileEntityAtSide(getBaseMetaTileEntity().getBackFacing()), getBaseMetaTileEntity().getBackFacing(), this.mTargetSlots[i], Arrays.asList(new ItemStack[]{this.mInventory[(i + 9)]}), false, (byte) this.mInventory[(i + 9)].stackSize, (byte) this.mInventory[(i + 9)].stackSize, (byte) 64, (byte) 1) * 3;
+                tCosts = GT_Utility.moveOneItemStackIntoSlot(getBaseMetaTileEntity(), getBaseMetaTileEntity().getTileEntityAtSide(getBaseMetaTileEntity().getBackFacing()), getBaseMetaTileEntity().getBackFacing(), this.mTargetSlots[i], Arrays.asList(this.mInventory[(i + 9)]), false, (byte) this.mInventory[(i + 9)].stackSize, (byte) this.mInventory[(i + 9)].stackSize, (byte) 64, (byte) 1) * 3;
                 if (tCosts > 0) {
                     this.mSuccess = 50;
                     getBaseMetaTileEntity().decreaseStoredEnergyUnits(tCosts, true);

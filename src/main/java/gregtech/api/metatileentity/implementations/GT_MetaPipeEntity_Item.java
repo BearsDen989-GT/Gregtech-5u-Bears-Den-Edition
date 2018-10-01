@@ -1,5 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
+import gregtech.GT_Mod;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -13,11 +14,10 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
 import gregtech.api.metatileentity.MetaPipeEntity;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.util.GT_CoverBehavior;
 import gregtech.api.util.GT_Utility;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -25,6 +25,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntityHopper;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileEntityItemPipe {
     public final float mThickNess;
@@ -125,70 +132,24 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     @Override
     public void saveNBTData(NBTTagCompound aNBT) {
         aNBT.setByte("mLastReceivedFrom", mLastReceivedFrom);
+        if (GT_Mod.gregtechproxy.gt6Pipe)
+        	aNBT.setByte("mConnections", mConnections);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
         mLastReceivedFrom = aNBT.getByte("mLastReceivedFrom");
+        if (GT_Mod.gregtechproxy.gt6Pipe) {
+        	mConnections = aNBT.getByte("mConnections");
+        }
     }
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         if (aBaseMetaTileEntity.isServerSide() && aTick % 10 == 0) {
-            mConnections = 0;
             if (aTick % 20 == 0) mTransferredItems = 0;
 
-            for (byte i = 0; i < 6; i++) {
-                TileEntity tTileEntity = aBaseMetaTileEntity.getTileEntityAtSide(i);
-                if (tTileEntity != null) {
-                    boolean temp = GT_Utility.isConnectableNonInventoryPipe(tTileEntity, GT_Utility.getOppositeSide(i));
-                    if (tTileEntity instanceof IGregTechTileEntity) {
-                        temp = true;
-                        if (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() == null) continue;
-                        if (aBaseMetaTileEntity.getColorization() >= 0) {
-                            byte tColor = ((IGregTechTileEntity) tTileEntity).getColorization();
-                            if (tColor >= 0 && tColor != aBaseMetaTileEntity.getColorization()) {
-                                continue;
-                            }
-                        }
-                        if (((IGregTechTileEntity) tTileEntity).getMetaTileEntity().connectsToItemPipe(GT_Utility.getOppositeSide(i))) {
-                            mConnections |= (1 << i);
-                            continue;
-                        }
-                    }
-                    if (tTileEntity instanceof IInventory) {
-                        temp = true;
-                        if (((IInventory) tTileEntity).getSizeInventory() <= 0) {
-                            continue;
-                        }
-                    }
-                    if (tTileEntity instanceof ISidedInventory) {
-                        temp = true;
-                        int[] tSlots = ((ISidedInventory) tTileEntity).getAccessibleSlotsFromSide(GT_Utility.getOppositeSide(i));
-                        if (tSlots == null || tSlots.length <= 0) {
-                            continue;
-                        }
-                    }
-                    if (temp) {
-                        if (tTileEntity instanceof ICoverable && ((ICoverable) tTileEntity).getCoverBehaviorAtSide(GT_Utility.getOppositeSide(i)).alwaysLookConnected(GT_Utility.getOppositeSide(i), ((ICoverable) tTileEntity).getCoverIDAtSide(GT_Utility.getOppositeSide(i)), ((ICoverable) tTileEntity).getCoverDataAtSide(GT_Utility.getOppositeSide(i)), ((ICoverable) tTileEntity))) {
-                            mConnections |= (1 << i);
-                            continue;
-                        }
-                        if (aBaseMetaTileEntity.getCoverBehaviorAtSide(i).alwaysLookConnected(i, aBaseMetaTileEntity.getCoverIDAtSide(i), aBaseMetaTileEntity.getCoverDataAtSide(i), aBaseMetaTileEntity)) {
-                            mConnections |= (1 << i);
-                            continue;
-                        }
-                        if (aBaseMetaTileEntity.getCoverBehaviorAtSide(i).letsItemsIn(i, aBaseMetaTileEntity.getCoverIDAtSide(i), aBaseMetaTileEntity.getCoverDataAtSide(i), -1, aBaseMetaTileEntity)) {
-                            mConnections |= (1 << i);
-                            continue;
-                        }
-                        if (aBaseMetaTileEntity.getCoverBehaviorAtSide(i).letsItemsOut(i, aBaseMetaTileEntity.getCoverIDAtSide(i), aBaseMetaTileEntity.getCoverDataAtSide(i), -1, aBaseMetaTileEntity)) {
-                            mConnections |= (1 << i);
-                            continue;
-                        }
-                    }
-                }
-            }
+            if (!GT_Mod.gregtechproxy.gt6Pipe || mCheckConnections) checkConnections();
 
             if (oLastReceivedFrom == mLastReceivedFrom) {
                 doTickProfilingInThisTick = false;
@@ -214,6 +175,67 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     }
 
     @Override
+    public boolean onWrenchRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+    	if (GT_Mod.gregtechproxy.gt6Pipe) {
+    		byte tSide = GT_Utility.determineWrenchingSide(aSide, aX, aY, aZ);
+    		if (!isConnectedAtSide(tSide)) {
+    			if (connect(tSide) > 0)
+    				GT_Utility.sendChatToPlayer(aPlayer, "Connected");
+    		}
+    		else {
+    			disconnect(tSide);
+    			GT_Utility.sendChatToPlayer(aPlayer, "Disconnected");
+    		}
+    		return true;
+        }
+        return false;
+    }
+
+	@Override
+    public boolean letsIn(GT_CoverBehavior coverBehavior, byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+        return coverBehavior.letsItemsIn(aSide, aCoverID, aCoverVariable, -1, aTileEntity);
+    }
+
+    @Override
+    public boolean letsOut(GT_CoverBehavior coverBehavior, byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+        return coverBehavior.letsItemsOut(aSide, aCoverID, aCoverVariable, -1, aTileEntity);
+                }
+
+    @Override
+    public boolean canConnect(byte aSide, TileEntity tTileEntity) {
+        if (tTileEntity == null) return false;
+
+        final byte tSide = GT_Utility.getOppositeSide(aSide);
+        boolean connectable = GT_Utility.isConnectableNonInventoryPipe(tTileEntity, tSide);
+
+        final IGregTechTileEntity gTileEntity = (tTileEntity instanceof IGregTechTileEntity) ? (IGregTechTileEntity) tTileEntity : null;
+        if (gTileEntity != null) {
+            if (gTileEntity.getMetaTileEntity() == null) return false;
+            if (gTileEntity.getMetaTileEntity().connectsToItemPipe(tSide)) return true;
+            connectable = true;
+                }
+
+            	if (tTileEntity instanceof IInventory) {
+            if (((IInventory) tTileEntity).getSizeInventory() <= 0) return false;
+            connectable = true;
+                }
+                if (tTileEntity instanceof ISidedInventory) {
+                    int[] tSlots = ((ISidedInventory) tTileEntity).getAccessibleSlotsFromSide(tSide);
+            if (tSlots == null || tSlots.length <= 0) return false;
+            connectable = true;
+                }
+
+        return connectable;
+		}
+
+    @Override
+    public boolean getGT6StyleConnection() {
+        // Yes if GT6 pipes are enabled
+        return GT_Mod.gregtechproxy.gt6Pipe;
+        }
+
+
+    @Override
     public boolean incrementTransferCounter(int aIncrement) {
         mTransferredItems += aIncrement;
         return pipeCapacityCheck();
@@ -225,7 +247,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
             byte tOffset = (byte) getBaseMetaTileEntity().getRandomNumber(6), tSide = 0;
             for (byte i = 0; i < 6; i++) {
                 tSide = (byte) ((i + tOffset) % 6);
-                if (isInventoryEmpty() || (tSide != mLastReceivedFrom || aSender != getBaseMetaTileEntity())) {
+                if (isConnectedAtSide(tSide) && (isInventoryEmpty() || (tSide != mLastReceivedFrom || aSender != getBaseMetaTileEntity()))) {
                     if (insertItemStackIntoTileEntity(aSender, tSide)) return true;
                 }
             }
@@ -272,17 +294,23 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     }
 
     @Override
+    public boolean canInsertItem(int aIndex, ItemStack aStack, int aSide) {
+    	return isConnectedAtSide(aSide) && super.canInsertItem(aIndex, aStack, aSide);
+    }
+
+    @Override
     public boolean canExtractItem(int aIndex, ItemStack aStack, int aSide) {
-        return true;
+        return isConnectedAtSide(aSide);
     }
 
     @Override
     public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        return true;
+        return isConnectedAtSide(aSide);
     }
 
     @Override
     public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    	if (!isConnectedAtSide(aSide)) return false;
         if (isInventoryEmpty()) mLastReceivedFrom = aSide;
         return mLastReceivedFrom == aSide && mInventory[aIndex] == null;
     }
@@ -300,5 +328,49 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     @Override
     public float getThickNess() {
         return mThickNess;
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
+    	if (GT_Mod.instance.isClientSide() )
+    		return AxisAlignedBB.getBoundingBox(aX, aY, aZ, aX + 1, aY + 1, aZ + 1);
+    	else
+    		return getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
+    }
+
+    private AxisAlignedBB getActualCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
+    	float tSpace = (1f - mThickNess)/2;
+    	float tSide0 = tSpace;
+    	float tSide1 = 1f - tSpace;
+    	float tSide2 = tSpace;
+    	float tSide3 = 1f - tSpace;
+    	float tSide4 = tSpace;
+    	float tSide5 = 1f - tSpace;
+
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 0) != 0){tSide0=tSide2=tSide4=0;tSide3=tSide5=1;}
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 1) != 0){tSide2=tSide4=0;tSide1=tSide3=tSide5=1;}
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 2) != 0){tSide0=tSide2=tSide4=0;tSide1=tSide5=1;}
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 3) != 0){tSide0=tSide4=0;tSide1=tSide3=tSide5=1;}
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 4) != 0){tSide0=tSide2=tSide4=0;tSide1=tSide3=1;}
+    	if(getBaseMetaTileEntity().getCoverIDAtSide((byte) 5) != 0){tSide0=tSide2=0;tSide1=tSide3=tSide5=1;}
+
+    	byte tConn = ((BaseMetaPipeEntity) getBaseMetaTileEntity()).mConnections;
+    	if((tConn & (1 << ForgeDirection.DOWN.ordinal()) ) != 0) tSide0 = 0f;
+    	if((tConn & (1 << ForgeDirection.UP.ordinal())   ) != 0) tSide1 = 1f;
+    	if((tConn & (1 << ForgeDirection.NORTH.ordinal())) != 0) tSide2 = 0f;
+    	if((tConn & (1 << ForgeDirection.SOUTH.ordinal())) != 0) tSide3 = 1f;
+    	if((tConn & (1 << ForgeDirection.WEST.ordinal()) ) != 0) tSide4 = 0f;
+    	if((tConn & (1 << ForgeDirection.EAST.ordinal()) ) != 0) tSide5 = 1f;
+
+    	return AxisAlignedBB.getBoundingBox(aX + tSide4, aY + tSide0, aZ + tSide2, aX + tSide5, aY + tSide1, aZ + tSide3);
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List<AxisAlignedBB> outputAABB, Entity collider) {
+    	super.addCollisionBoxesToList(aWorld, aX, aY, aZ, inputAABB, outputAABB, collider);
+    	if (GT_Mod.instance.isClientSide() ) {
+    		AxisAlignedBB aabb = getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
+    		if (inputAABB.intersectsWith(aabb)) outputAABB.add(aabb);
+    	}
     }
 }

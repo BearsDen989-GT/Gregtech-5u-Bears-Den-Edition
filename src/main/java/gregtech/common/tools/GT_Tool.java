@@ -4,9 +4,6 @@ import gregtech.api.GregTech_API;
 import gregtech.api.damagesources.GT_DamageSources;
 import gregtech.api.interfaces.IToolStats;
 import gregtech.api.items.GT_MetaGenerated_Tool;
-
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -17,10 +14,13 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 
+import java.util.List;
+
 public abstract class GT_Tool
-implements IToolStats {
+		implements IToolStats {
 	public static final Enchantment[] FORTUNE_ENCHANTMENT = {Enchantment.fortune};
 	public static final Enchantment[] LOOTING_ENCHANTMENT = {Enchantment.looting};
 	public static final Enchantment[] ZERO_ENCHANTMENTS = new Enchantment[0];
@@ -67,7 +67,7 @@ implements IToolStats {
 	}
 
 	public String getBreakingSound() {
-		return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
+		return GregTech_API.sSoundList.get(Integer.valueOf(0));
 	}
 
 	public int getBaseQuality() {
@@ -83,6 +83,10 @@ implements IToolStats {
 	}
 
 	public boolean isGrafter() {
+		return false;
+	}
+
+	public boolean isChainsaw(){
 		return false;
 	}
 
@@ -141,5 +145,10 @@ implements IToolStats {
 
 	public float getMagicDamageAgainstEntity(float aOriginalDamage, Entity aEntity, ItemStack aStack, EntityPlayer aPlayer) {
 		return aOriginalDamage;
+	}
+
+	@Override
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, EntityPlayer aPlayer, World worldObj, int aX, int aY, int aZ) {
+		return aDefault;
 	}
 }

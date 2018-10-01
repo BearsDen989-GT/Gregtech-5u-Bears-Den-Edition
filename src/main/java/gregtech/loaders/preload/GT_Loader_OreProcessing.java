@@ -22,6 +22,7 @@ import gregtech.loaders.oreprocessing.ProcessingDustImpure;
 import gregtech.loaders.oreprocessing.ProcessingDustSmall;
 import gregtech.loaders.oreprocessing.ProcessingDustTiny;
 import gregtech.loaders.oreprocessing.ProcessingDye;
+import gregtech.loaders.oreprocessing.ProcessingFix;
 import gregtech.loaders.oreprocessing.ProcessingFoil;
 import gregtech.loaders.oreprocessing.ProcessingFood;
 import gregtech.loaders.oreprocessing.ProcessingGear;
@@ -45,10 +46,7 @@ import gregtech.loaders.oreprocessing.ProcessingNugget;
 import gregtech.loaders.oreprocessing.ProcessingOre;
 import gregtech.loaders.oreprocessing.ProcessingOrePoor;
 import gregtech.loaders.oreprocessing.ProcessingOreSmelting;
-import gregtech.loaders.oreprocessing.ProcessingPipeLarge;
-import gregtech.loaders.oreprocessing.ProcessingPipeMedium;
-import gregtech.loaders.oreprocessing.ProcessingPipeRestrictive;
-import gregtech.loaders.oreprocessing.ProcessingPipeSmall;
+import gregtech.loaders.oreprocessing.ProcessingPipe;
 import gregtech.loaders.oreprocessing.ProcessingPlank;
 import gregtech.loaders.oreprocessing.ProcessingPlate1;
 import gregtech.loaders.oreprocessing.ProcessingPlate2;
@@ -143,10 +141,7 @@ public class GT_Loader_OreProcessing
         new ProcessingOre();
         new ProcessingOrePoor();
         new ProcessingOreSmelting();
-        new ProcessingPipeSmall();
-        new ProcessingPipeMedium();
-        new ProcessingPipeLarge();
-        new ProcessingPipeRestrictive();
+        new ProcessingPipe();
         new ProcessingPlank();
         new ProcessingPlate1();
         new ProcessingPlate2();
@@ -188,5 +183,6 @@ public class GT_Loader_OreProcessing
         new ProcessingWire08();
         new ProcessingWire12();
         new ProcessingWire16();
+        new ProcessingFix();
     }
 }

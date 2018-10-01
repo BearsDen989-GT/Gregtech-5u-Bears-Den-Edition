@@ -1,5 +1,6 @@
 package gregtech.common.tools;
 
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -43,6 +44,10 @@ public class GT_Tool_Wrench_LV
 
     public float getMaxDurabilityMultiplier() {
         return 1.0F;
+    }
+
+    public ItemStack getBrokenItem(ItemStack aStack) {
+        return (ItemList.ToolHull_LV.get(1L));
     }
 
     public boolean canBlock() {

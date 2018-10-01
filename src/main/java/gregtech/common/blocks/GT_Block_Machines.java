@@ -1,5 +1,7 @@
 package gregtech.common.blocks;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IDebugableBlock;
@@ -14,11 +16,6 @@ import gregtech.api.util.GT_BaseCrop;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.render.GT_Renderer_Block;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -40,8 +37,10 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GT_Block_Machines
 extends GT_Generic_Block
@@ -86,6 +85,13 @@ implements IDebugableBlock, ITileEntityProvider {
 			((BaseTileEntity) tTileEntity).onAdjacentBlockChange(aTileX, aTileY, aTileZ);
 		}
 	}
+
+    public void onNeighborBlockChange(World aWorld, int aX, int aY, int aZ, Block aBlock) {
+        TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+        if ((tTileEntity instanceof BaseMetaPipeEntity)) {
+            ((BaseMetaPipeEntity) tTileEntity).onNeighborBlockChange(aX, aY, aZ);
+        }
+    }
 
 	public void onBlockAdded(World aWorld, int aX, int aY, int aZ) {
 		super.onBlockAdded(aWorld, aX, aY, aZ);
@@ -176,7 +182,7 @@ implements IDebugableBlock, ITileEntityProvider {
 	public boolean onBlockEventReceived(World aWorld, int aX, int aY, int aZ, int aData1, int aData2) {
 		super.onBlockEventReceived(aWorld, aX, aY, aZ, aData1, aData2);
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		return tTileEntity != null ? tTileEntity.receiveClientEvent(aData1, aData2) : false;
+		return tTileEntity != null && tTileEntity.receiveClientEvent(aData1, aData2);
 	}
 
 	public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List outputAABB, Entity collider) {
@@ -341,7 +347,23 @@ implements IDebugableBlock, ITileEntityProvider {
 		if ((tTileEntity instanceof IGregTechTileEntity)) {
 			return ((IGregTechTileEntity) tTileEntity).getDrops();
 		}
-		return mTemporaryTileEntity.get() == null ? new ArrayList() : ((IGregTechTileEntity) mTemporaryTileEntity.get()).getDrops();
+		return mTemporaryTileEntity.get() == null ? new ArrayList() : mTemporaryTileEntity.get().getDrops();
+	}
+
+	@Override
+	public boolean removedByPlayer(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, boolean aWillHarvest) {
+		if (aWillHarvest) {
+			return true; // This delays deletion of the block until after getDrops
+		} else {
+			return super.removedByPlayer(aWorld, aPlayer, aX, aY, aZ, false);
+		}
+	}
+
+	@Override
+	public void harvestBlock(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, int aMeta)
+	{
+		super.harvestBlock(aWorld, aPlayer, aX, aY, aZ, aMeta);
+		aWorld.setBlockToAir(aX, aY, aZ);
 	}
 
 	public int getComparatorInputOverride(World aWorld, int aX, int aY, int aZ, int aSide) {
@@ -399,9 +421,7 @@ implements IDebugableBlock, ITileEntityProvider {
 			if (((tTileEntity instanceof BaseMetaPipeEntity)) && ((((BaseMetaPipeEntity) tTileEntity).mConnections & 0xFFFFFFC0) != 0)) {
 				return true;
 			}
-			if (((tTileEntity instanceof ICoverable)) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0)) {
-				return true;
-			}
+			return ((tTileEntity instanceof ICoverable)) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0);
 		}
 		return false;
 	}

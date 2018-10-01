@@ -1,10 +1,9 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) 
-// Source File Name:   GT_Client.java
-
 package gregtech.common;
 
+import codechicken.lib.vec.Rotation;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
@@ -13,6 +12,7 @@ import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.ITurnable;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
+import gregtech.api.metatileentity.BaseTileEntity;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_PlayedSound;
@@ -25,6 +25,16 @@ import gregtech.common.render.GT_MetaGenerated_Tool_Renderer;
 import gregtech.common.render.GT_Renderer_Block;
 import gregtech.common.render.GT_Renderer_Entity_Arrow;
 import ic2.api.tile.IWrenchable;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import org.lwjgl.opengl.GL11;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,23 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-
-import org.lwjgl.opengl.GL11;
-
-import codechicken.lib.vec.Rotation;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-
 // Referenced classes of package gregtech.common:
 //            GT_Proxy
 
@@ -61,10 +54,8 @@ public class GT_Client extends GT_Proxy
     private static List ROTATABLE_VANILLA_BLOCKS;
 
     static {
-        ROTATABLE_VANILLA_BLOCKS = Arrays.asList(new Block[]{
-                Blocks.piston, Blocks.sticky_piston, Blocks.furnace, Blocks.lit_furnace, Blocks.dropper, Blocks.dispenser, Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest, Blocks.hopper,
-                Blocks.pumpkin, Blocks.lit_pumpkin
-        });
+        ROTATABLE_VANILLA_BLOCKS = Arrays.asList(Blocks.piston, Blocks.sticky_piston, Blocks.furnace, Blocks.lit_furnace, Blocks.dropper, Blocks.dispenser, Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest, Blocks.hopper,
+                Blocks.pumpkin, Blocks.lit_pumpkin);
     }
 
     private final HashSet mCapeList = new HashSet();
@@ -72,19 +63,19 @@ public class GT_Client extends GT_Proxy
     private final List mPosR;
     private final List mPosG;
     private final List mPosB;
-    private final List mPosA = Arrays.asList(new Object[0]);
+    private final List mPosA = Arrays.asList();
     private final List mNegR;
     private final List mNegG;
     private final List mNegB;
-    private final List mNegA = Arrays.asList(new Object[0]);
+    private final List mNegA = Arrays.asList();
     private final List mMoltenPosR;
     private final List mMoltenPosG;
     private final List mMoltenPosB;
-    private final List mMoltenPosA = Arrays.asList(new Object[0]);
+    private final List mMoltenPosA = Arrays.asList();
     private final List mMoltenNegR;
     private final List mMoltenNegG;
     private final List mMoltenNegB;
-    private final List mMoltenNegA = Arrays.asList(new Object[0]);
+    private final List mMoltenNegA = Arrays.asList();
     private long mAnimationTick;
     private boolean mAnimationDirection;
     private boolean isFirstClientPlayerTick;
@@ -94,49 +85,25 @@ public class GT_Client extends GT_Proxy
         mAnimationTick = 0L;
         mAnimationDirection = false;
         isFirstClientPlayerTick = true;
-        mMessage = "";
-        mPosR = Arrays.asList(new Materials[]{
-                /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.Force,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone
-        });
-        mPosG = Arrays.asList(new Materials[]{
-                /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.Force,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth
-        });
-        mPosB = Arrays.asList(new Materials[]{
-                /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
-                Materials.InfusedWater, Materials.Thaumium
-        });
-        mNegR = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy, Materials.NetherStar
-        });
-        mNegG = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy, Materials.NetherStar
-        });
-        mNegB = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy, Materials.NetherStar
-        });
-        mMoltenPosR = Arrays.asList(new Materials[]{
-                Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.Force,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone
-        });
-        mMoltenPosG = Arrays.asList(new Materials[]{
-                Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.Force,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth
-        });
-        mMoltenPosB = Arrays.asList(new Materials[]{
-                Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
-                Materials.InfusedWater, Materials.Thaumium
-        });
-        mMoltenNegR = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy
-        });
-        mMoltenNegG = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy
-        });
-        mMoltenNegB = Arrays.asList(new Materials[]{
-                Materials.InfusedEntropy
-        });
+        mMessage = GT_Values.E;
+        mPosR = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
+                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone);
+        mPosG = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
+                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth);
+        mPosB = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
+                Materials.InfusedWater, Materials.Thaumium);
+        mNegR = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
+        mNegG = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
+        mNegB = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
+        mMoltenPosR = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
+                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone);
+        mMoltenPosG = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
+                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth);
+        mMoltenPosB = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
+                Materials.InfusedWater, Materials.Thaumium);
+        mMoltenNegR = Arrays.asList(Materials.InfusedEntropy);
+        mMoltenNegG = Arrays.asList(Materials.InfusedEntropy);
+        mMoltenNegB = Arrays.asList(Materials.InfusedEntropy);
     }
 
     private static void drawGrid(DrawBlockHighlightEvent aEvent) {
@@ -250,12 +217,8 @@ public class GT_Client extends GT_Proxy
             Scanner tScanner = new Scanner(new URL("http://gregtech.overminddl1.com/com/gregoriust/gregtech/supporterlist.txt").openStream());
             while (tScanner.hasNextLine()) {
                 String tName = tScanner.nextLine();
-                if (!this.mCapeList.contains(tName.toLowerCase())) {
-                    this.mCapeList.add(tName.toLowerCase());
-                }
-                if (!this.mCapeList.contains("draknyte1")) {
-                    this.mCapeList.add("draknyte1");
-                }
+                this.mCapeList.add(tName.toLowerCase());
+                this.mCapeList.add("draknyte1");
             }
         } catch (Throwable e) {
         }
@@ -275,10 +238,10 @@ public class GT_Client extends GT_Proxy
         if ((!aEvent.player.isDead) && (aEvent.phase == TickEvent.Phase.END) && (aEvent.side.isClient())) {
             ArrayList<GT_PlayedSound> tList = new ArrayList();
             for (Map.Entry<GT_PlayedSound, Integer> tEntry : GT_Utility.sPlayedSoundMap.entrySet()) {
-                if (((Integer) tEntry.getValue()).intValue() < 0) {
+                if (tEntry.getValue().intValue() < 0) {
                     tList.add(tEntry.getKey());
                 } else {
-                    tEntry.setValue(Integer.valueOf(((Integer) tEntry.getValue()).intValue() - 1));
+                    tEntry.setValue(Integer.valueOf(tEntry.getValue().intValue() - 1));
                 }
             }
             GT_PlayedSound tKey;
@@ -288,6 +251,9 @@ public class GT_Client extends GT_Proxy
             if ((this.isFirstClientPlayerTick) && (aEvent.player == GT_Values.GT.getThePlayer())) {
                 this.isFirstClientPlayerTick = false;
                 GT_FluidStack.fixAllThoseFuckingFluidIDs();
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Hi "+ Minecraft.getMinecraft().thePlayer.getDisplayName() +", welcome to GT5u: Bears Den Edition!"));
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Visit http://bearsden.overminddl1.com/ for more info."));
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Not ready for public use, still in alpha"));
                 if ((this.mMessage.length() > 5) && (GregTech_API.sSpecialFile.get(ConfigCategories.news, this.mMessage, true))) {
                     aEvent.player.addChatComponentMessage(new ChatComponentText(this.mMessage));
                 }
@@ -326,6 +292,11 @@ public class GT_Client extends GT_Proxy
                     drawGrid(aEvent);
                     return;
                 }
+                if (aTileEntity instanceof BaseTileEntity && (GT_Utility.isStackInList(aEvent.currentItem, GregTech_API.sWireCutterList))) {
+                    drawGrid(aEvent);
+                    return;
+                }
+
             } catch (Throwable e) {
                 if (GT_Values.D1) {
                     e.printStackTrace(GT_Log.err);
@@ -448,8 +419,8 @@ public class GT_Client extends GT_Proxy
         do {
             if (i >= j)
                 break;
-            if (GT_Utility.areStacksEqual((ItemStack) mSoundItems.get(i), aStack)) {
-                tString = (String) mSoundNames.get(i);
+            if (GT_Utility.areStacksEqual(mSoundItems.get(i), aStack)) {
+                tString = mSoundNames.get(i);
                 break;
             }
             i++;
@@ -514,7 +485,7 @@ public class GT_Client extends GT_Proxy
                     break;
             }
         if (tString.startsWith("streaming."))
-            aWorld.playRecord(tString.substring(10, tString.length()), (int) aX, (int) aY, (int) aZ);
+            aWorld.playRecord(tString.substring(10), (int) aX, (int) aY, (int) aZ);
         else
             aWorld.playSound(aX, aY, aZ, tString, 3F, tString.startsWith("note.") ? (float) Math.pow(2D, (double) (aStack.stackSize - 13) / 12D) : 1.0F, false);
     }

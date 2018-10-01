@@ -1,5 +1,10 @@
 package gregtech.loaders.misc;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
@@ -11,27 +16,20 @@ import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.common.items.GT_MetaGenerated_Tool_01;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.StatBase;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fluids.FluidStack;
 import thaumcraft.api.ThaumcraftApiHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class GT_Achievements {
 
@@ -49,116 +47,116 @@ public class GT_Achievements {
         for (int i = 0; i < oreList.size(); i++) {
             if (GT_Values.D1 && this.achievementList.get(oreList.get(i).name()) == null) {
                 GT_Log.out.println("achievement." + oreList.get(i).name() + "=Find " + oreList.get(i).name() + " Ore");
-                GT_Log.out.println("achievement." + oreList.get(i).name() + ".desc=Height: " + (oreStats.get(i)[0]) + "-" + (oreStats.get(i)[1]) + ", Chance: " + (oreStats.get(i)[2]) + ", " + (oreStats.get(i)[3] == 1 ? "Overworld" : "") + "/" + (oreStats.get(i)[4] == 1 ? "Nether" : "") + "/" + (oreStats.get(i)[5] == 1 ? "End" : ""));
+                GT_Log.out.println("achievement." + oreList.get(i).name() + ".desc=Height: " + (oreStats.get(i)[0]) + "-" + (oreStats.get(i)[1]) + ", Chance: " + (oreStats.get(i)[2]) + ", " + (oreStats.get(i)[3] == 1 ? "Overworld" : GT_Values.E) + "/" + (oreStats.get(i)[4] == 1 ? "Nether" : GT_Values.E) + "/" + (oreStats.get(i)[5] == 1 ? "End" : GT_Values.E));
             }
             registerOreAchievement(oreList.get(i));
         }
-        registerAchievement("flintpick", 0, 0, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(2, 1, Materials.Flint, Materials.Wood, null), "", false);
+        registerAchievement("flintpick", 0, 0, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(2, 1, Materials.Flint, Materials.Wood, null), GT_Values.E, false);
         registerAchievement("crops", -4, 0, GT_ModHandler.getIC2Item("crop", 1L), "flintpick", false);
-        registerAchievement("havestlead", -4, 2, ItemList.Crop_Drop_Plumbilia.get(1, new Object[]{}), "crops", false);
-        registerAchievement("havestcopper", -2, 1, ItemList.Crop_Drop_Coppon.get(1, new Object[]{}), "crops", false);
-        registerAchievement("havesttin", -2, -1, ItemList.Crop_Drop_Tine.get(1, new Object[]{}), "crops", false);
-        registerAchievement("havestoil", -4, -4, ItemList.Crop_Drop_OilBerry.get(1, new Object[]{}), "crops", false);
-        registerAchievement("havestiron", -2, -3, ItemList.Crop_Drop_Ferru.get(1, new Object[]{}), "crops", false);
-        registerAchievement("havestgold", -2, -6, ItemList.Crop_Drop_Aurelia.get(1, new Object[]{}), "havestiron", false);
-        registerAchievement("havestsilver", -4, -5, ItemList.Crop_Drop_Argentia.get(1, new Object[]{}), "havestiron", false);
-        registerAchievement("havestemeralds", -2, -8, ItemList.Crop_Drop_BobsYerUncleRanks.get(1, new Object[]{}), "havestgold", false);
+        registerAchievement("havestlead", -4, 2, ItemList.Crop_Drop_Plumbilia.get(1), "crops", false);
+        registerAchievement("havestcopper", -2, 1, ItemList.Crop_Drop_Coppon.get(1), "crops", false);
+        registerAchievement("havesttin", -2, -1, ItemList.Crop_Drop_Tine.get(1), "crops", false);
+        registerAchievement("havestoil", -4, -4, ItemList.Crop_Drop_OilBerry.get(1), "crops", false);
+        registerAchievement("havestiron", -2, -3, ItemList.Crop_Drop_Ferru.get(1), "crops", false);
+        registerAchievement("havestgold", -2, -6, ItemList.Crop_Drop_Aurelia.get(1), "havestiron", false);
+        registerAchievement("havestsilver", -4, -5, ItemList.Crop_Drop_Argentia.get(1), "havestiron", false);
+        registerAchievement("havestemeralds", -2, -8, ItemList.Crop_Drop_BobsYerUncleRanks.get(1), "havestgold", false);
 
         registerAchievement("tools", 0, 4, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(12, 1, Materials.Iron, Materials.Wood, null), "flintpick", false);
         registerAchievement("driltime", 2, 4, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(100, 1, Materials.BlueSteel, Materials.StainlessSteel, null), "tools", false);
         registerAchievement("brrrr", 2, 6, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(110, 1, Materials.BlueSteel, Materials.StainlessSteel, null), "driltime", false);
         registerAchievement("highpowerdrill", 3, 5, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(104, 1, Materials.TungstenSteel, Materials.TungstenSteel, null), "driltime", false);
         registerAchievement("hammertime", 3, 7, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(130, 1, Materials.TungstenSteel, Materials.TungstenSteel, null), "highpowerdrill", false);
-        registerAchievement("repair", 4, 5, ItemList.Machine_HV_Disassembler.get(1, new Object[]{}), "highpowerdrill", false);
+        registerAchievement("repair", 4, 5, ItemList.Machine_HV_Disassembler.get(1), "highpowerdrill", false);
 
         registerAchievement("unitool", -2, 4, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(32, 1, Materials.Steel, Materials.Iron, null), "tools", false);
-        registerAchievement("recycling", -4, 4, ItemList.Machine_LV_ArcFurnace.get(1, new Object[]{}), "unitool", false);
+        registerAchievement("recycling", -4, 4, ItemList.Machine_LV_ArcFurnace.get(1), "unitool", false);
 
         registerAchievement("crushed", 0, 6, GT_OreDictUnificator.get(OrePrefixes.crushed, Materials.Tin, 1L), "tools", false);
         registerAchievement("cleandust", 0, 10, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), "crushed", false);
         registerAchievement("washing", -2, 6, GT_OreDictUnificator.get(OrePrefixes.crushedPurified, Materials.Iron, 1L), "crushed", false);
         registerAchievement("spinit", -4, 6, GT_OreDictUnificator.get(OrePrefixes.crushedCentrifuged, Materials.Redstone, 1L), "crushed", false);
-        registerAchievement("newfuel", -4, 8, ItemList.ThoriumCell_4.get(1, new Object[]{}), "spinit", false);
+        registerAchievement("newfuel", -4, 8, ItemList.ThoriumCell_4.get(1), "spinit", false);
         registerAchievement("newmetal", -4, 10, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lutetium, 1L), "newfuel", false);
-        registerAchievement("reflect", -2, 9, ItemList.Neutron_Reflector.get(1, new Object[]{}), "newfuel", false);
+        registerAchievement("reflect", -2, 9, ItemList.Neutron_Reflector.get(1), "newfuel", false);
 
         registerAchievement("bronze", 2, 0, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Bronze, 1L), "flintpick", false);
-        registerAchievement("simplyeco", 2, 2, ItemList.Machine_Bronze_Boiler_Solar.get(1, new Object[]{}), "bronze", false);
-        registerAchievement("firststeam", 2, -2, ItemList.Machine_Bronze_Boiler.get(1, new Object[]{}), "bronze", false);
-        registerAchievement("alloysmelter", 2, -4, ItemList.Machine_Bronze_AlloySmelter.get(1, new Object[]{}), "firststeam", false);
-        registerAchievement("macerator", 0, -2, ItemList.Machine_Bronze_Macerator.get(1, new Object[]{}), "firststeam", false);
-        registerAchievement("extract", 0, -4, ItemList.Machine_Bronze_Extractor.get(1, new Object[]{}), "alloysmelter", false);
+        registerAchievement("simplyeco", 2, 2, ItemList.Machine_Bronze_Boiler_Solar.get(1), "bronze", false);
+        registerAchievement("firststeam", 2, -2, ItemList.Machine_Bronze_Boiler.get(1), "bronze", false);
+        registerAchievement("alloysmelter", 2, -4, ItemList.Machine_Bronze_AlloySmelter.get(1), "firststeam", false);
+        registerAchievement("macerator", 0, -2, ItemList.Machine_Bronze_Macerator.get(1), "firststeam", false);
+        registerAchievement("extract", 0, -4, ItemList.Machine_Bronze_Extractor.get(1), "alloysmelter", false);
 
-        registerAchievement("smallparts", 0, -8, ItemList.Circuit_Primitive.get(1, new Object[]{}), "extract", false);
-        registerAchievement("bettercircuits", 0, -10, ItemList.Circuit_Good.get(1, new Object[]{}), "smallparts", false);
-        registerAchievement("stepforward", -2, -10, ItemList.Circuit_Advanced.get(1, new Object[]{}), "bettercircuits", false);
-        registerAchievement("energyflow", -4, -10, ItemList.Circuit_Master.get(1, new Object[]{}), "stepforward", false);
-        registerAchievement("orbs", -6, -10, ItemList.Energy_LapotronicOrb.get(1, new Object[]{}), "energyflow", false);
-        registerAchievement("thatspower", -8, -10, ItemList.Energy_LapotronicOrb2.get(1, new Object[]{}), "orbs", false);
-        registerAchievement("datasaving", -2, -12, ItemList.Tool_DataOrb.get(1, new Object[]{}), "stepforward", false);
-        registerAchievement("superbuffer", 0, -12, ItemList.Automation_SuperBuffer_LV.get(1, new Object[]{}), "datasaving", false);
-        registerAchievement("newstorage", -2, -14, ItemList.Quantum_Chest_HV.get(1, new Object[]{}), "superbuffer", false);
-        registerAchievement("whereistheocean", 2, -14, ItemList.Quantum_Tank_IV.get(1, new Object[]{}), "superbuffer", false);
-        registerAchievement("luck", 2, -6, ItemList.ZPM.get(1, new Object[]{}), "", false);
+        registerAchievement("smallparts", 0, -8, ItemList.Circuit_Primitive.get(1), "extract", false);
+        registerAchievement("bettercircuits", 0, -10, ItemList.Circuit_Good.get(1), "smallparts", false);
+        registerAchievement("stepforward", -2, -10, ItemList.Circuit_Advanced.get(1), "bettercircuits", false);
+        registerAchievement("energyflow", -4, -10, ItemList.Circuit_Master.get(1), "stepforward", false);
+        registerAchievement("orbs", -6, -10, ItemList.Energy_LapotronicOrb.get(1), "energyflow", false);
+        registerAchievement("thatspower", -8, -10, ItemList.Energy_LapotronicOrb2.get(1), "orbs", false);
+        registerAchievement("datasaving", -2, -12, ItemList.Tool_DataOrb.get(1), "stepforward", false);
+        registerAchievement("superbuffer", 0, -12, ItemList.Automation_SuperBuffer_LV.get(1), "datasaving", false);
+        registerAchievement("newstorage", -2, -14, ItemList.Quantum_Chest_HV.get(1), "superbuffer", false);
+        registerAchievement("whereistheocean", 2, -14, ItemList.Quantum_Tank_IV.get(1), "superbuffer", false);
+        registerAchievement("luck", 2, -6, ItemList.ZPM.get(1), GT_Values.E, false);
 
         registerAchievement("steel", 4, 0, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Steel, 1L), "bronze", false);
-        registerAchievement("highpressure", 4, 2, ItemList.Machine_Steel_Boiler.get(1, new Object[]{}), "steel", false);
-        registerAchievement("extremepressure", 4, 4, ItemList.Machine_Multi_LargeBoiler_Steel.get(1, new Object[]{}), "highpressure", false);
-        registerAchievement("cheapermac", 6, 1, ItemList.Machine_LV_Hammer.get(1, new Object[]{}), "steel", false);
+        registerAchievement("highpressure", 4, 2, ItemList.Machine_Steel_Boiler.get(1), "steel", false);
+        registerAchievement("extremepressure", 4, 4, ItemList.Machine_Multi_LargeBoiler_Steel.get(1), "highpressure", false);
+        registerAchievement("cheapermac", 6, 1, ItemList.Machine_LV_Hammer.get(1), "steel", false);
         registerAchievement("complexalloys", 6, 3, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.BlueSteel, 1L), "cheapermac", false);
 
         registerAchievement("magneticiron", 4, -2, GT_OreDictUnificator.get(OrePrefixes.stick, Materials.IronMagnetic, 1L), "steel", false);
-        registerAchievement("lvmotor", 4, -6, ItemList.Electric_Motor_LV.get(1, new Object[]{}), "magneticiron", false);
-        registerAchievement("pumpcover", 2, -8, ItemList.Electric_Pump_LV.get(1, new Object[]{}), "lvmotor", false);
-        registerAchievement("closeit", 2, -10, ItemList.Cover_Shutter.get(1, new Object[]{}), "pumpcover", false);
-        registerAchievement("slurp", 2, -12, ItemList.Pump_HV.get(1, new Object[]{}), "closeit", false);
-        registerAchievement("transport", 4, -10, ItemList.Conveyor_Module_LV.get(1, new Object[]{}), "lvmotor", false);
-        registerAchievement("manipulation", 4, -12, ItemList.Cover_Controller.get(1, new Object[]{}), "transport", false);
-        registerAchievement("buffer", 4, -14, ItemList.Automation_ChestBuffer_LV.get(1, new Object[]{}), "manipulation", false);
-        registerAchievement("complexmachines", 6, -9, ItemList.Robot_Arm_LV.get(1, new Object[]{}), "lvmotor", false);
-        registerAchievement("avengers", 8, -11, ItemList.Machine_LV_Assembler.get(1, new Object[]{}), "complexmachines", false);
-        registerAchievement("filterregulate", 10, -11, ItemList.Component_Filter.get(1, new Object[]{}), "avengers", false);
+        registerAchievement("lvmotor", 4, -6, ItemList.Electric_Motor_LV.get(1), "magneticiron", false);
+        registerAchievement("pumpcover", 2, -8, ItemList.Electric_Pump_LV.get(1), "lvmotor", false);
+        registerAchievement("closeit", 2, -10, ItemList.Cover_Shutter.get(1), "pumpcover", false);
+        registerAchievement("slurp", 2, -12, ItemList.Pump_HV.get(1), "closeit", false);
+        registerAchievement("transport", 4, -10, ItemList.Conveyor_Module_LV.get(1), "lvmotor", false);
+        registerAchievement("manipulation", 4, -12, ItemList.Cover_Controller.get(1), "transport", false);
+        registerAchievement("buffer", 4, -14, ItemList.Automation_ChestBuffer_LV.get(1), "manipulation", false);
+        registerAchievement("complexmachines", 6, -9, ItemList.Robot_Arm_LV.get(1), "lvmotor", false);
+        registerAchievement("avengers", 8, -11, ItemList.Machine_LV_Assembler.get(1), "complexmachines", false);
+        registerAchievement("filterregulate", 10, -11, ItemList.Component_Filter.get(1), "avengers", false);
 
-        registerAchievement("steampower", 6, -6, ItemList.Generator_Steam_Turbine_LV.get(1, new Object[]{}), "lvmotor", false);
-        registerAchievement("batterys", 6, -4, ItemList.Battery_Buffer_2by2_MV.get(1, new Object[]{}), "steampower", false);
-        registerAchievement("badweather", 6, -8, ItemList.Casing_FireHazard.get(1, new Object[]{}), "steampower", false);
-        registerAchievement("electricproblems", 7, -7, ItemList.Casing_ExplosionHazard.get(1, new Object[]{}), "steampower", false);
-        registerAchievement("ebf", 8, -6, ItemList.Machine_Multi_BlastFurnace.get(1, new Object[]{}), "steampower", false);
-        registerAchievement("energyhatch", 12, -6, ItemList.Hatch_Energy_LV.get(1, new Object[]{}), "ebf", false);
+        registerAchievement("steampower", 6, -6, ItemList.Generator_Steam_Turbine_LV.get(1), "lvmotor", false);
+        registerAchievement("batterys", 6, -4, ItemList.Battery_Buffer_2by2_MV.get(1), "steampower", false);
+        registerAchievement("badweather", 6, -8, ItemList.Casing_FireHazard.get(1), "steampower", false);
+        registerAchievement("electricproblems", 7, -7, ItemList.Casing_ExplosionHazard.get(1), "steampower", false);
+        registerAchievement("ebf", 8, -6, ItemList.Machine_Multi_BlastFurnace.get(1), "steampower", false);
+        registerAchievement("energyhatch", 12, -6, ItemList.Hatch_Energy_LV.get(1), "ebf", false);
 
         registerAchievement("gtaluminium", 8, 0, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Aluminium, 1L), "steel", false);
-        registerAchievement("highpowersmelt", 8, 2, ItemList.Machine_Multi_Furnace.get(1, new Object[]{}), "gtaluminium", false);
-        registerAchievement("oilplant", 8, 4, ItemList.Distillation_Tower.get(1, new Object[]{}), "highpowersmelt", false);
-        registerAchievement("factory", 8, 6, ItemList.Processing_Array.get(1, new Object[]{}), "oilplant", false);
-        registerAchievement("upgradeebf", 8, -2, ItemList.Hatch_Energy_MV.get(1, new Object[]{}), "gtaluminium", false);
-        registerAchievement("maintainance", 10, -2, ItemList.Hatch_Maintenance.get(1, new Object[]{}), "upgradeebf", false);
+        registerAchievement("highpowersmelt", 8, 2, ItemList.Machine_Multi_Furnace.get(1), "gtaluminium", false);
+        registerAchievement("oilplant", 8, 4, ItemList.Distillation_Tower.get(1), "highpowersmelt", false);
+        registerAchievement("factory", 8, 6, ItemList.Processing_Array.get(1), "oilplant", false);
+        registerAchievement("upgradeebf", 8, -2, ItemList.Hatch_Energy_MV.get(1), "gtaluminium", false);
+        registerAchievement("maintainance", 10, -2, ItemList.Hatch_Maintenance.get(1), "upgradeebf", false);
 
         registerAchievement("titan", 10, 0, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Titanium, 1L), "gtaluminium", false);
-        registerAchievement("magic", 10, 4, ItemList.MagicEnergyConverter_LV.get(1, new Object[]{}), "titan", false);
-        registerAchievement("highmage", 10, 6, ItemList.MagicEnergyAbsorber_HV.get(1, new Object[]{}), "magic", false);
-        registerAchievement("artificaldia", 11, 2, ItemList.IC2_Industrial_Diamond.get(1, new Object[]{}), "titan", false);
-        registerAchievement("muchsteam", 12, 1, ItemList.LargeSteamTurbine.get(1, new Object[]{}), "titan", false);
-        registerAchievement("efficientsteam", 12, 3, ItemList.LargeSteamTurbine.get(1, new Object[]{}), "muchsteam", false);
+        registerAchievement("magic", 10, 4, ItemList.MagicEnergyConverter_LV.get(1), "titan", false);
+        registerAchievement("highmage", 10, 6, ItemList.MagicEnergyAbsorber_HV.get(1), "magic", false);
+        registerAchievement("artificaldia", 11, 2, ItemList.IC2_Industrial_Diamond.get(1), "titan", false);
+        registerAchievement("muchsteam", 12, 1, ItemList.LargeSteamTurbine.get(1), "titan", false);
+        registerAchievement("efficientsteam", 12, 3, ItemList.LargeSteamTurbine.get(1), "muchsteam", false);
 
-        registerAchievement("upgrade", 14, 0, ItemList.Casing_Coil_Kanthal.get(1, new Object[]{}), "titan", false);
+        registerAchievement("upgrade", 14, 0, ItemList.Casing_Coil_Kanthal.get(1), "titan", false);
         registerAchievement("tungsten", 16, 0, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tungsten, 1L), "upgrade", false);
-        registerAchievement("hightech", 15, -1, ItemList.Field_Generator_LV.get(1, new Object[]{}), "tungsten", false);
-        registerAchievement("amplifier", 17, -3, ItemList.Machine_LV_Amplifab.get(1, new Object[]{}), "hightech", false);
-        registerAchievement("scanning", 13, -2, ItemList.Machine_HV_Scanner.get(1, new Object[]{}), "hightech", false);
-        registerAchievement("alienpower", 14, -4, ItemList.Generator_Naquadah_Mark_I.get(1, new Object[]{}), "hightech", false);
-        registerAchievement("universal", 15, -6, ItemList.Machine_LV_Massfab.get(1, new Object[]{}), "hightech", false);
-        registerAchievement("replication", 17, -6, ItemList.Machine_LV_Replicator.get(1, new Object[]{}), "universal", false);
+        registerAchievement("hightech", 15, -1, ItemList.Field_Generator_LV.get(1), "tungsten", false);
+        registerAchievement("amplifier", 17, -3, ItemList.Machine_LV_Amplifab.get(1), "hightech", false);
+        registerAchievement("scanning", 13, -2, ItemList.Machine_HV_Scanner.get(1), "hightech", false);
+        registerAchievement("alienpower", 14, -4, ItemList.Generator_Naquadah_Mark_I.get(1), "hightech", false);
+        registerAchievement("universal", 15, -6, ItemList.Machine_LV_Massfab.get(1), "hightech", false);
+        registerAchievement("replication", 17, -6, ItemList.Machine_LV_Replicator.get(1), "universal", false);
 
-        registerAchievement("upgrade2", 16, 6, ItemList.Casing_Coil_Nichrome.get(1, new Object[]{}), "tungsten", false);
+        registerAchievement("upgrade2", 16, 6, ItemList.Casing_Coil_Nichrome.get(1), "tungsten", false);
         registerAchievement("tungstensteel", 14, 6, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.TungstenSteel, 1L), "upgrade2", false);
-        registerAchievement("conducting", 12, 6, ItemList.Casing_Coil_Superconductor.get(1, new Object[]{}), "tungstensteel", false);
-        registerAchievement("fusion", 14, 8, ItemList.FusionComputer_LuV.get(1, new Object[]{}), "tungstensteel", false);
-        registerAchievement("higherefficency", 14, 10, ItemList.Generator_Plasma_IV.get(1, new Object[]{}), "fusion", false);
-        registerAchievement("advancing", 12, 8, ItemList.FusionComputer_ZPMV.get(1, new Object[]{}), "fusion", false);
-        registerAchievement("tothelimit", 12, 10, ItemList.Generator_Plasma_LuV.get(1, new Object[]{}), "advancing", false);
-        registerAchievement("denseaspossible", 10, 10, ItemList.FusionComputer_UV.get(1, new Object[]{}), "tothelimit", false);
-        registerAchievement("fullefficiency", 10, 12, ItemList.Generator_Plasma_ZPMV.get(1, new Object[]{}), "denseaspossible", false);
-        registerAchievement("whatnow", 8, 10, ItemList.ZPM2.get(1, new Object[]{}), "denseaspossible", false);
+        registerAchievement("conducting", 12, 6, ItemList.Casing_Coil_Superconductor.get(1), "tungstensteel", false);
+        registerAchievement("fusion", 14, 8, ItemList.FusionComputer_LuV.get(1), "tungstensteel", false);
+        registerAchievement("higherefficency", 14, 10, ItemList.Generator_Plasma_IV.get(1), "fusion", false);
+        registerAchievement("advancing", 12, 8, ItemList.FusionComputer_ZPMV.get(1), "fusion", false);
+        registerAchievement("tothelimit", 12, 10, ItemList.Generator_Plasma_LuV.get(1), "advancing", false);
+        registerAchievement("denseaspossible", 10, 10, ItemList.FusionComputer_UV.get(1), "tothelimit", false);
+        registerAchievement("fullefficiency", 10, 12, ItemList.Generator_Plasma_ZPMV.get(1), "denseaspossible", false);
+        registerAchievement("whatnow", 8, 10, ItemList.ZPM2.get(1), "denseaspossible", false);
 
         if (GT_Mod.gregtechproxy.mAchievements) {
             AchievementPage.registerAchievementPage(new AchievementPage("GregTech 5", (Achievement[]) this.achievementList.values().toArray(
@@ -179,7 +177,6 @@ public class GT_Achievements {
         if (!GT_Mod.gregtechproxy.mAchievements) {
             return null;
         }
-        ;
         Achievement achievement = new Achievement(textId, textId, this.adjX + x, this.adjY + y, icon, requirement);
         if (special) {
             achievement.setSpecial();
@@ -197,7 +194,6 @@ public class GT_Achievements {
         if (!GT_Mod.gregtechproxy.mAchievements) {
             return null;
         }
-        ;
         Achievement achievement = new Achievement(textId, textId, this.adjX + x, this.adjY + y, icon, getAchievement(requirement));
         if (special) {
             achievement.setSpecial();
@@ -229,14 +225,14 @@ public class GT_Achievements {
 //			return;	
 //			}else{
 //			this.issuedAchievements.put((entityplayer.getDisplayName()+textId), true);	
-        entityplayer.triggerAchievement((StatBase) this.achievementList.get(textId));
+        entityplayer.triggerAchievement(this.achievementList.get(textId));
 //			}
 //		}
     }
 
     public Achievement getAchievement(String textId) {
         if (this.achievementList.containsKey(textId)) {
-            return (Achievement) this.achievementList.get(textId);
+            return this.achievementList.get(textId);
         }
         return null;
     }
@@ -446,7 +442,7 @@ public class GT_Achievements {
             } else if (data.mMaterial.mMaterial == Materials.Steel) {
                 if (data.mPrefix == OrePrefixes.ingot && stack.stackSize == stack.getMaxStackSize()) {
                     issueAchievement(player, "steel");
-                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded("Thaumcraft")) {
+                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded(GT_Values.MOD_ID_TC)) {
                     if (ThaumcraftApiHelper.isResearchComplete(player.getDisplayName(), "GT_IRON_TO_STEEL")) {
                         issueAchievement(player, "steel");
                     }

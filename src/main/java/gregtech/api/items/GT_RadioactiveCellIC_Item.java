@@ -6,13 +6,12 @@ import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorComponent;
 import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 
 public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implements IReactorComponent {
@@ -67,7 +66,7 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
 
                     int dheat = heat / heatAcceptors.size();
                     heat -= dheat;
-                    dheat = ((IReactorComponent) ((ItemStackCoord) heatAcceptors.get(0)).stack.getItem()).alterHeat(reactor, ((ItemStackCoord) heatAcceptors.get(0)).stack, ((ItemStackCoord) heatAcceptors.get(0)).x, ((ItemStackCoord) heatAcceptors.get(0)).y, dheat);
+                    dheat = ((IReactorComponent) heatAcceptors.get(0).stack.getItem()).alterHeat(reactor, heatAcceptors.get(0).stack, heatAcceptors.get(0).x, heatAcceptors.get(0).y, dheat);
                     heat += dheat;
                     heatAcceptors.remove(0);
                 }
@@ -79,13 +78,13 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
         if (getDamageOfStack(yourStack) >= getMaxDamageEx() - 1) {
             switch (this.numberOfCells) {
                 case 1:
-                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_1.get(1, new Object[0]));
+                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_1.get(1));
                     break;
                 case 2:
-                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_2.get(1, new Object[0]));
+                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_2.get(1));
                     break;
                 case 4:
-                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_4.get(1, new Object[0]));
+                    reactor.setItemAt(x, y, ItemList.Depleted_Thorium_4.get(1));
             }
         } else if (heatrun) {
             damageItemStack(yourStack, 1);
@@ -102,7 +101,7 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
 
     public boolean acceptUraniumPulse(IReactor reactor, ItemStack yourStack, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun) {
         if (!heatrun) {
-            reactor.addOutput((float) (1.0F * this.sEnergy));
+            reactor.addOutput((1.0F * this.sEnergy));
         }
         return true;
     }

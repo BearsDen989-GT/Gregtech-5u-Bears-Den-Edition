@@ -1,5 +1,6 @@
 package gregtech.common.redstonecircuits;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.IRedstoneCircuitBlock;
 import gregtech.api.util.GT_CircuitryBehavior;
 
@@ -30,7 +31,7 @@ public class GT_Circuit_Equals
     }
 
     public void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
-        aRedstoneCircuitBlock.setRedstone(((byte) ((aCircuitData[1] != 0 ? getStrongestRedstone(aRedstoneCircuitBlock) == aCircuitData[0] : getStrongestRedstone(aRedstoneCircuitBlock) != aCircuitData[0]) ? 0 : 15)), aRedstoneCircuitBlock.getOutputFacing());
+        aRedstoneCircuitBlock.setRedstone(((byte) (((aCircuitData[1] != 0) == (getStrongestRedstone(aRedstoneCircuitBlock) == aCircuitData[0])) ? 0 : 15)), aRedstoneCircuitBlock.getOutputFacing());
     }
 
     public String getName() {
@@ -48,7 +49,7 @@ public class GT_Circuit_Equals
             case 1:
                 return aCircuitData[1] == 0 ? "Equal" : "Unequal";
         }
-        return "";
+        return GT_Values.E;
     }
 
     public boolean displayItemStack(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex) {
@@ -57,7 +58,7 @@ public class GT_Circuit_Equals
 
     public String getDataDisplay(int[] aCircuitData, int aCircuitDataIndex) {
         if (aCircuitDataIndex > 0) {
-            return "";
+            return GT_Values.E;
         }
         return null;
     }

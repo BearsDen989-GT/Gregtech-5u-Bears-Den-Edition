@@ -1,7 +1,5 @@
 package gregtech.api.enums;
 
-import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK;
-import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 import gregtech.api.GregTech_API;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.interfaces.ITexture;
@@ -10,6 +8,9 @@ import gregtech.api.objects.GT_SidedTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK;
+import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 
 public class Textures {
     public enum BlockIcons implements IIconContainer, Runnable {
@@ -24,7 +25,9 @@ public class Textures {
         CONCRETE_DARK_BRICKS_CHISELED, CONCRETE_DARK_SMOOTH, GRANITE_BLACK_STONE, GRANITE_BLACK_COBBLE, GRANITE_BLACK_COBBLE_MOSSY,
         GRANITE_BLACK_BRICKS, GRANITE_BLACK_BRICKS_CRACKED, GRANITE_BLACK_BRICKS_MOSSY, GRANITE_BLACK_BRICKS_CHISELED, GRANITE_BLACK_SMOOTH,
         GRANITE_RED_STONE, GRANITE_RED_COBBLE, GRANITE_RED_COBBLE_MOSSY, GRANITE_RED_BRICKS, GRANITE_RED_BRICKS_CRACKED,
-        GRANITE_RED_BRICKS_MOSSY, GRANITE_RED_BRICKS_CHISELED, GRANITE_RED_SMOOTH,
+        GRANITE_RED_BRICKS_MOSSY, GRANITE_RED_BRICKS_CHISELED, GRANITE_RED_SMOOTH, MARBLE_STONE, MARBLE_COBBLE, MARBLE_COBBLE_MOSSY, MARBLE_BRICKS,
+        MARBLE_BRICKS_CRACKED, MARBLE_BRICKS_MOSSY, MARBLE_BRICKS_CHISELED, MARBLE_SMOOTH, BASALT_STONE, BASALT_COBBLE, BASALT_COBBLE_MOSSY,
+        BASALT_BRICKS, BASALT_BRICKS_CRACKED, BASALT_BRICKS_MOSSY, BASALT_BRICKS_CHISELED, BASALT_SMOOTH,
         MACHINE_BRONZEBRICKS_TOP, MACHINE_BRONZEBRICKS_SIDE, MACHINE_BRONZEBRICKS_BOTTOM, MACHINE_STEELBRICKS_TOP, MACHINE_STEELBRICKS_SIDE,
         MACHINE_STEELBRICKS_BOTTOM, MACHINE_BRONZE_TOP, MACHINE_BRONZE_SIDE, MACHINE_BRONZE_BOTTOM, MACHINE_STEEL_TOP, MACHINE_STEEL_SIDE,
         MACHINE_STEEL_BOTTOM, MACHINE_8V_TOP, MACHINE_8V_SIDE, MACHINE_8V_BOTTOM, MACHINE_LV_TOP, MACHINE_LV_SIDE, MACHINE_LV_BOTTOM,
@@ -95,7 +98,11 @@ public class Textures {
         FUSIONI_10, FUSIONI_11, FUSIONI_12, FUSIONII_1, FUSIONII_2, FUSIONII_3, FUSIONII_4, FUSIONII_5, FUSIONII_6, FUSIONII_7, FUSIONII_8, FUSIONII_9,
         FUSIONII_10, FUSIONII_11, FUSIONII_12, LARGETURBINE1, LARGETURBINE2, LARGETURBINE3, LARGETURBINE4, LARGETURBINE5,
         LARGETURBINE6, LARGETURBINE7, LARGETURBINE8, LARGETURBINE9, LARGETURBINE_ACTIVE1, LARGETURBINE_ACTIVE2, LARGETURBINE_ACTIVE3, LARGETURBINE_ACTIVE4,
-        LARGETURBINE_ACTIVE5, LARGETURBINE_ACTIVE6, LARGETURBINE_ACTIVE7, LARGETURBINE_ACTIVE8, LARGETURBINE_ACTIVE9, MACHINE_CASING_TURBINE;
+        LARGETURBINE_ACTIVE5, LARGETURBINE_ACTIVE6, LARGETURBINE_ACTIVE7, LARGETURBINE_ACTIVE8, LARGETURBINE_ACTIVE9, OVERLAY_FRONT_PYROLYSE_OVEN_ACTIVE, OVERLAY_FRONT_PYROLYSE_OVEN, MACHINE_CASING_TURBINE,
+        PIPE_RESTRICTOR_UP, PIPE_RESTRICTOR_DOWN, PIPE_RESTRICTOR_LEFT, PIPE_RESTRICTOR_RIGHT, PIPE_RESTRICTOR_NU, PIPE_RESTRICTOR_ND, PIPE_RESTRICTOR_NL, PIPE_RESTRICTOR_NR,
+        PIPE_RESTRICTOR_UD, PIPE_RESTRICTOR_UL, PIPE_RESTRICTOR_UR, PIPE_RESTRICTOR_DL, PIPE_RESTRICTOR_DR, PIPE_RESTRICTOR_LR, MACHINE_CASING_DENSEBRICKS, MACHINE_CASING_BRICKEDBLASTFURNACE_ACTIVE, MACHINE_CASING_BRICKEDBLASTFURNACE_INACTIVE,
+        STORAGE_SIDE_WOOD, STORAGE_VERTICAL_WOOD, MACHINE_CASING_PLASTIC;
+
 
         /**
          * Icon for Fresh CFoam
@@ -125,11 +132,28 @@ public class Textures {
                 new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[14].mRGBa)},
                 new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[15].mRGBa)}
         };
+
+        public static final IIconContainer[]
+                STORAGE_SIDE = new IIconContainer[]{
+                STORAGE_SIDE_WOOD,
+                MACHINE_BRONZEPLATEDBRICKS,
+                MACHINE_CASING_SOLID_STEEL,
+                MACHINE_CASING_STABLE_TITANIUM,
+                MACHINE_CASING_ROBUST_TUNGSTENSTEEL,
+
+        },
+                STORAGE_TOPBOTTOM = new IIconContainer[]{
+                STORAGE_VERTICAL_WOOD,
+                MACHINE_BRONZEPLATEDBRICKS,
+                MACHINE_CASING_SOLID_STEEL,
+                MACHINE_CASING_STABLE_TITANIUM,
+                MACHINE_CASING_ROBUST_TUNGSTENSTEEL,
+        },
+
         /**
          * Machine Casings by Tier
          * 0 = 8V, 1 = LV, 2 = MV, 3 = HV, 4 = EV, 5 = IV, 6 = IV, 7 = IV, 8 = IV, 9 = IV
          */
-        public static final IIconContainer[]
                 MACHINECASINGS_SIDE = new IIconContainer[]{
                 MACHINE_8V_SIDE,
                 MACHINE_LV_SIDE,
@@ -219,6 +243,24 @@ public class Textures {
                         CONCRETE_LIGHT_BRICKS_MOSSY,
                         CONCRETE_LIGHT_BRICKS_CHISELED,
                         CONCRETE_LIGHT_SMOOTH,
+                },
+                STONES = new IIconContainer[]{
+                        MARBLE_STONE,
+                        MARBLE_COBBLE,
+                        MARBLE_COBBLE_MOSSY,
+                        MARBLE_BRICKS,
+                        MARBLE_BRICKS_CRACKED,
+                        MARBLE_BRICKS_MOSSY,
+                        MARBLE_BRICKS_CHISELED,
+                        MARBLE_SMOOTH,
+                        BASALT_STONE,
+                        BASALT_COBBLE,
+                        BASALT_COBBLE_MOSSY,
+                        BASALT_BRICKS,
+                        BASALT_BRICKS_CRACKED,
+                        BASALT_BRICKS_MOSSY,
+                        BASALT_BRICKS_CHISELED,
+                        BASALT_SMOOTH
                 },
                 TURBINE = new IIconContainer[]{
                         LARGETURBINE1,
@@ -338,7 +380,8 @@ public class Textures {
                         new GT_RenderedTexture(OVERLAY_LOCKER_013),
                 },
                 CASING_BLOCKS = new ITexture[128],
-                MACHINE_CASINGS[] = new ITexture[10][17];
+                MACHINE_CASINGS[] = new ITexture[10][17],
+                STORAGESTUFF[] = new ITexture [5][3];
 
         static {
             for (byte i = 0; i < MACHINE_CASINGS.length; i++)
@@ -346,9 +389,15 @@ public class Textures {
                     MACHINE_CASINGS[i][j] = new GT_SidedTexture(MACHINECASINGS_BOTTOM[i], MACHINECASINGS_TOP[i], MACHINECASINGS_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
         }
 
+        static {
+            for (byte i = 0; i < STORAGESTUFF.length; i++)
+                for (byte j = 0; j < STORAGESTUFF[i].length; j++)
+                    STORAGESTUFF[i][j] = new GT_SidedTexture(STORAGE_TOPBOTTOM[i], STORAGE_TOPBOTTOM[i], STORAGE_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
+        }
+
         protected IIcon mIcon;
 
-        private BlockIcons() {
+        BlockIcons() {
             GregTech_API.sGTBlockIconload.add(this);
         }
 
@@ -435,7 +484,7 @@ public class Textures {
 
         protected IIcon mIcon, mOverlay;
 
-        private ItemIcons() {
+        ItemIcons() {
             GregTech_API.sGTItemIconload.add(this);
         }
 

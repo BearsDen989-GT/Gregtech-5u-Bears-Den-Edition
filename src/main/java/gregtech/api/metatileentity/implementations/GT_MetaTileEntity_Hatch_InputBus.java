@@ -1,5 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_1by1;
 import gregtech.api.gui.GT_Container_2by2;
@@ -23,7 +24,7 @@ public class GT_MetaTileEntity_Hatch_InputBus extends GT_MetaTileEntity_Hatch {
     public GT_Recipe_Map mRecipeMap = null;
 
     public GT_MetaTileEntity_Hatch_InputBus(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, getSlots(aTier), "Item Input for Multiblocks (" + getSlots(aTier) + " slot" + (getSlots(aTier) >= 2 ? "s" : "") + ")");
+        super(aID, aName, aNameRegional, aTier, getSlots(aTier), "Item Input for Multiblocks (" + getSlots(aTier) + " slot" + (getSlots(aTier) >= 2 ? "s" : GT_Values.E) + ")");
     }
 
     public GT_MetaTileEntity_Hatch_InputBus(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {

@@ -1,4 +1,4 @@
-package e99999;
+package e_five_nine;
 
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;

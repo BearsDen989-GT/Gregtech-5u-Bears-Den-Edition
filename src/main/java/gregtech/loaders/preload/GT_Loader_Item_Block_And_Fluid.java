@@ -28,6 +28,7 @@ import gregtech.common.blocks.GT_Block_Concretes;
 import gregtech.common.blocks.GT_Block_Granites;
 import gregtech.common.blocks.GT_Block_Machines;
 import gregtech.common.blocks.GT_Block_Ores;
+import gregtech.common.blocks.GT_Block_Stones;
 import gregtech.common.blocks.GT_TileEntity_Ores;
 import gregtech.common.items.GT_DepletetCell_Item;
 import gregtech.common.items.GT_FluidDisplayItem;
@@ -150,6 +151,7 @@ public class GT_Loader_Item_Block_And_Fluid
         GregTech_API.sBlockCasings4 = new GT_Block_Casings4();
         GregTech_API.sBlockGranites = new GT_Block_Granites();
         GregTech_API.sBlockConcretes = new GT_Block_Concretes();
+        GregTech_API.sBlockStones = new GT_Block_Stones();
         GregTech_API.sBlockOres1 = new GT_Block_Ores();
 
         GT_Log.out.println("GT_Mod: Register TileEntities.");
@@ -207,7 +209,8 @@ public class GT_Loader_Item_Block_And_Fluid
 
         ItemList.sNitricAcid = GT_Mod.gregtechproxy.addFluid("nitricacid", "Nitric acid ", null, 1, 295);
         ItemList.sBlueVitriol = GT_Mod.gregtechproxy.addFluid("solution.bluevitriol", "Blue Vitriol water solution", null, 1, 295);
-        ItemList.sNickelSulfate = GT_Mod.gregtechproxy.addFluid("solution.nickelsulfate", "Nickel sulfate water solution", null, 1, 295);
+        ItemList.sGreenVitriol = GT_Mod.gregtechproxy.addFluid("solution.greenvitriol", "Green Vitriol water solution", null, 1, 295);
+        ItemList.sNickelSulfate = GT_Mod.gregtechproxy.addFluid("solution.nickelsulfate", "Nickel Sulfate water solution", null, 1, 295);
 
         GT_Mod.gregtechproxy.addFluid("UUAmplifier", "UU Amplifier", Materials.UUAmplifier, 1, 295, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.UUAmplifier, 1L), ItemList.Cell_Empty.get(1L), 1000);
         GT_Mod.gregtechproxy.addFluid("Chlorine", "Chlorine", Materials.Chlorine, 1, 295, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Chlorine, 1L), ItemList.Cell_Empty.get(1L), 1000);

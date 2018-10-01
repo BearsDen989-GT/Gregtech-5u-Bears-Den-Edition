@@ -1,5 +1,6 @@
-package e99999;
+package e_five_nine;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -7,23 +8,47 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtech.api.objects.GT_RenderedTexture;
 import gregtech.api.util.GT_Utility;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-//TODO: add melting temp to tooltip
-//TODO: output only bottom
 
-public class tankBasic
+//TODO: make portable, then only output bottom
+//TODO: output pressure reflects crafting tier pipe
+
+public class BasicTank
         extends GT_MetaTileEntity_BasicTank {
-    public tankBasic(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 3, "Stores " + ((int) (Math.pow(2, aTier) * 8000)) + "L of fluid & outputs front, melts at internal pipe temp");
+
+    private static final int[] HEAT_CAPACITY = {350, 2000, 2500, 5000, 12500};
+    private static final String FLUID_TAG = "GT.FluidContent";
+
+    public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
+        super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
-    public tankBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    private BasicTank(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound aNBT) {
+        if (mFluid != null) aNBT.setTag(FLUID_TAG, mFluid.writeToNBT(new NBTTagCompound()));
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound aNBT) {
+        mFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag(FLUID_TAG));
+    }
+
+    @Override
+    public void setItemNBT(NBTTagCompound aNBT) {
+        super.setItemNBT(aNBT);
+        if (mFluid != null) aNBT.setTag(FLUID_TAG, mFluid.writeToNBT(new NBTTagCompound()));
     }
 
     @Override
@@ -37,15 +62,8 @@ public class tankBasic
     }
 
     @Override
-    public void saveNBTData(NBTTagCompound aNBT) {
-        super.saveNBTData(aNBT);
-    }
-
-    @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-        aBaseMetaTileEntity.openGUI(aPlayer);
-        return true;
+        return (aBaseMetaTileEntity.isClientSide() || aBaseMetaTileEntity.openGUI(aPlayer));
     }
 
     @Override
@@ -61,11 +79,6 @@ public class tankBasic
     @Override
     public boolean isAccessAllowed(EntityPlayer aPlayer) {
         return true;
-    }
-
-    @Override
-    public void loadNBTData(NBTTagCompound aNBT) {
-        super.loadNBTData(aNBT);
     }
 
     @Override
@@ -89,45 +102,73 @@ public class tankBasic
     }
 
     @Override
+    public String[] getDescription() {
+        return new String[]{
+                "Stores " + Integer.toString(getCapacity()) + "L",
+                "Melts at " + HEAT_CAPACITY[mTier] + "k",
+                isGasProof() ?
+                        "Can store gaseous fluids" :
+                        "Leaks gaseous fluids",
+                "Outputs to Facing"};
+    }
+
+    @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPostTick(aBaseMetaTileEntity, aTick);
-        if (getDrainableStack() != null){
-            IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
-            if (tTank != null) {
-                FluidStack tDrained = drain(250, false);
-                if (tDrained != null) {
-                    int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
-                    if (tFilledAmount > 0)
-                        tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
+        if (aBaseMetaTileEntity.isClientSide()) return;
+        if (mFluid == null || mFluid.amount <= 0) return;
+
+        checkGasLeak(aTick);
+        doFluidTransfer(aBaseMetaTileEntity);
+
+        if (aTick % 20 == 0) {
+            checkHeat(aBaseMetaTileEntity);
+        }
+    }
+
+    private void doFluidTransfer(IGregTechTileEntity aBaseMetaTileEntity) {
+        if (getDrainableStack() == null) return;
+        IFluidHandler tTank = aBaseMetaTileEntity.getITankContainerAtSide(aBaseMetaTileEntity.getFrontFacing());
+        if (tTank == null) return;
+        FluidStack tDrained = drain(250, true);
+        if (tDrained == null) return;
+        int tFilledAmount = tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), tDrained, false);
+        if (tFilledAmount > 0)
+            tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
+    }
+
+    private void checkHeat(IGregTechTileEntity aBaseMetaTileEntity) {
+        int tTemperature = mFluid.getFluid().getTemperature();
+        if (tTemperature > HEAT_CAPACITY[mTier]) {
+            Block tFluidBlock = mFluid.getFluid().getBlock();
+            if (tFluidBlock == null) {
+                if (mFluid.getFluid().getTemperature() < 1300) {
+                    tFluidBlock = Blocks.fire;
+                }
+                else {
+                    tFluidBlock = Blocks.lava;
                 }
             }
-
+            int tX = aBaseMetaTileEntity.getXCoord();
+            int tY = aBaseMetaTileEntity.getYCoord();
+            int tZ = aBaseMetaTileEntity.getZCoord();
+            aBaseMetaTileEntity.getWorld().setBlock(tX, tY, tZ, tFluidBlock,7,2);
+            aBaseMetaTileEntity.setOnFire();
+            inValidate();
         }
-        if (mFluid != null && mFluid.amount > 0) {
-            int tLimit = 350; //default limit
-            if (mTier == 1) {
-                tLimit = 2000;
-            } else if (mTier == 2) {
-                tLimit = 2500;
-            } else if (mTier == 3) {
-                tLimit = 5000;
-            } else if (mTier == 4) {
-                tLimit = 12500;
-            }
+    }
 
-            int tTemperature = mFluid.getFluid().getTemperature(mFluid);
-            if (tTemperature > tLimit) {
-                if (aBaseMetaTileEntity.getRandomNumber(100) == 0) {
-                    aBaseMetaTileEntity.setToFire();
-                    return;
-                }
-                aBaseMetaTileEntity.setOnFire();
-            }
-        if (mFluid.getFluid().isGaseous(mFluid) && mTier == 0)
-            {mFluid.amount -= 100;
-                sendSound((byte) 9);
-            }
-        }
+    private void checkGasLeak(long aTick) {
+        if (isGasProof() || !(mFluid.getFluid().isGaseous())) return;
+
+        FluidStack tDrained = drain(5, true);
+        if (tDrained == null) return;
+        mFluid.amount -= tDrained.amount;
+        if (aTick % 200 == 0) sendSound((byte) 9); // Avoid sound spamming
+    }
+
+    private boolean isGasProof() {
+        return (mTier > 0);
     }
 
     @Override
@@ -156,7 +197,6 @@ public class tankBasic
         }
     }
 
-
     @Override
     public String[] getInfoData() {
 
@@ -183,7 +223,7 @@ public class tankBasic
 
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new tankBasic(mName, mTier, mDescription, mTextures);
+        return new BasicTank(mName, mTier, mDescription, mTextures);
     }
 
     @Override

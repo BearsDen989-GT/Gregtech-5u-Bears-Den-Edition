@@ -93,6 +93,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
@@ -179,6 +180,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 	public boolean gt6Pipe = true;
 	public boolean gt6Cable = true;
 	public boolean ic2EnergySourceCompat = true;
+	public boolean ElectricJetpackNeedsDragonEgg = true;
 
 	public GT_Proxy() {
 		GameRegistry.registerFuelHandler(this);
@@ -491,6 +493,15 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			if ((tData.filledContainer.getItem() == Items.potionitem) && (tData.filledContainer.getItemDamage() == 0)) {
 				tData.fluid.amount = 0;
 				break;
+			}
+		}
+		// Fixing Broken Steam Fluid entries
+		GT_Log.out.println("Fixing broken Steam fluids with phony temperature and gaseous status.");
+		for (Map.Entry<String, Fluid> tFluidEntry : FluidRegistry.getRegisteredFluids().entrySet()) {
+			if (tFluidEntry.getKey().matches("steam") && tFluidEntry.getValue().getTemperature() < 420) {
+				tFluidEntry.getValue().setTemperature(420);
+				tFluidEntry.getValue().setGaseous(true);
+				GT_Log.out.format("Fixed: %s",tFluidEntry.getKey());
 			}
 		}
 		GT_Log.out.println("GT_Mod: Adding Configs specific for MetaTileEntities");

@@ -1,8 +1,6 @@
 package gregtech.loaders.preload;
 
 import cpw.mods.fml.common.Loader;
-import e99999.barrelBasic;
-import e99999.tankBasic;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
@@ -12,6 +10,8 @@ import gregtech.api.enums.Materials;
 import gregtech.api.enums.OreDictNames;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.ToolDictNames;
+import e_five_nine.barrelBasic;
+import e_five_nine.BasicTank;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Fluid;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Frame;
@@ -416,6 +416,9 @@ public class GT_Loader_MetaTileEntities
         if (!Loader.isModLoaded(GT_Values.MOD_ID_TFC)) {
             GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bronze_BlastFurnace.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PFP", "FwF", "PFP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('F'), OreDictNames.craftingFurnace});
         }
+
+        GT_ModHandler.addCraftingRecipe(ItemList.Casing_Plastic.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PhP", "PFP", "PwP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Plastic), Character.valueOf('F'), OrePrefixes.frameGt.get(Materials.AnyIron)});
+
         ItemList.Machine_Bronze_Furnace.set(new GT_MetaTileEntity_Furnace_Bronze(103, "bronzemachine.furnace", "Steam Furnace").getStackForm(1L));
         ItemList.Machine_Steel_Furnace.set(new GT_MetaTileEntity_Furnace_Steel(104, "steelmachine.furnace", "High Pressure Furnace").getStackForm(1L));
         ItemList.Machine_Bronze_Macerator.set(new GT_MetaTileEntity_Macerator_Bronze(106, "bronzemachine.macerator", "Steam Macerator").getStackForm(1L));
@@ -1082,8 +1085,6 @@ public class GT_Loader_MetaTileEntities
         makeWires(Materials.VanadiumGallium, 1740, bEC ? 2L : 128L, bEC ? 4L : 256L, 4L, gregtech.api.enums.GT_Values.V[6], true, false);
         makeWires(Materials.YttriumBariumCuprate, 1760, bEC ? 4L : 256L, bEC ? 8L : 512L, 4L, gregtech.api.enums.GT_Values.V[6], true, false);
 
-        makeWires(Materials.Technetium, 12080, bEC ? 1L : 16L, bEC ? 2L : 32L, 1L, gregtech.api.enums.GT_Values.V[5], true, false);
-
         makeWires(Materials.RedAlloy, 2000, 0L, 1L, 1L, gregtech.api.enums.GT_Values.V[0], true, false);
         makeWires(Materials.PurpleAlloy, 12060, bEC ? 1L : 2L, bEC ? 2L : 4L, 1L, gregtech.api.enums.GT_Values.V[2], true, false);
 
@@ -1268,11 +1269,11 @@ public class GT_Loader_MetaTileEntities
 
         /* e99999 adding stuff in down here */
 
-        ItemList.Basic_Tank.set(new tankBasic(12000, "basic.tank.tier.00", "Basic Tank I", 0).getStackForm(1L));
-        ItemList.Basic_Tank_Steam.set(new tankBasic(12001, "basic.tank.tier.01", "Basic Tank II", 1).getStackForm(1L));
-        ItemList.Basic_Tank_LV.set(new tankBasic(12002, "basic.tank.tier.02", "Basic Tank III", 2).getStackForm(1L));
-        ItemList.Basic_Tank_MV.set(new tankBasic(12003, "basic.tank.tier.03", "Basic Tank IV", 3).getStackForm(1L));
-        ItemList.Basic_Tank_HV.set(new tankBasic(12004, "basic.tank.tier.04", "Basic Tank V", 4).getStackForm(1L));
+        ItemList.Basic_Tank.set(new BasicTank(12000, "basic.tank.tier.00", "Basic Tank I", 0).getStackForm(1L));
+        ItemList.Basic_Tank_Steam.set(new BasicTank(12001, "basic.tank.tier.01", "Basic Tank II", 1).getStackForm(1L));
+        ItemList.Basic_Tank_LV.set(new BasicTank(12002, "basic.tank.tier.02", "Basic Tank III", 2).getStackForm(1L));
+        ItemList.Basic_Tank_MV.set(new BasicTank(12003, "basic.tank.tier.03", "Basic Tank IV", 3).getStackForm(1L));
+        ItemList.Basic_Tank_HV.set(new BasicTank(12004, "basic.tank.tier.04", "Basic Tank V", 4).getStackForm(1L));
 
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PRP", Character.valueOf('P'), OrePrefixes.plank.get(Materials.Wood), Character.valueOf('X'), OrePrefixes.pipeMedium.get(Materials.Wood), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.Wood), Character.valueOf('R'), OrePrefixes.ring.get(Materials.AnyIron), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolSoftMallet });
         GT_ModHandler.addCraftingRecipe(ItemList.Basic_Tank_Steam.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WXH", "PBP", "PXP", Character.valueOf('P'), OrePrefixes.plate.get(Materials.Bronze), Character.valueOf('X'), OrePrefixes.pipeMedium.get(Materials.Bronze), Character.valueOf('B'), OrePrefixes.frameGt.get(Materials.Bronze), Character.valueOf('W'), ToolDictNames.craftingToolWrench, Character.valueOf('H'), ToolDictNames.craftingToolHardHammer });

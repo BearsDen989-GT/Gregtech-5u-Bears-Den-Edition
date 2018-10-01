@@ -30,15 +30,16 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
     public String[] getDescription() {
         return new String[]{
                 "Controller Block for the Hydroponic Farm",
-                "Grows Plants Inside with Water & Fertilizer",
-                "Size(WxHxD): 5x4x5, Controller (Bottom center)",
-                "25x Plastic Casings (Centered 3x1x3 area in Bottom layer)",
+                "Plants & Seeds into input hatches",
+                "Fertilizer into empty controller slot",
+                "Size(WxHxD): 5x5x5 of Plastic Casings",
+                "1x Controller (Center in Bottom Layer) ",
                 "1x Input Hatch/Bus (Centered 3x1x3 area in Top layer)",
                 "1x Output Hatch/Bus (Any bottom layer casing)",
                 "1x Maintenance Hatch (Any bottom layer casing)",
                 "1x Muffler Hatch (Centered 3x1x3 area in Top layer)",
                 "1x Energy Hatch (Any bottom layer casing)",
-                "Plastic Casings for the rest (64 at least!)"};
+                "Plastic Casings for the rest (93 at least!)"};
     }
 
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
@@ -50,7 +51,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
     }
 
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "HydroFarm.png");
+        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "MultiblockDisplay.png");
     }
 
     @Override
@@ -100,17 +101,17 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
         int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ * 2;
         for (int i = -2; i < 3; i++) {
             for (int j = -2; j < 3; j++) {
-                for (int h = 0; h < 4; h++) {
+                for (int h = 0; h < 5; h++) {
                     IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, h, zDir + j);
-                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// innerer 3x3 ohne h�he
-                        if (h == 0) {// innen boden (plastic casings)
+                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// inner 3 x 3
+                        if (h == 0) {//inner bottom (plastic casings)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                 return false;
                             }
                             if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, h, zDir + j) != 14) {
                                 return false;
                             }
-                        } else if (h == 3) {// innen decke (plastic casings + input + muffler)
+                        } else if (h == 4) {//inner top (plastic casings + input + muffler)
                             if ((!addInputToMachineList(tTileEntity, 62)) && (!addMufflerToMachineList(tTileEntity, 62))) {
                                 if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                     return false;
@@ -119,13 +120,13 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                                     return false;
                                 }
                             }
-                        } else {// innen air
+                        } else {// inside air
                             if (!aBaseMetaTileEntity.getAirOffset(xDir + i, h, zDir + j)) {
                                 return false;
                             }
                         }
-                    } else {// Au�erer 5x5 ohne h�he
-                        if (h == 0) {// au�en boden (controller, output, energy, maintainance, rest plastic casings)
+                    } else {// outer 5x5
+                        if (h == 0) {// outer bottom
                             if ((!addMaintenanceToMachineList(tTileEntity, 62)) && (!addOutputToMachineList(tTileEntity, 62)) && (!addEnergyInputToMachineList(tTileEntity, 62))) {
                                 if ((xDir + i != 0) || (zDir + j != 0)) {//no controller
                                     if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
@@ -136,7 +137,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                                     }
                                 }
                             }
-                        } else {// au�en �ber boden (plastic)
+                        } else {// rest (plastic)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                 return false;
                             }

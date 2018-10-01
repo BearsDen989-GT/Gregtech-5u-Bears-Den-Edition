@@ -1,8 +1,8 @@
 package gregtech.common.items;
 
 import cpw.mods.fml.common.Loader;
-import e99999.drainAdv;
-import e99999.ventAir;
+import e_five_nine.drainAdv;
+import e_five_nine.ventAir;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;

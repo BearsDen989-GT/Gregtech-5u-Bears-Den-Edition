@@ -1673,18 +1673,18 @@ public class GT_Utility {
                     if (((ic2.api.crops.ICropTile) tTileEntity).getID() >= 0 && ((ic2.api.crops.ICropTile) tTileEntity).getID() < ic2.api.crops.Crops.instance.getCropList().length && ic2.api.crops.Crops.instance.getCropList()[((ic2.api.crops.ICropTile) tTileEntity).getID()] != null) {
                         rEUAmount += 1000;
                         tList.add("Type -- Crop-Name: " + ic2.api.crops.Crops.instance.getCropList()[((ic2.api.crops.ICropTile) tTileEntity).getID()].name()
-                                        + "  Growth: " + ((ic2.api.crops.ICropTile) tTileEntity).getGrowth()
-                                        + "  Gain: " + ((ic2.api.crops.ICropTile) tTileEntity).getGain()
-                                        + "  Resistance: " + ((ic2.api.crops.ICropTile) tTileEntity).getResistance()
+                                + "  Growth: " + ((ic2.api.crops.ICropTile) tTileEntity).getGrowth()
+                                + "  Gain: " + ((ic2.api.crops.ICropTile) tTileEntity).getGain()
+                                + "  Resistance: " + ((ic2.api.crops.ICropTile) tTileEntity).getResistance()
                         );
                         tList.add("Plant -- Fertilizer: " + ((ic2.api.crops.ICropTile) tTileEntity).getNutrientStorage()
-                                        + "  Water: " + ((ic2.api.crops.ICropTile) tTileEntity).getHydrationStorage()
-                                        + "  Weed-Ex: " + ((ic2.api.crops.ICropTile) tTileEntity).getWeedExStorage()
-                                        + "  Scan-Level: " + ((ic2.api.crops.ICropTile) tTileEntity).getScanLevel()
+                                + "  Water: " + ((ic2.api.crops.ICropTile) tTileEntity).getHydrationStorage()
+                                + "  Weed-Ex: " + ((ic2.api.crops.ICropTile) tTileEntity).getWeedExStorage()
+                                + "  Scan-Level: " + ((ic2.api.crops.ICropTile) tTileEntity).getScanLevel()
                         );
                         tList.add("Environment -- Nutrients: " + ((ic2.api.crops.ICropTile) tTileEntity).getNutrients()
-                                        + "  Humidity: " + ((ic2.api.crops.ICropTile) tTileEntity).getHumidity()
-                                        + "  Air-Quality: " + ((ic2.api.crops.ICropTile) tTileEntity).getAirQuality()
+                                + "  Humidity: " + ((ic2.api.crops.ICropTile) tTileEntity).getHumidity()
+                                + "  Air-Quality: " + ((ic2.api.crops.ICropTile) tTileEntity).getAirQuality()
                         );
                         String tString = E;
                         for (String tAttribute : ic2.api.crops.Crops.instance.getCropList()[((ic2.api.crops.ICropTile) tTileEntity).getID()].attributes()) {

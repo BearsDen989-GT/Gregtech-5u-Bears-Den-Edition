@@ -18,7 +18,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: false
-    branches:
-      - "master"
-      - "dev"
-      - "test"
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^dev|test|master$

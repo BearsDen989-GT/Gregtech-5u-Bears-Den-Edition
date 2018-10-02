@@ -6,7 +6,7 @@ before_deploy:
 # Set up git user name and tag this commit
   - git config --local user.name "testdeploy"
   - git config --local user.email "testdeploy"
-  - git tag "$(git branch | grep \* | cut -d ' ' -f2)Build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+  - git tag "$(git log -n 1 --pretty=%d HEAD| cut -d ' ' -f4 | cut -d ',' -f1)Build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
   api_key:

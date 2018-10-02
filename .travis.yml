@@ -2,6 +2,11 @@ language: java
 install:
   - ./gradlew setupDecompworkspace
   - ./gradlew build
+before_deploy:
+# Set up git user name and tag this commit
+  - git config --local user.name "testdeploy"
+  - git config --local user.email "testdeploy"
+  - git tag "$(git branch | grep \* | cut -d ' ' -f2)Build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
   api_key:
@@ -13,3 +18,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: false
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^dev|test|master$

@@ -1,8 +1,6 @@
 package gregtech.common.items;
 
 import cpw.mods.fml.common.Loader;
-import e_five_nine.drainAdv;
-import e_five_nine.ventAir;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;
@@ -26,12 +24,14 @@ import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.covers.GT_Cover_AirVent;
 import gregtech.common.covers.GT_Cover_Arm;
 import gregtech.common.covers.GT_Cover_ControlsWork;
 import gregtech.common.covers.GT_Cover_Conveyor;
 import gregtech.common.covers.GT_Cover_Crafting;
 import gregtech.common.covers.GT_Cover_DoesWork;
 import gregtech.common.covers.GT_Cover_Drain;
+import gregtech.common.covers.GT_Cover_DrainAdvanced;
 import gregtech.common.covers.GT_Cover_EUMeter;
 import gregtech.common.covers.GT_Cover_FluidRegulator;
 import gregtech.common.covers.GT_Cover_Fluidfilter;
@@ -749,7 +749,7 @@ public class GT_MetaGenerated_Item_01
         ItemList.Cover_Crafting.set(addItem(tLastID = 744, "Crafting Table Cover", "Better than a wooden Workbench", new TC_Aspects.TC_AspectStack(TC_Aspects.FABRICO, 4L)));
         ItemList.Cover_Drain.set(addItem(tLastID = 745, "Basic Drain", "Absorbs Fluids and collects Rain", new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 2L)));
         ItemList.Drain_Adv.set(addItem(tLastID = 375, "Advanced Drain", "Infinite water in correct biomes between Y 50-63", new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 2L)));
-        ItemList.Vent_Air.set(addItem(tLastID = 376, "Air Vent", "It's a vent, for air dumbass!", new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L)));
+        ItemList.Vent_Air.set(addItem(tLastID = 376, "Air Intake Vent", "Takes in air from the surrounding world", new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L)));
 
         ItemList.Cover_Shutter.set(addItem(tLastID = 749, "Shutter Module", "Blocks Inventory/Tank Side. Usage together with Machine Controller.", new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.ITER, 1L)));
         GT_Values.RA.addAssemblerRecipe(ItemList.Cover_Shutter.get(1L), GT_OreDictUnificator.get(OrePrefixes.circuit, Materials.Advanced, 2), ItemList.FluidFilter.get(1L), 800, 4);
@@ -773,8 +773,8 @@ public class GT_MetaGenerated_Item_01
         GregTech_API.registerCover(ItemList.Cover_Screen.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[2][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SCREEN)), new GT_Cover_Screen());
         GregTech_API.registerCover(ItemList.Cover_Crafting.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_CRAFTING)), new GT_Cover_Crafting());
         GregTech_API.registerCover(ItemList.Cover_Drain.get(1L), new GT_MultiTexture(Textures.BlockIcons.STORAGESTUFF[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_DRAIN)), new GT_Cover_Drain());
-        GregTech_API.registerCover(ItemList.Drain_Adv.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_DRAIN)), new drainAdv());
-        GregTech_API.registerCover(ItemList.Vent_Air.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_DRAIN)), new ventAir());
+        GregTech_API.registerCover(ItemList.Drain_Adv.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_DRAIN)), new GT_Cover_DrainAdvanced());
+        GregTech_API.registerCover(ItemList.Vent_Air.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_DRAIN)), new GT_Cover_AirVent());
         GregTech_API.registerCover(ItemList.Cover_Shutter.get(1L), new GT_MultiTexture(Textures.BlockIcons.MACHINE_CASINGS[1][0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SHUTTER)), new GT_Cover_Shutter());
 
         ItemList.Cover_SolarPanel.set(addItem(tLastID = 750, "Solar Panel", "May the Sun be with you", new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.TENEBRAE, 1L)));

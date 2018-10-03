@@ -54,7 +54,9 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
     }
 
     public final TileEntity getTileEntityAtSide(byte aSide) {
-        int tX = getOffsetX(aSide, 1), tY = getOffsetY(aSide, 1), tZ = getOffsetZ(aSide, 1);
+        int tX = getOffsetX(aSide, 1),
+            tY = getOffsetY(aSide, 1),
+            tZ = getOffsetZ(aSide, 1);
         return getWorld().getTileEntity(tX, tY, tZ);
     }
 
@@ -86,6 +88,7 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
         return outputEnergy() ? TickRateModulation.FASTER : TickRateModulation.SLOWER;
     }
 
+    @Override
     public ForgeDirection getSide(){
     	try {
     		Field fSide = AEBasePart.class.getDeclaredField("side");

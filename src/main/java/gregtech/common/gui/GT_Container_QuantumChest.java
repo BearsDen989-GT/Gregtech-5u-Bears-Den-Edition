@@ -2,11 +2,11 @@ package gregtech.common.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import e_five_nine.barrelBasic;
 import gregtech.api.gui.GT_ContainerMetaTile_Machine;
 import gregtech.api.gui.GT_Slot_Output;
 import gregtech.api.gui.GT_Slot_Render;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.common.tileentities.storage.GT_MetaTileEntity_Barrel;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumChest;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -37,8 +37,8 @@ public class GT_Container_QuantumChest extends GT_ContainerMetaTile_Machine {
         if (mTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_QuantumChest) {
             mContent = ((GT_MetaTileEntity_QuantumChest) mTileEntity.getMetaTileEntity()).mItemCount;
         } else {
-            if (mTileEntity.getMetaTileEntity() instanceof barrelBasic) {
-                mContent = ((barrelBasic) mTileEntity.getMetaTileEntity()).mItemCount;
+            if (mTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_Barrel) {
+                mContent = ((GT_MetaTileEntity_Barrel) mTileEntity.getMetaTileEntity()).mItemCount;
             } else {
             mContent = 0;
             }

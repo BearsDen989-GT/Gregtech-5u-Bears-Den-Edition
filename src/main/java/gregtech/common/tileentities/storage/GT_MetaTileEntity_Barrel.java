@@ -1,4 +1,4 @@
-package e_five_nine;
+package gregtech.common.tileentities.storage;
 
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -17,14 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 //TODO: Make barrel/chest drop ALL items upon breaking
 //TODO: Item Render on Front Facing
 
-public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
+public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlock {
     public int mItemCount = 0;
     public ItemStack mItemStack = null;
-    public barrelBasic(int aID, String aName, String aNameRegional, int aTier) {
+    public GT_MetaTileEntity_Barrel(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "This Barrel stores " + ((int) ((Math.pow(2, aTier)) * 2000)) + " Blocks");
     }
 
-    public barrelBasic(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_Barrel(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
 
@@ -50,7 +50,7 @@ public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
 
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new barrelBasic(mName, mTier, mDescription, mTextures);
+        return new GT_MetaTileEntity_Barrel(mName, mTier, mDescription, mTextures);
     }
 
     @Override
@@ -193,3 +193,4 @@ public class barrelBasic extends GT_MetaTileEntity_TieredMachineBlock {
     }
 
 }
+

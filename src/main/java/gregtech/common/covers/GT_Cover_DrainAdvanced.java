@@ -1,4 +1,4 @@
-package e_five_nine;
+package gregtech.common.covers;
 
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
@@ -14,15 +14,12 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.IFluidHandler;
 
-//TODO: revert behavior to basic drain if else
-
-public class drainAdv
-        extends GT_CoverBehavior {
+public class GT_Cover_DrainAdvanced extends GT_CoverBehavior {
     public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
         if ((aCoverVariable % 3 > 1) && (aTileEntity instanceof IMachineProgress) &&
                 ((IMachineProgress) aTileEntity).isAllowedToWork() != aCoverVariable % 3 < 2) {
-                return aCoverVariable;
-            }
+            return aCoverVariable;
+        }
 
         if (aSide != 6) {
             Block tBlock = aTileEntity.getBlockAtSide(aSide);
@@ -37,7 +34,7 @@ public class drainAdv
                 }
                 FluidStack tLiquid = null;
                 if (tBlock != null) {
-                    if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getBiome().biomeID == 0) || (aTileEntity.getBiome().biomeID == 7) && (aTileEntity.getYCoord()<= 63) && (aTileEntity.getYCoord()>= 50) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
+                    if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getBiome().biomeID == 0) || (aTileEntity.getBiome().biomeID == 7) && (aTileEntity.getYCoord() <= 63) && (aTileEntity.getYCoord() >= 50) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
                         tLiquid = Materials.Water.getFluid(1000L);
                     } else if ((tBlock instanceof IFluidBlock)) {
                         tLiquid = ((IFluidBlock) tBlock).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
@@ -53,15 +50,29 @@ public class drainAdv
     }
 
     public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-        aCoverVariable = (aCoverVariable + (aPlayer.isSneaking()? -1 : 1)) % 6;
-        if(aCoverVariable <0){aCoverVariable = 5;}
-        switch(aCoverVariable) {
-            case 0: GT_Utility.sendChatToPlayer(aPlayer, "Import"); break;
-            case 1: GT_Utility.sendChatToPlayer(aPlayer, "Import (conditional)"); break;
-            case 2: GT_Utility.sendChatToPlayer(aPlayer, "Import (invert cond)"); break;
-            case 3: GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away"); break;
-            case 4: GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away (conditional)"); break;
-            case 5: GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away (invert cond)"); break;
+        aCoverVariable = (aCoverVariable + (aPlayer.isSneaking() ? -1 : 1)) % 6;
+        if (aCoverVariable < 0) {
+            aCoverVariable = 5;
+        }
+        switch (aCoverVariable) {
+            case 0:
+                GT_Utility.sendChatToPlayer(aPlayer, "Import");
+                break;
+            case 1:
+                GT_Utility.sendChatToPlayer(aPlayer, "Import (conditional)");
+                break;
+            case 2:
+                GT_Utility.sendChatToPlayer(aPlayer, "Import (invert cond)");
+                break;
+            case 3:
+                GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away");
+                break;
+            case 4:
+                GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away (conditional)");
+                break;
+            case 5:
+                GT_Utility.sendChatToPlayer(aPlayer, "Keep Liquids Away (invert cond)");
+                break;
         }
         return aCoverVariable;
     }

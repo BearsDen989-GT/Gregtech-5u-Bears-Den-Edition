@@ -40,7 +40,8 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
                 "1x Dynamo Hatch (back centered)",
                 "1x Maintenance Hatch (side centered)",
                 "Turbine Casings for the rest (24 at least!)",
-                "Needs a Turbine Item (inside controller GUI)"};
+                "Needs a Turbine Item (inside controller GUI)",
+                "Needs air in front of 3x3 Turbine facing!"};
     }
 
     public int getFuelValue(FluidStack aLiquid) {

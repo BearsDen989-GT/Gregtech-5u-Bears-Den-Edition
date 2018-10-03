@@ -52,48 +52,8 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
 
     @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-        aBaseMetaTileEntity.openGUI(aPlayer);
-        return true;
+        return (aBaseMetaTileEntity.isClientSide() || aBaseMetaTileEntity.openGUI(aPlayer));
     }
-
-//	  public void onRightclick(EntityPlayer aPlayer)
-//	  {
-//	    ItemStack tPlayerItem = aPlayer.inventory.getCurrentItem();
-//	    if (tPlayerItem == null)
-//	    {
-//	      if (this.mItemID > 0)
-//	      {
-//	        for (int i = 0; (this.mItemCount < getMaxItemCount()) && (i < aPlayer.field_71071_by.func_70302_i_()); i++)
-//	        {
-//	          if ((aPlayer.field_71071_by.func_70301_a(i) != null) && (aPlayer.field_71071_by.func_70301_a(i).field_77993_c == this.mItemID) && (aPlayer.field_71071_by.func_70301_a(i).func_77960_j() == this.mItemMeta) && (!aPlayer.field_71071_by.func_70301_a(i).func_77942_o()))
-//	          {
-//	            this.mItemCount += aPlayer.field_71071_by.func_70301_a(i).field_77994_a;
-//	            if (aPlayer.field_71071_by.func_70301_a(i).field_77994_a == 111)
-//	            {
-//	              this.mItemCount = (getMaxItemCount() + 192 - (this.mItemCount + (this.mInventory[0] == null ? 0 : this.mInventory[0].field_77994_a) + (this.mInventory[1] == null ? 0 : this.mInventory[1].field_77994_a) + (this.mInventory[2] == null ? 0 : this.mInventory[2].field_77994_a)));
-//	            }
-//	            else if (this.mItemCount > getMaxItemCount())
-//	            {
-//	              aPlayer.field_71071_by.func_70301_a(i).field_77994_a = (this.mItemCount - getMaxItemCount());
-//	              this.mItemCount = getMaxItemCount();
-//	            }
-//	            else
-//	            {
-//	              aPlayer.field_71071_by.func_70301_a(i).field_77994_a = 0;
-//	            }
-//	          }
-//	          if ((aPlayer.field_71071_by.func_70301_a(i) != null) && (aPlayer.field_71071_by.func_70301_a(i).field_77994_a <= 0)) {
-//	            aPlayer.field_71071_by.func_70299_a(i, null);
-//	          }
-//	        }
-//	        GT_Utility.sendChatToPlayer(aPlayer, this.mItemCount + (this.mInventory[0] == null ? 0 : this.mInventory[0].field_77994_a) + (this.mInventory[1] == null ? 0 : this.mInventory[1].field_77994_a) + (this.mInventory[2] == null ? 0 : this.mInventory[2].field_77994_a) + " of " + new ItemStack(this.mItemID, 1, this.mItemMeta).func_82833_r());
-//	      }
-//	    }
-//	    if (aPlayer.field_71069_bz != null) {
-//	      aPlayer.field_71069_bz.func_75142_b();
-//	    }
-//	  }
 
     @Override
     public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
@@ -109,9 +69,6 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTimer) {
 
         if (getBaseMetaTileEntity().isServerSide() && getBaseMetaTileEntity().isAllowedToWork()) {
-//            	if(mInventory[0]!=null)System.out.println("input: "+mInventory[0].stackSize);
-//            	System.out.println("store: "+mItemCount);
-//            	if(mInventory[0]!=null)System.out.println("output: "+mInventory[2].stackSize);
             if ((getItemCount() <= 0)) {
                 this.mItemStack = null;
                 this.mItemCount = 0;
@@ -200,19 +157,23 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
         return true;
     }
 
+    private static final String COUNT = "mItemCount";
+
+    private static final String STACK = "mItemStack";
+
     @Override
     public void saveNBTData(NBTTagCompound aNBT) {
-        aNBT.setInteger("mItemCount", this.mItemCount);
+        aNBT.setInteger(COUNT, this.mItemCount);
         if (this.mItemStack != null)
-            aNBT.setTag("mItemStack", this.mItemStack.writeToNBT(new NBTTagCompound()));
+            aNBT.setTag(STACK, this.mItemStack.writeToNBT(new NBTTagCompound()));
     }
 
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
-        if (aNBT.hasKey("mItemCount"))
-            this.mItemCount = aNBT.getInteger("mItemCount");
-        if (aNBT.hasKey("mItemStack"))
-            this.mItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) aNBT.getTag("mItemStack"));
+        if (aNBT.hasKey(COUNT))
+            this.mItemCount = aNBT.getInteger(COUNT);
+        if (aNBT.hasKey(STACK))
+            this.mItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) aNBT.getTag(STACK));
     }
 
     @Override
@@ -220,7 +181,7 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
         if (aBaseMetaTileEntity.getFrontFacing() == 0 && aSide == 4) {
             return new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex + 1], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_QCHEST)};
         }
-        return aSide == aBaseMetaTileEntity.getFrontFacing() ? new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex + 1], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_QCHEST)} : new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex + 1]};//aSide != aFacing ? mMachineBlock != 0 ? new ITexture[] {Textures.BlockIcons.CASING_BLOCKS[mMachineBlock]} : new ITexture[] {Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex+1]} : mMachineBlock != 0 ? aActive ? getTexturesActive(Textures.BlockIcons.CASING_BLOCKS[mMachineBlock]) : getTexturesInactive(Textures.BlockIcons.CASING_BLOCKS[mMachineBlock]) : aActive ? getTexturesActive(Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex+1]) : getTexturesInactive(Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex+1]);
+        return aSide == aBaseMetaTileEntity.getFrontFacing() ? new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex + 1], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_QCHEST)} : new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][aColorIndex + 1]};
     }
 
     @Override

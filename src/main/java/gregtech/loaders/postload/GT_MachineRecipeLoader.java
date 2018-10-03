@@ -30,11 +30,41 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Arrays;
 
-//import gregtech.api.enums.TC_Aspects.TC_AspectStack;
+import static gregtech.api.enums.GT_Values.MOD_ID_EBXL;
+import static gregtech.api.enums.GT_Values.MOD_ID_FM;
 
 public class GT_MachineRecipeLoader
 implements Runnable {
 	private final MaterialStack[][] mAlloySmelterList = {{new MaterialStack(Materials.Copper, 3L), new MaterialStack(Materials.Tin, 1L), new MaterialStack(Materials.Bronze, 4L)}, {new MaterialStack(Materials.Copper, 3L), new MaterialStack(Materials.Zinc, 1L), new MaterialStack(Materials.Brass, 4L)}, {new MaterialStack(Materials.Copper, 1L), new MaterialStack(Materials.Nickel, 1L), new MaterialStack(Materials.Cupronickel, 2L)}, {new MaterialStack(Materials.Copper, 1L), new MaterialStack(Materials.Redstone, 4L), new MaterialStack(Materials.RedAlloy, 1L)}, {new MaterialStack(Materials.AnnealedCopper, 3L), new MaterialStack(Materials.Tin, 1L), new MaterialStack(Materials.Bronze, 4L)}, {new MaterialStack(Materials.AnnealedCopper, 3L), new MaterialStack(Materials.Zinc, 1L), new MaterialStack(Materials.Brass, 4L)}, {new MaterialStack(Materials.AnnealedCopper, 1L), new MaterialStack(Materials.Nickel, 1L), new MaterialStack(Materials.Cupronickel, 2L)}, {new MaterialStack(Materials.AnnealedCopper, 1L), new MaterialStack(Materials.Redstone, 4L), new MaterialStack(Materials.RedAlloy, 1L)}, {new MaterialStack(Materials.Iron, 1L), new MaterialStack(Materials.Tin, 1L), new MaterialStack(Materials.TinAlloy, 2L)}, {new MaterialStack(Materials.WroughtIron, 1L), new MaterialStack(Materials.Tin, 1L), new MaterialStack(Materials.TinAlloy, 2L)}, {new MaterialStack(Materials.Iron, 2L), new MaterialStack(Materials.Nickel, 1L), new MaterialStack(Materials.Invar, 3L)}, {new MaterialStack(Materials.WroughtIron, 2L), new MaterialStack(Materials.Nickel, 1L), new MaterialStack(Materials.Invar, 3L)}, {new MaterialStack(Materials.Tin, 9L), new MaterialStack(Materials.Antimony, 1L), new MaterialStack(Materials.SolderingAlloy, 10L)}, {new MaterialStack(Materials.Lead, 4L), new MaterialStack(Materials.Antimony, 1L), new MaterialStack(Materials.BatteryAlloy, 5L)}, {new MaterialStack(Materials.Gold, 1L), new MaterialStack(Materials.Silver, 1L), new MaterialStack(Materials.Electrum, 2L)}, {new MaterialStack(Materials.Magnesium, 1L), new MaterialStack(Materials.Aluminium, 2L), new MaterialStack(Materials.Magnalium, 3L)}, {new MaterialStack(Materials.Silver, 1L), new MaterialStack(Materials.Teslatite, 4L), new MaterialStack(Materials.BlueAlloy, 1L)}, {new MaterialStack(Materials.RedAlloy, 1L), new MaterialStack(Materials.BlueAlloy, 1L), new MaterialStack(Materials.PurpleAlloy, 2L)}};
+
+    //currently have only refactored values referenced >8 into strings - e59
+
+	private static final String AE_ITEM = "item.ItemMultiMaterial";
+    private static final String AE_SEED = "item.ItemCrystalSeed";
+    private static final String RCHIP = "redstoneChipset";
+    private static final String CHIPS = "chipsets";
+    private static final String LUBE = "lubricant";
+    private static final String GC_OIL = "oilgc";
+
+    private static final String P_TH = "potion.thick";
+    private static final String P_MU = "potion.mundane";
+    private static final String P_AW = "potion.awkward";
+    private static final String P_WE = "potion.weakness";
+
+    private static final String F1 = "flower1";
+    private static final String F2 = "flower2";
+    private static final String F3 = "flower3";
+    private static final String EBDYE = "extrabiomes.dye";
+    private static final String EBS1 = "saplings_1";
+    private static final String EBS2 = "saplings_2";
+
+    private static final String TTUBE = "thermionicTubes";
+    private static final String SL1 = "slabs1";
+    private static final String SL2 = "slabs2";
+    private static final String SL3 = "slabs3";
+
+    private static final String RESEARCH_P1 = "gt.research.page.1.";
+    private static final String ALC = "ALCHEMY";
 
 	public void run() {
 		GT_Log.out.println("GT_Mod: Adding non-OreDict Machine Recipes.");
@@ -43,7 +73,9 @@ implements Runnable {
 			GT_Utility.removeSimpleIC2MachineRecipe(ItemList.IC2_Energium_Dust.get(1L), ic2.api.recipe.Recipes.compressor.getRecipes(), GT_Values.NI);
 			GT_Utility.removeSimpleIC2MachineRecipe(new ItemStack(Items.gunpowder), ic2.api.recipe.Recipes.extractor.getRecipes(), GT_Values.NI);
 			GT_Utility.removeSimpleIC2MachineRecipe(new ItemStack(Blocks.wool, 1, GT_Values.W), ic2.api.recipe.Recipes.extractor.getRecipes(), GT_Values.NI);
-		} catch (Throwable e) {
+		} catch (RuntimeException e) {
+            GT_Log.out.println("GT_Mod: Problem adding non-OreDict Machine Recipes.");
+            e.printStackTrace(GT_Log.err);
 		}
 		GT_Values.RA.addFluidExtractionRecipe(new ItemStack(Items.wheat_seeds, 1, GT_Values.W), GT_Values.NI, Materials.SeedOil.getFluid(5L), 10000, 32, 2);
 		GT_Values.RA.addFluidExtractionRecipe(new ItemStack(Items.melon_seeds, 1, GT_Values.W), GT_Values.NI, Materials.SeedOil.getFluid(3L), 10000, 32, 2);
@@ -53,7 +85,7 @@ implements Runnable {
 			while (tWorld.mRandom.mIterationStep > 0) {
 				GT_Values.RA.addFluidExtractionRecipe(GT_Utility.copyAmount(1L, ForgeHooks.getGrassSeed(tWorld)), GT_Values.NI, Materials.SeedOil.getFluid(5L), 10000, 64, 2);
 			}
-		} catch (Throwable e) {
+		} catch (RuntimeException e) {
 			GT_Log.out.println("GT_Mod: failed to iterate somehow, maybe it's your Forge Version causing it. But it's not that important\n");
 			e.printStackTrace(GT_Log.err);
 		}
@@ -93,8 +125,8 @@ implements Runnable {
 		GT_Values.RA.addMixerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), new ItemStack(Blocks.brown_mushroom, 1), new ItemStack(Items.spider_eye, 1), GT_Values.NI, GT_Values.NF, GT_Values.NF, new ItemStack(Items.fermented_spider_eye, 1), 100, 8);
 		GT_Values.RA.addMixerRecipe(GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Gold, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Iron, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.LiveRoot, 1L), GT_Values.NI, GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.IronWood, 2L), 100, 8);
 		GT_Values.RA.addMixerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Gold, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Iron, 9L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.LiveRoot, 9L), GT_Values.NI, GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.IronWood, 18L), 900, 8);
-		GT_Values.RA.addMixerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 1), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.NetherQuartz, 1L), GT_Values.NI, Materials.Water.getFluid(500L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Fluix, 2L), 20, 16);
-		GT_Values.RA.addMixerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 1), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.NetherQuartz, 1L), GT_Values.NI, GT_ModHandler.getDistilledWater(500L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Fluix, 2L), 20, 16);
+		GT_Values.RA.addMixerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 1), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.NetherQuartz, 1L), GT_Values.NI, Materials.Water.getFluid(500L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Fluix, 2L), 20, 16);
+		GT_Values.RA.addMixerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 1), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.NetherQuartz, 1L), GT_Values.NI, GT_ModHandler.getDistilledWater(500L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Fluix, 2L), 20, 16);
 		GT_Values.RA.addMixerRecipe(ItemList.IC2_Fertilizer.get(1L), new ItemStack(Blocks.dirt, 8, GT_Values.W), GT_Values.NI, GT_Values.NI, Materials.Water.getFluid(1000L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "soil", 8L, 0), 64, 16);
 		GT_Values.RA.addMixerRecipe(ItemList.FR_Fertilizer.get(1L), new ItemStack(Blocks.dirt, 8, GT_Values.W), GT_Values.NI, GT_Values.NI, Materials.Water.getFluid(1000L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "soil", 8L, 0), 64, 16);
 		GT_Values.RA.addMixerRecipe(ItemList.FR_Compost.get(1L), new ItemStack(Blocks.dirt, 8, GT_Values.W), GT_Values.NI, GT_Values.NI, Materials.Water.getFluid(1000L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "soil", 8L, 0), 64, 16);
@@ -281,13 +313,13 @@ implements Runnable {
 		GT_Values.RA.addFluidSmelterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "phosphor", 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Phosphor, 1L), Materials.Lava.getFluid(800L), 1000, 256, 128);
 
 		GT_Values.RA.addAutoclaveRecipe(ItemList.IC2_Energium_Dust.get(9L), Materials.Water.getFluid(1000L), ItemList.IC2_EnergyCrystal.get(1L), 10000, 500, 256);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 0), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 10), 10000, 2000, 24);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 600), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 11), 10000, 2000, 24);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 1200), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 12), 10000, 2000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 0), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 10), 10000, 2000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 600), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 11), 10000, 2000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 1200), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 12), 10000, 2000, 24);
 		GT_Values.RA.addAutoclaveRecipe(ItemList.IC2_Energium_Dust.get(9L), GT_ModHandler.getDistilledWater(1000L), ItemList.IC2_EnergyCrystal.get(1L), 10000, 250, 256);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 0), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 10), 10000, 1000, 24);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 600), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 11), 10000, 1000, 24);
-		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 1L, 1200), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 12), 10000, 1000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 0), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 10), 10000, 1000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 600), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 11), 10000, 1000, 24);
+		GT_Values.RA.addAutoclaveRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 1L, 1200), GT_ModHandler.getDistilledWater(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 12), 10000, 1000, 24);
 
 		GT_Values.RA.addSlicerRecipe(ItemList.Food_Dough_Chocolate.get(1L), ItemList.Shape_Slicer_Flat.get(0L), ItemList.Food_Raw_Cookie.get(4L), 128, 4);
 		GT_Values.RA.addSlicerRecipe(ItemList.Food_Baked_Bun.get(1L), ItemList.Shape_Slicer_Flat.get(0L), ItemList.Food_Sliced_Bun.get(2L), 128, 4);
@@ -295,8 +327,6 @@ implements Runnable {
 		GT_Values.RA.addSlicerRecipe(ItemList.Food_Baked_Baguette.get(1L), ItemList.Shape_Slicer_Flat.get(0L), ItemList.Food_Sliced_Baguette.get(2L), 128, 4);
 
 		GT_Values.RA.addCentrifugeRecipe(ItemList.Cell_Empty.get(1), null, Materials.Air.getGas(10000), Materials.Nitrogen.getGas(3900), GT_OreDictUnificator.get(OrePrefixes.cell,Materials.Oxygen,1), null, null, null, null, null, null, 1600, 8);
-
-		/*fix the recipes that are borked below*/
 
 		GT_Values.RA.addChemicalRecipe(GT_OreDictUnificator.get(OrePrefixes.cell,Materials.NitrogenDioxide,4), GT_OreDictUnificator.get(OrePrefixes.cell,Materials.Oxygen,1), Materials.Water.getFluid(2000), new FluidStack(ItemList.sNitricAcid,4000), ItemList.Cell_Empty.get(5), 30);
 		GT_Values.RA.addChemicalRecipe(GT_OreDictUnificator.get(OrePrefixes.crushedPurified,Materials.Pentlandite,1), null, new FluidStack(ItemList.sNitricAcid,8000), new FluidStack(ItemList.sNickelSulfate,9000), ItemList.PlatinumGroupSludgeTiny.get(1) ,30);
@@ -306,18 +336,18 @@ implements Runnable {
 		GT_Values.RA.addElectrolyzerRecipe(ItemList.Cell_Empty.get(1), null, new FluidStack(ItemList.sNickelSulfate,9000), Materials.SulfuricAcid.getFluid(8000), GT_OreDictUnificator.get(OrePrefixes.dust,Materials.Nickel,1), GT_OreDictUnificator.get(OrePrefixes.cell,Materials.Oxygen,1), null, null, null, null, null, 900, 30);
 		GT_Values.RA.addCentrifugeRecipe(ItemList.PlatinumGroupSludge.get(1), null, null, null, GT_OreDictUnificator.get(OrePrefixes.dust,Materials.SiliconDioxide,1), GT_OreDictUnificator.get(OrePrefixes.dustTiny,Materials.Gold,1), GT_OreDictUnificator.get(OrePrefixes.dustTiny,Materials.Platinum,1), GT_OreDictUnificator.get(OrePrefixes.dustTiny,Materials.Palladium,1), GT_OreDictUnificator.get(OrePrefixes.dustTiny,Materials.Iridium,1), GT_OreDictUnificator.get(OrePrefixes.dustTiny,Materials.Osmium,1), new int[]{10000,10000,10000,8000,6000,6000}, 900, 30);
 
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Iron, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 1), 100, 120);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.WroughtIron, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 1), 100, 120);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Gold, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 2), 200, 120);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Diamond, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 3), 100, 480);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.EnderPearl, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 2L, 4), 200, 120);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.NetherQuartz, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 5), 300, 120);
-		GT_Values.RA.addFormingPressRecipe(new ItemStack(Items.comparator, 1, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, "redstoneChipset", 1L, 6), 300, 120);
-		GT_Values.RA.addFormingPressRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 10), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 0L, 13), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 16), 200, 16);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.CertusQuartz, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 0L, 13), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 16), 200, 16);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Diamond, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 0L, 14), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 17), 200, 16);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Gold, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 0L, 15), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 18), 200, 16);
-		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Silicon, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 0L, 19), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 20), 200, 16);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Iron, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 1), 100, 120);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.WroughtIron, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 1), 100, 120);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Gold, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 2), 200, 120);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Diamond, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 3), 100, 480);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.EnderPearl, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 2L, 4), 200, 120);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.NetherQuartz, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 5), 300, 120);
+		GT_Values.RA.addFormingPressRecipe(new ItemStack(Items.comparator, 1, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 0), GT_ModHandler.getModItem(GT_Values.MOD_ID_BC_SILICON, RCHIP, 1L, 6), 300, 120);
+		GT_Values.RA.addFormingPressRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 10), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 0L, 13), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 16), 200, 16);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.CertusQuartz, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 0L, 13), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 16), 200, 16);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Diamond, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 0L, 14), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 17), 200, 16);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Gold, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 0L, 15), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 18), 200, 16);
+		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Silicon, 1L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 0L, 19), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 20), 200, 16);
 		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Silicon, 1L), ItemList.Circuit_Parts_Wiring_Basic.get(4L), ItemList.Circuit_Board_Basic.get(1L), 32, 16);
 		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Silicon, 1L), ItemList.Circuit_Parts_Wiring_Advanced.get(4L), ItemList.Circuit_Board_Advanced.get(1L), 32, 64);
 		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Silicon, 2L), ItemList.Circuit_Parts_Wiring_Elite.get(4L), ItemList.Circuit_Board_Elite.get(1L), 32, 256);
@@ -361,23 +391,23 @@ implements Runnable {
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfLife2", 1L, 0), ItemList.Circuit_Integrated.getWithDamage(0L, 1L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfLife1", 4L, 0), 100, 8);
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfKeeping2", 1L, 0), ItemList.Circuit_Integrated.getWithDamage(0L, 1L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfKeeping1", 4L, 0), 100, 8);
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfKeeping3", 1L, 0), ItemList.Circuit_Integrated.getWithDamage(0L, 1L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.charmOfKeeping2", 4L, 0), 100, 8);
-		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 16), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 23), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 17), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 24), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 18), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 22), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.CertusQuartz, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 2L, 0), 64, 8);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.NetherQuartz, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 2L, 600), 64, 8);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Fluix, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemCrystalSeed", 2L, 1200), 64, 8);
+		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 16), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 23), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 17), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 24), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 18), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 20), Materials.Redstone.getMolten(144L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 22), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.CertusQuartz, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 2L, 0), 64, 8);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.NetherQuartz, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 2L, 600), 64, 8);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Fluix, 1L), new ItemStack(Blocks.sand, 1, GT_Values.W), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_SEED, 2L, 1200), 64, 8);
 		GT_Values.RA.addAssemblerRecipe(ItemList.FR_Wax.get(6L), new ItemStack(Items.string, 1, GT_Values.W), Materials.Water.getFluid(600L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "candle", 24L, 0), 64, 8);
 		GT_Values.RA.addAssemblerRecipe(ItemList.FR_Wax.get(2L), ItemList.FR_Silk.get(1L), Materials.Water.getFluid(200L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "candle", 8L, 0), 16, 8);
 		GT_Values.RA.addAssemblerRecipe(ItemList.FR_Silk.get(9L), ItemList.Circuit_Integrated.getWithDamage(0L, 9L), Materials.Water.getFluid(500L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "craftingMaterial", 1L, 3), 64, 8);
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "propolis", 5L, 2), ItemList.Circuit_Integrated.getWithDamage(0L, 5L), GT_Values.NF, GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "craftingMaterial", 1L, 1), 16, 8);
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "sturdyMachine", 1L, 0), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Diamond, 4L), Materials.Water.getFluid(5000L), ItemList.FR_Casing_Hardened.get(1L), 64, 32);
 		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Bronze, 8L), ItemList.Circuit_Integrated.getWithDamage(0L, 8L), GT_Values.NF, ItemList.FR_Casing_Sturdy.get(1L), 32, 16);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tin, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "chipsets", 1L, 0), 16, 8);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Bronze, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "chipsets", 1L, 1), 32, 16);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "chipsets", 1L, 2), 48, 24);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.WroughtIron, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "chipsets", 1L, 2), 48, 24);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Gold, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "chipsets", 1L, 3), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tin, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, CHIPS, 1L, 0), 16, 8);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Bronze, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, CHIPS, 1L, 1), 32, 16);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, CHIPS, 1L, 2), 48, 24);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.WroughtIron, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, CHIPS, 1L, 2), 48, 24);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Gold, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 6L), Materials.Water.getFluid(1000L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, CHIPS, 1L, 3), 64, 32);
 		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.stick, Materials.Wood, 1L), new ItemStack(Blocks.wool, 1, GT_Values.W), Materials.Creosote.getFluid(1000L), new ItemStack(Blocks.torch, 6, 0), 400, 1);
 		GT_Values.RA.addAssemblerRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "craftingMaterial", 5L, 1), ItemList.Circuit_Integrated.getWithDamage(0L, 5L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.EnderPearl, 1L), 64, 8);
 		GT_Values.RA.addAssemblerRecipe(new ItemStack(Blocks.piston, 1, GT_Values.W), new ItemStack(Items.slime_ball, 1, GT_Values.W), GT_Values.NF, new ItemStack(Blocks.sticky_piston, 1, 0), 100, 4);
@@ -403,32 +433,32 @@ implements Runnable {
 		GT_Values.RA.addAssemblerRecipe(ItemList.Food_Flat_Dough.get(1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.MeatCooked, 1L), GT_Values.NF, ItemList.Food_Raw_Pizza_Meat.get(1L), 100, 4);
 		GT_Values.RA.addAssemblerRecipe(ItemList.Food_Flat_Dough.get(1L), ItemList.Food_Sliced_Cheese.get(3L), GT_Values.NF, ItemList.Food_Raw_Pizza_Cheese.get(1L), 100, 4);
 
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Copper, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 0), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.AnnealedCopper, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 0), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tin, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 1), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Bronze, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 2), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 3), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.WroughtIron, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 3), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Gold, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 4), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Diamond, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 5), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 7), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Rubber, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 8), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Emerald, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 9), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Apatite, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 10), 64, 32);
-		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lapis, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "thermionicTubes", 4L, 11), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Copper, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 0), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.AnnealedCopper, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 0), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tin, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 1), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Bronze, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 2), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 3), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.WroughtIron, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 3), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Gold, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 4), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Diamond, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 5), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 7), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Rubber, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 8), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Emerald, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 9), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Apatite, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 10), 64, 32);
+		GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 2L), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lapis, 5L), Materials.Glass.getMolten(72L), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, TTUBE, 4L, 11), 64, 32);
 
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), Materials.Oil.getFluid(16L), Materials.Fuel.getFluid(16L), 32, 16, false);
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 2L), Materials.Oil.getFluid(16L), Materials.Glyceryl.getFluid(1L), 32, 16, false);
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 3L), Materials.Oil.getFluid(16L), Materials.Methane.getGas(15L), 32, 16, false);
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 4L), Materials.Oil.getFluid(16L), Materials.Lubricant.getFluid(16L), 32, 16, false);
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 6L), Materials.Oil.getFluid(16L), Materials.SulfuricAcid.getFluid(16L), 32, 16, false);
-		if (FluidRegistry.getFluid("oilgc") != null) {
-			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), new FluidStack(FluidRegistry.getFluid("oilgc"), 16), Materials.Fuel.getFluid(16L), 32, 16, false);
-			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 2L), new FluidStack(FluidRegistry.getFluid("oilgc"), 16), Materials.Glyceryl.getFluid(1L), 32, 16, false);
-			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 3L), new FluidStack(FluidRegistry.getFluid("oilgc"), 16), Materials.Methane.getGas(15L), 32, 16, false);
-			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 4L), new FluidStack(FluidRegistry.getFluid("oilgc"), 16), Materials.Lubricant.getFluid(16L), 32, 16, false);
-			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 6L), new FluidStack(FluidRegistry.getFluid("oilgc"), 16), Materials.SulfuricAcid.getFluid(16L), 32, 16, false);
-			GT_Values.RA.addDistillationTowerRecipe(new FluidStack(FluidRegistry.getFluid("oilgc"), 64), new FluidStack[]{Materials.Lubricant.getFluid(16L), Materials.Fuel.getFluid(64L), Materials.SulfuricAcid.getFluid(64L), Materials.Glyceryl.getFluid(4L), Materials.Methane.getGas(60L)}, null, 16, 64);
+		if (FluidRegistry.getFluid(GC_OIL) != null) {
+			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), new FluidStack(FluidRegistry.getFluid(GC_OIL), 16), Materials.Fuel.getFluid(16L), 32, 16, false);
+			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 2L), new FluidStack(FluidRegistry.getFluid(GC_OIL), 16), Materials.Glyceryl.getFluid(1L), 32, 16, false);
+			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 3L), new FluidStack(FluidRegistry.getFluid(GC_OIL), 16), Materials.Methane.getGas(15L), 32, 16, false);
+			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 4L), new FluidStack(FluidRegistry.getFluid(GC_OIL), 16), Materials.Lubricant.getFluid(16L), 32, 16, false);
+			GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 6L), new FluidStack(FluidRegistry.getFluid(GC_OIL), 16), Materials.SulfuricAcid.getFluid(16L), 32, 16, false);
+			GT_Values.RA.addDistillationTowerRecipe(new FluidStack(FluidRegistry.getFluid(GC_OIL), 64), new FluidStack[]{Materials.Lubricant.getFluid(16L), Materials.Fuel.getFluid(64L), Materials.SulfuricAcid.getFluid(64L), Materials.Glyceryl.getFluid(4L), Materials.Methane.getGas(60L)}, null, 16, 64);
 		}
 
 		GT_Values.RA.addDistilleryRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), new FluidStack(ItemList.sOilLight, 32), Materials.Fuel.getFluid(16L), 32, 16, false);
@@ -466,15 +496,15 @@ implements Runnable {
 		GT_Values.RA.addFluidHeaterRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), Materials.SeedOil.getFluid(16L), Materials.FryingOilHot.getFluid(16L), 16, 32);
 		GT_Values.RA.addFluidHeaterRecipe(ItemList.Circuit_Integrated.getWithDamage(0L, 1L), Materials.FishOil.getFluid(16L), Materials.FryingOilHot.getFluid(16L), 16, 32);
 
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid("lubricant"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid("lubricant"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("oil"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("creosote"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Talc, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Soapstone, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid(LUBE), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), FluidRegistry.getFluid("seedoil"), FluidRegistry.getFluid(LUBE), false);
 		for (Fluid tFluid : new Fluid[]{FluidRegistry.WATER, GT_ModHandler.getDistilledWater(1L).getFluid()}) {
 			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Milk, 1L), tFluid, FluidRegistry.getFluid("milk"), false);
 			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wheat, 1L), tFluid, FluidRegistry.getFluid("potion.wheatyjuice"), false);
@@ -484,16 +514,16 @@ implements Runnable {
 			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Magnesium, 1L), tFluid, FluidRegistry.getFluid("potion.mineralwater"), false);
 			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Salt, 1L), tFluid, FluidRegistry.getFluid("potion.saltywater"), true);
 			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.RockSalt, 1L), tFluid, FluidRegistry.getFluid("potion.saltywater"), true);
-			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 1L), tFluid, FluidRegistry.getFluid("potion.thick"), false);
-			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.magma_cream, 1, 0), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), tFluid, FluidRegistry.getFluid("potion.mundane"), false);
-			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.nether_wart, 1, 0), tFluid, FluidRegistry.getFluid("potion.awkward"), false);
+			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 1L), tFluid, FluidRegistry.getFluid(P_TH), false);
+			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.magma_cream, 1, 0), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), tFluid, FluidRegistry.getFluid(P_MU), false);
+			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.nether_wart, 1, 0), tFluid, FluidRegistry.getFluid(P_AW), false);
 			GT_Values.RA.addBrewingRecipe(new ItemStack(Blocks.red_mushroom, 1, 0), tFluid, FluidRegistry.getFluid("potion.poison"), false);
 			GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fish, 1, 3), tFluid, FluidRegistry.getFluid("potion.poison.strong"), true);
 			GT_Values.RA.addBrewingRecipe(ItemList.IC2_Grin_Powder.get(1L), tFluid, FluidRegistry.getFluid("potion.poison.strong"), false);
@@ -546,25 +576,25 @@ implements Runnable {
 		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid("potion.darkchocolatemilk"), FluidRegistry.getFluid("potion.chocolatemilk"), false);
 		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Ice, 1L), FluidRegistry.getFluid("potion.tea"), FluidRegistry.getFluid("potion.icetea"), false);
 		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Gunpowder, 1L), FluidRegistry.getFluid("potion.lemonade"), FluidRegistry.getFluid("potion.cavejohnsonsgrenadejuice"), true);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fish, 1, 3), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.waterbreathing"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.magma_cream, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.fireresistance"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.golden_carrot, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.nightvision"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.weakness"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.poison"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.health"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.regen"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.speed"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), FluidRegistry.getFluid("potion.awkward"), FluidRegistry.getFluid("potion.strength"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid("potion.mundane"), FluidRegistry.getFluid("potion.purpledrink"), true);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid("potion.mundane"), FluidRegistry.getFluid("potion.weakness"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.weakness"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.poison.strong"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.health.strong"), false);
-		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.regen.strong"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.speed.strong"), false);
-		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), FluidRegistry.getFluid("potion.thick"), FluidRegistry.getFluid("potion.strength.strong"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fish, 1, 3), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.waterbreathing"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.magma_cream, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.fireresistance"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.golden_carrot, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.nightvision"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid(P_WE), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.poison"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.health"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.regen"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.speed"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), FluidRegistry.getFluid(P_AW), FluidRegistry.getFluid("potion.strength"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid(P_MU), FluidRegistry.getFluid("potion.purpledrink"), true);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid(P_MU), FluidRegistry.getFluid(P_WE), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.fermented_spider_eye, 1, 0), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid(P_WE), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.spider_eye, 1, 0), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid("potion.poison.strong"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.speckled_melon, 1, 0), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid("potion.health.strong"), false);
+		GT_Values.RA.addBrewingRecipe(new ItemStack(Items.ghast_tear, 1, 0), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid("potion.regen.strong"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sugar, 1L), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid("potion.speed.strong"), false);
+		GT_Values.RA.addBrewingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Blaze, 1L), FluidRegistry.getFluid(P_TH), FluidRegistry.getFluid("potion.strength.strong"), false);
 
-		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("milk", 50), FluidRegistry.getFluidStack("potion.mundane", 25), 1024, false);
+		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("milk", 50), FluidRegistry.getFluidStack(P_MU, 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.lemonjuice", 50), FluidRegistry.getFluidStack("potion.limoncello", 25), 1024, true);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.applejuice", 50), FluidRegistry.getFluidStack("potion.cider", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.goldenapplejuice", 50), FluidRegistry.getFluidStack("potion.goldencider", 25), 1024, true);
@@ -578,16 +608,16 @@ implements Runnable {
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.wheatyhopsjuice", 50), FluidRegistry.getFluidStack("potion.beer", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.hopsjuice", 50), FluidRegistry.getFluidStack("potion.darkbeer", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.darkbeer", 50), FluidRegistry.getFluidStack("potion.dragonblood", 10), 2048, true);
-		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.awkward", 50), FluidRegistry.getFluidStack("potion.weakness", 25), 1024, false);
-		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.mundane", 50), FluidRegistry.getFluidStack("potion.weakness", 25), 1024, false);
-		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.thick", 50), FluidRegistry.getFluidStack("potion.weakness", 25), 1024, false);
+		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack(P_AW, 50), FluidRegistry.getFluidStack(P_WE, 25), 1024, false);
+		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack(P_MU, 50), FluidRegistry.getFluidStack(P_WE, 25), 1024, false);
+		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack(P_TH, 50), FluidRegistry.getFluidStack(P_WE, 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.poison", 50), FluidRegistry.getFluidStack("potion.damage", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.health", 50), FluidRegistry.getFluidStack("potion.damage", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.waterbreathing", 50), FluidRegistry.getFluidStack("potion.damage", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.nightvision", 50), FluidRegistry.getFluidStack("potion.invisibility", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.fireresistance", 50), FluidRegistry.getFluidStack("potion.slowness", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.speed", 50), FluidRegistry.getFluidStack("potion.slowness", 25), 1024, false);
-		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.strength", 50), FluidRegistry.getFluidStack("potion.weakness", 25), 1024, false);
+		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.strength", 50), FluidRegistry.getFluidStack(P_WE, 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.regen", 50), FluidRegistry.getFluidStack("potion.poison", 25), 1024, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.poison.strong", 50), FluidRegistry.getFluidStack("potion.damage.strong", 10), 2048, false);
 		GT_Values.RA.addFermentingRecipe(FluidRegistry.getFluidStack("potion.health.strong", 50), FluidRegistry.getFluidStack("potion.damage.strong", 10), 2048, false);
@@ -621,58 +651,58 @@ implements Runnable {
 		GT_ModHandler.addExtractionRecipe(GT_ModHandler.getIC2Item("rubberSapling", 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Rubber, 1L));
 		GT_ModHandler.addExtractionRecipe(GT_ModHandler.getIC2Item("rubberLeaves", 16L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Rubber, 1L));
 		GT_ModHandler.addExtractionRecipe(ItemList.Cell_Air.get(1L), ItemList.Cell_Empty.get(1L));
-		if (Loader.isModLoaded("ExtrabiomesXL")) {
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "waterplant1", 1, 0), new ItemStack(Items.dye, 4, 2));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "vines", 1, 0), new ItemStack(Items.dye, 4, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 11), new ItemStack(Items.dye, 4, 11));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 10), new ItemStack(Items.dye, 4, 5));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 9), new ItemStack(Items.dye, 4, 14));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 8), new ItemStack(Items.dye, 4, 14));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 7), new ItemStack(Items.dye, 4, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 6), new ItemStack(Items.dye, 4, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 5), new ItemStack(Items.dye, 4, 11));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 0), new ItemStack(Items.dye, 4, 9));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 4), new ItemStack(Items.dye, 4, 11));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 3), new ItemStack(Items.dye, 4, 13));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower1", 1, 3), new ItemStack(Items.dye, 4, 5));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 2), new ItemStack(Items.dye, 4, 5));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower1", 1, 1), new ItemStack(Items.dye, 4, 12));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 15), new ItemStack(Items.dye, 4, 11));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 14), new ItemStack(Items.dye, 4, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 13), new ItemStack(Items.dye, 4, 9));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 12), new ItemStack(Items.dye, 4, 14));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 11), new ItemStack(Items.dye, 4, 7));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower1", 1, 7), new ItemStack(Items.dye, 4, 7));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower1", 1, 2), new ItemStack(Items.dye, 4, 11));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 13), new ItemStack(Items.dye, 4, 6));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 6), new ItemStack(Items.dye, 4, 12));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 5), new ItemStack(Items.dye, 4, 10));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 2), new ItemStack(Items.dye, 4, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 1), new ItemStack(Items.dye, 4, 9));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 0), new ItemStack(Items.dye, 4, 13));
+		if (Loader.isModLoaded(MOD_ID_EBXL)) {
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, "waterplant1", 1, 0), new ItemStack(Items.dye, 4, 2));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, "vines", 1, 0), new ItemStack(Items.dye, 4, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 11), new ItemStack(Items.dye, 4, 11));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 10), new ItemStack(Items.dye, 4, 5));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 9), new ItemStack(Items.dye, 4, 14));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 8), new ItemStack(Items.dye, 4, 14));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 7), new ItemStack(Items.dye, 4, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 6), new ItemStack(Items.dye, 4, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 5), new ItemStack(Items.dye, 4, 11));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 0), new ItemStack(Items.dye, 4, 9));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 4), new ItemStack(Items.dye, 4, 11));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 3), new ItemStack(Items.dye, 4, 13));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F1, 1, 3), new ItemStack(Items.dye, 4, 5));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 2), new ItemStack(Items.dye, 4, 5));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F1, 1, 1), new ItemStack(Items.dye, 4, 12));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 15), new ItemStack(Items.dye, 4, 11));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 14), new ItemStack(Items.dye, 4, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 13), new ItemStack(Items.dye, 4, 9));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 12), new ItemStack(Items.dye, 4, 14));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 11), new ItemStack(Items.dye, 4, 7));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F1, 1, 7), new ItemStack(Items.dye, 4, 7));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F1, 1, 2), new ItemStack(Items.dye, 4, 11));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 13), new ItemStack(Items.dye, 4, 6));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 6), new ItemStack(Items.dye, 4, 12));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 5), new ItemStack(Items.dye, 4, 10));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 2), new ItemStack(Items.dye, 4, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 1), new ItemStack(Items.dye, 4, 9));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 0), new ItemStack(Items.dye, 4, 13));
 
 
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 7), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 0));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1, 1), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower3", 1,12), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 4), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 1));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower1", 1, 6), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 2));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 8), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 3));
-			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "flower2", 1, 3), GT_ModHandler.getModItem("ExtrabiomesXL", "extrabiomes.dye", 1, 3));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 7), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 0));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1, 1), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F3, 1,12), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 4), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 1));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F1, 1, 6), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 2));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 8), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 3));
+			GT_ModHandler.addExtractionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, F2, 1, 3), GT_ModHandler.getModItem(MOD_ID_EBXL, EBDYE, 1, 3));
 
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 0), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 1), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 2), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 3), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 4), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 5), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 6), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_1", 4, 7), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_2", 4, 0), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_2", 4, 1), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_2", 4, 2), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_2", 4, 3), ItemList.IC2_Plantball.get(1));
-			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem("ExtrabiomesXL", "saplings_2", 4, 4), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 0), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 1), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 2), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 3), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 4), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 5), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 6), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS1, 4, 7), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS2, 4, 0), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS2, 4, 1), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS2, 4, 2), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS2, 4, 3), ItemList.IC2_Plantball.get(1));
+			GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(MOD_ID_EBXL, EBS2, 4, 4), ItemList.IC2_Plantball.get(1));
 
 		}
 
@@ -685,9 +715,9 @@ implements Runnable {
 		GT_ModHandler.addCompressionRecipe(new ItemStack(Blocks.ice, 2, GT_Values.W), new ItemStack(Blocks.packed_ice, 1, 0));
 		GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Ice, 1L), new ItemStack(Blocks.ice, 1, 0));
 		GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.CertusQuartz, 4L), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockQuartz", 1L));
-		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 8L, 10), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockQuartz", 1L));
-		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 8L, 11), new ItemStack(Blocks.quartz_block, 1, 0));
-		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 8L, 12), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockFluix", 1L));
+		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 8L, 10), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockQuartz", 1L));
+		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 8L, 11), new ItemStack(Blocks.quartz_block, 1, 0));
+		GT_ModHandler.addCompressionRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 8L, 12), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockFluix", 1L));
 		GT_ModHandler.addCompressionRecipe(new ItemStack(Items.quartz, 4, 0), new ItemStack(Blocks.quartz_block, 1, 0));
 		GT_ModHandler.addCompressionRecipe(new ItemStack(Items.wheat, 9, 0), new ItemStack(Blocks.hay_block, 1, 0));
 		GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 4L), new ItemStack(Blocks.glowstone, 1));
@@ -703,8 +733,8 @@ implements Runnable {
 		GT_ModHandler.removeFurnaceSmelting(GT_OreDictUnificator.get(OrePrefixes.oreRedgranite, Materials.Graphite, 1L));
 		GT_ModHandler.addSmeltingRecipe(GT_OreDictUnificator.get(OrePrefixes.oreRedgranite, Materials.Graphite, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Graphite, 1L));
 
-		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockSkyStone", 1L, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 45), GT_Values.NI, 0, false);
-		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockSkyChest", 1L, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 8L, 45), GT_Values.NI, 0, false);
+		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockSkyStone", 1L, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 45), GT_Values.NI, 0, false);
+		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "tile.BlockSkyChest", 1L, GT_Values.W), GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 8L, 45), GT_Values.NI, 0, false);
 		GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.blaze_rod, 1), new ItemStack(Items.blaze_powder, 3), new ItemStack(Items.blaze_powder, 1), 50, false);
 		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "cube.crushed.obsidian", 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Obsidian, 1L), GT_Values.NI, 0, true);
 		GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.flint, 1, GT_Values.W), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Flint, 4L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Flint, 1L), 40, true);
@@ -764,9 +794,7 @@ implements Runnable {
 		GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Copper, 1L), GT_Values.NI, Materials.Oxygen.getGas(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.AnnealedCopper, 1L), GT_Values.NI, 480, 120, 1200);
 		GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Copper, 1L), GT_Values.NI, Materials.Oxygen.getGas(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.AnnealedCopper, 1L), GT_Values.NI, 480, 120, 1200);
 		GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Calcite, 2L),  GT_OreDictUnificator.get(OrePrefixes.dust, Materials.BandedIron, 5L), GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.WroughtIron, 3L),  GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Silicon, 1L), 100, 120, 1200);
-		//GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.ElectricalSteel, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Obsidian, 1L), GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.DarkSteel, 1L), GT_Values.NI, 4000, 360, 2000);
-		//GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Steel, 3L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Silicon, 1L), GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.ElectricalSteel, 4L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.DarkAsh, 2L), (int) Math.max(Materials.ElectricalSteel.getMass() / 40L, 1L) * Materials.ElectricalSteel.mBlastFurnaceTemp, 480, Materials.ElectricalSteel.mBlastFurnaceTemp);
-		
+
 		//EnderIO Compat.
 		GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.RedstoneAlloy, 1L), GT_Values.NI, Materials.Oxygen.getGas(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.RedstoneAlloy, 1L), GT_Values.NI, 800, 120, 1000);
 		GT_Values.RA.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.RedstoneAlloy, 9L), GT_Values.NI, Materials.Oxygen.getGas(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.RedstoneAlloy, 1L), GT_Values.NI, 800, 120, 1000);
@@ -828,7 +856,7 @@ implements Runnable {
 
 		GT_ModHandler.removeRecipeByOutput(ItemList.IC2_Fertilizer.get(1L));
 		GT_Values.RA.addImplosionRecipe(ItemList.IC2_Compressed_Coal_Chunk.get(1L), 8, ItemList.IC2_Industrial_Diamond.get(1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.DarkAsh, 4L));
-		GT_Values.RA.addFluidExtractionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Quartzite, 1L), null, Materials.Glass.getMolten(250), 10000, 600, 28);//(GT_OreDictUnificator.get(OrePrefixes.cell, Materials.SiliconDioxide,1L), GT_OreDictUnificator.get(OrePrefixes.dust,Materials.SiliconDioxide,2L),GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Glass,1L)/** GT_Utility.fillFluidContainer(Materials.Glass.getMolten(1000), ItemList.Cell_Empty.get(1, new Object[0]), true, true)**/, 600, 16);
+		GT_Values.RA.addFluidExtractionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Quartzite, 1L), null, Materials.Glass.getMolten(250), 10000, 600, 28);
 
         GT_Values.RA.addPyrolyseRecipe(GT_ModHandler.getIC2Item("biochaff", 1), Materials.Water.getFluid(1000), 1, null, new FluidStack(FluidRegistry.getFluid("ic2biomass"), 1500), 100, 10);
         GT_Values.RA.addPyrolyseRecipe(new ItemStack(Items.reeds, 24, 0), null, 1, (GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 12)),   Materials.Water.getFluid(11000), 320, 32);
@@ -858,15 +886,15 @@ implements Runnable {
 
 
 		GT_Values.RA.addFuel(GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 6), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "GluttonyShard", 1L), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "FMResource", 1L, 3), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 1), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 2), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 3), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 4), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 5), null, 720, 5);
-		GT_Values.RA.addFuel(GT_ModHandler.getModItem("ForbiddenMagic", "NetherShard", 1L, 6), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "GluttonyShard", 1L), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "FMResource", 1L, 3), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 1), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 2), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 3), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 4), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 5), null, 720, 5);
+		GT_Values.RA.addFuel(GT_ModHandler.getModItem(MOD_ID_FM, "NetherShard", 1L, 6), null, 720, 5);
 		GT_Values.RA.addFuel(GT_ModHandler.getModItem("TaintedMagic", "WarpedShard", 1L), null, 720, 5);
 		GT_Values.RA.addFuel(GT_ModHandler.getModItem("TaintedMagic", "FluxShard", 1L), null, 720, 5);
 		GT_Values.RA.addFuel(GT_ModHandler.getModItem("TaintedMagic", "EldritchShard", 1L), null, 720, 5);
@@ -996,30 +1024,30 @@ implements Runnable {
 		GT_Values.RA.addCutterRecipe(new ItemStack(Blocks.wooden_slab, 1, 3), ItemList.Plank_Jungle.get(2L), GT_Values.NI, 50, 8);
 		GT_Values.RA.addCutterRecipe(new ItemStack(Blocks.wooden_slab, 1, 4), ItemList.Plank_Acacia.get(2L), GT_Values.NI, 50, 8);
 		GT_Values.RA.addCutterRecipe(new ItemStack(Blocks.wooden_slab, 1, 5), ItemList.Plank_DarkOak.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 0), ItemList.Plank_Larch.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 1), ItemList.Plank_Teak.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 2), ItemList.Plank_Acacia_Green.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 3), ItemList.Plank_Lime.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 4), ItemList.Plank_Chestnut.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 5), ItemList.Plank_Wenge.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 6), ItemList.Plank_Baobab.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 7), ItemList.Plank_Sequoia.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 0), ItemList.Plank_Kapok.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 1), ItemList.Plank_Ebony.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 2), ItemList.Plank_Mahagony.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 3), ItemList.Plank_Balsa.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 4), ItemList.Plank_Willow.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 5), ItemList.Plank_Walnut.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 6), ItemList.Plank_Greenheart.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 7), ItemList.Plank_Cherry.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 0), ItemList.Plank_Mahoe.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 1), ItemList.Plank_Poplar.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 2), ItemList.Plank_Palm.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 3), ItemList.Plank_Papaya.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 4), ItemList.Plank_Pine.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 5), ItemList.Plank_Plum.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 6), ItemList.Plank_Maple.get(2L), GT_Values.NI, 50, 8);
-		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 7), ItemList.Plank_Citrus.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 0), ItemList.Plank_Larch.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 1), ItemList.Plank_Teak.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 2), ItemList.Plank_Acacia_Green.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 3), ItemList.Plank_Lime.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 4), ItemList.Plank_Chestnut.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 5), ItemList.Plank_Wenge.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 6), ItemList.Plank_Baobab.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL1, 1L, 7), ItemList.Plank_Sequoia.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 0), ItemList.Plank_Kapok.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 1), ItemList.Plank_Ebony.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 2), ItemList.Plank_Mahagony.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 3), ItemList.Plank_Balsa.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 4), ItemList.Plank_Willow.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 5), ItemList.Plank_Walnut.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 6), ItemList.Plank_Greenheart.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL2, 1L, 7), ItemList.Plank_Cherry.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 0), ItemList.Plank_Mahoe.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 1), ItemList.Plank_Poplar.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 2), ItemList.Plank_Palm.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 3), ItemList.Plank_Papaya.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 4), ItemList.Plank_Pine.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 5), ItemList.Plank_Plum.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 6), ItemList.Plank_Maple.get(2L), GT_Values.NI, 50, 8);
+		GT_Values.RA.addCutterRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, SL3, 1L, 7), ItemList.Plank_Citrus.get(2L), GT_Values.NI, 50, 8);
 
 		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Cupronickel, 1L), ItemList.Shape_Mold_Credit.get(0L), ItemList.Credit_Greg_Cupronickel.get(4L), 100, 16);
 		GT_Values.RA.addFormingPressRecipe(GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Brass, 1L), ItemList.Shape_Mold_Credit.get(0L), ItemList.Coin_Doge.get(4L), 100, 16);
@@ -1335,7 +1363,7 @@ implements Runnable {
 		GT_Values.RA.addCentrifugeRecipe(GT_Values.NI, GT_Values.NI, FluidRegistry.getFluidStack("ic2pahoehoelava", 100), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Copper, 1L), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Tin, 1L), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Gold, 1L), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Silver, 1L), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Tantalum, 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Tungsten, 1L), new int[]{2000, 1000, 250, 250, 250, 125}, 40, 80);
 
 		GT_Values.RA.addCentrifugeRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.RareEarth, 1L), GT_Values.NI, GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Neodymium, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Yttrium, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Lanthanum, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Cerium, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Cadmium, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Caesium, 1L), new int[]{2500, 2500, 2500, 2500, 2500, 2500}, 64, 20);
-		GT_Values.RA.addCentrifugeRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ItemMultiMaterial", 1L, 45), GT_Values.NI, GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.BasalticMineralSand, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Olivine, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Obsidian, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Basalt, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Flint, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.RareEarth, 1L), new int[]{2000, 2000, 2000, 2000, 2000, 2000}, 64, 20);
+		GT_Values.RA.addCentrifugeRecipe(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, AE_ITEM, 1L, 45), GT_Values.NI, GT_Values.NF, GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.BasalticMineralSand, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Olivine, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Obsidian, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Basalt, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Flint, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.RareEarth, 1L), new int[]{2000, 2000, 2000, 2000, 2000, 2000}, 64, 20);
 
 		GT_Utility.removeSimpleIC2MachineRecipe(new ItemStack(Blocks.cobblestone), GT_ModHandler.getMaceratorRecipeList(), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L));
 		GT_Utility.removeSimpleIC2MachineRecipe(GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lapis, 1L), GT_ModHandler.getMaceratorRecipeList(), ItemList.IC2_Plantball.get(1L));
@@ -1344,80 +1372,80 @@ implements Runnable {
 
 		if (GregTech_API.sThaumcraftCompat != null) {
 			String tKey = "GT_WOOD_TO_CHARCOAL";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way of making charcoal magically instead of using regular ovens for this purpose.<BR><BR>To create charcoal from wood you first need an air-free environment, some vacuus essentia is needed for that, then you need to incinerate the wood using ignis essentia and wait until all the water inside the wood is burned away.<BR><BR>This method however doesn't create creosote oil as byproduct.");
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way of making charcoal magically instead of using regular ovens for this purpose.<BR><BR>To create charcoal from wood you first need an air-free environment, some vacuus essentia is needed for that, then you need to incinerate the wood using ignis essentia and wait until all the water inside the wood is burned away.<BR><BR>This method however doesn't create creosote oil as byproduct.");
 
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Charcoal Transmutation", "Turning wood into charcoal", new String[]{"ALUMENTUM"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1L), 2, 0, 13, 5, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 10L), new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 8L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 8L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.log.get(Materials.Wood), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Charcoal Transmutation", "Turning wood into charcoal", new String[]{"ALUMENTUM"}, ALC, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1L), 2, 0, 13, 5, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 10L), new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 8L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 8L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.log.get(Materials.Wood), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VACUOS, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
 
 			tKey = "GT_FILL_WATER_BUCKET";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way of filling a bucket with aqua essentia in order to simply get water.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Water Transmutation", "Filling buckets with water", null, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Water, 1L), 2, 0, 16, 5, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 4L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.capsule, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.capsule, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way of filling a bucket with aqua essentia in order to simply get water.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Water Transmutation", "Filling buckets with water", null, ALC, GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Water, 1L), 2, 0, 16, 5, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 4L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.capsule, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.capsule, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Empty, 1L), GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Water, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 4L)))});
 
 			tKey = "GT_TRANSZINC";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply zinc by steeping zinc nuggets in metallum harvested from other metals.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Zinc Transmutation", "Transformation of metals into zinc", new String[]{"TRANSTIN"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Zinc, 1L), 2, 1, 9, 13, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.SANO, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Zinc), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Zinc, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.SANO, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply zinc by steeping zinc nuggets in metallum harvested from other metals.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Zinc Transmutation", "Transformation of metals into zinc", new String[]{"TRANSTIN"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Zinc, 1L), 2, 1, 9, 13, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.SANO, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Zinc), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Zinc, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.SANO, 1L)))});
 
 			tKey = "GT_TRANSANTIMONY";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply antimony by steeping antimony nuggets in metallum harvested from other metals.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Antimony Transmutation", "Transformation of metals into antimony", new String[]{"GT_TRANSZINC", "TRANSLEAD"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Antimony, 1L), 2, 1, 9, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Antimony), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Antimony, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply antimony by steeping antimony nuggets in metallum harvested from other metals.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Antimony Transmutation", "Transformation of metals into antimony", new String[]{"GT_TRANSZINC", "TRANSLEAD"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Antimony, 1L), 2, 1, 9, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Antimony), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Antimony, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L)))});
 
 			tKey = "GT_TRANSNICKEL";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply nickel by steeping nickel nuggets in metallum harvested from other metals.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Nickel Transmutation", "Transformation of metals into nickel", new String[]{"TRANSLEAD"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Nickel, 1L), 2, 1, 9, 15, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Nickel), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Nickel, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply nickel by steeping nickel nuggets in metallum harvested from other metals.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Nickel Transmutation", "Transformation of metals into nickel", new String[]{"TRANSLEAD"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Nickel, 1L), 2, 1, 9, 15, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Nickel), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Nickel, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
 
 			tKey = "GT_TRANSCOBALT";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply cobalt by steeping cobalt nuggets in metallum harvested from other metals.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Cobalt Transmutation", "Transformation of metals into cobalt", new String[]{"GT_TRANSNICKEL"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cobalt, 1L), 2, 1, 9, 16, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Cobalt), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cobalt, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply cobalt by steeping cobalt nuggets in metallum harvested from other metals.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Cobalt Transmutation", "Transformation of metals into cobalt", new String[]{"GT_TRANSNICKEL"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cobalt, 1L), 2, 1, 9, 16, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Cobalt), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cobalt, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
 
 			tKey = "GT_TRANSBISMUTH";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply bismuth by steeping bismuth nuggets in metallum harvested from other metals.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Bismuth Transmutation", "Transformation of metals into bismuth", new String[]{"GT_TRANSCOBALT"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bismuth, 1L), 2, 1, 11, 17, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Bismuth), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bismuth, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply bismuth by steeping bismuth nuggets in metallum harvested from other metals.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Bismuth Transmutation", "Transformation of metals into bismuth", new String[]{"GT_TRANSCOBALT"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bismuth, 1L), 2, 1, 11, 17, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Bismuth), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bismuth, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
 
 			tKey = "GT_IRON_TO_STEEL";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way of making Iron harder by just re-ordering its components.<BR><BR>This Method can be used to create a Material called Steel, which is used in many non-Thaumaturgic applications.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Steel Transmutation", "Transforming iron to steel", new String[]{"TRANSIRON", "GT_WOOD_TO_CHARCOAL"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Steel, 1L), 3, 0, 13, 8, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Iron), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Steel, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way of making Iron harder by just re-ordering its components.<BR><BR>This Method can be used to create a Material called Steel, which is used in many non-Thaumaturgic applications.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Steel Transmutation", "Transforming iron to steel", new String[]{"TRANSIRON", "GT_WOOD_TO_CHARCOAL"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Steel, 1L), 3, 0, 13, 8, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Iron), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Steel, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L)))});
 
 			tKey = "GT_TRANSBRONZE";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way of creating Alloys using the already known transmutations of Copper and Tin.<BR><BR>This Method can be used to create a Bronze directly without having to go through an alloying process.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Bronze Transmutation", "Transformation of metals into bronze", new String[]{"TRANSTIN", "TRANSCOPPER"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bronze, 1L), 2, 0, 13, 11, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Bronze), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bronze, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way of creating Alloys using the already known transmutations of Copper and Tin.<BR><BR>This Method can be used to create a Bronze directly without having to go through an alloying process.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Bronze Transmutation", "Transformation of metals into bronze", new String[]{"TRANSTIN", "TRANSCOPPER"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bronze, 1L), 2, 0, 13, 11, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Bronze), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Bronze, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
 
 			tKey = "GT_TRANSELECTRUM";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Electrum as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Electrum Transmutation", "Transformation of metals into electrum", new String[]{"GT_TRANSBRONZE", "TRANSGOLD", "TRANSSILVER"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Electrum, 1L), 2, 1, 11, 11, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.LUCRUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Electrum), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Electrum, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.LUCRUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Electrum as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Electrum Transmutation", "Transformation of metals into electrum", new String[]{"GT_TRANSBRONZE", "TRANSGOLD", "TRANSSILVER"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Electrum, 1L), 2, 1, 11, 11, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.LUCRUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Electrum), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Electrum, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.LUCRUM, 1L)))});
 
 			tKey = "GT_TRANSBRASS";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Brass as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Brass Transmutation", "Transformation of metals into brass", new String[]{"GT_TRANSBRONZE", "GT_TRANSZINC"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Brass, 1L), 2, 1, 11, 12, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Brass), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Brass, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Brass as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Brass Transmutation", "Transformation of metals into brass", new String[]{"GT_TRANSBRONZE", "GT_TRANSZINC"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Brass, 1L), 2, 1, 11, 12, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Brass), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Brass, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.INSTRUMENTUM, 1L)))});
 
 			tKey = "GT_TRANSINVAR";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Invar as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Invar Transmutation", "Transformation of metals into invar", new String[]{"GT_TRANSBRONZE", "GT_TRANSNICKEL"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Invar, 1L), 2, 1, 11, 15, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.GELUM, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Invar), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Invar, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.GELUM, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Invar as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Invar Transmutation", "Transformation of metals into invar", new String[]{"GT_TRANSBRONZE", "GT_TRANSNICKEL"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Invar, 1L), 2, 1, 11, 15, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.GELUM, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Invar), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Invar, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.GELUM, 1L)))});
 
 			tKey = "GT_TRANSCUPRONICKEL";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Cupronickel as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Cupronickel Transmutation", "Transformation of metals into cupronickel", new String[]{"GT_TRANSBRONZE", "GT_TRANSNICKEL"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cupronickel, 1L), 2, 1, 11, 16, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Cupronickel), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cupronickel, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Cupronickel as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Cupronickel Transmutation", "Transformation of metals into cupronickel", new String[]{"GT_TRANSBRONZE", "GT_TRANSNICKEL"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cupronickel, 1L), 2, 1, 11, 16, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Cupronickel), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Cupronickel, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
 
 			tKey = "GT_TRANSBATTERYALLOY";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Battery Alloy as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Battery Alloy Transmutation", "Transformation of metals into battery alloy", new String[]{"GT_TRANSBRONZE", "GT_TRANSANTIMONY"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.BatteryAlloy, 1L), 2, 1, 11, 13, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.BatteryAlloy), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.BatteryAlloy, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Battery Alloy as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Battery Alloy Transmutation", "Transformation of metals into battery alloy", new String[]{"GT_TRANSBRONZE", "GT_TRANSANTIMONY"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.BatteryAlloy, 1L), 2, 1, 11, 13, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.BatteryAlloy), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.BatteryAlloy, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L)))});
 
 			tKey = "GT_TRANSSOLDERINGALLOY";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Soldering Alloy as well.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Soldering Alloy Transmutation", "Transformation of metals into soldering alloy", new String[]{"GT_TRANSBRONZE", "GT_TRANSANTIMONY"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.SolderingAlloy, 1L), 2, 1, 11, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.SolderingAlloy), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.SolderingAlloy, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Your discovery of Bronze Transmutation has lead you to the conclusion it works with other Alloys such as Soldering Alloy as well.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Soldering Alloy Transmutation", "Transformation of metals into soldering alloy", new String[]{"GT_TRANSBRONZE", "GT_TRANSANTIMONY"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.SolderingAlloy, 1L), 2, 1, 11, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.SolderingAlloy), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.SolderingAlloy, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.AQUA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 1L)))});
 
 			tKey = "GT_ADVANCEDMETALLURGY";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Now that you have discovered all the basic metals, you can finally move on to the next Level of magic metallurgy and create more advanced metals");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Advanced Metallurgic Transmutation", "Mastering the basic metals", new String[]{"GT_TRANSBISMUTH", "GT_IRON_TO_STEEL", "GT_TRANSSOLDERINGALLOY", "GT_TRANSBATTERYALLOY", "GT_TRANSBRASS", "GT_TRANSELECTRUM", "GT_TRANSCUPRONICKEL", "GT_TRANSINVAR"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 1L), 3, 0, 16, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 50L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.PRAECANTATIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.NEBRISUM, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.MAGNETO, 20L)), null, new Object[]{"gt.research.page.1." + tKey});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Now that you have discovered all the basic metals, you can finally move on to the next Level of magic metallurgy and create more advanced metals");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Advanced Metallurgic Transmutation", "Mastering the basic metals", new String[]{"GT_TRANSBISMUTH", "GT_IRON_TO_STEEL", "GT_TRANSSOLDERINGALLOY", "GT_TRANSBATTERYALLOY", "GT_TRANSBRASS", "GT_TRANSELECTRUM", "GT_TRANSCUPRONICKEL", "GT_TRANSINVAR"}, ALC, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Iron, 1L), 3, 0, 16, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 50L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.PRAECANTATIO, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.NEBRISUM, 20L), new TC_Aspects.TC_AspectStack(TC_Aspects.MAGNETO, 20L)), null, new Object[]{RESEARCH_P1 + tKey});
 
 			tKey = "GT_TRANSALUMINIUM";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "You have discovered a way to multiply aluminium by steeping aluminium nuggets in metallum harvested from other metals.<BR><BR>This transmutation is slightly harder to achieve, because aluminium has special properties, which require more order to achieve the desired result.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Aluminium Transmutation", "Transformation of metals into aluminium", new String[]{"GT_ADVANCEDMETALLURGY"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Aluminium, 1L), 4, 0, 19, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.VOLATUS, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Aluminium), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Aluminium, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.VOLATUS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "You have discovered a way to multiply aluminium by steeping aluminium nuggets in metallum harvested from other metals.<BR><BR>This transmutation is slightly harder to achieve, because aluminium has special properties, which require more order to achieve the desired result.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Aluminium Transmutation", "Transformation of metals into aluminium", new String[]{"GT_ADVANCEDMETALLURGY"}, ALC, GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Aluminium, 1L), 4, 0, 19, 14, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.VOLATUS, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.nugget.get(Materials.Aluminium), GT_OreDictUnificator.get(OrePrefixes.nugget, Materials.Aluminium, 3L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 2L), new TC_Aspects.TC_AspectStack(TC_Aspects.VOLATUS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L)))});
 
 			tKey = "GT_CRYSTALLISATION";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey, "Sometimes when processing your Crystal Shards they become a pile of Dust instead of the mostly required Shard.<BR><BR>You have finally found a way to reverse this Process by using Vitreus Essentia for recrystallising the Shards.");
-			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Shard Recrystallisation", "Fixing your precious crystals", new String[]{"ALCHEMICALMANUFACTURE"}, "ALCHEMY", GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedOrder, 1L), 3, 0, -11, -3, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L)), null, new Object[]{"gt.research.page.1." + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.Amber), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Amber, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedOrder), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedOrder, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedEntropy), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedEntropy, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedAir), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedAir, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedEarth), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedEarth, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedFire), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedFire, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedWater), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedWater, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L)))});
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey, "Sometimes when processing your Crystal Shards they become a pile of Dust instead of the mostly required Shard.<BR><BR>You have finally found a way to reverse this Process by using Vitreus Essentia for recrystallising the Shards.");
+			GregTech_API.sThaumcraftCompat.addResearch(tKey, "Shard Recrystallisation", "Fixing your precious crystals", new String[]{"ALCHEMICALMANUFACTURE"}, ALC, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedOrder, 1L), 3, 0, -11, -3, Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 5L), new TC_Aspects.TC_AspectStack(TC_Aspects.PERMUTATIO, 3L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 3L)), null, new Object[]{RESEARCH_P1 + tKey, GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.Amber), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Amber, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedOrder), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedOrder, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedEntropy), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedEntropy, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedAir), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedAir, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedEarth), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedEarth, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedFire), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedFire, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L))), GregTech_API.sThaumcraftCompat.addCrucibleRecipe(tKey, OrePrefixes.dust.get(Materials.InfusedWater), GT_OreDictUnificator.get(OrePrefixes.gem, Materials.InfusedWater, 1L), Arrays.asList(new TC_Aspects.TC_AspectStack(TC_Aspects.VITREUS, 4L)))});
 
 			tKey = "GT_MAGICENERGY";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey,
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey,
 					"While trying to find new ways to integrate magic into your industrial factories, you have discovered a way to convert magical energy into electrical power.");
 			GregTech_API.sThaumcraftCompat.addResearch(tKey,
 					"Magic Energy Conversion",
@@ -1430,7 +1458,7 @@ implements Runnable {
 							new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 10L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 20L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 10L)),
-							null, new Object[]{"gt.research.page.1." + tKey,
+							null, new Object[]{RESEARCH_P1 + tKey,
 				GregTech_API.sThaumcraftCompat.addInfusionRecipe(tKey,
 						ItemList.Hull_LV.get(1L),
 						new ItemStack[]{
@@ -1449,7 +1477,7 @@ implements Runnable {
 						new TC_Aspects.TC_AspectStack(TC_Aspects.MACHINA, 32L)))});
 
 			tKey = "GT_MAGICENERGY2";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey,
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey,
 					"Attempts to increase the output of your Magic Energy generators have resulted in significant improvements.");
 			GregTech_API.sThaumcraftCompat.addResearch(tKey,
 					"Adept Magic Energy Conversion",
@@ -1462,7 +1490,7 @@ implements Runnable {
 							new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 10L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 20L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 10L)),
-							null, new Object[]{"gt.research.page.1." + tKey,
+							null, new Object[]{RESEARCH_P1 + tKey,
 				GregTech_API.sThaumcraftCompat.addInfusionRecipe(tKey,
 						ItemList.Hull_MV.get(1L),
 						new ItemStack[]{
@@ -1481,7 +1509,7 @@ implements Runnable {
 						new TC_Aspects.TC_AspectStack(TC_Aspects.MACHINA, 64L)))});
 
 			tKey = "GT_MAGICENERGY3";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey,
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey,
 					"Attempts to further increase the output of your Magic Energy generators have resulted in great improvements.");
 			GregTech_API.sThaumcraftCompat.addResearch(tKey,
 					"Master Magic Energy Conversion",
@@ -1494,7 +1522,7 @@ implements Runnable {
 							new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 20L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 40L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 20L)),
-							null, new Object[]{"gt.research.page.1." + tKey,
+							null, new Object[]{RESEARCH_P1 + tKey,
 				GregTech_API.sThaumcraftCompat.addInfusionRecipe(tKey,
 						ItemList.Hull_HV.get(1L),
 						new ItemStack[]{
@@ -1514,7 +1542,7 @@ implements Runnable {
 
 
 			tKey = "GT_MAGICABSORB";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey,
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey,
 					"Research into magical energy conversion methods has identified a way to convert surrounding energies into electrical power.");
 			GregTech_API.sThaumcraftCompat.addResearch(tKey,
 					"Magic Energy Absorption",
@@ -1527,7 +1555,7 @@ implements Runnable {
 							new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 10L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 20L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 10L)),
-							null, new Object[]{"gt.research.page.1." + tKey,
+							null, new Object[]{RESEARCH_P1 + tKey,
 				GregTech_API.sThaumcraftCompat.addInfusionRecipe(tKey,
 						ItemList.Hull_LV.get(1L),
 						new ItemStack[]{
@@ -1546,7 +1574,7 @@ implements Runnable {
 						new TC_Aspects.TC_AspectStack(TC_Aspects.STRONTIO, 4L)))});
 
 			tKey = "GT_MAGICABSORB2";
-			GT_LanguageManager.addStringLocalization("gt.research.page.1." + tKey,
+			GT_LanguageManager.addStringLocalization(RESEARCH_P1 + tKey,
 					"Moar output! Drain all the Magic!");
 			GregTech_API.sThaumcraftCompat.addResearch(tKey,
 					"Improved Magic Energy Absorption",
@@ -1559,7 +1587,7 @@ implements Runnable {
 							new TC_Aspects.TC_AspectStack(TC_Aspects.COGNITIO, 10L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.POTENTIA, 20L),
 							new TC_Aspects.TC_AspectStack(TC_Aspects.ELECTRUM, 10L)),
-							null, new Object[]{"gt.research.page.1." + tKey,
+							null, new Object[]{RESEARCH_P1 + tKey,
 				GregTech_API.sThaumcraftCompat.addInfusionRecipe(tKey,
 						ItemList.Hull_MV.get(1L),
 						new ItemStack[]{
@@ -1634,31 +1662,6 @@ implements Runnable {
 				GT_ModHandler.addAlloySmelterRecipe(tDust1, tDust2, tOutputIngot, (int) tMats[2].mAmount * 50, 16, false);
 			}
 		}
-
-		//Nope - Gotta refine
-		/*try {
-			Map<String, BurnProperty> tLiqExchange = ic2.api.recipe.Recipes.FluidHeatGenerator.getBurnProperties();
-			Iterator<Map.Entry<String, BurnProperty>> tIterator = tLiqExchange.entrySet().iterator();
-			while (tIterator.hasNext()) {
-				Map.Entry<String, BurnProperty> tEntry = tIterator.next();
-				if(tEntry.getKey().equals("ic2hotcoolant")){
-					tIterator.remove();
-					Recipes.FluidHeatGenerator.addFluid("ic2hotcoolant", 80, 80);
-				}
-			}
-		} catch (Throwable e) {Do nothing}
-
-		try {
-			Map<String, BurnProperty> tLiqExchange = ic2.api.recipe.Recipes.FluidHeatGenerator.getBurnProperties();
-			Iterator<Map.Entry<String, BurnProperty>> tIterator = tLiqExchange.entrySet().iterator();
-			while (tIterator.hasNext()) {
-				Map.Entry<String, BurnProperty> tEntry = tIterator.next();
-				if(tEntry.getKey().equals("ic2coolant")){
-					tIterator.remove();
-					Recipes.FluidHeatGenerator.addFluid("ic2coolant", 80, 80);
-				}
-			}
-		} catch (Throwable e) {Do nothing}*/
 
 	}
 }

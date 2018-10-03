@@ -1,6 +1,6 @@
-package e_five_nine;
+package gregtech.common.tileentities.storage;
+
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -11,28 +11,20 @@ import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-
-//TODO: only output bottom
-//TODO: output pressure reflects crafting tier pipe
-//TODO: Void gases and make sound/particles at least 2x faster
-
-public class BasicTank
-        extends GT_MetaTileEntity_BasicTank {
-
+public class GT_MetaTileEntity_Tank  extends GT_MetaTileEntity_BasicTank {
     private static final int[] HEAT_CAPACITY = {350, 2000, 2500, 5000, 12500};
     private static final String FLUID_TAG = "GT.FluidContent";
 
-    public BasicTank(int aID, String aName, String aNameRegional, int aTier) {
+    public GT_MetaTileEntity_Tank(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
-    private BasicTank(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    private GT_MetaTileEntity_Tank(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
 
@@ -226,7 +218,7 @@ public class BasicTank
 
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new BasicTank(mName, mTier, mDescription, mTextures);
+        return new GT_MetaTileEntity_Tank(mName, mTier, mDescription, mTextures);
     }
 
     @Override
@@ -238,5 +230,6 @@ public class BasicTank
     public int getTankPressure() {
         return 100;
     }
+
 
 }

@@ -57,7 +57,7 @@ public class GT_Tool_Hoe
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {

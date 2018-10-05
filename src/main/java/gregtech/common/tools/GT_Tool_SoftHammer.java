@@ -51,19 +51,19 @@ public class GT_Tool_SoftHammer
     }
 
     public String getCraftingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public String getEntityHitSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public boolean canBlock() {

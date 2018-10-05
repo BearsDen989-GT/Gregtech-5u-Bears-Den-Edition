@@ -253,7 +253,7 @@ public abstract class GT_MetaTileEntity_Boiler
 
     public void doSound(byte aIndex, double aX, double aY, double aZ) {
         if (aIndex == 1) {
-            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(Integer.valueOf(4)), 2, 1.0F, aX, aY, aZ);
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(4), 2, 1.0F, aX, aY, aZ);
             for (int l = 0; l < 8; l++) {
                 getBaseMetaTileEntity().getWorld().spawnParticle("largesmoke", aX - 0.5D + Math.random(), aY, aZ - 0.5D + Math.random(), 0.0D, 0.0D, 0.0D);
             }

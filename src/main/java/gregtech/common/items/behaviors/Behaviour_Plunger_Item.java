@@ -49,7 +49,7 @@ public class Behaviour_Plunger_Item
                                     tEntity.motionY = 0.0D;
                                     tEntity.motionZ = 0.0D;
                                     aWorld.spawnEntityInWorld(tEntity);
-                                    GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(101)), 1.0F, -1.0F, aX, aY, aZ);
+                                    GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(101), 1.0F, -1.0F, aX, aY, aZ);
                                 }
                                 return true;
                             }

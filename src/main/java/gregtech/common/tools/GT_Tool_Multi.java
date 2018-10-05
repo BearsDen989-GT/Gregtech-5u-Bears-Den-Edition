@@ -5,6 +5,7 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -21,49 +22,27 @@ public class GT_Tool_Multi
         return 100;
     }
 
-    public int getToolDamagePerContainerCraft() {
-        return 400;
-    }
+    public int getToolDamagePerContainerCraft() { return 400; }
 
-    public int getToolDamagePerEntityAttack() {
-        return 200;
-    }
+    public int getToolDamagePerEntityAttack() { return 200; }
 
-    public int getBaseQuality() {
-        return 0;
-    }
+    public int getBaseQuality() { return 0; }
 
-    public float getBaseDamage() {
-        return 1.25F;
-    }
+    public float getBaseDamage() { return 2.0F; }
 
-    public float getSpeedMultiplier() {
-        return 1.0F;
-    }
+    public float getSpeedMultiplier() { return 1.0F; }
 
-    public float getMaxDurabilityMultiplier() {
-        return 1.0F;
-    }
+    public float getMaxDurabilityMultiplier() { return 1.0F; }
 
-    public String getCraftingSound() {
-        return null;
-    }
+    public String getCraftingSound() { return null; }
 
-    public String getEntityHitSound() {
-        return null;
-    }
+    public String getEntityHitSound() { return null; }
 
-    public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
-    }
+    public String getBreakingSound() { return GregTech_API.sSoundList.get(Integer.valueOf(0)); }
 
-    public String getMiningSound() {
-        return null;
-    }
+    public String getMiningSound() { return null; }
 
-    public boolean canBlock() {
-        return true;
-    }
+    public boolean canBlock() { return true; }
 
     public boolean isCrowbar() {
         return false;
@@ -79,12 +58,17 @@ public class GT_Tool_Multi
 
     public boolean isMinableBlock(Block aBlock, byte aMetaData) {
         String tTool = aBlock.getHarvestTool(aMetaData);
-        return (tTool != null) && (tTool.equals("screwdriver")) ||
-                (tTool.equals("cutter") ||
-                        (tTool.equals("file") ||
-                                 (tTool.equals("saw") ||
-                                         (tTool.equals("sword")))));
+        return ((tTool != null) && (tTool.equals("screwdriver"))) || (aBlock.getMaterial() == Material.circuits);
     }
+
+    //public boolean isMinableBlock(Block aBlock, byte aMetaData) {
+    //    String tTool = aBlock.getHarvestTool(aMetaData);
+    //    return (tTool != null) && (tTool.equals("screwdriver")) ||
+    //            (tTool.equals("cutter") ||
+    //                    (tTool.equals("wrench") ||
+    //                             (tTool.equals("saw") ||
+    //                                     (tTool.equals("sword")))));
+    //}
 
     public IChatComponent getDeathMessage(EntityLivingBase aPlayer, EntityLivingBase aEntity) {
         return new ChatComponentText(EnumChatFormatting.GREEN + aPlayer.getCommandSenderName() + EnumChatFormatting.WHITE + " M-M-M-M-Multi Killed " + EnumChatFormatting.RED + aEntity.getCommandSenderName() + EnumChatFormatting.WHITE);

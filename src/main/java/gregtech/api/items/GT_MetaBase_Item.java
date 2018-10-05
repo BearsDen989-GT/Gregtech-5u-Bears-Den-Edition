@@ -1,6 +1,5 @@
 package gregtech.api.items;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.SubTag;
 import gregtech.api.interfaces.IItemBehaviour;
 import gregtech.api.util.GT_LanguageManager;
@@ -29,8 +28,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.D1;
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpecialElectricItem, IElectricItemManager, IFluidContainerItem {
     /* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
@@ -132,7 +132,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                     return false;
                 }
             } catch (Throwable e) {
-                if (D1) e.printStackTrace(GT_Log.err);
+                if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
             }
         return false;
     }
@@ -153,7 +153,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                     return false;
                 }
             } catch (Throwable e) {
-                if (D1) e.printStackTrace(GT_Log.err);
+                if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
             }
         return false;
     }
@@ -174,7 +174,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                     return false;
                 }
             } catch (Throwable e) {
-                if (D1) e.printStackTrace(GT_Log.err);
+                if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
             }
         return false;
     }
@@ -188,7 +188,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
             try {
                 aStack = tBehavior.onItemRightClick(this, aStack, aWorld, aPlayer);
             } catch (Throwable e) {
-                if (D1) e.printStackTrace(GT_Log.err);
+                if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
             }
         return aStack;
     }
@@ -208,7 +208,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                 if (tStats[3] == -2 && tCharge <= 0) {
                     aList.add(EnumChatFormatting.AQUA + "Empty. You should recycle it properly." + EnumChatFormatting.GRAY);
                 } else {
-                    aList.add(EnumChatFormatting.AQUA + GT_Values.E + GT_Utility.formatNumbers(tCharge) + " / " + GT_Utility.formatNumbers(Math.abs(tStats[0])) + " EU - Voltage: " + V[(int) (tStats[2] >= 0 ? tStats[2] < V.length ? tStats[2] : V.length - 1 : 1)] + EnumChatFormatting.GRAY);
+                    aList.add(EnumChatFormatting.AQUA + EMPTY_STRING + GT_Utility.formatNumbers(tCharge) + " / " + GT_Utility.formatNumbers(Math.abs(tStats[0])) + " EU - Voltage: " + TIERED_VOLTAGES[(int) (tStats[2] >= 0 ? tStats[2] < TIERED_VOLTAGES.length ? tStats[2] : TIERED_VOLTAGES.length - 1 : 1)] + EnumChatFormatting.GRAY);
                 }
             }
         }

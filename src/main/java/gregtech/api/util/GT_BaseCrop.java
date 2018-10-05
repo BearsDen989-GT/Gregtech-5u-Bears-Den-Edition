@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static gregtech.api.enums.GT_Values.E;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class GT_BaseCrop extends CropCard {
     public static ArrayList<GT_BaseCrop> sCropList = new ArrayList<GT_BaseCrop>();
-    private String mName = E, mDiscoveredBy = "Gregorius Techneticies", mAttributes[];
+    private String mName = EMPTY_STRING, mDiscoveredBy = "Gregorius Techneticies", mAttributes[];
     private int mTier = 0, mMaxSize = 0, mAfterHarvestSize = 0, mHarvestSize = 0, mStats[] = new int[5];
     private ItemStack mDrop = null, mSpecialDrops[] = null;
 
@@ -35,7 +35,7 @@ public class GT_BaseCrop extends CropCard {
     public GT_BaseCrop(int aID, String aCropName, String aDiscoveredBy, ItemStack aDrop, ItemStack[] aSpecialDrops, ItemStack aBaseSeed, int aTier, int aMaxSize, int aGrowthSpeed, int aAfterHarvestSize, int aHarvestSize, int aStatChemical, int aStatFood, int aStatDefensive, int aStatColor, int aStatWeed, String[] aAttributes) {
         mName = aCropName;
         aID = GT_Config.addIDConfig(ConfigCategories.IDs.crops, mName.replaceAll(" ", "_"), aID);
-        if (aDiscoveredBy != null && !aDiscoveredBy.equals(E)) mDiscoveredBy = aDiscoveredBy;
+        if (aDiscoveredBy != null && !aDiscoveredBy.equals(EMPTY_STRING)) mDiscoveredBy = aDiscoveredBy;
         if (aDrop != null && aID > 0 && aID < 256) {
             mDrop = GT_Utility.copy(aDrop);
             mSpecialDrops = aSpecialDrops;

@@ -3,7 +3,7 @@ package gregtech.api.metatileentity.implementations;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.metatileentity.MetaTileEntity;
 
-import static gregtech.api.enums.GT_Values.GT;
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
 
 public abstract class GT_MetaTileEntity_TieredMachineBlock extends MetaTileEntity {
     /**
@@ -27,7 +27,7 @@ public abstract class GT_MetaTileEntity_TieredMachineBlock extends MetaTileEntit
         mDescription = aDescription;
 
         // must always be the last call!
-        if (GT.isClientSide()) mTextures = getTextureSet(aTextures);
+        if (GT_MOD_INSTANCE.isClientSide()) mTextures = getTextureSet(aTextures);
         else mTextures = null;
     }
 

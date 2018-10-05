@@ -1,7 +1,6 @@
 package gregtech.common.blocks;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.metatileentity.IConnectable;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_ItsNotMyFaultException;
@@ -19,6 +18,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
+
+import static gregtech.api.enums.GT_Values.DUMMY_WORLD;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.VOLTAGE_ABBRS;
 
 public class GT_Item_Machines
         extends ItemBlock {
@@ -38,9 +41,9 @@ public class GT_Item_Machines
                 return;
             }
 
-            TileEntity tDummyTE = GregTech_API.sBlockMachines.createTileEntity(aPlayer == null ? GT_Values.DW : aPlayer.worldObj, GregTech_API.METATILEENTITIES[tDamage] == null ? 0 : GregTech_API.METATILEENTITIES[tDamage].getTileEntityBaseType());
+            TileEntity tDummyTE = GregTech_API.sBlockMachines.createTileEntity(aPlayer == null ? DUMMY_WORLD : aPlayer.worldObj, GregTech_API.METATILEENTITIES[tDamage] == null ? 0 : GregTech_API.METATILEENTITIES[tDamage].getTileEntityBaseType());
             if (tDummyTE != null) {
-                tDummyTE.setWorldObj(aPlayer == null ? GT_Values.DW : aPlayer.worldObj);
+                tDummyTE.setWorldObj(aPlayer == null ? DUMMY_WORLD : aPlayer.worldObj);
                 tDummyTE.xCoord = 0;
                 tDummyTE.yCoord = 0;
                 tDummyTE.zCoord = 0;
@@ -57,10 +60,10 @@ public class GT_Item_Machines
                     }
                     if (tTileEntity.getEUCapacity() > 0L) {
                         if (tTileEntity.getInputVoltage() > 0L) {
-                            aList.add(GT_LanguageManager.addStringLocalization("TileEntity_EUp_IN", "Voltage IN: ", !GregTech_API.sPostloadFinished) + EnumChatFormatting.GREEN + tTileEntity.getInputVoltage() + " (" + GT_Values.VN[GT_Utility.getTier(tTileEntity.getInputVoltage())] + ")" + EnumChatFormatting.GRAY);
+                            aList.add(GT_LanguageManager.addStringLocalization("TileEntity_EUp_IN", "Voltage IN: ", !GregTech_API.sPostloadFinished) + EnumChatFormatting.GREEN + tTileEntity.getInputVoltage() + " (" + VOLTAGE_ABBRS[GT_Utility.getTier(tTileEntity.getInputVoltage())] + ")" + EnumChatFormatting.GRAY);
                         }
                         if (tTileEntity.getOutputVoltage() > 0L) {
-                            aList.add(GT_LanguageManager.addStringLocalization("TileEntity_EUp_OUT", "Voltage OUT: ", !GregTech_API.sPostloadFinished) + EnumChatFormatting.GREEN + tTileEntity.getOutputVoltage() + " (" + GT_Values.VN[GT_Utility.getTier(tTileEntity.getOutputVoltage())] + ")" + EnumChatFormatting.GRAY);
+                            aList.add(GT_LanguageManager.addStringLocalization("TileEntity_EUp_OUT", "Voltage OUT: ", !GregTech_API.sPostloadFinished) + EnumChatFormatting.GREEN + tTileEntity.getOutputVoltage() + " (" + VOLTAGE_ABBRS[GT_Utility.getTier(tTileEntity.getOutputVoltage())] + ")" + EnumChatFormatting.GRAY);
                         }
                         if (tTileEntity.getOutputAmperage() > 1L) {
                             aList.add(GT_LanguageManager.addStringLocalization("TileEntity_EUp_AMOUNT", "Amperage: ", !GregTech_API.sPostloadFinished) + EnumChatFormatting.YELLOW + tTileEntity.getOutputAmperage() + EnumChatFormatting.GRAY);
@@ -103,12 +106,12 @@ public class GT_Item_Machines
     public String getUnlocalizedName(ItemStack aStack) {
         short tDamage = (short) getDamage(aStack);
         if ((tDamage < 0) || (tDamage >= GregTech_API.METATILEENTITIES.length)) {
-            return GT_Values.E;
+            return EMPTY_STRING;
         }
         if (GregTech_API.METATILEENTITIES[tDamage] != null) {
             return getUnlocalizedName() + "." + GregTech_API.METATILEENTITIES[tDamage].getMetaName();
         }
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     @Override

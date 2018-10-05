@@ -1,6 +1,5 @@
 package gregtech.common.render;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -14,6 +13,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
+
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
 
 public class GT_CapeRenderer
         extends RenderPlayer {
@@ -87,7 +88,7 @@ public class GT_CapeRenderer
                 GL11.glPopMatrix();
             }
         } catch (Throwable e) {
-            if (GT_Values.D1) {
+            if (DEBUG_LEVEL_1) {
                 e.printStackTrace(GT_Log.err);
             }
         }

@@ -1,8 +1,5 @@
 package gregtech.api.metatileentity.implementations;
 
-import static gregtech.api.enums.GT_Values.V;
-
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_1by1;
 import gregtech.api.gui.GT_Container_2by2;
@@ -23,6 +20,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -117,22 +117,22 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
 
     @Override
     public long getMinimumStoredEU() {
-        return V[mTier] * 16 * mInventory.length;
+        return TIERED_VOLTAGES[mTier] * 16 * mInventory.length;
     }
 
     @Override
     public long maxEUStore() {
-        return V[mTier] * 64 * mInventory.length;
+        return TIERED_VOLTAGES[mTier] * 64 * mInventory.length;
     }
 
     @Override
     public long maxEUInput() {
-        return V[mTier];
+        return TIERED_VOLTAGES[mTier];
     }
 
     @Override
     public long maxEUOutput() {
-        return V[mTier];
+        return TIERED_VOLTAGES[mTier];
     }
 
     @Override
@@ -313,9 +313,9 @@ public class GT_MetaTileEntity_BasicBatteryBuffer extends GT_MetaTileEntity_Tier
                 GT_Utility.formatNumbers(mStored) + " EU /",
                 GT_Utility.formatNumbers(mMax) + " EU",
                 "Average input:",
-                getBaseMetaTileEntity().getAverageElectricInput()+ GT_Values.E,
+                getBaseMetaTileEntity().getAverageElectricInput()+ EMPTY_STRING,
                 "Average output:",
-                getBaseMetaTileEntity().getAverageElectricOutput()+ GT_Values.E};
+                getBaseMetaTileEntity().getAverageElectricOutput()+ EMPTY_STRING};
     }
 
     @Override

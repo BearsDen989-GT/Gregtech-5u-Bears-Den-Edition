@@ -7,7 +7,7 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
     public GT_MetaTileEntity_Hatch_Dynamo(int aID, String aName, String aNameRegional, int aTier) {
@@ -65,12 +65,12 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
 
     @Override
     public long maxEUOutput() {
-        return V[mTier];
+        return TIERED_VOLTAGES[mTier];
     }
 
     @Override
     public long maxEUStore() {
-        return 512 + V[mTier + 1] * 2;
+        return 512 + TIERED_VOLTAGES[mTier + 1] * 2;
     }
 
     @Override

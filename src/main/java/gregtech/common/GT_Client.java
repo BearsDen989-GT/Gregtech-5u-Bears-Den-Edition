@@ -7,7 +7,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.ITurnable;
@@ -44,6 +43,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
 
 // Referenced classes of package gregtech.common:
 //            GT_Proxy
@@ -85,7 +88,7 @@ public class GT_Client extends GT_Proxy
         mAnimationTick = 0L;
         mAnimationDirection = false;
         isFirstClientPlayerTick = true;
-        mMessage = GT_Values.E;
+        mMessage = EMPTY_STRING;
         mPosR = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
                 Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone);
         mPosG = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
@@ -248,7 +251,7 @@ public class GT_Client extends GT_Proxy
             for (Iterator i$ = tList.iterator(); i$.hasNext(); GT_Utility.sPlayedSoundMap.remove(tKey)) {
                 tKey = (GT_PlayedSound) i$.next();
             }
-            if ((this.isFirstClientPlayerTick) && (aEvent.player == GT_Values.GT.getThePlayer())) {
+            if ((this.isFirstClientPlayerTick) && (aEvent.player == GT_MOD_INSTANCE.getThePlayer())) {
                 this.isFirstClientPlayerTick = false;
                 GT_FluidStack.fixAllThoseFuckingFluidIDs();
                 aEvent.player.addChatComponentMessage(new ChatComponentText("Hi "+ Minecraft.getMinecraft().thePlayer.getDisplayName() +", welcome to GT5u: Bears Den Edition!"));
@@ -259,7 +262,7 @@ public class GT_Client extends GT_Proxy
                 }
                 try {
                     int tVersion = Integer.parseInt(((String) Class.forName("ic2.core.IC2").getField("VERSION").get(null)).substring(4, 7));
-                    if (GT_Values.D1) {
+                    if (DEBUG_LEVEL_1) {
                         GT_Log.out.println("Industrialcraft Version: " + tVersion);
                     }
                     if (tVersion < 624) {
@@ -298,7 +301,7 @@ public class GT_Client extends GT_Proxy
                 }
 
             } catch (Throwable e) {
-                if (GT_Values.D1) {
+                if (DEBUG_LEVEL_1) {
                     e.printStackTrace(GT_Log.err);
                 }
             }

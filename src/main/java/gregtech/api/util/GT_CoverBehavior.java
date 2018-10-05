@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 
-import static gregtech.api.enums.GT_Values.E;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 /**
  * For Covers with a special behavior.
@@ -65,7 +65,7 @@ public abstract class GT_CoverBehavior {
      * Gives a small Text for the status of the Cover.
      */
     public String getDescription(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return E;
+        return EMPTY_STRING;
     }
 
     /**

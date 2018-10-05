@@ -1,7 +1,6 @@
 package gregtech.common.tileentities.machines.multi;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
@@ -20,6 +19,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBlockBase {
 
@@ -63,7 +65,7 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 
 	public GT_Recipe.GT_Recipe_Map getRecipeMap() {
 		if (mInventory[1] == null) return null;
-		String tmp = mInventory[1].getUnlocalizedName().replaceAll("gt.blockmachines.basicmachine.", GT_Values.E);
+		String tmp = mInventory[1].getUnlocalizedName().replaceAll("gt.blockmachines.basicmachine.", EMPTY_STRING);
 		if (tmp.startsWith("centrifuge")) {
 			return GT_Recipe.GT_Recipe_Map.sCentrifugeRecipes;
 		} else if (tmp.startsWith("electrolyzer")) {
@@ -217,7 +219,7 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 		}
 		FluidStack[] tFluids = Arrays.copyOfRange(tFluidList.toArray(new FluidStack[tInputList.size()]), 0, 1);
 		if (tInputList.size() > 0 || tFluids.length > 0) {
-			GT_Recipe tRecipe = map.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, gregtech.api.enums.GT_Values.V[tTier], tFluids, tInputs);
+			GT_Recipe tRecipe = map.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, TIERED_VOLTAGES[tTier], tFluids, tInputs);
 			if (tRecipe != null) {
 				if (tRecipe.mFluidInputs != null) {
 
@@ -245,7 +247,7 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 				} else {
 					this.mEUt = tRecipe.mEUt;
 					this.mMaxProgresstime = tRecipe.mDuration;
-					while (this.mEUt <= gregtech.api.enums.GT_Values.V[(tTier - 1)]) {
+					while (this.mEUt <= TIERED_VOLTAGES[(tTier - 1)]) {
 						this.mEUt *= 4;
 						this.mMaxProgresstime /= 2;
 					}

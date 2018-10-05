@@ -2,7 +2,6 @@ package gregtech.common;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -12,6 +11,9 @@ import gregtech.api.util.GT_Recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.FLUID_MATERIAL_UNIT;
 
 public class GT_RecipeAdder
         implements IGT_RecipeAdder {
@@ -313,7 +315,7 @@ public class GT_RecipeAdder
     }
 
     public boolean addSonictronSound(ItemStack aItemStack, String aSoundName) {
-        if ((aItemStack == null) || (aSoundName == null) || (aSoundName.equals(GT_Values.E))) {
+        if ((aItemStack == null) || (aSoundName == null) || (aSoundName.equals(EMPTY_STRING))) {
             return false;
         }
         GT_Mod.gregtechproxy.mSoundItems.add(aItemStack);
@@ -416,10 +418,10 @@ public class GT_RecipeAdder
         if ((aMold == null) || (aInput == null) || (aOutput == null)) {
             return false;
         }
-        if (aInput.isFluidEqual(Materials.PhasedGold.getMolten(GT_Values.L))) {
+        if (aInput.isFluidEqual(Materials.PhasedGold.getMolten(FLUID_MATERIAL_UNIT))) {
             aInput = Materials.VibrantAlloy.getMolten(aInput.amount);
         }
-        if (aInput.isFluidEqual(Materials.PhasedIron.getMolten(GT_Values.L))) {
+        if (aInput.isFluidEqual(Materials.PhasedIron.getMolten(FLUID_MATERIAL_UNIT))) {
             aInput = Materials.PulsatingIron.getMolten(aInput.amount);
         }
 

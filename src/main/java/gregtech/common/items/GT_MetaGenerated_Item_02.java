@@ -2,7 +2,6 @@ package gregtech.common.items;
 
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -31,6 +30,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
+
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.MOD_ID_FR;
 
 public class GT_MetaGenerated_Item_02
         extends GT_MetaGenerated_Item_X32 {
@@ -150,7 +154,7 @@ public class GT_MetaGenerated_Item_02
 
         ItemList.Dye_Indigo.set(addItem(tLastID = 410, "Indigo Dye", "Blue Dye", new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L), Dyes.dyeBlue));
         for (byte i = 0; i < 16; i = (byte) (i + 1)) {
-            ItemList.DYE_ONLY_ITEMS[i].set(addItem(tLastID = 414 + i, Dyes.get(i).mName + " Dye", GT_Values.E, Dyes.get(i).name(), new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L)));
+            ItemList.DYE_ONLY_ITEMS[i].set(addItem(tLastID = 414 + i, Dyes.get(i).mName + " Dye", EMPTY_STRING, Dyes.get(i).name(), new TC_Aspects.TC_AspectStack(TC_Aspects.SENSUS, 1L)));
         }
         ItemList.Plank_Oak.set(addItem(tLastID = 470, "Oak Plank", "Usable as Cover", new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 1L)));
         setBurnValue(32000 + tLastID, 200);
@@ -219,30 +223,30 @@ public class GT_MetaGenerated_Item_02
         GT_ModHandler.addCraftingRecipe(ItemList.Plank_Jungle.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), new ItemStack(Blocks.wooden_slab, 1, 3)});
         GT_ModHandler.addCraftingRecipe(ItemList.Plank_Acacia.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), new ItemStack(Blocks.wooden_slab, 1, 4)});
         GT_ModHandler.addCraftingRecipe(ItemList.Plank_DarkOak.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), new ItemStack(Blocks.wooden_slab, 1, 5)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Larch.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 0)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Teak.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 1)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Acacia_Green.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 2)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Lime.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 3)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Chestnut.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 4)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Wenge.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 5)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Baobab.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 6)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Sequoia.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs1", 1L, 7)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Kapok.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 0)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Ebony.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 1)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Mahagony.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 2)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Balsa.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 3)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Willow.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 4)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Walnut.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 5)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Greenheart.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 6)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Cherry.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs2", 1L, 7)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Mahoe.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 0)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Poplar.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 1)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Palm.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 2)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Papaya.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 3)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Pine.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 4)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Plum.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 5)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Maple.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 6)});
-        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Citrus.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "slabs3", 1L, 7)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Larch.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 0)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Teak.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 1)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Acacia_Green.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 2)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Lime.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 3)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Chestnut.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 4)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Wenge.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 5)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Baobab.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 6)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Sequoia.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs1", 1L, 7)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Kapok.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 0)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Ebony.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 1)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Mahagony.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 2)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Balsa.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 3)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Willow.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 4)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Walnut.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 5)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Greenheart.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 6)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Cherry.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs2", 1L, 7)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Mahoe.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 0)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Poplar.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 1)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Palm.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 2)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Papaya.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 3)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Pine.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 4)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Plum.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 5)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Maple.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 6)});
+        GT_ModHandler.addCraftingRecipe(ItemList.Plank_Citrus.get(2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"s ", " P", Character.valueOf('P'), GT_ModHandler.getModItem(MOD_ID_FR, "slabs3", 1L, 7)});
 
         GregTech_API.registerCover(ItemList.Plank_Oak.get(1L), new GT_CopiedBlockTexture(Blocks.planks, 0, 0), null);
         GregTech_API.registerCover(ItemList.Plank_Spruce.get(1L), new GT_CopiedBlockTexture(Blocks.planks, 0, 1), null);
@@ -250,30 +254,30 @@ public class GT_MetaGenerated_Item_02
         GregTech_API.registerCover(ItemList.Plank_Jungle.get(1L), new GT_CopiedBlockTexture(Blocks.planks, 0, 3), null);
         GregTech_API.registerCover(ItemList.Plank_Acacia.get(1L), new GT_CopiedBlockTexture(Blocks.planks, 0, 4), null);
         GregTech_API.registerCover(ItemList.Plank_DarkOak.get(1L), new GT_CopiedBlockTexture(Blocks.planks, 0, 5), null);
-        GregTech_API.registerCover(ItemList.Plank_Larch.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 0, new ItemStack(Blocks.planks, 1, 0))), 0, 0), null);
-        GregTech_API.registerCover(ItemList.Plank_Teak.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 1, new ItemStack(Blocks.planks, 1, 0))), 0, 1), null);
-        GregTech_API.registerCover(ItemList.Plank_Acacia_Green.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 2, new ItemStack(Blocks.planks, 1, 0))), 0, 2), null);
-        GregTech_API.registerCover(ItemList.Plank_Lime.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 3, new ItemStack(Blocks.planks, 1, 0))), 0, 3), null);
-        GregTech_API.registerCover(ItemList.Plank_Chestnut.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 4, new ItemStack(Blocks.planks, 1, 0))), 0, 4), null);
-        GregTech_API.registerCover(ItemList.Plank_Wenge.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 5, new ItemStack(Blocks.planks, 1, 0))), 0, 5), null);
-        GregTech_API.registerCover(ItemList.Plank_Baobab.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 6, new ItemStack(Blocks.planks, 1, 0))), 0, 6), null);
-        GregTech_API.registerCover(ItemList.Plank_Sequoia.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 7, new ItemStack(Blocks.planks, 1, 0))), 0, 7), null);
-        GregTech_API.registerCover(ItemList.Plank_Kapok.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 8, new ItemStack(Blocks.planks, 1, 0))), 0, 8), null);
-        GregTech_API.registerCover(ItemList.Plank_Ebony.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 9, new ItemStack(Blocks.planks, 1, 0))), 0, 9), null);
-        GregTech_API.registerCover(ItemList.Plank_Mahagony.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 10, new ItemStack(Blocks.planks, 1, 0))), 0, 10), null);
-        GregTech_API.registerCover(ItemList.Plank_Balsa.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 11, new ItemStack(Blocks.planks, 1, 0))), 0, 11), null);
-        GregTech_API.registerCover(ItemList.Plank_Willow.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 12, new ItemStack(Blocks.planks, 1, 0))), 0, 12), null);
-        GregTech_API.registerCover(ItemList.Plank_Walnut.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 13, new ItemStack(Blocks.planks, 1, 0))), 0, 13), null);
-        GregTech_API.registerCover(ItemList.Plank_Greenheart.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 14, new ItemStack(Blocks.planks, 1, 0))), 0, 14), null);
-        GregTech_API.registerCover(ItemList.Plank_Cherry.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks", 1L, 15, new ItemStack(Blocks.planks, 1, 0))), 0, 15), null);
-        GregTech_API.registerCover(ItemList.Plank_Mahoe.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 0, new ItemStack(Blocks.planks, 1, 0))), 0, 0), null);
-        GregTech_API.registerCover(ItemList.Plank_Poplar.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 1, new ItemStack(Blocks.planks, 1, 0))), 0, 1), null);
-        GregTech_API.registerCover(ItemList.Plank_Palm.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 2, new ItemStack(Blocks.planks, 1, 0))), 0, 2), null);
-        GregTech_API.registerCover(ItemList.Plank_Papaya.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 3, new ItemStack(Blocks.planks, 1, 0))), 0, 3), null);
-        GregTech_API.registerCover(ItemList.Plank_Pine.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 4, new ItemStack(Blocks.planks, 1, 0))), 0, 4), null);
-        GregTech_API.registerCover(ItemList.Plank_Plum.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 5, new ItemStack(Blocks.planks, 1, 0))), 0, 5), null);
-        GregTech_API.registerCover(ItemList.Plank_Maple.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 6, new ItemStack(Blocks.planks, 1, 0))), 0, 6), null);
-        GregTech_API.registerCover(ItemList.Plank_Citrus.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "planks2", 1L, 7, new ItemStack(Blocks.planks, 1, 0))), 0, 7), null);
+        GregTech_API.registerCover(ItemList.Plank_Larch.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 0, new ItemStack(Blocks.planks, 1, 0))), 0, 0), null);
+        GregTech_API.registerCover(ItemList.Plank_Teak.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 1, new ItemStack(Blocks.planks, 1, 0))), 0, 1), null);
+        GregTech_API.registerCover(ItemList.Plank_Acacia_Green.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 2, new ItemStack(Blocks.planks, 1, 0))), 0, 2), null);
+        GregTech_API.registerCover(ItemList.Plank_Lime.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 3, new ItemStack(Blocks.planks, 1, 0))), 0, 3), null);
+        GregTech_API.registerCover(ItemList.Plank_Chestnut.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 4, new ItemStack(Blocks.planks, 1, 0))), 0, 4), null);
+        GregTech_API.registerCover(ItemList.Plank_Wenge.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 5, new ItemStack(Blocks.planks, 1, 0))), 0, 5), null);
+        GregTech_API.registerCover(ItemList.Plank_Baobab.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 6, new ItemStack(Blocks.planks, 1, 0))), 0, 6), null);
+        GregTech_API.registerCover(ItemList.Plank_Sequoia.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 7, new ItemStack(Blocks.planks, 1, 0))), 0, 7), null);
+        GregTech_API.registerCover(ItemList.Plank_Kapok.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 8, new ItemStack(Blocks.planks, 1, 0))), 0, 8), null);
+        GregTech_API.registerCover(ItemList.Plank_Ebony.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 9, new ItemStack(Blocks.planks, 1, 0))), 0, 9), null);
+        GregTech_API.registerCover(ItemList.Plank_Mahagony.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 10, new ItemStack(Blocks.planks, 1, 0))), 0, 10), null);
+        GregTech_API.registerCover(ItemList.Plank_Balsa.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 11, new ItemStack(Blocks.planks, 1, 0))), 0, 11), null);
+        GregTech_API.registerCover(ItemList.Plank_Willow.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 12, new ItemStack(Blocks.planks, 1, 0))), 0, 12), null);
+        GregTech_API.registerCover(ItemList.Plank_Walnut.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 13, new ItemStack(Blocks.planks, 1, 0))), 0, 13), null);
+        GregTech_API.registerCover(ItemList.Plank_Greenheart.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 14, new ItemStack(Blocks.planks, 1, 0))), 0, 14), null);
+        GregTech_API.registerCover(ItemList.Plank_Cherry.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks", 1L, 15, new ItemStack(Blocks.planks, 1, 0))), 0, 15), null);
+        GregTech_API.registerCover(ItemList.Plank_Mahoe.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 0, new ItemStack(Blocks.planks, 1, 0))), 0, 0), null);
+        GregTech_API.registerCover(ItemList.Plank_Poplar.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 1, new ItemStack(Blocks.planks, 1, 0))), 0, 1), null);
+        GregTech_API.registerCover(ItemList.Plank_Palm.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 2, new ItemStack(Blocks.planks, 1, 0))), 0, 2), null);
+        GregTech_API.registerCover(ItemList.Plank_Papaya.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 3, new ItemStack(Blocks.planks, 1, 0))), 0, 3), null);
+        GregTech_API.registerCover(ItemList.Plank_Pine.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 4, new ItemStack(Blocks.planks, 1, 0))), 0, 4), null);
+        GregTech_API.registerCover(ItemList.Plank_Plum.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 5, new ItemStack(Blocks.planks, 1, 0))), 0, 5), null);
+        GregTech_API.registerCover(ItemList.Plank_Maple.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 6, new ItemStack(Blocks.planks, 1, 0))), 0, 6), null);
+        GregTech_API.registerCover(ItemList.Plank_Citrus.get(1L), new GT_CopiedBlockTexture(GT_Utility.getBlockFromStack(GT_ModHandler.getModItem(MOD_ID_FR, "planks2", 1L, 7, new ItemStack(Blocks.planks, 1, 0))), 0, 7), null);
 
         ItemList.Crop_Drop_Plumbilia.set(addItem(tLastID = 500, "Plumbilia Leaf", "Source of Lead", new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 1L)));
         ItemList.Crop_Drop_Argentia.set(addItem(tLastID = 501, "Argentia Leaf", "Source of Silver", new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.LUCRUM, 1L)));
@@ -292,8 +296,8 @@ public class GT_MetaGenerated_Item_02
         ItemList.Crop_Drop_Tine.set(addItem(tLastID = 540, "Tine Twig", "Source of Tin", new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.METALLUM, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.ARBOR, 1L)));
         setBurnValue(32000 + tLastID, 100);
 
-        ItemList.PlatinumGroupSludge.set(addItem(tLastID = 536, "Platinum group metals sludge", GT_Values.E));
-        ItemList.PlatinumGroupSludgeTiny.set(addItem(tLastID = 537, "Tiny Pile Platinum group metals sludge", GT_Values.E));
+        ItemList.PlatinumGroupSludge.set(addItem(tLastID = 536, "Platinum group metals sludge", EMPTY_STRING));
+        ItemList.PlatinumGroupSludgeTiny.set(addItem(tLastID = 537, "Tiny Pile Platinum group metals sludge", EMPTY_STRING));
 
         ItemList.Crop_Drop_Chilly.set(addItem(tLastID = 550, "Chilly Pepper", "It is red and hot", "cropChilipepper", new GT_FoodStat(1, 0.3F, EnumAction.eat, null, false, true, false, Potion.confusion.id, 200, 1, 40), new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.IGNIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.FAMES, 1L)));
         ItemList.Crop_Drop_Lemon.set(addItem(tLastID = 551, "Lemon", "Don't make Lemonade", "cropLemon", new GT_FoodStat(1, 0.3F, EnumAction.eat, null, false, true, false), new TC_Aspects.TC_AspectStack(TC_Aspects.MESSIS, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.HERBA, 1L), new TC_Aspects.TC_AspectStack(TC_Aspects.FAMES, 1L)));
@@ -356,8 +360,8 @@ public class GT_MetaGenerated_Item_02
         GT_ModHandler.addCompressionRecipe(ItemList.Crop_Drop_OilBerry.get(8L), ItemList.IC2_PlantballCompressed.get(1L));
         GT_ModHandler.addCompressionRecipe(ItemList.Crop_Drop_BobsYerUncleRanks.get(8L), ItemList.IC2_PlantballCompressed.get(1L));
         GT_ModHandler.addCompressionRecipe(ItemList.Crop_Drop_Tine.get(4L), ItemList.IC2_PlantballCompressed.get(1L));
-        GT_ModHandler.addCompressionRecipe(new ItemStack(Blocks.red_flower, 8, GT_Values.W), ItemList.IC2_PlantballCompressed.get(1L));
-        GT_ModHandler.addCompressionRecipe(new ItemStack(Blocks.yellow_flower, 8, GT_Values.W), ItemList.IC2_PlantballCompressed.get(1L));
+        GT_ModHandler.addCompressionRecipe(new ItemStack(Blocks.red_flower, 8, OreDictionary.WILDCARD_VALUE), ItemList.IC2_PlantballCompressed.get(1L));
+        GT_ModHandler.addCompressionRecipe(new ItemStack(Blocks.yellow_flower, 8, OreDictionary.WILDCARD_VALUE), ItemList.IC2_PlantballCompressed.get(1L));
 
         GT_ModHandler.addPulverisationRecipe(ItemList.Food_Sliced_Cheese.get(1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Cheese, 1L));
         GT_ModHandler.addPulverisationRecipe(ItemList.Dye_Cocoa.get(1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Cocoa, 1L));
@@ -369,13 +373,13 @@ public class GT_MetaGenerated_Item_02
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.wheat, 1, 0), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wheat, 1L), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getIC2Item("crop", 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 1L), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.stick, 1), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Wood, 2L), null, 0, false);
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.wool, 1, GT_Values.W), new ItemStack(Items.string, 2), new ItemStack(Items.string, 1), 50, false);
+        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Items.string, 2), new ItemStack(Items.string, 1), 50, false);
         try {
             Object tCrop;
             GT_Utility.getField(tCrop = ic2.api.crops.Crops.instance.getCropList()[13], "mDrop").set(tCrop, ItemList.Crop_Drop_Ferru.get(1L));
             GT_Utility.getField(tCrop = ic2.api.crops.Crops.instance.getCropList()[14], "mDrop").set(tCrop, ItemList.Crop_Drop_Aurelia.get(1L));
         } catch (Throwable e) {
-            if (GT_Values.D1) {
+            if (DEBUG_LEVEL_1) {
                 e.printStackTrace(GT_Log.err);
             }
         }

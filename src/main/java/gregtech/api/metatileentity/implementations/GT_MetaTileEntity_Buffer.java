@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public abstract class GT_MetaTileEntity_Buffer extends GT_MetaTileEntity_TieredMachineBlock {
     public boolean bOutput = false, bRedstoneIfFull = false, bInvert = false;
@@ -142,17 +142,17 @@ public abstract class GT_MetaTileEntity_Buffer extends GT_MetaTileEntity_TieredM
 
     @Override
     public long maxEUStore() {
-        return 512 + V[mTier] * 50;
+        return 512 + TIERED_VOLTAGES[mTier] * 50;
     }
 
     @Override
     public long maxEUInput() {
-        return V[mTier];
+        return TIERED_VOLTAGES[mTier];
     }
 
     @Override
     public long maxEUOutput() {
-        return bOutput ? V[mTier] : 0;
+        return bOutput ? TIERED_VOLTAGES[mTier] : 0;
     }
 
     @Override

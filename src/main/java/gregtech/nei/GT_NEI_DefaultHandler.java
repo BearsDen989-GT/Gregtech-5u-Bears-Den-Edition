@@ -10,7 +10,6 @@ import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.gui.GT_GUIContainer_BasicMachine;
 import gregtech.api.objects.ItemData;
@@ -25,12 +24,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
 
 public class GT_NEI_DefaultHandler
         extends TemplateRecipeHandler {
@@ -48,7 +50,7 @@ public class GT_NEI_DefaultHandler
         this.mRecipeMap = aRecipeMap;
         this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(65, 13, 36, 18), getOverlayIdentifier()));
         if (!NEI_GT_Config.sIsAdded) {
-            FMLInterModComms.sendRuntimeMessage(GT_Values.GT, "NEIPlugins", "register-crafting-handler", "gregtech@" + getRecipeName() + "@" + getOverlayIdentifier());
+            FMLInterModComms.sendRuntimeMessage(GT_MOD_INSTANCE, "NEIPlugins", "register-crafting-handler", "gregtech@" + getRecipeName() + "@" + getOverlayIdentifier());
             GuiCraftingRecipe.craftinghandlers.add(this);
             GuiUsageRecipe.usagehandlers.add(this);
         }
@@ -161,7 +163,6 @@ public class GT_NEI_DefaultHandler
     }
 
     public String getGuiTexture() {
-//    return "gregtech:textures/gui/" + this.mRecipeMap.mUnlocalizedName + ".png";
         return this.mRecipeMap.mNEIGUIPath;
     }
 
@@ -310,7 +311,7 @@ public class GT_NEI_DefaultHandler
             ArrayList<ItemStack> tDisplayStacks = new ArrayList();
             for (ItemStack tStack : this.items) {
                 if (GT_Utility.isStackValid(tStack)) {
-                    if (tStack.getItemDamage() == GT_Values.W) {
+                    if (tStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
                         List<ItemStack> permutations = codechicken.nei.ItemList.itemMap.get(tStack.getItem());
                         if (!permutations.isEmpty()) {
                             ItemStack stack;

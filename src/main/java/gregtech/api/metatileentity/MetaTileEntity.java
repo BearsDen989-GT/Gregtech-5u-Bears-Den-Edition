@@ -3,7 +3,6 @@ package gregtech.api.metatileentity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
@@ -34,8 +33,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.GT;
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -88,7 +88,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
         GT_LanguageManager.addStringLocalization("gt.blockmachines." + mName + ".name", aRegionalName);
         mInventory = new ItemStack[aInvSlotCount];
 
-        if (GT.isClientSide()) {
+        if (GT_MOD_INSTANCE.isClientSide()) {
             ItemStack tStack = new ItemStack(GregTech_API.sBlockMachines, 1, aID);
             tStack.getItem().addInformation(tStack, null, new ArrayList<String>(), true);
         }
@@ -646,7 +646,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     public String getInventoryName() {
         if (GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()] != null)
             return GregTech_API.METATILEENTITIES[getBaseMetaTileEntity().getMetaTileID()].getMetaName();
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     @Override
@@ -851,7 +851,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
 
     @Override
     public void doExplosion(long aExplosionPower) {
-        float tStrength = aExplosionPower < V[0] ? 1.0F : aExplosionPower < V[1] ? 2.0F : aExplosionPower < V[2] ? 3.0F : aExplosionPower < V[3] ? 4.0F : aExplosionPower < V[4] ? 5.0F : aExplosionPower < V[4] * 2 ? 6.0F : aExplosionPower < V[5] ? 7.0F : aExplosionPower < V[6] ? 8.0F : aExplosionPower < V[7] ? 9.0F : 10.0F;
+        float tStrength = aExplosionPower < TIERED_VOLTAGES[0] ? 1.0F : aExplosionPower < TIERED_VOLTAGES[1] ? 2.0F : aExplosionPower < TIERED_VOLTAGES[2] ? 3.0F : aExplosionPower < TIERED_VOLTAGES[3] ? 4.0F : aExplosionPower < TIERED_VOLTAGES[4] ? 5.0F : aExplosionPower < TIERED_VOLTAGES[4] * 2 ? 6.0F : aExplosionPower < TIERED_VOLTAGES[5] ? 7.0F : aExplosionPower < TIERED_VOLTAGES[6] ? 8.0F : aExplosionPower < TIERED_VOLTAGES[7] ? 9.0F : 10.0F;
         int tX = getBaseMetaTileEntity().getXCoord(), tY = getBaseMetaTileEntity().getYCoord(), tZ = getBaseMetaTileEntity().getZCoord();
         World tWorld = getBaseMetaTileEntity().getWorld();
         GT_Utility.sendSoundToPlayers(tWorld, GregTech_API.sSoundList.get(209), 1.0F, -1, tX, tY, tZ);

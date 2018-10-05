@@ -21,6 +21,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
+
 public class GT_MetaTileEntity_DistillationTower
         extends GT_MetaTileEntity_MultiBlockBase {
     private static boolean controller;
@@ -93,7 +95,7 @@ public class GT_MetaTileEntity_DistillationTower
         FluidStack[] tFluids = Arrays.copyOfRange(tFluidList.toArray(new FluidStack[tFluidList.size()]), 0, tFluidList.size());
         if (tFluids.length > 0) {
         	for(int i = 0;i<tFluids.length;i++){
-            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sDistillationRecipes.findRecipe(getBaseMetaTileEntity(), false, gregtech.api.enums.GT_Values.V[tTier], new FluidStack[]{tFluids[i]});
+            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sDistillationRecipes.findRecipe(getBaseMetaTileEntity(), false, TIERED_VOLTAGES[tTier], new FluidStack[]{tFluids[i]});
             if (tRecipe != null) {
                 if (tRecipe.isRecipeInputEqual(true, tFluids)) {
                     this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
@@ -104,7 +106,7 @@ public class GT_MetaTileEntity_DistillationTower
                     } else {
                         this.mEUt = tRecipe.mEUt;
                         this.mMaxProgresstime = tRecipe.mDuration;
-                        while (this.mEUt <= gregtech.api.enums.GT_Values.V[(tTier - 1)]) {
+                        while (this.mEUt <= TIERED_VOLTAGES[(tTier - 1)]) {
                             this.mEUt *= 4;
                             this.mMaxProgresstime /= 2;
                         }

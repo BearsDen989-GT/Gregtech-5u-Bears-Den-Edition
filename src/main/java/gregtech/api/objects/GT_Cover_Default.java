@@ -1,11 +1,12 @@
 package gregtech.api.objects;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.util.GT_CoverBehavior;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.Fluid;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class GT_Cover_Default extends GT_CoverBehavior {
     /**
@@ -23,7 +24,7 @@ public class GT_Cover_Default extends GT_CoverBehavior {
     @Override
     public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         aCoverVariable = ((aCoverVariable + 1) & 15);
-        GT_Utility.sendChatToPlayer(aPlayer, ((aCoverVariable & 1) != 0 ? "Redstone " : GT_Values.E) + ((aCoverVariable & 2) != 0 ? "Energy " : GT_Values.E) + ((aCoverVariable & 4) != 0 ? "Fluids " : GT_Values.E) + ((aCoverVariable & 8) != 0 ? "Items " : GT_Values.E));
+        GT_Utility.sendChatToPlayer(aPlayer, ((aCoverVariable & 1) != 0 ? "Redstone " : EMPTY_STRING) + ((aCoverVariable & 2) != 0 ? "Energy " : EMPTY_STRING) + ((aCoverVariable & 4) != 0 ? "Fluids " : EMPTY_STRING) + ((aCoverVariable & 8) != 0 ? "Items " : EMPTY_STRING));
         return aCoverVariable;
     }
 

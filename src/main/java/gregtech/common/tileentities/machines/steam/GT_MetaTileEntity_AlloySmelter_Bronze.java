@@ -12,6 +12,8 @@ import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
+
 public class GT_MetaTileEntity_AlloySmelter_Bronze
         extends GT_MetaTileEntity_BasicMachine_Bronze {
     public GT_MetaTileEntity_AlloySmelter_Bronze(int aID, String aName, String aNameRegional) {
@@ -31,7 +33,7 @@ public class GT_MetaTileEntity_AlloySmelter_Bronze
     }
 
     public int checkRecipe() {
-        GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sAlloySmelterRecipes.findRecipe(getBaseMetaTileEntity(), false, gregtech.api.enums.GT_Values.V[1], null, getAllInputs());
+        GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sAlloySmelterRecipes.findRecipe(getBaseMetaTileEntity(), false, TIERED_VOLTAGES[1], null, getAllInputs());
         if ((tRecipe != null) && (canOutput(tRecipe.mOutputs)) && (tRecipe.isRecipeInputEqual(true, null, getAllInputs()))) {
             this.mOutputItems[0] = tRecipe.getOutput(0);
             if (tRecipe.mEUt <= 16) {

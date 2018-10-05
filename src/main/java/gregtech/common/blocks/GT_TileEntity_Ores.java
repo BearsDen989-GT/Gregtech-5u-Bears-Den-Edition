@@ -1,7 +1,6 @@
 package gregtech.common.blocks;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
@@ -21,6 +20,8 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static gregtech.api.enums.GT_Values.NETWORK_HANDLER;
 
 public class GT_TileEntity_Ores
         extends TileEntity
@@ -59,7 +60,7 @@ public class GT_TileEntity_Ores
         if ((!this.worldObj.isRemote) && (this.mBlocked))
         {
             this.mBlocked = false;
-            GT_Values.NW.sendPacketToAllPlayersInRange(this.worldObj, new GT_Packet_Ores(this.xCoord, (short)this.yCoord, this.zCoord, this.mMetaData), this.xCoord, this.zCoord);
+            NETWORK_HANDLER.sendPacketToAllPlayersInRange(this.worldObj, new GT_Packet_Ores(this.xCoord, (short)this.yCoord, this.zCoord, this.mMetaData), this.xCoord, this.zCoord);
         }
     }
 
@@ -67,7 +68,7 @@ public class GT_TileEntity_Ores
     {
         if (!this.worldObj.isRemote) {
             if ((this.mBlocked == (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord + 1, this.yCoord, this.zCoord)) && (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord - 1, this.yCoord, this.zCoord)) && (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord, this.yCoord + 1, this.zCoord)) && (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord, this.yCoord - 1, this.zCoord)) && (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord, this.yCoord, this.zCoord + 1)) && (GT_Utility.isOpaqueBlock(this.worldObj, this.xCoord, this.yCoord, this.zCoord - 1)) ? 1 : 0) == 0) {
-                GT_Values.NW.sendPacketToAllPlayersInRange(this.worldObj, new GT_Packet_Ores(this.xCoord, (short)this.yCoord, this.zCoord, this.mMetaData), this.xCoord, this.zCoord);
+                NETWORK_HANDLER.sendPacketToAllPlayersInRange(this.worldObj, new GT_Packet_Ores(this.xCoord, (short)this.yCoord, this.zCoord, this.mMetaData), this.xCoord, this.zCoord);
             }
         }
         return null;

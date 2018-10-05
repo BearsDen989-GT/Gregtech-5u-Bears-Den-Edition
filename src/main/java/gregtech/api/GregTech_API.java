@@ -42,9 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static gregtech.api.enums.GT_Values.B;
-import static gregtech.api.enums.GT_Values.L;
-import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.BITS_32;
 import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
 
 /**
@@ -64,8 +62,6 @@ import static gregtech.api.enums.GT_Values.MOD_ID_IC2;
  * @author Gregorius Techneticies
  */
 public class GregTech_API {
-    @Deprecated
-    public static final long MATERIAL_UNIT = M, FLUID_MATERIAL_UNIT = L;
     /**
      * Fixes the HashMap Mappings for ItemStacks once the Server started
      */
@@ -174,6 +170,7 @@ public class GregTech_API {
      * For the API Version check
      */
     public static volatile int VERSION = 508;
+    /** @deprecated by {@link gregtech.api.enums.GT_Values#RECIPE_ADDER_INSTANCE} */
     @Deprecated
     public static IGT_RecipeAdder sRecipeAdder;
     /**
@@ -325,7 +322,7 @@ public class GregTech_API {
         if (GregTech_API.sThaumcraftCompat != null)
             GregTech_API.sThaumcraftCompat.registerPortholeBlacklistedBlock(aBlock);
         int rMeta = 0;
-        for (byte i = 0; i < aMeta.length && i < 16; i++) if (aMeta[i]) rMeta |= B[i];
+        for (byte i = 0; i < aMeta.length && i < 16; i++) if (aMeta[i]) rMeta |=BITS_32[i];
         sMachineIDs.put(aBlock, rMeta);
         return true;
     }
@@ -335,7 +332,7 @@ public class GregTech_API {
      */
     public static boolean isMachineBlock(Block aBlock, int aMeta) {
         if (GT_Utility.isBlockInvalid(aBlock)) return false;
-        return (sMachineIDs.containsKey(aBlock) && (sMachineIDs.get(aBlock) & B[aMeta]) != 0);
+        return (sMachineIDs.containsKey(aBlock) && (sMachineIDs.get(aBlock) &BITS_32[aMeta]) != 0);
     }
 
     /**

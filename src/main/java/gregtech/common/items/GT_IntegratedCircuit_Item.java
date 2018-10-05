@@ -3,7 +3,6 @@ package gregtech.common.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -18,10 +17,12 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+
 public class GT_IntegratedCircuit_Item
         extends GT_Generic_Item {
     public GT_IntegratedCircuit_Item() {
-        super("integrated_circuit", "Integrated Circuit", GT_Values.E);
+        super("integrated_circuit", "Integrated Circuit", EMPTY_STRING);
         setHasSubtypes(true);
         setMaxDamage(0);
 
@@ -70,7 +71,7 @@ public class GT_IntegratedCircuit_Item
             case 4:
                 return ">";
         }
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     private static String getConfigurationString(int aMetaData) {

@@ -1,10 +1,9 @@
 package gregtech.api.gui;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 
-import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI_MULTIMACHINES;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -15,10 +14,10 @@ import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
  */
 public class GT_GUIContainer_MultiMachine extends GT_GUIContainerMetaTile_Machine {
 
-    String mName = GT_Values.E;
+    String mName;
 
     public GT_GUIContainer_MultiMachine(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aName, String aTextureFile) {
-        super(new GT_Container_MultiMachine(aInventoryPlayer, aTileEntity), RES_PATH_GUI + "multimachines/" + (aTextureFile == null ? "MultiblockDisplay" : aTextureFile));
+        super(new GT_Container_MultiMachine(aInventoryPlayer, aTileEntity), RES_PATH_GUI_MULTIMACHINES + (aTextureFile == null ? "MultiblockDisplay" : aTextureFile));
         mName = aName;
     }
 

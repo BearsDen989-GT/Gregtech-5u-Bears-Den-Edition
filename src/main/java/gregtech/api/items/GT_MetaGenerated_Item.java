@@ -5,7 +5,6 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.SubTag;
@@ -37,9 +36,10 @@ import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.D1;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 import static gregtech.api.enums.GT_Values.MOD_ID_APC;
-import static gregtech.api.enums.GT_Values.RA;
+import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
 import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 
 /**
@@ -107,7 +107,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return An ItemStack containing the newly created Item.
      */
     public final ItemStack addItem(int aID, String aEnglish, String aToolTip, Object... aRandomData) {
-        if (aToolTip == null) aToolTip = GT_Values.E;
+        if (aToolTip == null) aToolTip = EMPTY_STRING;
         if (aID >= 0 && aID < mItemAmount) {
             ItemStack rStack = new ItemStack(this, 1, mOffset + aID);
             mEnabledItems.set(aID);
@@ -136,7 +136,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
                         if (((IFoodStat) tRandomData).getFoodAction(this, rStack) == EnumAction.eat) {
                             int tFoodValue = ((IFoodStat) tRandomData).getFoodLevel(this, rStack, null);
                             if (tFoodValue > 0)
-                                RA.addCannerRecipe(rStack, ItemList.IC2_Food_Can_Empty.get(tFoodValue), ((IFoodStat) tRandomData).isRotten(this, rStack, null) ? ItemList.IC2_Food_Can_Spoiled.get(tFoodValue) : ItemList.IC2_Food_Can_Filled.get(tFoodValue), null, tFoodValue * 100, 1);
+                                RECIPE_ADDER_INSTANCE.addCannerRecipe(rStack, ItemList.IC2_Food_Can_Empty.get(tFoodValue), ((IFoodStat) tRandomData).isRotten(this, rStack, null) ? ItemList.IC2_Food_Can_Spoiled.get(tFoodValue) : ItemList.IC2_Food_Can_Filled.get(tFoodValue), null, tFoodValue * 100, 1);
                         }
                         tUseOreDict = false;
                     }
@@ -308,7 +308,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item var1, CreativeTabs aCreativeTab, List aList) {
         for (int i = 0, j = mEnabledItems.length(); i < j; i++)
-            if (mVisibleItems.get(i) || (D1 && mEnabledItems.get(i))) {
+            if (mVisibleItems.get(i) || (DEBUG_LEVEL_1 && mEnabledItems.get(i))) {
                 Long[] tStats = mElectricStats.get((short) (mOffset + i));
                 if (tStats != null && tStats[3] < 0) {
                     ItemStack tStack = new ItemStack(this, 1, mOffset + i);

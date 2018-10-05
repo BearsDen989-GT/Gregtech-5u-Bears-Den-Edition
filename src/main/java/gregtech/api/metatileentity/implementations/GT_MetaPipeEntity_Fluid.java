@@ -3,7 +3,6 @@ package gregtech.api.metatileentity.implementations;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
@@ -38,7 +37,9 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.D1;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+
 public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     public final float mThickNess;
     public final Materials mMaterial;
@@ -185,7 +186,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     public void saveNBTData(NBTTagCompound aNBT) {
     	for (int i = 0; i < mPipeAmount; i++)
     		if (mFluids[i] != null)
-    			aNBT.setTag("mFluid"+(i==0? GT_Values.E:i), mFluids[i].writeToNBT(new NBTTagCompound()));
+    			aNBT.setTag("mFluid"+(i==0? EMPTY_STRING:i), mFluids[i].writeToNBT(new NBTTagCompound()));
         aNBT.setByte("mLastReceivedFrom", mLastReceivedFrom);
         if (GT_Mod.gregtechproxy.gt6Pipe) {
         	aNBT.setByte("mConnections", mConnections);
@@ -196,7 +197,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
     	for (int i = 0; i < mPipeAmount; i++)
-    		mFluids[i] = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluid"+(i==0?GT_Values.E:i)));
+    		mFluids[i] = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluid"+(i==0? EMPTY_STRING : i)));
         mLastReceivedFrom = aNBT.getByte("mLastReceivedFrom");
         if (GT_Mod.gregtechproxy.gt6Pipe) {
         	mConnections = aNBT.getByte("mConnections");
@@ -273,7 +274,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
                                 GT_Utility.applyHeatDamage(tLiving, (tTemperature - 300) / 25.0F);
                             }
                         } catch (Throwable e) {
-                            if (D1) e.printStackTrace(GT_Log.err);
+                            if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
                         }
                     } else if (tTemperature < 260) {
                         try {
@@ -281,7 +282,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
                                 GT_Utility.applyFrostDamage(tLiving, (270 - tTemperature) / 12.5F);
                             }
                         } catch (Throwable e) {
-                            if (D1) e.printStackTrace(GT_Log.err);
+                            if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
                         }
                     }
                     }

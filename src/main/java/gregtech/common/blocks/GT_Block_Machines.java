@@ -187,7 +187,7 @@ implements IDebugableBlock, ITileEntityProvider {
 
 	public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List outputAABB, Entity collider) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if (((tTileEntity instanceof IGregTechTileEntity)) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
+		if ((tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
 			((IGregTechTileEntity) tTileEntity).addCollisionBoxesToList(aWorld, aX, aY, aZ, inputAABB, outputAABB, collider);
 			return;
 		}
@@ -196,7 +196,7 @@ implements IDebugableBlock, ITileEntityProvider {
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if (((tTileEntity instanceof IGregTechTileEntity)) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
+		if ((tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
 			return ((IGregTechTileEntity) tTileEntity).getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
 		}
 		return super.getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
@@ -204,7 +204,7 @@ implements IDebugableBlock, ITileEntityProvider {
 
 	public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity collider) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if (((tTileEntity instanceof IGregTechTileEntity)) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
+		if ((tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
 			((IGregTechTileEntity) tTileEntity).onEntityCollidedWithBlock(aWorld, aX, aY, aZ, collider);
 			return;
 		}
@@ -273,7 +273,7 @@ implements IDebugableBlock, ITileEntityProvider {
 		if(aPlayer.isSneaking()){
 			ItemStack tCurrentItem = aPlayer.inventory.getCurrentItem();
 			if(tCurrentItem!=null){
-				if(!GT_Utility.isStackInList(tCurrentItem, GregTech_API.sScrewdriverList)){
+				if(!GT_Utility.isStackInList(tCurrentItem, GregTech_API.sScrewdriverList) && !GT_Utility.isStackInList(tCurrentItem, GregTech_API.sWrenchList)){
 					return false;
 				}
 			}else {return false;}
@@ -294,7 +294,7 @@ implements IDebugableBlock, ITileEntityProvider {
 	public void onBlockClicked(World aWorld, int aX, int aY, int aZ, EntityPlayer aPlayer) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if ((tTileEntity != null) &&
-				((tTileEntity instanceof IGregTechTileEntity))) {
+				(tTileEntity instanceof IGregTechTileEntity)) {
 			((IGregTechTileEntity) tTileEntity).onLeftclick(aPlayer);
 		}
 	}
@@ -368,7 +368,7 @@ implements IDebugableBlock, ITileEntityProvider {
 
 	public int getComparatorInputOverride(World aWorld, int aX, int aY, int aZ, int aSide) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechTileEntity))) {
+		if ((tTileEntity != null) && (tTileEntity instanceof IGregTechTileEntity)) {
 			return ((IGregTechTileEntity) tTileEntity).getComparatorValue((byte) aSide);
 		}
 		return 0;
@@ -379,7 +379,7 @@ implements IDebugableBlock, ITileEntityProvider {
 			return 0;
 		}
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechTileEntity))) {
+		if ((tTileEntity != null) && (tTileEntity instanceof IGregTechTileEntity)) {
 			return ((IGregTechTileEntity) tTileEntity).getOutputRedstoneSignal(GT_Utility.getOppositeSide(aSide));
 		}
 		return 0;
@@ -390,7 +390,7 @@ implements IDebugableBlock, ITileEntityProvider {
 			return 0;
 		}
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechTileEntity))) {
+		if ((tTileEntity != null) && (tTileEntity instanceof IGregTechTileEntity)) {
 			return ((IGregTechTileEntity) tTileEntity).getStrongOutputRedstoneSignal(GT_Utility.getOppositeSide(aSide));
 		}
 		return 0;
@@ -400,7 +400,7 @@ implements IDebugableBlock, ITileEntityProvider {
 		if (!aWorld.isRemote) {
 			TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 			if ((tTileEntity != null) && (chance < 1.0F)) {
-				if (((tTileEntity instanceof BaseMetaTileEntity)) && (GregTech_API.sMachineNonWrenchExplosions)) {
+				if ((tTileEntity instanceof BaseMetaTileEntity) && (GregTech_API.sMachineNonWrenchExplosions)) {
 					((BaseMetaTileEntity) tTileEntity).doEnergyExplosion();
 				}
 			} else {
@@ -418,10 +418,10 @@ implements IDebugableBlock, ITileEntityProvider {
 			if ((tTileEntity instanceof BaseMetaTileEntity)) {
 				return true;
 			}
-			if (((tTileEntity instanceof BaseMetaPipeEntity)) && ((((BaseMetaPipeEntity) tTileEntity).mConnections & 0xFFFFFFC0) != 0)) {
+			if ((tTileEntity instanceof BaseMetaPipeEntity) && ((((BaseMetaPipeEntity) tTileEntity).mConnections & 0xFFFFFFC0) != 0)) {
 				return true;
 			}
-			return ((tTileEntity instanceof ICoverable)) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0);
+			return (tTileEntity instanceof ICoverable) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0);
 		}
 		return false;
 	}
@@ -454,7 +454,7 @@ implements IDebugableBlock, ITileEntityProvider {
 
 	public float getExplosionResistance(Entity par1Entity, World aWorld, int aX, int aY, int aZ, double explosionX, double explosionY, double explosionZ) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if ((tTileEntity != null) && ((tTileEntity instanceof IGregTechTileEntity))) {
+		if ((tTileEntity != null) && (tTileEntity instanceof IGregTechTileEntity)) {
 			return ((IGregTechTileEntity) tTileEntity).getBlastResistance((byte) 6);
 		}
 		return 10.0F;

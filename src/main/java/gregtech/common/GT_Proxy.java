@@ -181,6 +181,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 	public boolean gt6Cable = true;
 	public boolean ic2EnergySourceCompat = true;
 	public boolean ElectricJetpackNeedsDragonEgg = true;
+	public boolean HideOresInNEI = true;
 
 	public GT_Proxy() {
 		GameRegistry.registerFuelHandler(this);

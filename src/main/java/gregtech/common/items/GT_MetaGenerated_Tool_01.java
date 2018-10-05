@@ -27,6 +27,7 @@ import gregtech.common.tools.GT_Tool_Hoe;
 import gregtech.common.tools.GT_Tool_JackHammer;
 import gregtech.common.tools.GT_Tool_Knife;
 import gregtech.common.tools.GT_Tool_Mortar;
+import gregtech.common.tools.GT_Tool_Multi;
 import gregtech.common.tools.GT_Tool_Pickaxe;
 import gregtech.common.tools.GT_Tool_Plow;
 import gregtech.common.tools.GT_Tool_Plunger;
@@ -145,6 +146,8 @@ public class GT_MetaGenerated_Tool_01 extends GT_MetaGenerated_Tool {
         addTool(TURBINE, "Turbine", "Turbine Rotors for your power station", new GT_Tool_Turbine_Normal());
         addTool(TURBINE_LARGE, "Large Turbine", "Turbine Rotors for your power station", new GT_Tool_Turbine_Large());
         addTool(TURBINE_HUGE, "Huge Turbine", "Turbine Rotors for your power station", new GT_Tool_Turbine_Huge());
+
+        GregTech_API.registerTool(addTool(180, "Swiss Army Knife", "Pocketknife Multi-Tool!", new GT_Tool_Multi(), ToolDictNames.craftingToolKnife, ToolDictNames.craftingToolBlade, ToolDictNames.craftingToolSaw, ToolDictNames.craftingToolScrewdriver, ToolDictNames.craftingToolWireCutter, ToolDictNames.craftingToolFile, ToolDictNames.craftingToolBranchCutter, new TC_Aspects.TC_AspectStack(TC_Aspects.MACHINA, 4L), new TC_Aspects.TC_AspectStack(TC_Aspects.ORDO, 2L)), GregTech_API.sScrewdriverList);
 
         GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(24, 1, Materials.Flint, Materials.Stone, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" I ", "SIS", "SSS", Character.valueOf('I'), new ItemStack(Items.flint, 1), Character.valueOf('S'), OrePrefixes.stone});
         GT_ModHandler.addCraftingRecipe(INSTANCE.getToolWithStats(24, 1, Materials.Bronze, Materials.Stone, null), GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{" I ", "SIS", "SSS", Character.valueOf('I'), OrePrefixes.ingot.get(Materials.Bronze), Character.valueOf('S'), OrePrefixes.stone});

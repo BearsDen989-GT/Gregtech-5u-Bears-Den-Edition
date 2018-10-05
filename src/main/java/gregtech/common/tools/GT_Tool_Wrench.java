@@ -67,7 +67,7 @@ extends GT_Tool {
 	}
 
 	public String getCraftingSound() {
-		return GregTech_API.sSoundList.get(Integer.valueOf(100));
+		return GregTech_API.sSoundList.get(100);
 	}
 
 	public String getEntityHitSound() {
@@ -75,11 +75,11 @@ extends GT_Tool {
 	}
 
 	public String getBreakingSound() {
-		return GregTech_API.sSoundList.get(Integer.valueOf(0));
+		return GregTech_API.sSoundList.get(0);
 	}
 
 	public String getMiningSound() {
-		return GregTech_API.sSoundList.get(Integer.valueOf(100));
+		return GregTech_API.sSoundList.get(100);
 	}
 
 	public boolean canBlock() {

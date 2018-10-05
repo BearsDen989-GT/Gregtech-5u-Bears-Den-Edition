@@ -38,7 +38,7 @@ public class GT_Tool_Multi
 
     public String getEntityHitSound() { return null; }
 
-    public String getBreakingSound() { return GregTech_API.sSoundList.get(Integer.valueOf(0)); }
+    public String getBreakingSound() { return GregTech_API.sSoundList.get(0); }
 
     public String getMiningSound() { return null; }
 

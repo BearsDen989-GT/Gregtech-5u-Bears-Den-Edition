@@ -28,7 +28,7 @@ public class Behaviour_Scanner
             }
             return true;
         }
-        GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(Integer.valueOf(108)), 1, 1.0F, aX, aY, aZ);
+        GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(108), 1, 1.0F, aX, aY, aZ);
         return aPlayer instanceof EntityPlayerMP;
     }
 

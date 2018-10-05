@@ -26,19 +26,19 @@ public class GT_Tool_Plunger
     }
 
     public String getCraftingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public String getEntityHitSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(101));
+        return GregTech_API.sSoundList.get(101);
     }
 
     public boolean isMinableBlock(Block aBlock, byte aMetaData) {
@@ -58,7 +58,7 @@ public class GT_Tool_Plunger
         aItem.addItemBehavior(aID, new Behaviour_Plunger_Item(getToolDamagePerDropConversion()));
         aItem.addItemBehavior(aID, new Behaviour_Plunger_Fluid(getToolDamagePerDropConversion()));
         try {
-            Object tObject = GT_Utility.callConstructor("gregtech.common.items.behaviors.Behaviour_Plunger_Essentia", 0, null, false, Integer.valueOf(getToolDamagePerDropConversion()));
+            Object tObject = GT_Utility.callConstructor("gregtech.common.items.behaviors.Behaviour_Plunger_Essentia", 0, null, false, getToolDamagePerDropConversion());
             if ((tObject instanceof IItemBehaviour)) {
                 aItem.addItemBehavior(aID, (IItemBehaviour) tObject);
             }

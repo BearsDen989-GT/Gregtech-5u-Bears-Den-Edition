@@ -61,7 +61,7 @@ public class Behaviour_Spray_Color
         }
         if ((GT_Utility.areStacksEqual(aStack, this.mUsed, true)) &&
                 (colorize(aWorld, aX, aY, aZ, aSide))) {
-            GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(Integer.valueOf(102)), 1.0F, 1.0F, aX, aY, aZ);
+            GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(102), 1.0F, 1.0F, aX, aY, aZ);
             if (!aPlayer.capabilities.isCreativeMode) {
                 tUses -= 1L;
             }

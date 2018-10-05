@@ -40,7 +40,7 @@ public class ProcessingPlank implements gregtech.api.interfaces.IOreRecipeRegist
                     if ((tOutput != null) && (tOutput.stackSize >= 3)) {
                         GT_Values.RA.addCutterRecipe(GT_Utility.copyAmount(1L, tStack), GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), null, 25, 4);
                         GT_ModHandler.removeRecipe(tStack, tStack, tStack);
-                        GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), new Object[]{"sP", Character.valueOf('P'), tStack});
+                        GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), new Object[]{"sP", 'P', tStack});
                     }
                                         if(tStack==null){
                                         	if(i>=16){
@@ -53,7 +53,7 @@ public class ProcessingPlank implements gregtech.api.interfaces.IOreRecipeRegist
                 if ((tOutput != null) && (tOutput.stackSize >= 3)) {
                     GT_Values.RA.addCutterRecipe(GT_Utility.copyAmount(1L, aStack), GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), null, 25, 4);
                     GT_ModHandler.removeRecipe(aStack, aStack, aStack);
-                    GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), new Object[]{"sP", Character.valueOf('P'), aStack});
+                    GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(tOutput.stackSize / 3, tOutput), new Object[]{"sP", 'P', aStack});
                 }
             }
         }

@@ -69,7 +69,7 @@ public class GT_Tool_HardHammer
     }
 
     public String getCraftingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(1));
+        return GregTech_API.sSoundList.get(1);
     }
 
     public String getEntityHitSound() {
@@ -77,7 +77,7 @@ public class GT_Tool_HardHammer
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(2));
+        return GregTech_API.sSoundList.get(2);
     }
 
     public String getMiningSound() {

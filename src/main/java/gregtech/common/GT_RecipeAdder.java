@@ -319,9 +319,9 @@ public class GT_RecipeAdder
         GT_Mod.gregtechproxy.mSoundItems.add(aItemStack);
         GT_Mod.gregtechproxy.mSoundNames.add(aSoundName);
         if (aSoundName.startsWith("note.")) {
-            GT_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(25));
+            GT_Mod.gregtechproxy.mSoundCounts.add(25);
         } else {
-            GT_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(1));
+            GT_Mod.gregtechproxy.mSoundCounts.add(1);
         }
         return true;
     }

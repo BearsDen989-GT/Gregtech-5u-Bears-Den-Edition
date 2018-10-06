@@ -59,7 +59,7 @@ public class GT_Tool_Scoop
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {
@@ -93,7 +93,7 @@ public class GT_Tool_Scoop
 
     public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {
         try {
-            Object tObject = GT_Utility.callConstructor("gregtech.common.items.behaviors.Behaviour_Scoop", 0, null, false, Integer.valueOf(200));
+            Object tObject = GT_Utility.callConstructor("gregtech.common.items.behaviors.Behaviour_Scoop", 0, null, false, 200);
             if ((tObject instanceof IItemBehaviour)) {
                 aItem.addItemBehavior(aID, (IItemBehaviour) tObject);
             }

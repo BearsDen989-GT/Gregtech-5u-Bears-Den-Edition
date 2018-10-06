@@ -120,7 +120,7 @@ public class GT_MetaGenerated_Item_Renderer
         } else {
             IIcon tIcon;
             if (aItem.mIconList[(aMetaData - aItem.mOffset)].length > 1) {
-                Long[] tStats = aItem.mElectricStats.get(Short.valueOf(aMetaData));
+                Long[] tStats = aItem.mElectricStats.get(aMetaData);
 
                 if ((tStats != null) && (tStats[3].longValue() < 0L)) {
                     long tCharge = aItem.getRealCharge(aStack);

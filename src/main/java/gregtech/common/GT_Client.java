@@ -244,7 +244,7 @@ public class GT_Client extends GT_Proxy
                 if (tEntry.getValue().intValue() < 0) {
                     tList.add(tEntry.getKey());
                 } else {
-                    tEntry.setValue(Integer.valueOf(tEntry.getValue().intValue() - 1));
+                    tEntry.setValue(tEntry.getValue().intValue() - 1);
                 }
             }
             GT_PlayedSound tKey;

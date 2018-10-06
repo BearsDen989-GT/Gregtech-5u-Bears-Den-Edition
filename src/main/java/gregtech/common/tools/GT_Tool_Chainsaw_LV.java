@@ -58,19 +58,19 @@ public class GT_Tool_Chainsaw_LV
     }
 
     public String getCraftingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(104);
     }
 
     public String getEntityHitSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(105));
+        return GregTech_API.sSoundList.get(105);
     }
 
     public String getBreakingSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {
-        return GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(104);
     }
 
     public boolean canBlock() {

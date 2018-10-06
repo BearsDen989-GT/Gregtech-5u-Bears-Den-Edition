@@ -11,10 +11,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Arrays;
-
-import static gregtech.api.enums.GT_Values.W;
 
 public class GT_Spray_Ice_Item extends GT_Tool_Item {
     public GT_Spray_Ice_Item(String aUnlocalized, String aEnglish, int aMaxDamage, int aEntityDamage) {
@@ -32,7 +31,7 @@ public class GT_Spray_Ice_Item extends GT_Tool_Item {
 		setUsageAmounts(4, 16, 1);*/
 
         for (Object tName : Arrays.asList(OrePrefixes.bucket.get(Materials.Water), OrePrefixes.cell.get(Materials.Water), OrePrefixes.capsule.get(Materials.Water))) {
-            GT_ModHandler.addShapelessCraftingRecipe(new ItemStack(Blocks.ice, 1, 0), new Object[]{new ItemStack(this, 1, W), tName});
+            GT_ModHandler.addShapelessCraftingRecipe(new ItemStack(Blocks.ice, 1, 0), new Object[]{new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE), tName});
         }
     }
 	/*

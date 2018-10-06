@@ -10,7 +10,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK;
+import static gregtech.api.enums.GT_Values.RES_PATH_BLOCK_ICONSETS;
 import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
+import static gregtech.api.enums.GT_Values.RES_PATH_ITEM_ICONSETS;
 
 public class Textures {
     public enum BlockIcons implements IIconContainer, Runnable {
@@ -413,7 +415,7 @@ public class Textures {
 
         @Override
         public void run() {
-            mIcon = GregTech_API.sBlockIcons.registerIcon(RES_PATH_BLOCK + "iconsets/" + this);
+            mIcon = GregTech_API.sBlockIcons.registerIcon(RES_PATH_BLOCK_ICONSETS + this);
         }
 
         @Override
@@ -505,8 +507,8 @@ public class Textures {
 
         @Override
         public void run() {
-            mIcon = GregTech_API.sItemIcons.registerIcon(RES_PATH_ITEM + "iconsets/" + this);
-            mOverlay = GregTech_API.sItemIcons.registerIcon(RES_PATH_ITEM + "iconsets/" + this + "_OVERLAY");
+            mIcon = GregTech_API.sItemIcons.registerIcon(RES_PATH_ITEM_ICONSETS + this);
+            mOverlay = GregTech_API.sItemIcons.registerIcon(RES_PATH_ITEM_ICONSETS + this + "_OVERLAY");
         }
 
         public static class CustomIcon implements IIconContainer, Runnable {

@@ -2,7 +2,6 @@ package gregtech.api.metatileentity;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -41,8 +40,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.NW;
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.NETWORK_HANDLER;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -64,7 +64,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
     private int mDisplayErrorCode = 0, oX = 0, oY = 0, oZ = 0, mTimeStatisticsIndex = 0, mLagWarningCount = 0;
     private short mID = 0;
     private long mTickTimer = 0, oOutput = 0, mAcceptedAmperes = Long.MAX_VALUE;
-    private String mOwnerName = GT_Values.E;
+    private String mOwnerName = EMPTY_STRING;
     private NBTTagCompound mRecipeStuff = new NBTTagCompound();
 
     public BaseMetaTileEntity() {
@@ -494,7 +494,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
                         if (isServerSide()) {
                             if (mTickTimer % 10 == 0) {
                                 if (mSendClientData) {
-                                    NW.sendPacketToAllPlayersInRange(worldObj, new GT_Packet_TileEntity(xCoord, (short) yCoord, zCoord, mID, mCoverSides[0], mCoverSides[1], mCoverSides[2], mCoverSides[3], mCoverSides[4], mCoverSides[5], oTextureData = (byte) ((mFacing & 7) | (mActive ? 8 : 0) | (mRedstone ? 16 : 0) | (mLockUpgrade ? 32 : 0)), oUpdateData = hasValidMetaTileEntity() ? mMetaTileEntity.getUpdateData() : 0, oRedstoneData = (byte) (((mSidedRedstone[0] > 0) ? 1 : 0) | ((mSidedRedstone[1] > 0) ? 2 : 0) | ((mSidedRedstone[2] > 0) ? 4 : 0) | ((mSidedRedstone[3] > 0) ? 8 : 0) | ((mSidedRedstone[4] > 0) ? 16 : 0) | ((mSidedRedstone[5] > 0) ? 32 : 0)), oColor = mColor), xCoord, zCoord);
+                                    NETWORK_HANDLER.sendPacketToAllPlayersInRange(worldObj, new GT_Packet_TileEntity(xCoord, (short) yCoord, zCoord, mID, mCoverSides[0], mCoverSides[1], mCoverSides[2], mCoverSides[3], mCoverSides[4], mCoverSides[5], oTextureData = (byte) ((mFacing & 7) | (mActive ? 8 : 0) | (mRedstone ? 16 : 0) | (mLockUpgrade ? 32 : 0)), oUpdateData = hasValidMetaTileEntity() ? mMetaTileEntity.getUpdateData() : 0, oRedstoneData = (byte) (((mSidedRedstone[0] > 0) ? 1 : 0) | ((mSidedRedstone[1] > 0) ? 2 : 0) | ((mSidedRedstone[2] > 0) ? 4 : 0) | ((mSidedRedstone[3] > 0) ? 8 : 0) | ((mSidedRedstone[4] > 0) ? 16 : 0) | ((mSidedRedstone[5] > 0) ? 32 : 0)), oColor = mColor), xCoord, zCoord);
                                     mSendClientData = false;
                                 }
                             }
@@ -751,7 +751,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
     public String getInventoryName() {
         if (canAccessData()) return mMetaTileEntity.getInventoryName();
         if (GregTech_API.METATILEENTITIES[mID] != null) return GregTech_API.METATILEENTITIES[mID].getInventoryName();
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     @Override
@@ -1093,8 +1093,8 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
 
     public boolean playerOwnsThis(EntityPlayer aPlayer, boolean aCheckPrecicely) {
         if (!canAccessData()) return false;
-        if (aCheckPrecicely || privateAccess() || mOwnerName.equals(GT_Values.E))
-            if (mOwnerName.equals(GT_Values.E) && isServerSide()) setOwnerName(aPlayer.getDisplayName());
+        if (aCheckPrecicely || privateAccess() || mOwnerName.equals(EMPTY_STRING))
+            if (mOwnerName.equals(EMPTY_STRING) && isServerSide()) setOwnerName(aPlayer.getDisplayName());
             else
                 return !privateAccess() || aPlayer.getDisplayName().equals("Player") || mOwnerName.equals("Player") || mOwnerName.equals(aPlayer.getDisplayName());
         return true;
@@ -1119,7 +1119,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
             if (GregTech_API.sMachineWireFire && mMetaTileEntity.isElectric()) {
                 try {
                     mReleaseEnergy = true;
-                    IEnergyConnected.Util.emitEnergyToNetwork(V[5], Math.max(1, getStoredEU() / V[5]), this);
+                    IEnergyConnected.Util.emitEnergyToNetwork(TIERED_VOLTAGES[5], Math.max(1, getStoredEU() / TIERED_VOLTAGES[5]), this);
                 } catch (Exception e) {/* Fun Fact: all these "do nothing" Comments you see in my Code, are just there to let Eclipse shut up about the intended empty Brackets, but I need eclipse to yell at me in some of the regular Cases where I forget to add Code */}
             }
             mReleaseEnergy = false;

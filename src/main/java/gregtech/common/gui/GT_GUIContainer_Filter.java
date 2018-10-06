@@ -4,10 +4,12 @@ import gregtech.api.gui.GT_GUIContainerMetaTile_Machine;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+
 public class GT_GUIContainer_Filter
         extends GT_GUIContainerMetaTile_Machine {
     public GT_GUIContainer_Filter(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity) {
-        super(new GT_Container_Filter(aInventoryPlayer, aTileEntity), "gregtech:textures/gui/Filter.png");
+        super(new GT_Container_Filter(aInventoryPlayer, aTileEntity), RES_PATH_GUI + "Filter.png");
     }
 
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {

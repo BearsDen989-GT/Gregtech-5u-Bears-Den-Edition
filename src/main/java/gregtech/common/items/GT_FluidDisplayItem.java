@@ -2,7 +2,6 @@ package gregtech.common.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.util.GT_Utility;
@@ -18,6 +17,9 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.List;
 
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+
 public class GT_FluidDisplayItem
         extends GT_Generic_Item {
     public GT_FluidDisplayItem() {
@@ -27,7 +29,7 @@ public class GT_FluidDisplayItem
 
     protected void addAdditionalToolTips(List aList, ItemStack aStack) {
         NBTTagCompound aNBT = aStack.getTagCompound();
-        if (GT_Values.D1) {
+        if (DEBUG_LEVEL_1) {
             Fluid tFluid = FluidRegistry.getFluid(aStack.getItemDamage());
             if (tFluid != null) {
                 aList.add("Registry: " + tFluid.getName());
@@ -66,19 +68,19 @@ public class GT_FluidDisplayItem
         if (aStack != null) {
             return GT_Utility.getFluidName(FluidRegistry.getFluid(aStack.getItemDamage()), false);
         }
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     public String getItemStackDisplayName(ItemStack aStack) {
         if (aStack != null) {
             return GT_Utility.getFluidName(FluidRegistry.getFluid(aStack.getItemDamage()), true);
         }
-        return GT_Values.E;
+        return EMPTY_STRING;
     }
 
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item aItem, CreativeTabs aTab, List aList) {
-        if (GT_Values.D1) {
+        if (DEBUG_LEVEL_1) {
             int i = 0;
             for (int j = FluidRegistry.getMaxID(); i < j; i++) {
                 ItemStack tStack = GT_Utility.getFluidDisplayStack(FluidRegistry.getFluid(i));

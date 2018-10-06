@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Random;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public class GT_MetaTileEntity_Macerator_Bronze
         extends GT_MetaTileEntity_BasicMachine_Bronze {
@@ -48,7 +48,7 @@ public class GT_MetaTileEntity_Macerator_Bronze
     public int checkRecipe() {
         GT_Recipe_Map tMap = GT_Recipe.GT_Recipe_Map.sMaceratorRecipes;
         if (tMap == null) return DID_NOT_FIND_RECIPE;
-        GT_Recipe tRecipe = tMap.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, V[1], null, null, getAllInputs());
+        GT_Recipe tRecipe = tMap.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, TIERED_VOLTAGES[1], null, null, getAllInputs());
         if (tRecipe == null) return DID_NOT_FIND_RECIPE;
         if (tRecipe.mCanBeBuffered) mLastRecipe = tRecipe;
         if (!canOutput(tRecipe)) {

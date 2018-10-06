@@ -9,6 +9,8 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
 
+import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
+
 public class ProcessingPlate5 implements gregtech.api.interfaces.IOreRecipeRegistrator {
     public ProcessingPlate5() {
         OrePrefixes.plateQuintuple.add(this);
@@ -21,7 +23,7 @@ public class ProcessingPlate5 implements gregtech.api.interfaces.IOreRecipeRegis
             GT_ModHandler.addCraftingRecipe(GT_Utility.copyAmount(1L, aStack), GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"I", "B", "h", Character.valueOf('I'), OrePrefixes.plateQuadruple.get(aMaterial), Character.valueOf('B'), OrePrefixes.plate.get(aMaterial)});
             GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, aStack), new Object[]{ToolDictNames.craftingToolForgeHammer, OrePrefixes.plate.get(aMaterial), OrePrefixes.plate.get(aMaterial), OrePrefixes.plate.get(aMaterial), OrePrefixes.plate.get(aMaterial), OrePrefixes.plate.get(aMaterial)});
         } else {
-            gregtech.api.enums.GT_Values.RA.addAssemblerRecipe(gregtech.api.util.GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 5L), ItemList.Circuit_Integrated.getWithDamage(0L, 5L), Materials.Glue.getFluid(40L), GT_Utility.copyAmount(1L, aStack), 160, 8);
+            RECIPE_ADDER_INSTANCE.addAssemblerRecipe(gregtech.api.util.GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 5L), ItemList.Circuit_Integrated.getWithDamage(0L, 5L), Materials.Glue.getFluid(40L), GT_Utility.copyAmount(1L, aStack), 160, 8);
         }
     }
 }

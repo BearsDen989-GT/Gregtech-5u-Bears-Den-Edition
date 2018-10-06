@@ -7,7 +7,6 @@ import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.net.GT_Packet;
 import gregtech.api.net.GT_Packet_Block_Event;
 import gregtech.api.net.GT_Packet_Sound;
@@ -26,6 +25,8 @@ import net.minecraft.world.chunk.Chunk;
 
 import java.util.EnumMap;
 import java.util.List;
+
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
 
 @ChannelHandler.Sharable
 public class GT_Network
@@ -84,8 +85,8 @@ public class GT_Network
     static final class HandlerShared
             extends SimpleChannelInboundHandler<GT_Packet> {
         protected void channelRead0(ChannelHandlerContext ctx, GT_Packet aPacket) {
-            EntityPlayer aPlayer = GT_Values.GT.getThePlayer();
-            aPacket.process(aPlayer == null ? null : GT_Values.GT.getThePlayer().worldObj);
+            EntityPlayer aPlayer = GT_MOD_INSTANCE.getThePlayer();
+            aPacket.process(aPlayer == null ? null : GT_MOD_INSTANCE.getThePlayer().worldObj);
         }
     }
 }

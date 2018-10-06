@@ -7,7 +7,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -31,6 +30,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_2;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.MOD_ID_TC;
+
 public class GT_Achievements {
 
     public static List<Materials> oreList = new ArrayList<Materials>();
@@ -45,13 +49,13 @@ public class GT_Achievements {
         this.achievementList = new HashMap();
         this.issuedAchievements = new HashMap();
         for (int i = 0; i < oreList.size(); i++) {
-            if (GT_Values.D1 && this.achievementList.get(oreList.get(i).name()) == null) {
+            if (DEBUG_LEVEL_1 && this.achievementList.get(oreList.get(i).name()) == null) {
                 GT_Log.out.println("achievement." + oreList.get(i).name() + "=Find " + oreList.get(i).name() + " Ore");
-                GT_Log.out.println("achievement." + oreList.get(i).name() + ".desc=Height: " + (oreStats.get(i)[0]) + "-" + (oreStats.get(i)[1]) + ", Chance: " + (oreStats.get(i)[2]) + ", " + (oreStats.get(i)[3] == 1 ? "Overworld" : GT_Values.E) + "/" + (oreStats.get(i)[4] == 1 ? "Nether" : GT_Values.E) + "/" + (oreStats.get(i)[5] == 1 ? "End" : GT_Values.E));
+                GT_Log.out.println("achievement." + oreList.get(i).name() + ".desc=Height: " + (oreStats.get(i)[0]) + "-" + (oreStats.get(i)[1]) + ", Chance: " + (oreStats.get(i)[2]) + ", " + (oreStats.get(i)[3] == 1 ? "Overworld" : EMPTY_STRING) + "/" + (oreStats.get(i)[4] == 1 ? "Nether" : EMPTY_STRING) + "/" + (oreStats.get(i)[5] == 1 ? "End" : EMPTY_STRING));
             }
             registerOreAchievement(oreList.get(i));
         }
-        registerAchievement("flintpick", 0, 0, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(2, 1, Materials.Flint, Materials.Wood, null), GT_Values.E, false);
+        registerAchievement("flintpick", 0, 0, GT_MetaGenerated_Tool_01.INSTANCE.getToolWithStats(2, 1, Materials.Flint, Materials.Wood, null), EMPTY_STRING, false);
         registerAchievement("crops", -4, 0, GT_ModHandler.getIC2Item("crop", 1L), "flintpick", false);
         registerAchievement("havestlead", -4, 2, ItemList.Crop_Drop_Plumbilia.get(1), "crops", false);
         registerAchievement("havestcopper", -2, 1, ItemList.Crop_Drop_Coppon.get(1), "crops", false);
@@ -97,7 +101,7 @@ public class GT_Achievements {
         registerAchievement("superbuffer", 0, -12, ItemList.Automation_SuperBuffer_LV.get(1), "datasaving", false);
         registerAchievement("newstorage", -2, -14, ItemList.Quantum_Chest_HV.get(1), "superbuffer", false);
         registerAchievement("whereistheocean", 2, -14, ItemList.Quantum_Tank_IV.get(1), "superbuffer", false);
-        registerAchievement("luck", 2, -6, ItemList.ZPM.get(1), GT_Values.E, false);
+        registerAchievement("luck", 2, -6, ItemList.ZPM.get(1), EMPTY_STRING, false);
 
         registerAchievement("steel", 4, 0, GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Steel, 1L), "bronze", false);
         registerAchievement("highpressure", 4, 2, ItemList.Machine_Steel_Boiler.get(1), "steel", false);
@@ -182,7 +186,7 @@ public class GT_Achievements {
             achievement.setSpecial();
         }
         achievement.registerStat();
-        if (GT_Values.D2) {
+        if (DEBUG_LEVEL_2) {
             GT_Log.out.println("achievement." + textId + "=");
             GT_Log.out.println("achievement." + textId + ".desc=");
         }
@@ -199,7 +203,7 @@ public class GT_Achievements {
             achievement.setSpecial();
         }
         achievement.registerStat();
-        if (GT_Values.D2) {
+        if (DEBUG_LEVEL_2) {
             GT_Log.out.println("achievement." + textId + "=");
             GT_Log.out.println("achievement." + textId + ".desc=");
         }
@@ -442,7 +446,7 @@ public class GT_Achievements {
             } else if (data.mMaterial.mMaterial == Materials.Steel) {
                 if (data.mPrefix == OrePrefixes.ingot && stack.stackSize == stack.getMaxStackSize()) {
                     issueAchievement(player, "steel");
-                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded(GT_Values.MOD_ID_TC)) {
+                } else if (data.mPrefix == OrePrefixes.nugget && Loader.isModLoaded(MOD_ID_TC)) {
                     if (ThaumcraftApiHelper.isResearchComplete(player.getDisplayName(), "GT_IRON_TO_STEEL")) {
                         issueAchievement(player, "steel");
                     }

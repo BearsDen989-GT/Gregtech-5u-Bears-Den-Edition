@@ -17,6 +17,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
+
 public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBase {
 
     public GT_MetaTileEntity_HydroFarm(int aID, String aName, String aNameRegional) {
@@ -61,7 +63,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
         for (ItemStack tInput : tInputList) {
             long tVoltage = getMaxInputVoltage();
             byte tTier = (byte) Math.max(1, GT_Utility.getTier(tVoltage));
-            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sHydroFarmRecipes.findRecipe(getBaseMetaTileEntity(), false, gregtech.api.enums.GT_Values.V[tTier], tFluidInputs.isEmpty() ? null : new FluidStack[]{tFluidInputs.get(0)}, mInventory[1], tInput);
+            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sHydroFarmRecipes.findRecipe(getBaseMetaTileEntity(), false, TIERED_VOLTAGES[tTier], tFluidInputs.isEmpty() ? null : new FluidStack[]{tFluidInputs.get(0)}, mInventory[1], tInput);
             if (tRecipe != null) {
                 if (tRecipe.isRecipeInputEqual(true, tFluidInputs.isEmpty() ? null : new FluidStack[]{tFluidInputs.get(0)}, tInput, mInventory[1])) {
                     this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
@@ -75,7 +77,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                     } else {
                         this.mEUt = tRecipe.mEUt;
                         this.mMaxProgresstime = tRecipe.mDuration;
-                        while (this.mEUt <= gregtech.api.enums.GT_Values.V[(tTier - 1)]) {
+                        while (this.mEUt <= TIERED_VOLTAGES[(tTier - 1)]) {
                             this.mEUt *= 4;
                             this.mMaxProgresstime /= 2;
                         }

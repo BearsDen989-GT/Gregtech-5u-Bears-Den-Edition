@@ -3,7 +3,6 @@ package gregtech.common.tileentities.generators;
 import cpw.mods.fml.common.Loader;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.TC_Aspects;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -29,7 +28,8 @@ import thaumcraft.api.visnet.VisNetHandler;
 
 import java.util.ArrayList;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.MOD_ID_TC;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_BasicGenerator {
 
@@ -76,7 +76,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
         sEnergyPerEnderCrystal = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick.EnderCrystal", 32);
         sEnergyFromVis = (GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerVisDivisor", 2500) * 10);
         sDragonEggEnergyPerTick = GregTech_API.sMachineFile.get(ConfigCategories.machineconfig, "MagicEnergyAbsorber.EnergyPerTick", 2048);
-        isThaumcraftLoaded = Loader.isModLoaded(GT_Values.MOD_ID_TC);
+        isThaumcraftLoaded = Loader.isModLoaded(MOD_ID_TC);
     }
 
     @Override
@@ -239,7 +239,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
 
     @Override
     public long maxEUStore() {
-        return Math.max(getEUVar(), V[mTier] * 16000 + getMinimumStoredEU());
+        return Math.max(getEUVar(), TIERED_VOLTAGES[mTier] * 16000 + getMinimumStoredEU());
     }
 
     public ITexture[] getFront(byte aColor) {

@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.MATERIAL_UNIT;
 import static gregtech.api.enums.GT_Values.MOD_ID_TC;
 
 
@@ -1271,9 +1271,9 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 
 		Glue.mChemicalFormula = "No Horses were harmed for the Production";
 		UUAmplifier.mChemicalFormula = "Accelerates the Mass Fabricator";
-		LiveRoot.mChemicalFormula = GT_Values.E;
-		WoodSealed.mChemicalFormula = GT_Values.E;
-		Wood.mChemicalFormula = GT_Values.E;
+		LiveRoot.mChemicalFormula = GT_Values.EMPTY_STRING;
+		WoodSealed.mChemicalFormula = GT_Values.EMPTY_STRING;
+		Wood.mChemicalFormula = GT_Values.EMPTY_STRING;
 		FoolsRuby.mChemicalFormula = Ruby.mChemicalFormula;
 
 		// Naquadah is green when molten, so this reflects the Color change approciately
@@ -1316,7 +1316,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	public Dyes mColor = Dyes._NULL;
 	public short mMeltingPoint = 0, mBlastFurnaceTemp = 0;
 	public int mTypes = 0, mDurability = 16, mFuelPower = 0, mFuelType = 0, mExtraData = 0, mOreValue = 0, mOreMultiplier = 1, mByProductMultiplier = 1, mSmeltingMultiplier = 1;
-	public long mDensity = M;
+	public long mDensity = MATERIAL_UNIT;
 	public Element mElement = null;
 	public Materials mDirectSmelting = this, mOreReplacement = this, mMacerateInto = this, mSmeltInto = this, mArcSmeltInto = this, mHandleMaterial = this;
 	public byte mToolQuality = 0;
@@ -1386,7 +1386,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		mFuelPower = aFuelPower;
 		mFuelType = aFuelType;
 		mOreValue = aOreValue;
-		mDensity = (M * aDensityMultiplier) / aDensityDivider;
+		mDensity = (MATERIAL_UNIT * aDensityMultiplier) / aDensityDivider;
 		mColor = aColor == null ? Dyes._NULL : aColor;
 		if (mColor != null) add(SubTag.HAS_COLOR);
 		mRGBa[0] = mMoltenRGBa[0] = (short) aR;
@@ -1426,7 +1426,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor);
 		mExtraData = aExtraData;
 		mMaterialList.addAll(aMaterialList);
-		mChemicalFormula = GT_Values.E;
+		mChemicalFormula = GT_Values.EMPTY_STRING;
 		for (MaterialStack tMaterial : mMaterialList) mChemicalFormula += tMaterial.toString();
 		mChemicalFormula = mChemicalFormula.replaceAll("_", "-");
 
@@ -1489,7 +1489,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 			tAmount += tMaterial.mAmount;
 			rAmount += tMaterial.mAmount * tMaterial.mMaterial.getProtons();
 		}
-		return (getDensity() * rAmount) / (tAmount * M);
+		return (getDensity() * rAmount) / (tAmount * MATERIAL_UNIT);
 	}
 
 	public long getNeutrons() {
@@ -1500,7 +1500,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 			tAmount += tMaterial.mAmount;
 			rAmount += tMaterial.mAmount * tMaterial.mMaterial.getNeutrons();
 		}
-		return (getDensity() * rAmount) / (tAmount * M);
+		return (getDensity() * rAmount) / (tAmount * MATERIAL_UNIT);
 	}
 
 	public long getMass() {
@@ -1511,7 +1511,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 			tAmount += tMaterial.mAmount;
 			rAmount += tMaterial.mAmount * tMaterial.mMaterial.getMass();
 		}
-		return (getDensity() * rAmount) / (tAmount * M);
+		return (getDensity() * rAmount) / (tAmount * MATERIAL_UNIT);
 	}
 
 	public long getDensity() {
@@ -1531,8 +1531,8 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	}
 
 	public String getToolTip(long aMultiplier, boolean aShowQuestionMarks) {
-		if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return GT_Values.E;
-		if (aMultiplier >= M * 2 && !mMaterialList.isEmpty()) {
+		if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return GT_Values.EMPTY_STRING;
+		if (aMultiplier >= MATERIAL_UNIT * 2 && !mMaterialList.isEmpty()) {
 			return ((mElement != null || (mMaterialList.size() < 2 && mMaterialList.get(0).mAmount == 1)) ? mChemicalFormula : "(" + mChemicalFormula + ")") + aMultiplier;
 		}
 		return mChemicalFormula;

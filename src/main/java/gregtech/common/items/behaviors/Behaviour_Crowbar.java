@@ -1,7 +1,6 @@
 package gregtech.common.items.behaviors;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
@@ -10,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import static gregtech.api.enums.GT_Values.MOD_ID_RC;
 
 public class Behaviour_Crowbar
         extends Behaviour_None {
@@ -25,7 +26,7 @@ public class Behaviour_Crowbar
         if (aWorld.isRemote) {
             return false;
         }
-        if (GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "fluid.creosote.bucket", 1L) != null) {
+        if (GT_ModHandler.getModItem(MOD_ID_RC, "fluid.creosote.bucket", 1L) != null) {
             return false;
         }
         Block aBlock = aWorld.getBlock(aX, aY, aZ);

@@ -7,7 +7,6 @@ import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -46,6 +45,15 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.MOD_ID_AE;
+import static gregtech.api.enums.GT_Values.MOD_ID_HaC;
+import static gregtech.api.enums.GT_Values.MOD_ID_RC;
+import static gregtech.api.enums.GT_Values.MOD_ID_TC;
+import static gregtech.api.enums.GT_Values.MOD_ID_TF;
 
 public class GT_Loader_Item_Block_And_Fluid
         implements Runnable {
@@ -162,19 +170,19 @@ public class GT_Loader_Item_Block_And_Fluid
         GT_Log.out.println("GT_Mod: Testing BaseMetaTileEntity.");
         if (tBaseMetaTileEntity == null) {
             GT_Log.out.println("GT_Mod: Fatal Error ocurred while initializing TileEntities, crashing Minecraft.");
-            throw new RuntimeException(GT_Values.E);
+            throw new RuntimeException(EMPTY_STRING);
         }
         GT_Log.out.println("GT_Mod: Registering the BaseMetaTileEntity.");
         GameRegistry.registerTileEntity(tBaseMetaTileEntity.getClass(), "BaseMetaTileEntity");
-        FMLInterModComms.sendMessage(GT_Values.MOD_ID_AE, "whitelist-spatial", tBaseMetaTileEntity.getClass().getName());
+        FMLInterModComms.sendMessage(MOD_ID_AE, "whitelist-spatial", tBaseMetaTileEntity.getClass().getName());
 
         GT_Log.out.println("GT_Mod: Registering the BaseMetaPipeEntity.");
         GameRegistry.registerTileEntity(BaseMetaPipeEntity.class, "BaseMetaPipeEntity");
-        FMLInterModComms.sendMessage(GT_Values.MOD_ID_AE, "whitelist-spatial", BaseMetaPipeEntity.class.getName());
+        FMLInterModComms.sendMessage(MOD_ID_AE, "whitelist-spatial", BaseMetaPipeEntity.class.getName());
 
         GT_Log.out.println("GT_Mod: Registering the Ore TileEntity.");
         GameRegistry.registerTileEntity(GT_TileEntity_Ores.class, "GT_TileEntity_Ores");
-        FMLInterModComms.sendMessage(GT_Values.MOD_ID_AE, "whitelist-spatial", GT_TileEntity_Ores.class.getName());
+        FMLInterModComms.sendMessage(MOD_ID_AE, "whitelist-spatial", GT_TileEntity_Ores.class.getName());
 
         GT_Log.out.println("GT_Mod: Registering Fluids.");
         Materials.ConstructionFoam.mFluid = GT_Utility.getFluidForFilledItem(GT_ModHandler.getIC2Item("CFCell", 1L), true).getFluid();
@@ -411,67 +419,67 @@ public class GT_Loader_Item_Block_And_Fluid
         FluidContainerRegistry.registerFluidContainer(new FluidContainerRegistry.FluidContainerData(FluidRegistry.getFluidStack("potion.weakness", 125), ItemList.Arrow_Plastic_Glass_Weakness.get(1L), ItemList.Arrow_Plastic_Glass_Emtpy.get(1L)));
         FluidContainerRegistry.registerFluidContainer(new FluidContainerRegistry.FluidContainerData(FluidRegistry.getFluidStack("potion.weakness.long", 125), ItemList.Arrow_Plastic_Glass_Weakness_Long.get(1L), ItemList.Arrow_Plastic_Glass_Emtpy.get(1L)));
         FluidContainerRegistry.registerFluidContainer(new FluidContainerRegistry.FluidContainerData(FluidRegistry.getFluidStack("holywater", 125), ItemList.Arrow_Plastic_Glass_Holy_Water.get(1L), ItemList.Arrow_Plastic_Glass_Emtpy.get(1L)));
-        if (!GT_Values.D1) {
+        if (!DEBUG_LEVEL_1) {
             try {
                 Class.forName("codechicken.nei.api.API");
                 GT_Log.out.println("GT_Mod: Hiding certain Items from NEI.");
                 API.hideItem(ItemList.Display_Fluid.getWildcard(1L));
             } catch (Throwable e) {
-                if (GT_Values.D1) {
+                if (DEBUG_LEVEL_1) {
                     e.printStackTrace(GT_Log.err);
                 }
             }
         }
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.cobblestone, 1, GT_Values.W), new ItemStack(Blocks.sand, 1), null, 0, false);
-        //GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.stone, 1, GT_Values.W), new ItemStack(Blocks.cobblestone, 1), null, 0, false);
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.gravel, 1, GT_Values.W), new ItemStack(Items.flint, 1), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Flint, 1L), 10, false);
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.furnace, 1, GT_Values.W), new ItemStack(Blocks.sand, 6), null, 0, false);
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.lit_furnace, 1, GT_Values.W), new ItemStack(Blocks.sand, 6), null, 0, false);
+        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.cobblestone, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.sand, 1), null, 0, false);
+        //GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.stone, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.cobblestone, 1), null, 0, false);
+        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.gravel, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Items.flint, 1), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Flint, 1L), 10, false);
+        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.furnace, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.sand, 6), null, 0, false);
+        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.lit_furnace, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.sand, 6), null, 0, false);
 
-        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.FierySteel, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.fieryIngot", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Knightmetal, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.knightMetal", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Steeleaf, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.steeleafIngot", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.IronWood, GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.ironwoodIngot", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedAir, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 0));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedFire, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 1));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedWater, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 2));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedEarth, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 3));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedOrder, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 4));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedEntropy, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemShard", 1L, 5));
-        GT_OreDictUnificator.set(OrePrefixes.nugget, Materials.Mercury, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemNugget", 1L, 5));
-        GT_OreDictUnificator.set(OrePrefixes.nugget, Materials.Thaumium, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemNugget", 1L, 6));
-        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Thaumium, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemResource", 1L, 2));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Mercury, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemResource", 1L, 3));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Amber, GT_ModHandler.getModItem(GT_Values.MOD_ID_TC, "ItemResource", 1L, 6));
-        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Firestone, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "firestone.raw", 1L));
+        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.FierySteel, GT_ModHandler.getModItem(MOD_ID_TF, "item.fieryIngot", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Knightmetal, GT_ModHandler.getModItem(MOD_ID_TF, "item.knightMetal", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Steeleaf, GT_ModHandler.getModItem(MOD_ID_TF, "item.steeleafIngot", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.IronWood, GT_ModHandler.getModItem(MOD_ID_TF, "item.ironwoodIngot", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedAir, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedFire, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 1));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedWater, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 2));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedEarth, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 3));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedOrder, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 4));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.InfusedEntropy, GT_ModHandler.getModItem(MOD_ID_TC, "ItemShard", 1L, 5));
+        GT_OreDictUnificator.set(OrePrefixes.nugget, Materials.Mercury, GT_ModHandler.getModItem(MOD_ID_TC, "ItemNugget", 1L, 5));
+        GT_OreDictUnificator.set(OrePrefixes.nugget, Materials.Thaumium, GT_ModHandler.getModItem(MOD_ID_TC, "ItemNugget", 1L, 6));
+        GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Thaumium, GT_ModHandler.getModItem(MOD_ID_TC, "ItemResource", 1L, 2));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Mercury, GT_ModHandler.getModItem(MOD_ID_TC, "ItemResource", 1L, 3));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Amber, GT_ModHandler.getModItem(MOD_ID_TC, "ItemResource", 1L, 6));
+        GT_OreDictUnificator.set(OrePrefixes.gem, Materials.Firestone, GT_ModHandler.getModItem(MOD_ID_RC, "firestone.raw", 1L));
 
         if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateIron", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 0));
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 0));
         } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 0), false, false);
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Iron, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 0), false, false);
         }
 
         if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateSteel", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 1));
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 1));
         } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 1), false, false);
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Steel, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 1), false, false);
         }
 
         if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateTinAlloy", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 2));
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 2));
         } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 2), false, false);
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.TinAlloy, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 2), false, false);
         }
 
 
         if (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + "railcraft", "plateCopper", true)) {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 3));
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 3));
         } else {
-            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.plate", 1L, 3), false, false);
+            GT_OreDictUnificator.set(OrePrefixes.plate, Materials.Copper, GT_ModHandler.getModItem(MOD_ID_RC, "part.plate", 1L, 3), false, false);
         }
 
 
-        GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Cocoa, GT_ModHandler.getModItem(GT_Values.MOD_ID_HaC, "cocoapowderItem", 1L, 0));
+        GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Cocoa, GT_ModHandler.getModItem(MOD_ID_HaC, "cocoapowderItem", 1L, 0));
         GT_OreDictUnificator.set(OrePrefixes.dust, Materials.Coffee, ItemList.IC2_CoffeePowder.get(1L));
     }
 }

@@ -14,7 +14,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OreDictNames;
@@ -95,6 +94,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
+import static gregtech.api.enums.GT_Values.MATERIAL_UNIT;
+import static gregtech.api.enums.GT_Values.MOD_ID;
+import static gregtech.api.enums.GT_Values.MOD_ID_AE;
+import static gregtech.api.enums.GT_Values.MOD_ID_FR;
+import static gregtech.api.enums.GT_Values.MOD_ID_GC_CORE;
+import static gregtech.api.enums.GT_Values.MOD_ID_GaSu;
+import static gregtech.api.enums.GT_Values.MOD_ID_MaCr;
+import static gregtech.api.enums.GT_Values.MOD_ID_NAT;
+import static gregtech.api.enums.GT_Values.MOD_ID_NC;
+import static gregtech.api.enums.GT_Values.MOD_ID_RC;
+import static gregtech.api.enums.GT_Values.MOD_ID_TC;
+import static gregtech.api.enums.GT_Values.MOD_ID_TCON;
+import static gregtech.api.enums.GT_Values.MOD_ID_TE;
+import static gregtech.api.enums.GT_Values.MOD_ID_TF;
+import static gregtech.api.enums.GT_Values.MOD_ID_UKN;
+import static gregtech.api.enums.GT_Values.MOD_ID_XyC;
+import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
 
 public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 	private static final EnumSet<OreGenEvent.GenerateMinable.EventType> PREVENTED_ORES = EnumSet.of(OreGenEvent.GenerateMinable.EventType.COAL,
@@ -188,7 +208,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.ORE_GEN_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
-		GregTech_API.sThaumcraftCompat = (IThaumcraftCompat) GT_Utility.callConstructor("gregtech.common.GT_ThaumcraftCompat", 0, null, GT_Values.D1,
+		GregTech_API.sThaumcraftCompat = (IThaumcraftCompat) GT_Utility.callConstructor("gregtech.common.GT_ThaumcraftCompat", 0, null, DEBUG_LEVEL_1,
 				new Object[0]);
 		for (FluidContainerRegistry.FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
 			onFluidContainerRegistration(new FluidContainerRegistry.FluidContainerRegisterEvent(tData));
@@ -225,7 +245,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 		GregTech_API.sPreloadStarted = true;
 		this.mIgnoreTcon = GregTech_API.sOPStuff.get(ConfigCategories.general, "ignoreTConstruct", true);
 		this.mWireHeatingTicks = GregTech_API.sOPStuff.get(ConfigCategories.general, "WireHeatingTicks", 4);
-		NetworkRegistry.INSTANCE.registerGuiHandler(GT_Values.GT, this);
+		NetworkRegistry.INSTANCE.registerGuiHandler(GT_MOD_INSTANCE, this);
 		for (FluidContainerRegistry.FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
 			if ((tData.filledContainer.getItem() == Items.potionitem) && (tData.filledContainer.getItemDamage() == 0)) {
 				tData.fluid.amount = 0;
@@ -233,56 +253,56 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			}
 		}
 		GT_Log.out.println("GT_Mod: Getting required Items of other Mods.");
-		ItemList.TE_Slag.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TE, "slag", 1L));
-		ItemList.TE_Slag_Rich.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TE, "slagRich", 1L));
-		ItemList.TE_Rockwool.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TE, "rockwool", 1L));
-		ItemList.TE_Hardened_Glass.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TE, "glassHardened", 1L));
+		ItemList.TE_Slag.set(GT_ModHandler.getModItem(MOD_ID_TE, "slag", 1L));
+		ItemList.TE_Slag_Rich.set(GT_ModHandler.getModItem(MOD_ID_TE, "slagRich", 1L));
+		ItemList.TE_Rockwool.set(GT_ModHandler.getModItem(MOD_ID_TE, "rockwool", 1L));
+		ItemList.TE_Hardened_Glass.set(GT_ModHandler.getModItem(MOD_ID_TE, "glassHardened", 1L));
 
-		ItemList.RC_ShuntingWire.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tile.railcraft.machine.delta", 1L, 0));
-		ItemList.RC_ShuntingWireFrame.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tile.railcraft.frame", 1L, 0));
-		ItemList.RC_Rail_Standard.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 0));
-		ItemList.RC_Rail_Adv.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 1));
-		ItemList.RC_Rail_Wooden.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 2));
-		ItemList.RC_Rail_HS.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 3));
-		ItemList.RC_Rail_Reinforced.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 4));
-		ItemList.RC_Rail_Electric.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rail", 1L, 5));
-		ItemList.RC_Tie_Wood.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.tie", 1L, 0));
-		ItemList.RC_Tie_Stone.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.tie", 1L, 1));
-		ItemList.RC_Bed_Wood.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.railbed", 1L, 0));
-		ItemList.RC_Bed_Stone.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.railbed", 1L, 1));
-		ItemList.RC_Rebar.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.rebar", 1L));
-		ItemList.Tool_Sword_Steel.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tool.steel.sword", 1L));
-		ItemList.Tool_Pickaxe_Steel.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tool.steel.pickaxe", 1L));
-		ItemList.Tool_Shovel_Steel.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tool.steel.shovel", 1L));
-		ItemList.Tool_Axe_Steel.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tool.steel.axe", 1L));
-		ItemList.Tool_Hoe_Steel.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "tool.steel.hoe", 1L));
+		ItemList.RC_ShuntingWire.set(GT_ModHandler.getModItem(MOD_ID_RC, "tile.railcraft.machine.delta", 1L, 0));
+		ItemList.RC_ShuntingWireFrame.set(GT_ModHandler.getModItem(MOD_ID_RC, "tile.railcraft.frame", 1L, 0));
+		ItemList.RC_Rail_Standard.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 0));
+		ItemList.RC_Rail_Adv.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 1));
+		ItemList.RC_Rail_Wooden.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 2));
+		ItemList.RC_Rail_HS.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 3));
+		ItemList.RC_Rail_Reinforced.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 4));
+		ItemList.RC_Rail_Electric.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rail", 1L, 5));
+		ItemList.RC_Tie_Wood.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.tie", 1L, 0));
+		ItemList.RC_Tie_Stone.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.tie", 1L, 1));
+		ItemList.RC_Bed_Wood.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.railbed", 1L, 0));
+		ItemList.RC_Bed_Stone.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.railbed", 1L, 1));
+		ItemList.RC_Rebar.set(GT_ModHandler.getModItem(MOD_ID_RC, "part.rebar", 1L));
+		ItemList.Tool_Sword_Steel.set(GT_ModHandler.getModItem(MOD_ID_RC, "tool.steel.sword", 1L));
+		ItemList.Tool_Pickaxe_Steel.set(GT_ModHandler.getModItem(MOD_ID_RC, "tool.steel.pickaxe", 1L));
+		ItemList.Tool_Shovel_Steel.set(GT_ModHandler.getModItem(MOD_ID_RC, "tool.steel.shovel", 1L));
+		ItemList.Tool_Axe_Steel.set(GT_ModHandler.getModItem(MOD_ID_RC, "tool.steel.axe", 1L));
+		ItemList.Tool_Hoe_Steel.set(GT_ModHandler.getModItem(MOD_ID_RC, "tool.steel.hoe", 1L));
 
-		ItemList.TF_LiveRoot.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.liveRoot", 1L, 0));
-		ItemList.TF_Vial_FieryBlood.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.fieryBlood", 1L));
-		ItemList.TF_Vial_FieryTears.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.fieryTears", 1L));
+		ItemList.TF_LiveRoot.set(GT_ModHandler.getModItem(MOD_ID_TF, "item.liveRoot", 1L, 0));
+		ItemList.TF_Vial_FieryBlood.set(GT_ModHandler.getModItem(MOD_ID_TF, "item.fieryBlood", 1L));
+		ItemList.TF_Vial_FieryTears.set(GT_ModHandler.getModItem(MOD_ID_TF, "item.fieryTears", 1L));
 
-		ItemList.FR_Lemon.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "fruits", 1L, 3));
-		ItemList.FR_Mulch.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "mulch", 1L));
-		ItemList.FR_Fertilizer.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "fertilizerCompound", 1L));
-		ItemList.FR_Compost.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "fertilizerBio", 1L));
-		ItemList.FR_Silk.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "craftingMaterial", 1L, 2));
-		ItemList.FR_Wax.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "beeswax", 1L));
-		ItemList.FR_WaxCapsule.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "waxCapsule", 1L));
-		ItemList.FR_RefractoryWax.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "refractoryWax", 1L));
-		ItemList.FR_RefractoryCapsule.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "refractoryEmpty", 1L));
-		ItemList.FR_Bee_Drone.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "beeDroneGE", 1L));
-		ItemList.FR_Bee_Princess.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "beePrincessGE", 1L));
-		ItemList.FR_Bee_Queen.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "beeQueenGE", 1L));
-		ItemList.FR_Tree_Sapling.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "sapling", 1L, GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "saplingGE", 1L)));
-		ItemList.FR_Butterfly.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "butterflyGE", 1L));
-		ItemList.FR_Larvae.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "beeLarvaeGE", 1L));
-		ItemList.FR_Serum.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "serumGE", 1L));
-		ItemList.FR_Caterpillar.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "caterpillarGE", 1L));
-		ItemList.FR_PollenFertile.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "pollenFertile", 1L));
-		ItemList.FR_Stick.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "oakStick", 1L));
-		ItemList.FR_Casing_Impregnated.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "impregnatedCasing", 1L));
-		ItemList.FR_Casing_Sturdy.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "sturdyMachine", 1L));
-		ItemList.FR_Casing_Hardened.set(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "hardenedMachine", 1L));
+		ItemList.FR_Lemon.set(GT_ModHandler.getModItem(MOD_ID_FR, "fruits", 1L, 3));
+		ItemList.FR_Mulch.set(GT_ModHandler.getModItem(MOD_ID_FR, "mulch", 1L));
+		ItemList.FR_Fertilizer.set(GT_ModHandler.getModItem(MOD_ID_FR, "fertilizerCompound", 1L));
+		ItemList.FR_Compost.set(GT_ModHandler.getModItem(MOD_ID_FR, "fertilizerBio", 1L));
+		ItemList.FR_Silk.set(GT_ModHandler.getModItem(MOD_ID_FR, "craftingMaterial", 1L, 2));
+		ItemList.FR_Wax.set(GT_ModHandler.getModItem(MOD_ID_FR, "beeswax", 1L));
+		ItemList.FR_WaxCapsule.set(GT_ModHandler.getModItem(MOD_ID_FR, "waxCapsule", 1L));
+		ItemList.FR_RefractoryWax.set(GT_ModHandler.getModItem(MOD_ID_FR, "refractoryWax", 1L));
+		ItemList.FR_RefractoryCapsule.set(GT_ModHandler.getModItem(MOD_ID_FR, "refractoryEmpty", 1L));
+		ItemList.FR_Bee_Drone.set(GT_ModHandler.getModItem(MOD_ID_FR, "beeDroneGE", 1L));
+		ItemList.FR_Bee_Princess.set(GT_ModHandler.getModItem(MOD_ID_FR, "beePrincessGE", 1L));
+		ItemList.FR_Bee_Queen.set(GT_ModHandler.getModItem(MOD_ID_FR, "beeQueenGE", 1L));
+		ItemList.FR_Tree_Sapling.set(GT_ModHandler.getModItem(MOD_ID_FR, "sapling", 1L, GT_ModHandler.getModItem(MOD_ID_FR, "saplingGE", 1L)));
+		ItemList.FR_Butterfly.set(GT_ModHandler.getModItem(MOD_ID_FR, "butterflyGE", 1L));
+		ItemList.FR_Larvae.set(GT_ModHandler.getModItem(MOD_ID_FR, "beeLarvaeGE", 1L));
+		ItemList.FR_Serum.set(GT_ModHandler.getModItem(MOD_ID_FR, "serumGE", 1L));
+		ItemList.FR_Caterpillar.set(GT_ModHandler.getModItem(MOD_ID_FR, "caterpillarGE", 1L));
+		ItemList.FR_PollenFertile.set(GT_ModHandler.getModItem(MOD_ID_FR, "pollenFertile", 1L));
+		ItemList.FR_Stick.set(GT_ModHandler.getModItem(MOD_ID_FR, "oakStick", 1L));
+		ItemList.FR_Casing_Impregnated.set(GT_ModHandler.getModItem(MOD_ID_FR, "impregnatedCasing", 1L));
+		ItemList.FR_Casing_Sturdy.set(GT_ModHandler.getModItem(MOD_ID_FR, "sturdyMachine", 1L));
+		ItemList.FR_Casing_Hardened.set(GT_ModHandler.getModItem(MOD_ID_FR, "hardenedMachine", 1L));
 
 		ItemList.Bottle_Empty.set(new ItemStack(Items.glass_bottle, 1));
 
@@ -368,99 +388,99 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 		OrePrefixes.cellPlasma.mContainerItem = ItemList.Cell_Empty.get(1L);
 		OrePrefixes.cell.mContainerItem = ItemList.Cell_Empty.get(1L);
 
-		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
+		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sFrostHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
 
-		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
+		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sHeatHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
 
-		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
+		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sBioHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
 
-		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
+		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sGasHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
 
-		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
+		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sRadioHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
 
-		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_helmet, 1, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_chestplate, 1, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_leggings, 1, GT_Values.W));
-		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_boots, 1, GT_Values.W));
+		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_helmet, 1, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_chestplate, 1, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_leggings, 1, OreDictionary.WILDCARD_VALUE));
+		GregTech_API.sElectroHazmatList.add(new ItemStack(Items.chainmail_boots, 1, OreDictionary.WILDCARD_VALUE));
 
-		GT_ModHandler.sNonReplaceableItems.add(new ItemStack(Items.bow, 1, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(new ItemStack(Items.fishing_rod, 1, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(ItemList.IC2_ForgeHammer.getWithDamage(1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(ItemList.IC2_WireCutter.getWithDamage(1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("painter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("blackPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("redPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("greenPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("brownPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("bluePainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("purplePainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cyanPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("lightGreyPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("darkGreyPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("pinkPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("limePainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("yellowPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cloudPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("magentaPainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("orangePainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("whitePainter", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cfPack", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("jetpack", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("treetap", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("weedEx", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("staticBoots", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("compositeArmor", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.turbine.disk", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.turbine.blade", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "part.turbine.rotor", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "borehead.diamond", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "borehead.steel", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_RC, "borehead.iron", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.plateNaga", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.legsNaga", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.arcticHelm", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.arcticPlate", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.arcticLegs", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.arcticBoots", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.yetiHelm", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.yetiPlate", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.yetiLegs", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_TF, "item.yetiBoots", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ToolCertusQuartzCuttingKnife", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_AE, "item.ToolNetherQuartzCuttingKnife", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "apiaristHelmet", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "apiaristChest", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "apiaristLegs", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "apiaristBoots", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "frameUntreated", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "frameImpregnated", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "frameProven", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_FR, "waxCast", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_GC_CORE, "item.sensorGlasses", 1L, GT_Values.W));
-		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(GT_Values.MOD_ID_NC, "ItemToolThermometer", 1L, GT_Values.W));
+		GT_ModHandler.sNonReplaceableItems.add(new ItemStack(Items.bow, 1, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(new ItemStack(Items.fishing_rod, 1, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(ItemList.IC2_ForgeHammer.getWithDamage(1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(ItemList.IC2_WireCutter.getWithDamage(1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("painter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("blackPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("redPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("greenPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("brownPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("bluePainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("purplePainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cyanPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("lightGreyPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("darkGreyPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("pinkPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("limePainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("yellowPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cloudPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("magentaPainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("orangePainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("whitePainter", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("cfPack", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("jetpack", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("treetap", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("weedEx", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("staticBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("compositeArmor", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatChestplate", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatLeggings", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getIC2Item("hazmatBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "part.turbine.disk", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "part.turbine.blade", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "part.turbine.rotor", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "borehead.diamond", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "borehead.steel", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_RC, "borehead.iron", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.plateNaga", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.legsNaga", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.arcticHelm", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.arcticPlate", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.arcticLegs", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.arcticBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.yetiHelm", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.yetiPlate", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.yetiLegs", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_TF, "item.yetiBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_AE, "item.ToolCertusQuartzCuttingKnife", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_AE, "item.ToolNetherQuartzCuttingKnife", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "apiaristHelmet", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "apiaristChest", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "apiaristLegs", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "apiaristBoots", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "frameUntreated", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "frameImpregnated", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "frameProven", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_FR, "waxCast", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_GC_CORE, "item.sensorGlasses", 1L, OreDictionary.WILDCARD_VALUE));
+		GT_ModHandler.sNonReplaceableItems.add(GT_ModHandler.getModItem(MOD_ID_NC, "ItemToolThermometer", 1L, OreDictionary.WILDCARD_VALUE));
 
 		RecipeSorter.register("gregtech:shaped", GT_Shaped_Recipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
 		RecipeSorter.register("gregtech:shapeless", GT_Shapeless_Recipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
@@ -469,10 +489,10 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 	public void onLoad() {
 		GT_Log.out.println("GT_Mod: Beginning Load-Phase.");
 		GT_Log.ore.println("GT_Mod: Beginning Load-Phase.");
-		GT_OreDictUnificator.registerOre("cropChilipepper", GT_ModHandler.getModItem(GT_Values.MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 2));
-		GT_OreDictUnificator.registerOre("cropTomato", GT_ModHandler.getModItem(GT_Values.MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 8));
-		GT_OreDictUnificator.registerOre("cropGrape", GT_ModHandler.getModItem(GT_Values.MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 4));
-		GT_OreDictUnificator.registerOre("cropTea", GT_ModHandler.getModItem(GT_Values.MOD_ID_GaSu, "teaLeaves", 1L, 0));
+		GT_OreDictUnificator.registerOre("cropChilipepper", GT_ModHandler.getModItem(MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 2));
+		GT_OreDictUnificator.registerOre("cropTomato", GT_ModHandler.getModItem(MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 8));
+		GT_OreDictUnificator.registerOre("cropGrape", GT_ModHandler.getModItem(MOD_ID_MaCr, "magicalcrops_CropProduce", 1L, 4));
+		GT_OreDictUnificator.registerOre("cropTea", GT_ModHandler.getModItem(MOD_ID_GaSu, "teaLeaves", 1L, 0));
 
 		GregTech_API.sLoadStarted = true;
 		for (FluidContainerRegistry.FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
@@ -668,7 +688,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 										break;
 									case Stone:
 										GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.gearGt, aMaterial, 1L), tBits, new Object[]{"SPS", "PfP", "SPS",
-											Character.valueOf('P'), OrePrefixes.stoneSmooth, Character.valueOf('S'), new ItemStack(Blocks.stone_button, 1, GT_Values.W)});
+											Character.valueOf('P'), OrePrefixes.stoneSmooth, Character.valueOf('S'), new ItemStack(Blocks.stone_button, 1, OreDictionary.WILDCARD_VALUE)});
 										break;
 									default:
 										GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.gearGt, aMaterial, 1L), tBits, new Object[]{"SPS", "PwP", "SPS",
@@ -970,17 +990,17 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 	@SubscribeEvent
 	public void registerOre(OreDictionary.OreRegisterEvent aEvent) {
 		ModContainer tContainer = Loader.instance().activeModContainer();
-		String aMod = tContainer == null ? "UNKNOWN" : tContainer.getModId();
+		String aMod = tContainer == null ? MOD_ID_UKN : tContainer.getModId();
 		String aOriginalMod = aMod;
 		if (GT_OreDictUnificator.isRegisteringOres()) {
-			aMod = GT_Values.MOD_ID;
-		} else if (aMod.equals(GT_Values.MOD_ID)) {
-			aMod = "UNKNOWN";
+			aMod = MOD_ID;
+		} else if (aMod.equals(MOD_ID)) {
+			aMod = MOD_ID_UKN;
 		}
 		if ((aEvent == null) || (aEvent.Ore == null) || (aEvent.Ore.getItem() == null) || (aEvent.Name == null) || (aEvent.Name.isEmpty())
-				|| (aEvent.Name.replaceAll("_", GT_Values.E).length() - aEvent.Name.length() == 9)) {
-			if (aOriginalMod.equals(GT_Values.MOD_ID)) {
-				aOriginalMod = "UNKNOWN";
+				|| (aEvent.Name.replaceAll("_", EMPTY_STRING).length() - aEvent.Name.length() == 9)) {
+			if (aOriginalMod.equals(MOD_ID)) {
+				aOriginalMod = MOD_ID_UKN;
 			}
 			GT_Log.ore
 			.println(aOriginalMod
@@ -992,9 +1012,9 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 		try {
 			aEvent.Ore.stackSize = 1;
 			if (this.mIgnoreTcon || aEvent.Ore.getUnlocalizedName().startsWith("item.oreberry")) {
-				if ((aOriginalMod.toLowerCase().contains("xycraft")) || (aOriginalMod.toLowerCase().contains("tconstruct"))
-						|| ((aOriginalMod.toLowerCase().contains("natura")) && (!aOriginalMod.toLowerCase().contains("natural")))) {
-					if (GT_Values.D1) {
+				if ((aOriginalMod.toLowerCase().contains(MOD_ID_XyC)) || (aOriginalMod.toLowerCase().contains(MOD_ID_TCON))
+						|| ((aOriginalMod.toLowerCase().contains(MOD_ID_NAT)) && (!aOriginalMod.toLowerCase().contains("natural")))) {
+					if (DEBUG_LEVEL_1) {
 						GT_Log.ore.println(aMod + " -> " + aEvent.Name + " is getting ignored, because of racism. :P");
 					}
 					return;
@@ -1086,7 +1106,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			}
 			if (aEvent.Name.contains(" ")) {
 				GT_Log.ore.println(tModToName + " is getting re-registered because the OreDict Name containing invalid spaces.");
-				GT_OreDictUnificator.registerOre(aEvent.Name.replaceAll(" ", GT_Values.E), GT_Utility.copyAmount(1L, aEvent.Ore));
+				GT_OreDictUnificator.registerOre(aEvent.Name.replaceAll(" ", EMPTY_STRING), GT_Utility.copyAmount(1L, aEvent.Ore));
 				aEvent.Ore.setStackDisplayName("Invalid OreDictionary Tag");
 				return;
 			}
@@ -1097,7 +1117,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			}
 			OrePrefixes aPrefix = OrePrefixes.getOrePrefix(aEvent.Name);
 			Materials aMaterial = Materials._NULL;
-			if ((aPrefix == OrePrefixes.nugget) && (aMod.equals(GT_Values.MOD_ID_TC)) && (aEvent.Ore.getItem().getUnlocalizedName().contains("ItemResource"))) {
+			if ((aPrefix == OrePrefixes.nugget) && (aMod.equals(MOD_ID_TC)) && (aEvent.Ore.getItem().getUnlocalizedName().contains("ItemResource"))) {
 				return;
 			}
 			if (aPrefix == null) {
@@ -1124,7 +1144,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 					GT_OreDictUnificator.registerOre(tNewName, aEvent.Ore);
 					return;
 				}
-				String tName = aEvent.Name.replaceFirst(aPrefix.toString(), GT_Values.E);
+				String tName = aEvent.Name.replaceFirst(aPrefix.toString(), EMPTY_STRING);
 				if (tName.length() > 0) {
 					char firstChar = tName.charAt(0);
 					if (Character.isUpperCase(firstChar) || Character.isLowerCase(firstChar) || firstChar == '_') {
@@ -1149,14 +1169,14 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 								}
 								aMaterial.add(GT_Utility.copyAmount(1L, aEvent.Ore));
 								if ((GregTech_API.sThaumcraftCompat != null) && (aPrefix.doGenerateItem(aMaterial)) && (!aPrefix.isIgnored(aMaterial))) {
-									long tAmount = aPrefix.mMaterialAmount < 0L ? GT_Values.M : aPrefix.mMaterialAmount;
+									long tAmount = aPrefix.mMaterialAmount < 0L ? MATERIAL_UNIT : aPrefix.mMaterialAmount;
 									List<TC_Aspects.TC_AspectStack> tAspects = new ArrayList();
 									TC_Aspects.TC_AspectStack tAspect;
 									for (Iterator i$ = aPrefix.mAspects.iterator(); i$.hasNext(); tAspect.addToAspectList(tAspects)) {
 										tAspect = (TC_Aspects.TC_AspectStack) i$.next();
 									}
 									tAspect = null;
-									for (Iterator i$ = aMaterial.mAspects.iterator(); i$.hasNext(); tAspect.copy(tAspect.mAmount * tAmount / GT_Values.M)
+									for (Iterator i$ = aMaterial.mAspects.iterator(); i$.hasNext(); tAspect.copy(tAspect.mAmount * tAmount / MATERIAL_UNIT)
 											.addToAspectList(tAspects)) {
 										tAspect = (TC_Aspects.TC_AspectStack) i$.next();
 									}
@@ -1217,7 +1237,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 									break;
 								case lens:
 									if ((aMaterial.contains(SubTag.TRANSPARENT)) && (aMaterial.mColor != Dyes._NULL)) {
-										GT_OreDictUnificator.registerOre("craftingLens" + aMaterial.mColor.toString().replaceFirst("dye", GT_Values.E), aEvent.Ore);
+										GT_OreDictUnificator.registerOre("craftingLens" + aMaterial.mColor.toString().replaceFirst("dye", EMPTY_STRING), aEvent.Ore);
 									}
 									break;
 								case plate:
@@ -1307,12 +1327,12 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 										GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.BlueAlloy, new ItemStack(aEvent.Ore.getItem(), 1, 1));
 										GT_OreDictUnificator.set(OrePrefixes.ingot, Materials.Brass, new ItemStack(aEvent.Ore.getItem(), 1, 2));
 										if (!mDisableIC2Cables) {
-											GT_Values.RA.addWiremillRecipe(GT_ModHandler.getIC2Item("copperCableItem", 3L), new ItemStack(aEvent.Ore.getItem(), 1,
+											RECIPE_ADDER_INSTANCE.addWiremillRecipe(GT_ModHandler.getIC2Item("copperCableItem", 3L), new ItemStack(aEvent.Ore.getItem(), 1,
 													8), 400, 1);
-											GT_Values.RA.addWiremillRecipe(GT_ModHandler.getIC2Item("ironCableItem", 6L),
+											RECIPE_ADDER_INSTANCE.addWiremillRecipe(GT_ModHandler.getIC2Item("ironCableItem", 6L),
 													new ItemStack(aEvent.Ore.getItem(), 1, 9), 400, 2);
 										}
-										GT_Values.RA.addCutterRecipe(new ItemStack(aEvent.Ore.getItem(), 1, 3), new ItemStack(aEvent.Ore.getItem(), 16, 4),
+										RECIPE_ADDER_INSTANCE.addCutterRecipe(new ItemStack(aEvent.Ore.getItem(), 1, 3), new ItemStack(aEvent.Ore.getItem(), 16, 4),
 												null, 400, 8);
 									}
 									break;
@@ -1324,7 +1344,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 								}
 							} else {
 								for (Dyes tDye : Dyes.VALUES) {
-									if (aEvent.Name.endsWith(tDye.name().replaceFirst("dye", GT_Values.E))) {
+									if (aEvent.Name.endsWith(tDye.name().replaceFirst("dye", EMPTY_STRING))) {
 										GT_OreDictUnificator.addToBlacklist(aEvent.Ore);
 										GT_Log.ore.println(tModToName + " Oh man, why the fuck would anyone need a OreDictified Color for this, that is even too much for GregTech... do not report this, this is just a random Comment about how ridiculous this is.");
 										return;
@@ -1359,7 +1379,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 					break;
 				case plank:
 					if (tName.equals("Wood")) {
-						GT_OreDictUnificator.addItemData(aEvent.Ore, new ItemData(Materials.Wood, GT_Values.M));
+						GT_OreDictUnificator.addItemData(aEvent.Ore, new ItemData(Materials.Wood, MATERIAL_UNIT));
 					}
 					break;
 				case slab:
@@ -1772,7 +1792,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 		}
 		if ((aFullContainer != null) && (aEmptyContainer != null)
 				&& (!FluidContainerRegistry.registerFluidContainer(new FluidStack(rFluid, aFluidAmount), aFullContainer, aEmptyContainer))) {
-			GT_Values.RA.addFluidCannerRecipe(aFullContainer, GT_Utility.getContainerItem(aFullContainer, false), null, new FluidStack(rFluid, aFluidAmount));
+			RECIPE_ADDER_INSTANCE.addFluidCannerRecipe(aFullContainer, GT_Utility.getContainerItem(aFullContainer, false), null, new FluidStack(rFluid, aFluidAmount));
 		}
 		return rFluid;
 	}
@@ -1815,10 +1835,10 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 				} else if (tOre.mModID != null && tOre.mModID.toLowerCase().equals("rotarycraft") && tOre.mPrefix == OrePrefixes.ingot && tOre.mMaterial == Materials.HSLA) {
 					GT_OreDictUnificator.addAssociation(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, false);
 					GT_OreDictUnificator.set(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, (tOre.mModID != null) && (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + tOre.mModID, tOre.mEvent.Name, true)), true);
-				} else if (tOre.mModID != null && tOre.mModID.toLowerCase().equals(GT_Values.MOD_ID_AE) && tOre.mPrefix == OrePrefixes.gem && tOre.mMaterial == Materials.CertusQuartz) {
+				} else if (tOre.mModID != null && tOre.mModID.toLowerCase().equals(MOD_ID_AE) && tOre.mPrefix == OrePrefixes.gem && tOre.mMaterial == Materials.CertusQuartz) {
 					GT_OreDictUnificator.addAssociation(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, false);
 					GT_OreDictUnificator.set(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, (tOre.mModID != null) && (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + tOre.mModID, tOre.mEvent.Name, true)), true);
-				} else if (tOre.mModID != null && tOre.mModID.toLowerCase().equals(GT_Values.MOD_ID_AE) && tOre.mPrefix == OrePrefixes.dust && tOre.mMaterial == Materials.CertusQuartz) {
+				} else if (tOre.mModID != null && tOre.mModID.toLowerCase().equals(MOD_ID_AE) && tOre.mPrefix == OrePrefixes.dust && tOre.mMaterial == Materials.CertusQuartz) {
 					GT_OreDictUnificator.addAssociation(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, false);
 					GT_OreDictUnificator.set(tOre.mPrefix, tOre.mMaterial, tOre.mEvent.Ore, (tOre.mModID != null) && (GregTech_API.sUnification.get(ConfigCategories.specialunificationtargets + "." + tOre.mModID, tOre.mEvent.Name, true)), true);
 				} else if (GT_OreDictUnificator.isBlacklisted(tOre.mEvent.Ore)) {
@@ -1864,7 +1884,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 			this.mEvent = aEvent;
 			this.mPrefix = aPrefix;
 			this.mMaterial = aMaterial;
-			this.mModID = ((aModID == null) || (aModID.equals("UNKNOWN")) ? null : aModID);
+			this.mModID = ((aModID == null) || (aModID.equals(MOD_ID_UKN)) ? null : aModID);
 		}
 	}
 }

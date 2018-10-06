@@ -2,7 +2,6 @@ package gregtech.common.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.interfaces.tileentity.IGregTechDeviceInformation;
 import gregtech.api.items.GT_Generic_Item;
 import gregtech.api.util.GT_LanguageManager;
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class GT_SensorCard_Item
         extends GT_Generic_Item
@@ -82,7 +83,7 @@ public class GT_SensorCard_Item
     public List<PanelSetting> getSettingsList() {
         List<PanelSetting> rList = new ArrayList(30);
         for (int i = 0; i < 8; i++) {
-            rList.add(new PanelSetting(GT_Values.E + (i + 1), 1 << i, getCardType()));
+            rList.add(new PanelSetting(EMPTY_STRING + (i + 1), 1 << i, getCardType()));
         }
         return rList;
     }

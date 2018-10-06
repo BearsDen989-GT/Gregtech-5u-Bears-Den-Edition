@@ -17,7 +17,7 @@ import net.minecraft.util.IIcon;
 import java.util.Arrays;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.M;
+import static gregtech.api.enums.GT_Values.MATERIAL_UNIT;
 
 /**
  * @author Gregorius Techneticies
@@ -53,7 +53,7 @@ public abstract class GT_MetaGenerated_Item_X32 extends GT_MetaGenerated_Item {
             if (doesMaterialAllowGeneration(tPrefix, tMaterial)) {
                 ItemStack tStack = new ItemStack(this, 1, i);
                 GT_LanguageManager.addStringLocalization(getUnlocalizedName(tStack) + ".name", getDefaultLocalization(tPrefix, tMaterial, i));
-                GT_LanguageManager.addStringLocalization(getUnlocalizedName(tStack) + ".tooltip", tMaterial.getToolTip(tPrefix.mMaterialAmount / M));
+                GT_LanguageManager.addStringLocalization(getUnlocalizedName(tStack) + ".tooltip", tMaterial.getToolTip(tPrefix.mMaterialAmount / MATERIAL_UNIT));
                 if (tPrefix.mIsUnificatable) {
                     GT_OreDictUnificator.set(tPrefix, tMaterial, tStack);
                 } else {

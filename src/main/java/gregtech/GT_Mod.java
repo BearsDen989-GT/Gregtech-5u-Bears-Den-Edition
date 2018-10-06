@@ -23,7 +23,6 @@ import gregtech.api.enchants.Enchantment_Radioactivity;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.Element;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -102,14 +101,30 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-@Mod(modid = GT_Values.MOD_ID, name = "GregTech", version = "MC1710", useMetadata = false, dependencies = "required-after:IC2; after:Forestry; after:PFAAGeologica; after:Thaumcraft; after:Railcraft; after:appliedenergistics2; after:ThermalExpansion; after:TwilightForest; after:harvestcraft; after:magicalcrops; after:BuildCraft|Transport; after:BuildCraft|Silicon; after:BuildCraft|Factory; after:BuildCraft|Energy; after:BuildCraft|Core; after:BuildCraft|Builders; after:GalacticraftCore; after:GalacticraftMars; after:GalacticraftPlanets; after:ThermalExpansion|Transport; after:ThermalExpansion|Energy; after:ThermalExpansion|Factory; after:RedPowerCore; after:RedPowerBase; after:RedPowerMachine; after:RedPowerCompat; after:RedPowerWiring; after:RedPowerLogic; after:RedPowerLighting; after:RedPowerWorld; after:RedPowerControl;")
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_2;
+import static gregtech.api.enums.GT_Values.DUMMY_WORLD;
+import static gregtech.api.enums.GT_Values.DW;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.GT;
+import static gregtech.api.enums.GT_Values.GT_MOD_INSTANCE;
+import static gregtech.api.enums.GT_Values.MOD_ID;
+import static gregtech.api.enums.GT_Values.MOD_ID_AE;
+import static gregtech.api.enums.GT_Values.MOD_ID_EIO;
+import static gregtech.api.enums.GT_Values.MOD_ID_GC_CORE;
+import static gregtech.api.enums.GT_Values.NETWORK_HANDLER;
+import static gregtech.api.enums.GT_Values.NW;
+import static gregtech.api.enums.GT_Values.RA;
+import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
+
+@Mod(modid = MOD_ID, name = "GregTech", version = "MC1710", useMetadata = false, dependencies = "required-after:IC2; after:Forestry; after:PFAAGeologica; after:Thaumcraft; after:Railcraft; after:appliedenergistics2; after:ThermalExpansion; after:TwilightForest; after:harvestcraft; after:magicalcrops; after:BuildCraft|Transport; after:BuildCraft|Silicon; after:BuildCraft|Factory; after:BuildCraft|Energy; after:BuildCraft|Core; after:BuildCraft|Builders; after:GalacticraftCore; after:GalacticraftMars; after:GalacticraftPlanets; after:ThermalExpansion|Transport; after:ThermalExpansion|Energy; after:ThermalExpansion|Factory; after:RedPowerCore; after:RedPowerBase; after:RedPowerMachine; after:RedPowerCompat; after:RedPowerWiring; after:RedPowerLogic; after:RedPowerLighting; after:RedPowerWorld; after:RedPowerControl;")
 public class GT_Mod
 implements IGT_Mod {
 	public static final int VERSION = 558;
 	public static final int REQUIRED_IC2 = 624;
-	@Mod.Instance(GT_Values.MOD_ID)
+	@Mod.Instance(MOD_ID)
 	public static GT_Mod instance;
-	@SidedProxy(modId = GT_Values.MOD_ID, clientSide = "gregtech.common.GT_Client", serverSide = "gregtech.common.GT_Server")
+	@SidedProxy(modId = MOD_ID, clientSide = "gregtech.common.GT_Client", serverSide = "gregtech.common.GT_Server")
 	public static GT_Proxy gregtechproxy;
 	public static int MAX_IC2 = 2147483647;
 	public static GT_Achievements achievements;
@@ -133,10 +148,23 @@ implements IGT_Mod {
 			Class.forName("ic2.core.IC2").getField("enableEnergyInStorageBlockItems").set(null, Boolean.valueOf(false));
 		} catch (Throwable e) {
 		}
-		GT_Values.GT = this;
-		GT_Values.DW = new GT_DummyWorld();
-		GT_Values.NW = new GT_Network();
-		GregTech_API.sRecipeAdder = GT_Values.RA = new GT_RecipeAdder();
+		GT_MOD_INSTANCE = this;
+		/* @deprecated by {@link GT_Values#GT_MOD_INSTANCE} */
+		GT = GT_MOD_INSTANCE;
+
+		DUMMY_WORLD = new GT_DummyWorld();
+		/* @deprecated by {@link GT_Values#DUMMY_WORLD} */
+		DW = DUMMY_WORLD;
+
+		NETWORK_HANDLER = new GT_Network();
+		/* @deprecated by {@link GT_Values#NETWORK_HANDLER} */
+		NW = NETWORK_HANDLER;
+
+		RECIPE_ADDER_INSTANCE = new GT_RecipeAdder();
+		/* @deprecated by {@link GT_Values#RECIPE_ADDER_INSTANCE} */
+		GregTech_API.sRecipeAdder = RECIPE_ADDER_INSTANCE;
+		/* @deprecated by {@link GT_Values#RECIPE_ADDER_INSTANCE} */
+		RA = RECIPE_ADDER_INSTANCE;
 
 		Textures.BlockIcons.VOID.name();
 		Textures.ItemIcons.VOID.name();
@@ -171,7 +199,7 @@ implements IGT_Mod {
 		GregTech_API.sOPStuff = new GT_Config(new Configuration(new File(new File(aEvent.getModConfigurationDirectory(), "GregTech"), "OverpoweredStuff.cfg")));
 
 		GregTech_API.sClientDataFile = new GT_Config(new Configuration(new File(aEvent.getModConfigurationDirectory().getParentFile(), "GregTech.cfg")));
-        GregTech_API.mGalacticraft = Loader.isModLoaded(GT_Values.MOD_ID_GC_CORE);
+        GregTech_API.mGalacticraft = Loader.isModLoaded(MOD_ID_GC_CORE);
 
 		GT_Log.mLogFile = new File(aEvent.getModConfigurationDirectory().getParentFile(), "logs/GregTech.log");
 		if (!GT_Log.mLogFile.exists()) {
@@ -221,8 +249,8 @@ implements IGT_Mod {
 		gregtechproxy.onPreLoad();
 
 		GT_Log.out.println("GT_Mod: Setting Configs");
-		GT_Values.D1 = tMainConfig.get("general", "Debug", false).getBoolean(false);
-		GT_Values.D2 = tMainConfig.get("general", "Debug2", false).getBoolean(false);
+		DEBUG_LEVEL_1 = tMainConfig.get("general", "Debug", false).getBoolean(false);
+		DEBUG_LEVEL_2 = tMainConfig.get("general", "Debug2", false).getBoolean(false);
 
 		GregTech_API.TICKS_FOR_LAG_AVERAGING = tMainConfig.get("general", "TicksForLagAveragingWithScanner", 25).getInt(25);
 		GregTech_API.MILLISECOND_THRESHOLD_UNTIL_LAG_WARNING = tMainConfig.get("general", "MillisecondsPassedInGTTileEntityUntilLagWarning", 100).getInt(100);
@@ -272,7 +300,7 @@ implements IGT_Mod {
 		gregtechproxy.mSortToTheEnd = tMainConfig.get("general", "EnsureToBeLoadedLast", true).getBoolean(true);
 		gregtechproxy.mDisableIC2Cables = tMainConfig.get("general", "DisableIC2Cables", false).getBoolean(false);
 		gregtechproxy.mAchievements = tMainConfig.get("general", "EnableAchievements", true).getBoolean(true);
-		gregtechproxy.mAE2Integration = tMainConfig.get("general", "EnableAE2Integration", Loader.isModLoaded(GT_Values.MOD_ID_AE)).getBoolean(Loader.isModLoaded(GT_Values.MOD_ID_AE));
+		gregtechproxy.mAE2Integration = tMainConfig.get("general", "EnableAE2Integration", Loader.isModLoaded(MOD_ID_AE)).getBoolean(Loader.isModLoaded(MOD_ID_AE));
 		gregtechproxy.gt6Pipe = tMainConfig.get("general", "GT6StyledPipesConnection", true).getBoolean(true);
 		gregtechproxy.gt6Cable = tMainConfig.get("general", "GT6StyledWiresConnection", true).getBoolean(true);
 		gregtechproxy.ic2EnergySourceCompat = tMainConfig.get("general", "Ic2EnergySourceCompat", true).getBoolean(true);
@@ -284,7 +312,7 @@ implements IGT_Mod {
 		GregTech_API.mEUtoRF = GregTech_API.sOPStuff.get(ConfigCategories.general, "100EUtoRF", 360);
 		GregTech_API.mRFtoEU = GregTech_API.sOPStuff.get(ConfigCategories.general, "100RFtoEU", 20);
 		GregTech_API.mRFExplosions = GregTech_API.sOPStuff.get(ConfigCategories.general, "RFExplosions", true);
-		GregTech_API.meIOLoaded = Loader.isModLoaded("EnderIO");
+		GregTech_API.meIOLoaded = Loader.isModLoaded(MOD_ID_EIO);
 
 
 		if (tMainConfig.get("general", "hardermobspawners", true).getBoolean(true)) {
@@ -320,15 +348,15 @@ implements IGT_Mod {
 			GT_Utility.getField("ic2.core.item.ItemScrapbox$Drop", "topChance", true, true).set(null, Integer.valueOf(0));
 			((List) GT_Utility.getFieldContent(GT_Utility.getFieldContent("ic2.api.recipe.Recipes", "scrapboxDrops", true, true), "drops", true, true)).clear();
 		} catch (Throwable e) {
-			if (GT_Values.D1) {
+			if (DEBUG_LEVEL_1) {
 				e.printStackTrace(GT_Log.err);
 			}
 		}
 		GT_Log.out.println("GT_Mod: Adding Scrap with a Weight of 200.0F to the Scrapbox Drops.");
 		GT_ModHandler.addScrapboxDrop(200.0F, GT_ModHandler.getIC2Item("scrap", 1L));
 
-		EntityRegistry.registerModEntity(GT_Entity_Arrow.class, "GT_Entity_Arrow", 1, GT_Values.GT, 160, 1, true);
-		EntityRegistry.registerModEntity(GT_Entity_Arrow_Potion.class, "GT_Entity_Arrow_Potion", 2, GT_Values.GT, 160, 1, true);
+		EntityRegistry.registerModEntity(GT_Entity_Arrow.class, "GT_Entity_Arrow", 1, GT_MOD_INSTANCE, 160, 1, true);
+		EntityRegistry.registerModEntity(GT_Entity_Arrow_Potion.class, "GT_Entity_Arrow_Potion", 2, GT_MOD_INSTANCE, 160, 1, true);
 
 		new Enchantment_EnderDamage();
 		new Enchantment_Radioactivity();
@@ -382,7 +410,7 @@ implements IGT_Mod {
 				ModContainer tGregTech = null;
 				for (short i = 0; i < tModList.size(); i = (short) (i + 1)) {
 					ModContainer tMod = tModList.get(i);
-					if (tMod.getModId().equalsIgnoreCase(GT_Values.MOD_ID)) {
+					if (tMod.getModId().equalsIgnoreCase(MOD_ID)) {
 						tGregTech = tMod;
 					} else {
 						tNewModsList.add(tMod);
@@ -393,7 +421,7 @@ implements IGT_Mod {
 				}
 				GT_Utility.getField(tLoadController, "activeModList", true, true).set(tLoadController, tNewModsList);
 			} catch (Throwable e) {
-				if (GT_Values.D1) {
+				if (DEBUG_LEVEL_1) {
 					e.printStackTrace(GT_Log.err);
 				}
 			}
@@ -489,7 +517,7 @@ implements IGT_Mod {
 		gregtechproxy.activateOreDictHandler();
 		FMLLog.info("Congratulations, you have been waiting long enough. Have a Cake.");
 		GT_Log.out.println("GT_Mod: " + GT_ModHandler.sSingleNonBlockDamagableRecipeList.size() + " Recipes were left unused.");
-		if (GT_Values.D1) {
+		if (DEBUG_LEVEL_1) {
 			IRecipe tRecipe;
 			for (Iterator i$ = GT_ModHandler.sSingleNonBlockDamagableRecipeList.iterator(); i$.hasNext(); GT_Log.out.println("=> " + tRecipe.getRecipeOutput().getDisplayName())) {
 				tRecipe = (IRecipe) i$.next();
@@ -525,7 +553,7 @@ implements IGT_Mod {
 			GT_Recipe.GT_Recipe_Map.sCentrifugeRecipes.addRecipe(true, new ItemStack[]{tRecipe.getInput()}, tOutputs, null, tChances, null, null, 128, 5, 0);
 			}
 			} catch (Throwable e) {
-			if (GT_Values.D1) {
+			if (DEBUG_LEVEL_1) {
 			e.printStackTrace(GT_Log.err);
 			}
 			}
@@ -537,12 +565,12 @@ implements IGT_Mod {
 			}
 			}
 			} catch (Throwable e) {
-			if (GT_Values.D1) {
+			if (DEBUG_LEVEL_1) {
 			e.printStackTrace(GT_Log.err);
 			}
 			}
 	
-		String tName = GT_Values.E;
+		String tName = EMPTY_STRING;
 		if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.disabledrecipes, "ic2_" + (tName = "blastfurnace"), true)) {
 			GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item(tName, 1L));
 		}
@@ -678,8 +706,8 @@ implements IGT_Mod {
 				if (ItemList.IC2_Crop_Seeds.get(1L) != null) {
 					GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.IC2_Crop_Seeds.getWildcard(1L)}, new ItemStack[]{ItemList.IC2_Crop_Seeds.getWithName(1L, "Scanned Seeds")}, null, null, null, 160, 8, 0);
 				}
-				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{new ItemStack(Items.written_book, 1, GT_Values.W)}, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Scanned Book Data")}, ItemList.Tool_DataStick.getWithName(1L, "Stick to save it to"), null, null, 128, 32, 0);
-				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{new ItemStack(Items.filled_map, 1, GT_Values.W)}, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Scanned Map Data")}, ItemList.Tool_DataStick.getWithName(1L, "Stick to save it to"), null, null, 128, 32, 0);
+				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{new ItemStack(Items.written_book, 1, OreDictionary.WILDCARD_VALUE)}, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Scanned Book Data")}, ItemList.Tool_DataStick.getWithName(1L, "Stick to save it to"), null, null, 128, 32, 0);
+				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{new ItemStack(Items.filled_map, 1, OreDictionary.WILDCARD_VALUE)}, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Scanned Map Data")}, ItemList.Tool_DataStick.getWithName(1L, "Stick to save it to"), null, null, 128, 32, 0);
 				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.Tool_DataOrb.getWithName(1L, "Orb to overwrite")}, new ItemStack[]{ItemList.Tool_DataOrb.getWithName(1L, "Copy of the Orb")}, ItemList.Tool_DataOrb.getWithName(0L, "Orb to copy"), null, null, 512, 32, 0);
 				GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Stick to overwrite")}, new ItemStack[]{ItemList.Tool_DataStick.getWithName(1L, "Copy of the Stick")}, ItemList.Tool_DataStick.getWithName(0L, "Stick to copy"), null, null, 128, 32, 0);
 				for (Materials tMaterial : Materials.VALUES) {
@@ -916,7 +944,7 @@ implements IGT_Mod {
 		}
 		gregtechproxy.onServerStopping();
 		try {
-			if ((GT_Values.D1) || (GT_Log.out != System.out)) {
+			if ((DEBUG_LEVEL_1) || (GT_Log.out != System.out)) {
 				GT_Log.out.println("*");
 				GT_Log.out.println("Printing List of all registered Objects inside the OreDictionary, now with free extra Sorting:");
 				GT_Log.out.println("*");
@@ -928,7 +956,7 @@ implements IGT_Mod {
 				for (String tOreName : tList) {
 					int tAmount = OreDictionary.getOres(tOreName).size();
 					if (tAmount > 0) {
-						GT_Log.out.println((tAmount < 10 ? " " : GT_Values.E) + tAmount + "x " + tOreName);
+						GT_Log.out.println((tAmount < 10 ? " " : EMPTY_STRING) + tAmount + "x " + tOreName);
 					}
 				}
 				GT_Log.out.println("*");
@@ -977,7 +1005,7 @@ implements IGT_Mod {
 				GT_Log.out.println("*");
 			}
 		} catch (Throwable e) {
-			if (GT_Values.D1) {
+			if (DEBUG_LEVEL_1) {
 				e.printStackTrace(GT_Log.err);
 			}
 		}

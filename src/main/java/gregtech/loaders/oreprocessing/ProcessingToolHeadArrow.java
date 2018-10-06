@@ -1,11 +1,12 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
+
+import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
 
 public class ProcessingToolHeadArrow implements gregtech.api.interfaces.IOreRecipeRegistrator {
     public ProcessingToolHeadArrow() {
@@ -14,6 +15,6 @@ public class ProcessingToolHeadArrow implements gregtech.api.interfaces.IOreReci
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (aMaterial.mStandardMoltenFluid != null)
-            GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Arrow.get(0L), aMaterial.getMolten(36L), GT_Utility.copyAmount(1L, aStack), 16, 4);
+            RECIPE_ADDER_INSTANCE.addFluidSolidifierRecipe(ItemList.Shape_Mold_Arrow.get(0L), aMaterial.getMolten(36L), GT_Utility.copyAmount(1L, aStack), 16, 4);
     }
 }

@@ -4,10 +4,12 @@ import gregtech.api.gui.GT_GUIContainerMetaTile_Machine;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+
 public class GT_GUIContainer_BronzeBlastFurnace
         extends GT_GUIContainerMetaTile_Machine {
     public GT_GUIContainer_BronzeBlastFurnace(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity) {
-        super(new GT_Container_BronzeBlastFurnace(aInventoryPlayer, aTileEntity), "gregtech:textures/gui/BronzeBlastFurnace.png");
+        super(new GT_Container_BronzeBlastFurnace(aInventoryPlayer, aTileEntity), RES_PATH_GUI + "BronzeBlastFurnace.png");
     }
 
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {

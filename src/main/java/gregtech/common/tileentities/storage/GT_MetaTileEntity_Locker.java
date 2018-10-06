@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
+
 public class GT_MetaTileEntity_Locker
         extends GT_MetaTileEntity_TieredMachineBlock {
     public byte mType = 0;
@@ -82,11 +84,11 @@ public class GT_MetaTileEntity_Locker
     }
 
     public long maxEUStore() {
-        return gregtech.api.enums.GT_Values.V[this.mTier] * maxAmperesIn();
+        return TIERED_VOLTAGES[this.mTier] * maxAmperesIn();
     }
 
     public long maxEUInput() {
-        return gregtech.api.enums.GT_Values.V[this.mTier];
+        return TIERED_VOLTAGES[this.mTier];
     }
 
     public long maxAmperesIn() {

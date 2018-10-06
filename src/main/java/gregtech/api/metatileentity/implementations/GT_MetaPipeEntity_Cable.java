@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.VN;
+import static gregtech.api.enums.GT_Values.VOLTAGE_ABBRS;
 
 public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTileEntityCable {
     public final float mThickNess;
@@ -471,7 +471,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Max Voltage: " + EnumChatFormatting.GREEN + mVoltage + " (" + VN[GT_Utility.getTier(mVoltage)] + ")" + EnumChatFormatting.GRAY,
+                "Max Voltage: " + EnumChatFormatting.GREEN + mVoltage + " (" + VOLTAGE_ABBRS[GT_Utility.getTier(mVoltage)] + ")" + EnumChatFormatting.GRAY,
                 "Max Amperage: " + EnumChatFormatting.YELLOW + mAmperage + EnumChatFormatting.GRAY,
                 "Loss/Meter/Ampere: " + EnumChatFormatting.RED + mCableLossPerMeter + EnumChatFormatting.GRAY + " EU-Volt"
         };

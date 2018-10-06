@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collection;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public abstract class GT_MetaTileEntity_BasicGenerator extends GT_MetaTileEntity_BasicTank {
     public GT_MetaTileEntity_BasicGenerator(int aID, String aName, String aNameRegional, int aTier, String aDescription, ITexture... aTextures) {
@@ -131,12 +131,12 @@ public abstract class GT_MetaTileEntity_BasicGenerator extends GT_MetaTileEntity
 
     @Override
     public long maxEUOutput() {
-        return getBaseMetaTileEntity().isAllowedToWork() ? V[mTier] : 0;
+        return getBaseMetaTileEntity().isAllowedToWork() ? TIERED_VOLTAGES[mTier] : 0;
     }
 
     @Override
     public long maxEUStore() {
-        return Math.max(getEUVar(), V[mTier] * 40 + getMinimumStoredEU());
+        return Math.max(getEUVar(), TIERED_VOLTAGES[mTier] * 40 + getMinimumStoredEU());
     }
 
     @Override

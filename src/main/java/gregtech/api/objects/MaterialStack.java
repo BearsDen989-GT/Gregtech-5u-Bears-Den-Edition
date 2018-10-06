@@ -1,7 +1,8 @@
 package gregtech.api.objects;
 
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class MaterialStack implements Cloneable {
     public long mAmount;
@@ -33,7 +34,7 @@ public class MaterialStack implements Cloneable {
 
     @Override
     public String toString() {
-        return (mMaterial.mMaterialList.size() > 1 && mAmount > 1 ? "(" : GT_Values.E) + mMaterial.getToolTip(true) + (mMaterial.mMaterialList.size() > 1 && mAmount > 1 ? ")" : GT_Values.E) + (mAmount > 1 ? mAmount : GT_Values.E);
+        return (mMaterial.mMaterialList.size() > 1 && mAmount > 1 ? "(" : EMPTY_STRING) + mMaterial.getToolTip(true) + (mMaterial.mMaterialList.size() > 1 && mAmount > 1 ? ")" : EMPTY_STRING) + (mAmount > 1 ? mAmount : EMPTY_STRING);
     }
 
     @Override

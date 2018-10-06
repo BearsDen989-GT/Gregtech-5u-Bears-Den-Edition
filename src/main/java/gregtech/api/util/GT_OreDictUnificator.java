@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import static gregtech.api.enums.GT_Values.E;
-import static gregtech.api.enums.GT_Values.M;
-import static gregtech.api.enums.GT_Values.W;
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.MATERIAL_UNIT;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -64,7 +63,7 @@ public class GT_OreDictUnificator {
     }
 
     public static void set(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack, boolean aOverwrite, boolean aAlreadyRegistered) {
-        if (aMaterial == null || aPrefix == null || GT_Utility.isStackInvalid(aStack) || Items.feather.getDamage(aStack) == W)
+        if (aMaterial == null || aPrefix == null || GT_Utility.isStackInvalid(aStack) || Items.feather.getDamage(aStack) == OreDictionary.WILDCARD_VALUE)
             return;
         isAddingOre++;
         aStack = GT_Utility.copyAmount(1, aStack);
@@ -169,10 +168,10 @@ public class GT_OreDictUnificator {
             }
             sItemStack2DataMap.put(new GT_ItemStack(aStack), aData);
             if (aData.hasValidMaterialData()) {
-                long tValidMaterialAmount = aData.mMaterial.mMaterial.contains(SubTag.NO_RECYCLING) ? 0 : aData.mMaterial.mAmount >= 0 ? aData.mMaterial.mAmount : M;
+                long tValidMaterialAmount = aData.mMaterial.mMaterial.contains(SubTag.NO_RECYCLING) ? 0 : aData.mMaterial.mAmount >= 0 ? aData.mMaterial.mAmount : MATERIAL_UNIT;
                 for (MaterialStack tMaterial : aData.mByProducts)
-                    tValidMaterialAmount += tMaterial.mMaterial.contains(SubTag.NO_RECYCLING) ? 0 : tMaterial.mAmount >= 0 ? tMaterial.mAmount : M;
-                if (tValidMaterialAmount < M) GT_ModHandler.addToRecyclerBlackList(aStack);
+                    tValidMaterialAmount += tMaterial.mMaterial.contains(SubTag.NO_RECYCLING) ? 0 : tMaterial.mAmount >= 0 ? tMaterial.mAmount : MATERIAL_UNIT;
+                if (tValidMaterialAmount < MATERIAL_UNIT) GT_ModHandler.addToRecyclerBlackList(aStack);
             }
             if (mRunThroughTheList) {
                 if (GregTech_API.sLoadStarted) {
@@ -193,7 +192,7 @@ public class GT_OreDictUnificator {
 
     public static void addAssociation(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack, boolean aBlackListed) {
         if (aPrefix == null || aMaterial == null || GT_Utility.isStackInvalid(aStack)) return;
-        if (Items.feather.getDamage(aStack) == W) for (byte i = 0; i < 16; i++)
+        if (Items.feather.getDamage(aStack) == OreDictionary.WILDCARD_VALUE) for (byte i = 0; i < 16; i++)
             setItemData(GT_Utility.copyAmountAndMetaData(1, i, aStack), new ItemData(aPrefix, aMaterial, aBlackListed));
         setItemData(aStack, new ItemData(aPrefix, aMaterial, aBlackListed));
     }
@@ -201,7 +200,7 @@ public class GT_OreDictUnificator {
     public static ItemData getItemData(ItemStack aStack) {
         if (GT_Utility.isStackInvalid(aStack)) return null;
         ItemData rData = sItemStack2DataMap.get(new GT_ItemStack(aStack));
-        if (rData == null) rData = sItemStack2DataMap.get(new GT_ItemStack(GT_Utility.copyMetaData(W, aStack)));
+        if (rData == null) rData = sItemStack2DataMap.get(new GT_ItemStack(GT_Utility.copyMetaData(OreDictionary.WILDCARD_VALUE, aStack)));
         return rData;
     }
 
@@ -261,12 +260,12 @@ public class GT_OreDictUnificator {
 
     public static ItemStack getGem(Materials aMaterial, long aMaterialAmount) {
         ItemStack rStack = null;
-        if (((aMaterialAmount >= M) || aMaterialAmount >= M * 32))
-            rStack = get(OrePrefixes.gem, aMaterial, aMaterialAmount / M);
-        if (rStack == null && (((aMaterialAmount * 2) % M == 0) || aMaterialAmount >= M * 16))
-            rStack = get(OrePrefixes.gemFlawed, aMaterial, (aMaterialAmount * 2) / M);
-        if (rStack == null && (((aMaterialAmount * 4) >= M)))
-            rStack = get(OrePrefixes.gemChipped, aMaterial, (aMaterialAmount * 4) / M);
+        if (((aMaterialAmount >= MATERIAL_UNIT) || aMaterialAmount >= MATERIAL_UNIT * 32))
+            rStack = get(OrePrefixes.gem, aMaterial, aMaterialAmount / MATERIAL_UNIT);
+        if (rStack == null && (((aMaterialAmount * 2) % MATERIAL_UNIT == 0) || aMaterialAmount >= MATERIAL_UNIT * 16))
+            rStack = get(OrePrefixes.gemFlawed, aMaterial, (aMaterialAmount * 2) / MATERIAL_UNIT);
+        if (rStack == null && (((aMaterialAmount * 4) >= MATERIAL_UNIT)))
+            rStack = get(OrePrefixes.gemChipped, aMaterial, (aMaterialAmount * 4) / MATERIAL_UNIT);
         return rStack;
     }
 
@@ -281,12 +280,12 @@ public class GT_OreDictUnificator {
     public static ItemStack getDust(Materials aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = null;
-        if (((aMaterialAmount % M == 0) || aMaterialAmount >= M * 16))
-            rStack = get(OrePrefixes.dust, aMaterial, aMaterialAmount / M);
-        if (rStack == null && (((aMaterialAmount * 4) % M == 0) || aMaterialAmount >= M * 8))
-            rStack = get(OrePrefixes.dustSmall, aMaterial, (aMaterialAmount * 4) / M);
-        if (rStack == null && (((aMaterialAmount * 9) >= M)))
-            rStack = get(OrePrefixes.dustTiny, aMaterial, (aMaterialAmount * 9) / M);
+        if (((aMaterialAmount % MATERIAL_UNIT == 0) || aMaterialAmount >= MATERIAL_UNIT * 16))
+            rStack = get(OrePrefixes.dust, aMaterial, aMaterialAmount / MATERIAL_UNIT);
+        if (rStack == null && (((aMaterialAmount * 4) % MATERIAL_UNIT == 0) || aMaterialAmount >= MATERIAL_UNIT * 8))
+            rStack = get(OrePrefixes.dustSmall, aMaterial, (aMaterialAmount * 4) / MATERIAL_UNIT);
+        if (rStack == null && (((aMaterialAmount * 9) >= MATERIAL_UNIT)))
+            rStack = get(OrePrefixes.dustTiny, aMaterial, (aMaterialAmount * 9) / MATERIAL_UNIT);
         return rStack;
     }
 
@@ -301,12 +300,12 @@ public class GT_OreDictUnificator {
     public static ItemStack getIngot(Materials aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = null;
-        if (((aMaterialAmount % (M * 9) == 0 && aMaterialAmount / (M * 9) > 1) || aMaterialAmount >= M * 72))
-            rStack = get(OrePrefixes.block, aMaterial, aMaterialAmount / (M * 9));
-        if (rStack == null && ((aMaterialAmount % M == 0) || aMaterialAmount >= M * 8))
-            rStack = get(OrePrefixes.ingot, aMaterial, aMaterialAmount / M);
-        if (rStack == null && (((aMaterialAmount * 9) >= M)))
-            rStack = get(OrePrefixes.nugget, aMaterial, (aMaterialAmount * 9) / M);
+        if (((aMaterialAmount % (MATERIAL_UNIT * 9) == 0 && aMaterialAmount / (MATERIAL_UNIT * 9) > 1) || aMaterialAmount >= MATERIAL_UNIT * 72))
+            rStack = get(OrePrefixes.block, aMaterial, aMaterialAmount / (MATERIAL_UNIT * 9));
+        if (rStack == null && ((aMaterialAmount % MATERIAL_UNIT == 0) || aMaterialAmount >= MATERIAL_UNIT * 8))
+            rStack = get(OrePrefixes.ingot, aMaterial, aMaterialAmount / MATERIAL_UNIT);
+        if (rStack == null && (((aMaterialAmount * 9) >= MATERIAL_UNIT)))
+            rStack = get(OrePrefixes.nugget, aMaterial, (aMaterialAmount * 9) / MATERIAL_UNIT);
         return rStack;
     }
 
@@ -348,7 +347,7 @@ public class GT_OreDictUnificator {
      * @return a Copy of the OreDictionary.getOres() List
      */
     public static ArrayList<ItemStack> getOres(Object aOreName) {
-        String aName = aOreName == null ? E : aOreName.toString();
+        String aName = aOreName == null ? EMPTY_STRING : aOreName.toString();
         ArrayList<ItemStack> rList = new ArrayList<ItemStack>();
         if (GT_Utility.isStringValid(aName)) rList.addAll(OreDictionary.getOres(aName));
         return rList;

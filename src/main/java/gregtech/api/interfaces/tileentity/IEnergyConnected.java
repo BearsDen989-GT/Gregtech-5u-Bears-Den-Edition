@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 /**
  * Interface for getting Connected to the GregTech Energy Network.
@@ -81,7 +81,7 @@ public interface IEnergyConnected extends IColoredTileEntity, IHasWorldObjectAnd
                         if (GregTech_API.mRFExplosions && GregTech_API.sMachineExplosions && ((IEnergyReceiver) tTileEntity).getMaxEnergyStored(tDirection) < rfOut * 600) {
                             if (rfOut > 32 * GregTech_API.mEUtoRF / 100) {
                                 int aExplosionPower = rfOut;
-                                float tStrength = aExplosionPower < V[0] ? 1.0F : aExplosionPower < V[1] ? 2.0F : aExplosionPower < V[2] ? 3.0F : aExplosionPower < V[3] ? 4.0F : aExplosionPower < V[4] ? 5.0F : aExplosionPower < V[4] * 2 ? 6.0F : aExplosionPower < V[5] ? 7.0F : aExplosionPower < V[6] ? 8.0F : aExplosionPower < V[7] ? 9.0F : 10.0F;
+                                float tStrength = aExplosionPower < TIERED_VOLTAGES[0] ? 1.0F : aExplosionPower < TIERED_VOLTAGES[1] ? 2.0F : aExplosionPower < TIERED_VOLTAGES[2] ? 3.0F : aExplosionPower < TIERED_VOLTAGES[3] ? 4.0F : aExplosionPower < TIERED_VOLTAGES[4] ? 5.0F : aExplosionPower < TIERED_VOLTAGES[4] * 2 ? 6.0F : aExplosionPower < TIERED_VOLTAGES[5] ? 7.0F : aExplosionPower < TIERED_VOLTAGES[6] ? 8.0F : aExplosionPower < TIERED_VOLTAGES[7] ? 9.0F : 10.0F;
                                 int tX = tTileEntity.xCoord, tY = tTileEntity.yCoord, tZ = tTileEntity.zCoord;
                                 World tWorld = tTileEntity.getWorldObj();
                                 GT_Utility.sendSoundToPlayers(tWorld, GregTech_API.sSoundList.get(209), 1.0F, -1, tX, tY, tZ);

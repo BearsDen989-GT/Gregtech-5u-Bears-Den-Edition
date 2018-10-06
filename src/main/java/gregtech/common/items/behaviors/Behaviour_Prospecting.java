@@ -1,7 +1,6 @@
 package gregtech.common.items.behaviors;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -23,6 +22,8 @@ import net.minecraftforge.fluids.IFluidBlock;
 
 import java.util.List;
 import java.util.Random;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class Behaviour_Prospecting
         extends Behaviour_None {
@@ -59,7 +60,7 @@ public class Behaviour_Prospecting
                 int tY = aY;
                 int tZ = aZ;
                 int tMetaID = 0;
-                int tQuality = (aItem instanceof GT_MetaGenerated_Tool) ? aItem.getHarvestLevel(aStack, GT_Values.E) : 0;
+                int tQuality = (aItem instanceof GT_MetaGenerated_Tool) ? aItem.getHarvestLevel(aStack, EMPTY_STRING) : 0;
 
                 int i = 0;
                 for (int j = 6 + tQuality; i < j; i++) {

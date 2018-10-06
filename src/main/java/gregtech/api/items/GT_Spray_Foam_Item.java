@@ -14,7 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import static gregtech.api.enums.GT_Values.D1;
+import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
 
 public class GT_Spray_Foam_Item extends GT_Tool_Item {
     public GT_Spray_Foam_Item(String aUnlocalized, String aEnglish, int aMaxDamage, int aEntityDamage) {
@@ -80,7 +80,7 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
                 return false;
             }
         } catch (Throwable e) {
-            if (D1) e.printStackTrace(GT_Log.err);
+            if (DEBUG_LEVEL_1) e.printStackTrace(GT_Log.err);
         }
 
         if (aTileEntity instanceof BaseMetaPipeEntity && (((BaseMetaPipeEntity) aTileEntity).mConnections & -64) == 0) {

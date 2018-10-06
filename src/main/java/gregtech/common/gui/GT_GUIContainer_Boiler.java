@@ -4,10 +4,12 @@ import gregtech.api.gui.GT_GUIContainerMetaTile_Machine;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+
 public class GT_GUIContainer_Boiler
         extends GT_GUIContainerMetaTile_Machine {
     public GT_GUIContainer_Boiler(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aTextureName, int aSteamCapacity) {
-        super(new GT_Container_Boiler(aInventoryPlayer, aTileEntity, aSteamCapacity), "gregtech:textures/gui/" + aTextureName);
+        super(new GT_Container_Boiler(aInventoryPlayer, aTileEntity, aSteamCapacity), RES_PATH_GUI + aTextureName);
     }
 
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {

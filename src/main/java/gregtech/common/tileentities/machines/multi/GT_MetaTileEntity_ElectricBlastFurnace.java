@@ -18,6 +18,8 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
+
 public class GT_MetaTileEntity_ElectricBlastFurnace
         extends GT_MetaTileEntity_MultiBlockBase {
     private int mHeatingCapacity = 0;
@@ -94,7 +96,7 @@ public class GT_MetaTileEntity_ElectricBlastFurnace
         if (tInputList.size() > 0) {
             long tVoltage = getMaxInputVoltage();
             byte tTier = (byte) Math.max(1, GT_Utility.getTier(tVoltage));
-            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sBlastRecipes.findRecipe(getBaseMetaTileEntity(), false, gregtech.api.enums.GT_Values.V[tTier], tFluids, tInputs);
+            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sBlastRecipes.findRecipe(getBaseMetaTileEntity(), false, TIERED_VOLTAGES[tTier], tFluids, tInputs);
             if ((tRecipe != null) && (this.mHeatingCapacity >= tRecipe.mSpecialValue) && (tRecipe.isRecipeInputEqual(true, tFluids, tInputs))) {
                 this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
                 this.mEfficiencyIncrease = 10000;
@@ -104,7 +106,7 @@ public class GT_MetaTileEntity_ElectricBlastFurnace
                 } else {
                     this.mEUt = tRecipe.mEUt;
                     this.mMaxProgresstime = tRecipe.mDuration;
-                    while (this.mEUt <= gregtech.api.enums.GT_Values.V[(tTier - 1)]) {
+                    while (this.mEUt <= TIERED_VOLTAGES[(tTier - 1)]) {
                         this.mEUt *= 4;
                         this.mMaxProgresstime /= 2;
                     }

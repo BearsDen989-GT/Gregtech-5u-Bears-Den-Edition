@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
+import static gregtech.api.enums.GT_Values.RES_PATH_GUI_BASICMACHINES;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -25,7 +25,7 @@ public class GT_GUIContainer_BasicMachine extends GT_GUIContainerMetaTile_Machin
     }
 
     public GT_GUIContainer_BasicMachine(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aName, String aTextureFile, String aNEI, byte aProgressBarDirection, byte aProgressBarAmount) {
-        super(new GT_Container_BasicMachine(aInventoryPlayer, aTileEntity), RES_PATH_GUI + "basicmachines/" + aTextureFile);
+        super(new GT_Container_BasicMachine(aInventoryPlayer, aTileEntity), RES_PATH_GUI_BASICMACHINES + aTextureFile);
         mProgressBarDirection = aProgressBarDirection;
         mProgressBarAmount = (byte) Math.max(1, aProgressBarAmount);
         mName = aName;

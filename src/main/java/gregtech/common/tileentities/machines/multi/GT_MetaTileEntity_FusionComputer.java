@@ -2,7 +2,6 @@ package gregtech.common.tileentities.machines.multi;
 
 import gregtech.GT_Mod;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_Container_MultiMachine;
 import gregtech.api.interfaces.IIconContainer;
@@ -27,6 +26,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+
+import static gregtech.api.enums.GT_Values.TIERED_VOLTAGES;
 
 public abstract class GT_MetaTileEntity_FusionComputer extends GT_MetaTileEntity_MultiBlockBase {
 
@@ -268,7 +269,7 @@ public abstract class GT_MetaTileEntity_FusionComputer extends GT_MetaTileEntity
         }
         if (tFluidList.size() > 1) {
             FluidStack[] tFluids = tFluidList.toArray(new FluidStack[tFluidList.size()]);
-            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sFusionRecipes.findRecipe(this.getBaseMetaTileEntity(), this.mLastRecipe, false, GT_Values.V[8], tFluids);
+            GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sFusionRecipes.findRecipe(this.getBaseMetaTileEntity(), this.mLastRecipe, false, TIERED_VOLTAGES[8], tFluids);
             if (tRecipe == null && !mRunningOnLoad) {
                 turnCasingActive(false);
                 this.mLastRecipe = null;

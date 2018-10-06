@@ -8,8 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
-
-import static gregtech.api.enums.GT_Values.W;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Class containing all non-OreDict Items of GregTech.
@@ -734,7 +733,7 @@ public enum ItemList implements IItemContainer {
         if (mHasNotBeenSet)
             throw new IllegalAccessError("The Enum '" + name() + "' has not been set to an Item at this time!");
         if (GT_Utility.isStackInvalid(mStack)) return GT_Utility.copyAmount(aAmount, aReplacements);
-        return GT_Utility.copyAmountAndMetaData(aAmount, W, GT_OreDictUnificator.get(mStack));
+        return GT_Utility.copyAmountAndMetaData(aAmount, OreDictionary.WILDCARD_VALUE, GT_OreDictUnificator.get(mStack));
     }
 
     @Override

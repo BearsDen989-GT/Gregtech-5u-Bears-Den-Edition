@@ -1,15 +1,15 @@
 package gregtech.api.objects;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 
 import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class MaterialStack implements Cloneable {
     public long mAmount;
-    public Materials mMaterial;
+    public MaterialsOld mMaterial;
 
-    public MaterialStack(Materials aMaterial, long aAmount) {
-        mMaterial = aMaterial == null ? Materials._NULL : aMaterial;
+    public MaterialStack(MaterialsOld aMaterial, long aAmount) {
+        mMaterial = aMaterial == null ? MaterialsOld._NULL : aMaterial;
         mAmount = aAmount;
     }
 
@@ -26,7 +26,7 @@ public class MaterialStack implements Cloneable {
     public boolean equals(Object aObject) {
         if (aObject == this) return true;
         if (aObject == null) return false;
-        if (aObject instanceof Materials) return aObject == mMaterial;
+        if (aObject instanceof MaterialsOld) return aObject == mMaterial;
         if (aObject instanceof MaterialStack)
             return ((MaterialStack) aObject).mMaterial == mMaterial && (mAmount < 0 || ((MaterialStack) aObject).mAmount < 0 || ((MaterialStack) aObject).mAmount == mAmount);
         return false;

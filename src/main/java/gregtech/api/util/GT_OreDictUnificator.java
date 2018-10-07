@@ -2,7 +2,7 @@ package gregtech.api.util;
 
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.objects.GT_HashSet;
@@ -54,15 +54,15 @@ public class GT_OreDictUnificator {
         return GT_Utility.isStackInList(aStack, sNoUnificationList);
     }
 
-    public static void add(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack) {
+    public static void add(OrePrefixes aPrefix, MaterialsOld aMaterial, ItemStack aStack) {
         set(aPrefix, aMaterial, aStack, false, false);
     }
 
-    public static void set(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack) {
+    public static void set(OrePrefixes aPrefix, MaterialsOld aMaterial, ItemStack aStack) {
         set(aPrefix, aMaterial, aStack, true, false);
     }
 
-    public static void set(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack, boolean aOverwrite, boolean aAlreadyRegistered) {
+    public static void set(OrePrefixes aPrefix, MaterialsOld aMaterial, ItemStack aStack, boolean aOverwrite, boolean aAlreadyRegistered) {
         if (aMaterial == null || aPrefix == null || GT_Utility.isStackInvalid(aStack) || Items.feather.getDamage(aStack) == OreDictionary.WILDCARD_VALUE)
             return;
         isAddingOre++;
@@ -190,7 +190,7 @@ public class GT_OreDictUnificator {
         }
     }
 
-    public static void addAssociation(OrePrefixes aPrefix, Materials aMaterial, ItemStack aStack, boolean aBlackListed) {
+    public static void addAssociation(OrePrefixes aPrefix, MaterialsOld aMaterial, ItemStack aStack, boolean aBlackListed) {
         if (aPrefix == null || aMaterial == null || GT_Utility.isStackInvalid(aStack)) return;
         if (Items.feather.getDamage(aStack) == OreDictionary.WILDCARD_VALUE) for (byte i = 0; i < 16; i++)
             setItemData(GT_Utility.copyAmountAndMetaData(1, i, aStack), new ItemData(aPrefix, aMaterial, aBlackListed));
@@ -254,11 +254,11 @@ public class GT_OreDictUnificator {
         return aMaterial == null ? null : getGem(aMaterial.mMaterial, aMaterial.mAmount);
     }
 
-    public static ItemStack getGem(Materials aMaterial, OrePrefixes aPrefix) {
+    public static ItemStack getGem(MaterialsOld aMaterial, OrePrefixes aPrefix) {
         return aMaterial == null ? null : getGem(aMaterial, aPrefix.mMaterialAmount);
     }
 
-    public static ItemStack getGem(Materials aMaterial, long aMaterialAmount) {
+    public static ItemStack getGem(MaterialsOld aMaterial, long aMaterialAmount) {
         ItemStack rStack = null;
         if (((aMaterialAmount >= MATERIAL_UNIT) || aMaterialAmount >= MATERIAL_UNIT * 32))
             rStack = get(OrePrefixes.gem, aMaterial, aMaterialAmount / MATERIAL_UNIT);
@@ -273,11 +273,11 @@ public class GT_OreDictUnificator {
         return aMaterial == null ? null : getDust(aMaterial.mMaterial, aMaterial.mAmount);
     }
 
-    public static ItemStack getDust(Materials aMaterial, OrePrefixes aPrefix) {
+    public static ItemStack getDust(MaterialsOld aMaterial, OrePrefixes aPrefix) {
         return aMaterial == null ? null : getDust(aMaterial, aPrefix.mMaterialAmount);
     }
 
-    public static ItemStack getDust(Materials aMaterial, long aMaterialAmount) {
+    public static ItemStack getDust(MaterialsOld aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = null;
         if (((aMaterialAmount % MATERIAL_UNIT == 0) || aMaterialAmount >= MATERIAL_UNIT * 16))
@@ -293,11 +293,11 @@ public class GT_OreDictUnificator {
         return aMaterial == null ? null : getIngot(aMaterial.mMaterial, aMaterial.mAmount);
     }
 
-    public static ItemStack getIngot(Materials aMaterial, OrePrefixes aPrefix) {
+    public static ItemStack getIngot(MaterialsOld aMaterial, OrePrefixes aPrefix) {
         return aMaterial == null ? null : getIngot(aMaterial, aPrefix.mMaterialAmount);
     }
 
-    public static ItemStack getIngot(Materials aMaterial, long aMaterialAmount) {
+    public static ItemStack getIngot(MaterialsOld aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = null;
         if (((aMaterialAmount % (MATERIAL_UNIT * 9) == 0 && aMaterialAmount / (MATERIAL_UNIT * 9) > 1) || aMaterialAmount >= MATERIAL_UNIT * 72))
@@ -309,7 +309,7 @@ public class GT_OreDictUnificator {
         return rStack;
     }
 
-    public static ItemStack getIngotOrDust(Materials aMaterial, long aMaterialAmount) {
+    public static ItemStack getIngotOrDust(MaterialsOld aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = getIngot(aMaterial, aMaterialAmount);
         if (rStack == null) rStack = getDust(aMaterial, aMaterialAmount);
@@ -318,12 +318,12 @@ public class GT_OreDictUnificator {
 
     public static ItemStack getIngotOrDust(MaterialStack aMaterial) {
         ItemStack rStack = getIngot(aMaterial);
-        if(aMaterial!=null&&aMaterial.mMaterial!=null&&(aMaterial.mMaterial==Materials.Naquadah||aMaterial.mMaterial==Materials.NaquadahEnriched))rStack = getDust(aMaterial);
+        if(aMaterial!=null&&aMaterial.mMaterial!=null&&(aMaterial.mMaterial== MaterialsOld.Naquadah||aMaterial.mMaterial== MaterialsOld.NaquadahEnriched))rStack = getDust(aMaterial);
         if (rStack == null) rStack = getDust(aMaterial);
         return rStack;
     }
 
-    public static ItemStack getDustOrIngot(Materials aMaterial, long aMaterialAmount) {
+    public static ItemStack getDustOrIngot(MaterialsOld aMaterial, long aMaterialAmount) {
         if (aMaterialAmount <= 0) return null;
         ItemStack rStack = getDust(aMaterial, aMaterialAmount);
         if (rStack == null) rStack = getIngot(aMaterial, aMaterialAmount);

@@ -2,7 +2,7 @@ package gregtech.common.tileentities.machines.basic;
 
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -40,16 +40,16 @@ public class GT_MetaTileEntity_Massfabricator
         sUUAperUUM = aConfig.get(ConfigCategories.machineconfig, "Massfabricator.UUA_per_UUM", sUUAperUUM);
         sUUASpeedBonus = aConfig.get(ConfigCategories.machineconfig, "Massfabricator.UUA_Speed_Bonus", sUUASpeedBonus);
         sRequiresUUA = aConfig.get(ConfigCategories.machineconfig, "Massfabricator.UUA_Requirement", sRequiresUUA);
-        Materials.UUAmplifier.mChemicalFormula = ("Mass Fabricator Eff/Speed Bonus: x" + sUUASpeedBonus);
+        MaterialsOld.UUAmplifier.mChemicalFormula = ("Mass Fabricator Eff/Speed Bonus: x" + sUUASpeedBonus);
     }
 
     public int checkRecipe() {
         FluidStack tFluid = getDrainableStack();
         if ((tFluid == null) || (tFluid.amount < getCapacity())) {
-            this.mOutputFluid = Materials.UUMatter.getFluid(1L);
+            this.mOutputFluid = MaterialsOld.UUMatter.getFluid(1L);
             this.mEUt = ((int) TIERED_VOLTAGES[this.mTier]);
             this.mMaxProgresstime = (sDurationMultiplier / (1 << this.mTier - 1));
-            if (((tFluid = getFillableStack()) != null) && (tFluid.amount >= sUUAperUUM) && (tFluid.isFluidEqual(Materials.UUAmplifier.getFluid(1L)))) {
+            if (((tFluid = getFillableStack()) != null) && (tFluid.amount >= sUUAperUUM) && (tFluid.isFluidEqual(MaterialsOld.UUAmplifier.getFluid(1L)))) {
                 tFluid.amount -= sUUAperUUM;
                 this.mMaxProgresstime /= sUUASpeedBonus;
                 return 2;
@@ -60,7 +60,7 @@ public class GT_MetaTileEntity_Massfabricator
     }
 
     public boolean isFluidInputAllowed(FluidStack aFluid) {
-        return aFluid.isFluidEqual(Materials.UUAmplifier.getFluid(1L));
+        return aFluid.isFluidEqual(MaterialsOld.UUAmplifier.getFluid(1L));
     }
 
     public int getCapacity() {

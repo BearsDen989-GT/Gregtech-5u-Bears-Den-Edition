@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.SubTag;
 import gregtech.api.enums.TC_Aspects.TC_AspectStack;
 import gregtech.api.interfaces.IFoodStat;
@@ -252,7 +252,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return the Color Modulation the Material is going to be rendered with.
      */
     public short[] getRGBa(ItemStack aStack) {
-        return Materials._NULL.getRGBA();
+        return MaterialsOld._NULL.getRGBA();
     }
 
     /**

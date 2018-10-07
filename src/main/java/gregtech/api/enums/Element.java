@@ -5,7 +5,7 @@ import gregtech.api.util.GT_Utility;
 import java.util.ArrayList;
 
 /**
- * This is some kind of Periodic Table, which I use to determine Properties of the Materials.
+ * This is some kind of Periodic Table, which I use to determine Properties of the MaterialsOld.
  */
 public enum Element {
     _NULL(0, 0, 0, -1, null, GT_Values.EMPTY_STRING, false),
@@ -271,12 +271,12 @@ public enum Element {
     /**
      * Links to every pure Material containing just this Element.
      */
-    public ArrayList<Materials> mLinkedMaterials = new ArrayList<Materials>();
+    public ArrayList<MaterialsOld> mLinkedMaterials = new ArrayList<MaterialsOld>();
 
     /**
      * @param aProtons         Amount of Protons. Antiprotons if negative.
      * @param aNeutrons        Amount of Neutrons. Antineutrons if negative. (I could have made mistakes with the Neutron amount calculation, please tell me if I did something wrong)
-     * @param aHalfLifeSeconds Amount of Half Life this Material has in Seconds. -1 for stable Materials.
+     * @param aHalfLifeSeconds Amount of Half Life this Material has in Seconds. -1 for stable MaterialsOld.
      * @param aDecayTo         String representing the Elements it decays to. Separated by an '&' Character.
      * @param aName            Name of the Element
      */

@@ -8,17 +8,17 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * Just a simple Class to be able to add special Tags for Materials.
+ * Just a simple Class to be able to add special Tags for MaterialsOld.
  * <p/>
- * The Tags should be added in preload and before I do my own preload to the Materials.
+ * The Tags should be added in preload and before I do my own preload to the MaterialsOld.
  * In order to make yourself a new SubTag, just create one new instance of SubTag using getNewSubTag
- * and use that one instance on all Materials you want to add those Tags to.
+ * and use that one instance on all MaterialsOld you want to add those Tags to.
  * <p/>
  * You should look at this File whenever you update, maybe there are some new Tags you could use.
  * <p/>
  * -------------------------------------------------------------------------------------------------
  * <p/>
- * Some SubTags are used for other things than Materials too. It is useful when I need an easy way to declare Stuff in Items.
+ * Some SubTags are used for other things than MaterialsOld too. It is useful when I need an easy way to declare Stuff in Items.
  */
 public final class SubTag implements ICondition<ISubTagContainer> {
     public static final ArrayList<SubTag> sSubTags = new ArrayList<SubTag>();
@@ -31,7 +31,7 @@ public final class SubTag implements ICondition<ISubTagContainer> {
      */
     public static final SubTag BLASTFURNACE_CALCITE_DOUBLE = getNewSubTag("BLASTFURNACE_CALCITE_DOUBLE"), BLASTFURNACE_CALCITE_TRIPLE = getNewSubTag("BLASTFURNACE_CALCITE_TRIPLE");
     /**
-     * Materials which are outputting less in an Induction Smelter. Already listed are:
+     * MaterialsOld which are outputting less in an Induction Smelter. Already listed are:
      * Pyrite, Tetrahedrite, Sphalerite, Cinnabar
      */
     public static final SubTag INDUCTIONSMELTING_LOW_OUTPUT = getNewSubTag("INDUCTIONSMELTING_LOW_OUTPUT");
@@ -75,7 +75,7 @@ public final class SubTag implements ICondition<ISubTagContainer> {
      */
     public static final SubTag PULVERIZING_CINNABAR = getNewSubTag("PULVERIZING_CINNABAR");
     /**
-     * This Material cannot be worked by any other means, than smashing or smelting. This is used for coated Materials.
+     * This Material cannot be worked by any other means, than smashing or smelting. This is used for coated MaterialsOld.
      */
     public static final SubTag NO_WORKING = getNewSubTag("NO_WORKING");
     /**

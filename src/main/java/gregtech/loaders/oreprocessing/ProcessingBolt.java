@@ -1,6 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.util.GT_OreDictUnificator;
@@ -14,7 +14,7 @@ public class ProcessingBolt implements gregtech.api.interfaces.IOreRecipeRegistr
         OrePrefixes.bolt.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+    public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (!aMaterial.contains(SubTag.NO_WORKING))
             RECIPE_ADDER_INSTANCE.addLatheRecipe(GT_Utility.copyAmount(1L, aStack), GT_OreDictUnificator.get(OrePrefixes.screw, aMaterial, 1L), null, (int) Math.max(aMaterial.getMass() / 8L, 1L), 4);
     }

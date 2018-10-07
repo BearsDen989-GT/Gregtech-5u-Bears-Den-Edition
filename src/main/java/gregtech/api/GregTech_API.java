@@ -2,7 +2,7 @@ package gregtech.api;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IDamagableItem;
 import gregtech.api.interfaces.ITexture;
@@ -74,7 +74,7 @@ public class GregTech_API {
     /**
      * My Creative Tab
      */
-    public static final CreativeTabs TAB_GREGTECH = new GT_CreativeTab("Main", "Main"), TAB_GREGTECH_MATERIALS = new GT_CreativeTab("Materials", "Materials"), TAB_GREGTECH_ORES = new GT_CreativeTab("Ores", "Ores");
+    public static final CreativeTabs TAB_GREGTECH = new GT_CreativeTab("Main", "Main"), TAB_GREGTECH_MATERIALS = new GT_CreativeTab("MaterialsOld", "MaterialsOld"), TAB_GREGTECH_ORES = new GT_CreativeTab("Ores", "Ores");
     /**
      * A List of all registered MetaTileEntities
      * <p/>
@@ -159,9 +159,9 @@ public class GregTech_API {
      */
     public static final List<GT_Worldgen> sWorldgenList = new ArrayList<GT_Worldgen>();
     /**
-     * A List containing all the Materials, which are somehow in use by GT and therefor receive a specific Set of Items.
+     * A List containing all the MaterialsOld, which are somehow in use by GT and therefor receive a specific Set of Items.
      */
-    public static final Materials[] sGeneratedMaterials = new Materials[1000];
+    public static final MaterialsOld[] sGeneratedMaterials = new MaterialsOld[1000];
     /**
      * This is the generic Cover behavior. Used for the default Covers, which have no Behavior.
      */
@@ -189,7 +189,16 @@ public class GregTech_API {
     /**
      * The Configuration Objects
      */
-    public static GT_Config sRecipeFile = null, sMachineFile = null, sWorldgenFile = null, sMaterialProperties = null, sUnification = null, sSpecialFile = null, sClientDataFile, sOPStuff = null;
+    public static GT_Config sRecipeFile = null;
+    public static GT_Config sMachineFile = null;
+    public static GT_Config sWorldgenFile = null;
+    public static GT_Config sMaterialProperties = null;
+    public static GT_Config sUnification = null;
+    public static GT_Config sSpecialFile = null;
+    public static GT_Config sClientDataFile;
+    public static GT_Config sOPStuff = null;
+    public static GT_Config sMaterialsFile = null;
+
     public static int TICKS_FOR_LAG_AVERAGING = 25, MILLISECOND_THRESHOLD_UNTIL_LAG_WARNING = 100;
     /**
      * Initialized by the Block creation.

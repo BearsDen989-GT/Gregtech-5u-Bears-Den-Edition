@@ -1,6 +1,6 @@
 package gregtech.common.tileentities.machines.basic;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -78,7 +78,7 @@ public class GT_MetaTileEntity_PotionBrewer
                     }
                     return setOutput("potion.weakness");
                 }
-                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 1L), getInputAt(0))) {
+                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, MaterialsOld.Glowstone, 1L), getInputAt(0))) {
                     if (!tModifier.startsWith("strong")) {
                         return setOutput("potion." + tInputName + ".strong" + (tModifier.isEmpty() ? EMPTY_STRING : new StringBuilder().append(".").append(tModifier).toString()));
                     }
@@ -87,7 +87,7 @@ public class GT_MetaTileEntity_PotionBrewer
                     }
                     return setOutput("potion.thick");
                 }
-                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Redstone, 1L), getInputAt(0))) {
+                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, MaterialsOld.Redstone, 1L), getInputAt(0))) {
                     if (!tModifier.startsWith("long")) {
                         return setOutput("potion." + tInputName + ".long" + (tModifier.isEmpty() ? EMPTY_STRING : new StringBuilder().append(".").append(tModifier).toString()));
                     }
@@ -96,7 +96,7 @@ public class GT_MetaTileEntity_PotionBrewer
                     }
                     return setOutput("potion.mundane");
                 }
-                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Gunpowder, 1L), getInputAt(0))) {
+                if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(OrePrefixes.dust, MaterialsOld.Gunpowder, 1L), getInputAt(0))) {
                     if (!tInputName.endsWith(".splash")) {
                         return setOutput("potion." + tInputName + ".splash");
                     }

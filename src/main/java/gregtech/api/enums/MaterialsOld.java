@@ -30,7 +30,7 @@ import static gregtech.api.enums.GT_Values.MOD_ID_TC;
 /**
  * This List contains every Material I know about, and is used to determine Recipes for the
  */
-public enum Materials implements IColorModulationContainer, ISubTagContainer {
+public enum MaterialsOld implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * This is the Default Material returned in case no Material has been found or a NullPointer has been inserted at a location where it shouldn't happen.
 	 * <p/>
@@ -141,7 +141,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 
 	/**
 	 * The "I don't care" Section, everything I don't want to do anything with right now, is right here. Just to make the Material Finder shut up about them.
-	 * But I do see potential uses in some of these Materials.
+	 * But I do see potential uses in some of these MaterialsOld.
 	 */
 	TarPitch(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1 | 2, 255, 255, 255, 0, "Tar Pitch", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
 	Carborundum(-1, TextureSet.SET_NONE, 1.0F, 0, 2, 1, 255, 255, 255, 0, "Carborundum", 0, 0, -1, 0, false, false, 3, 1, 1, Dyes._NULL),
@@ -692,7 +692,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	
 	
 	/**
-	 * Materials which are renamed automatically
+	 * MaterialsOld which are renamed automatically
 	 */
 	@Deprecated IridiumAndSodiumOxide(IridiumSodiumOxide, false),
 	@Deprecated Palygorskite(FullersEarth, false),
@@ -753,9 +753,9 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	@Deprecated WrougtIron(WroughtIron, false);
 
 	/**
-	 * List of all Materials.
+	 * List of all MaterialsOld.
 	 */
-	public static final Collection<Materials> VALUES = new HashSet<Materials>(Arrays.asList(values()));
+	public static final Collection<MaterialsOld> VALUES = new HashSet<MaterialsOld>(Arrays.asList(values()));
 
 	static {
 		SubTag.ELECTROMAGNETIC_SEPERATION_NEODYMIUM.addTo(Bastnasite, Monazite, Forcicium, Forcillium);
@@ -1302,9 +1302,9 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	public final TextureSet mIconSet;
 	public final int mMetaItemSubID;
 	public final boolean mUnificatable;
-	public final Materials mMaterialInto;
+	public final MaterialsOld mMaterialInto;
 	public final List<MaterialStack> mMaterialList = new ArrayList<MaterialStack>();
-	public final List<Materials> mOreByProducts = new ArrayList<Materials>(), mOreReRegistrations = new ArrayList<Materials>();
+	public final List<MaterialsOld> mOreByProducts = new ArrayList<MaterialsOld>(), mOreReRegistrations = new ArrayList<MaterialsOld>();
 	public final List<TC_AspectStack> mAspects = new ArrayList<TC_AspectStack>();
 	private final ArrayList<ItemStack> mMaterialItems = new ArrayList<ItemStack>();
 	private final Collection<SubTag> mSubTags = new HashSet<SubTag>();
@@ -1318,15 +1318,15 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	public int mTypes = 0, mDurability = 16, mFuelPower = 0, mFuelType = 0, mExtraData = 0, mOreValue = 0, mOreMultiplier = 1, mByProductMultiplier = 1, mSmeltingMultiplier = 1;
 	public long mDensity = MATERIAL_UNIT;
 	public Element mElement = null;
-	public Materials mDirectSmelting = this, mOreReplacement = this, mMacerateInto = this, mSmeltInto = this, mArcSmeltInto = this, mHandleMaterial = this;
+	public MaterialsOld mDirectSmelting = this, mOreReplacement = this, mMacerateInto = this, mSmeltInto = this, mArcSmeltInto = this, mHandleMaterial = this;
 	public byte mToolQuality = 0;
 	public Fluid mSolid = null, mFluid = null, mGas = null, mPlasma = null;
 	/**
-	 * This Fluid is used as standard Unit for Molten Materials. 1296 is a Molten Block, what means 144 is one Material Unit worth
+	 * This Fluid is used as standard Unit for Molten MaterialsOld. 1296 is a Molten Block, what means 144 is one Material Unit worth
 	 */
 	public Fluid mStandardMoltenFluid = null;
 
-	Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, boolean aUnificatable) {
+	MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, boolean aUnificatable) {
 		mUnificatable = aUnificatable;
 		mMaterialInto = this;
 		mMetaItemSubID = aMetaItemSubID;
@@ -1343,7 +1343,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		}
 	}
 
-	Materials(Materials aMaterialInto, boolean aReRegisterIntoThis) {
+	MaterialsOld(MaterialsOld aMaterialInto, boolean aReRegisterIntoThis) {
 		mUnificatable = false;
 		mDefaultLocalName = aMaterialInto.mDefaultLocalName;
 		mMaterialInto = aMaterialInto.mMaterialInto;
@@ -1376,7 +1376,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * @param aBlastFurnaceRequired If this requires a Blast Furnace.
 	 * @param aColor                Vanilla MC Wool Color which comes the closest to this.
 	 */
-    Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor) {
+    MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor) {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, true);
 		mDefaultLocalName = aLocalName;
 		mMeltingPoint = (short) aMeltingPoint;
@@ -1397,7 +1397,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		if ((mTypes & 2) != 0) add(SubTag.SMELTING_TO_FLUID);
 	}
 
-	Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, List<TC_AspectStack> aAspects) {
+	MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, List<TC_AspectStack> aAspects) {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor);
 		mAspects.addAll(aAspects);
 	}
@@ -1405,7 +1405,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * @param aElement The Element Enum represented by this Material
 	 */
-    Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, Element aElement, List<TC_AspectStack> aAspects) {
+    MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, Element aElement, List<TC_AspectStack> aAspects) {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor);
 		mElement = aElement;
 		mElement.mLinkedMaterials.add(this);
@@ -1418,11 +1418,11 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		mAspects.addAll(aAspects);
 	}
 
-	Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, int aExtraData, List<MaterialStack> aMaterialList) {
+	MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, int aExtraData, List<MaterialStack> aMaterialList) {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor, aExtraData, aMaterialList, null);
 	}
 
-	Materials(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, int aExtraData, List<MaterialStack> aMaterialList, List<TC_AspectStack> aAspects) {
+	MaterialsOld(int aMetaItemSubID, TextureSet aIconSet, float aToolSpeed, int aToolDurability, int aToolQuality, int aTypes, int aR, int aG, int aB, int aA, String aLocalName, int aFuelType, int aFuelPower, int aMeltingPoint, int aBlastFurnaceTemp, boolean aBlastFurnaceRequired, boolean aTransparent, int aOreValue, int aDensityMultiplier, int aDensityDivider, Dyes aColor, int aExtraData, List<MaterialStack> aMaterialList, List<TC_AspectStack> aAspects) {
 		this(aMetaItemSubID, aIconSet, aToolSpeed, aToolDurability, aToolQuality, aTypes, aR, aG, aB, aA, aLocalName, aFuelType, aFuelPower, aMeltingPoint, aBlastFurnaceTemp, aBlastFurnaceRequired, aTransparent, aOreValue, aDensityMultiplier, aDensityDivider, aColor);
 		mExtraData = aExtraData;
 		mMaterialList.addAll(aMaterialList);
@@ -1448,13 +1448,13 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 		else mAspects.addAll(aAspects);
 	}
 
-	public static Materials get(String aMaterialName) {
-		Object tObject = GT_Utility.getFieldContent(Materials.class, aMaterialName, false, false);
-		if (tObject != null && tObject instanceof Materials) return (Materials) tObject;
+	public static MaterialsOld get(String aMaterialName) {
+		Object tObject = GT_Utility.getFieldContent(MaterialsOld.class, aMaterialName, false, false);
+		if (tObject != null && tObject instanceof MaterialsOld) return (MaterialsOld) tObject;
 		return _NULL;
 	}
 
-	public static Materials getRealMaterial(String aMaterialName) {
+	public static MaterialsOld getRealMaterial(String aMaterialName) {
 		return get(aMaterialName).mMaterialInto;
 	}
 
@@ -1464,7 +1464,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * @param aConfiguration
 	 */
 	public static void init(GT_Config aConfiguration) {
-		for (Materials tMaterial : VALUES) {
+		for (MaterialsOld tMaterial : VALUES) {
 			String tString = tMaterial.toString().toLowerCase();
 			tMaterial.mHeatDamage = (float) aConfiguration.get(ConfigCategories.Materials.heatdamage, tString, tMaterial.mHeatDamage);
 			if (tMaterial.mBlastFurnaceRequired)
@@ -1541,7 +1541,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * Adds an ItemStack to this Material.
 	 */
-	public Materials add(ItemStack aStack) {
+	public MaterialsOld add(ItemStack aStack) {
 		if (aStack != null && !contains(aStack)) mMaterialItems.add(aStack);
 		return this;
 	}
@@ -1603,26 +1603,26 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * Sets the Heat Damage for this Material (negative = frost)
 	 */
-	public Materials setHeatDamage(float aHeatDamage) {
+	public MaterialsOld setHeatDamage(float aHeatDamage) {
 		mHeatDamage = aHeatDamage;
 		return this;
 	}
 
 	/**
 	 * Adds a Material to the List of Byproducts when grinding this Ore.
-	 * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of Materials.
+	 * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of MaterialsOld.
 	 */
-	public Materials addOreByProduct(Materials aMaterial) {
+	public MaterialsOld addOreByProduct(MaterialsOld aMaterial) {
 		if (!mOreByProducts.contains(aMaterial.mMaterialInto)) mOreByProducts.add(aMaterial.mMaterialInto);
 		return this;
 	}
 
 	/**
-	 * Adds multiple Materials to the List of Byproducts when grinding this Ore.
-	 * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of Materials.
+	 * Adds multiple MaterialsOld to the List of Byproducts when grinding this Ore.
+	 * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of MaterialsOld.
 	 */
-	public Materials addOreByProducts(Materials... aMaterials) {
-		for (Materials tMaterial : aMaterials) if (tMaterial != null) addOreByProduct(tMaterial);
+	public MaterialsOld addOreByProducts(MaterialsOld... aMaterials) {
+		for (MaterialsOld tMaterial : aMaterials) if (tMaterial != null) addOreByProduct(tMaterial);
 		return this;
 	}
 
@@ -1630,7 +1630,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * If this Ore gives multiple drops of its Main Material.
 	 * Lapis Ore for example gives about 6 drops.
 	 */
-	public Materials setOreMultiplier(int aOreMultiplier) {
+	public MaterialsOld setOreMultiplier(int aOreMultiplier) {
 		if (aOreMultiplier > 0) mOreMultiplier = aOreMultiplier;
 		return this;
 	}
@@ -1638,7 +1638,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * If this Ore gives multiple drops of its Byproduct Material.
 	 */
-	public Materials setByProductMultiplier(int aByProductMultiplier) {
+	public MaterialsOld setByProductMultiplier(int aByProductMultiplier) {
 		if (aByProductMultiplier > 0) mByProductMultiplier = aByProductMultiplier;
 		return this;
 	}
@@ -1647,7 +1647,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * If this Ore gives multiple drops of its Main Material.
 	 * Lapis Ore for example gives about 6 drops.
 	 */
-	public Materials setSmeltingMultiplier(int aSmeltingMultiplier) {
+	public MaterialsOld setSmeltingMultiplier(int aSmeltingMultiplier) {
 		if (aSmeltingMultiplier > 0) mSmeltingMultiplier = aSmeltingMultiplier;
 		return this;
 	}
@@ -1655,7 +1655,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * This Ore should be smolten directly into an Ingot of this Material instead of an Ingot of itself.
 	 */
-	public Materials setDirectSmelting(Materials aMaterial) {
+	public MaterialsOld setDirectSmelting(MaterialsOld aMaterial) {
 		if (aMaterial != null) mDirectSmelting = aMaterial.mMaterialInto.mDirectSmelting;
 		return this;
 	}
@@ -1664,7 +1664,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	 * This Material should be the Main Material this Ore gets ground into.
 	 * Example, Chromite giving Chrome or Tungstate giving Tungsten.
 	 */
-	public Materials setOreReplacement(Materials aMaterial) {
+	public MaterialsOld setOreReplacement(MaterialsOld aMaterial) {
 		if (aMaterial != null) mOreReplacement = aMaterial.mMaterialInto.mOreReplacement;
 		return this;
 	}
@@ -1672,7 +1672,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * This Material smelts always into an instance of aMaterial. Used for Magnets.
 	 */
-	public Materials setSmeltingInto(Materials aMaterial) {
+	public MaterialsOld setSmeltingInto(MaterialsOld aMaterial) {
 		if (aMaterial != null) mSmeltInto = aMaterial.mMaterialInto.mSmeltInto;
 		return this;
 	}
@@ -1680,7 +1680,7 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * This Material arc smelts always into an instance of aMaterial. Used for Wrought Iron.
 	 */
-	public Materials setArcSmeltingInto(Materials aMaterial) {
+	public MaterialsOld setArcSmeltingInto(MaterialsOld aMaterial) {
 		if (aMaterial != null) mArcSmeltInto = aMaterial.mMaterialInto.mArcSmeltInto;
 		return this;
 	}
@@ -1688,18 +1688,18 @@ public enum Materials implements IColorModulationContainer, ISubTagContainer {
 	/**
 	 * This Material macerates always into an instance of aMaterial.
 	 */
-	public Materials setMaceratingInto(Materials aMaterial) {
+	public MaterialsOld setMaceratingInto(MaterialsOld aMaterial) {
 		if (aMaterial != null) mMacerateInto = aMaterial.mMaterialInto.mMacerateInto;
 		return this;
 	}
 
-	public Materials setEnchantmentForTools(Enchantment aEnchantment, int aEnchantmentLevel) {
+	public MaterialsOld setEnchantmentForTools(Enchantment aEnchantment, int aEnchantmentLevel) {
 		mEnchantmentTools = aEnchantment;
 		mEnchantmentToolsLevel = (byte) aEnchantmentLevel;
 		return this;
 	}
 
-	public Materials setEnchantmentForArmors(Enchantment aEnchantment, int aEnchantmentLevel) {
+	public MaterialsOld setEnchantmentForArmors(Enchantment aEnchantment, int aEnchantmentLevel) {
 		mEnchantmentArmors = aEnchantment;
 		mEnchantmentArmorsLevel = (byte) aEnchantmentLevel;
 		return this;

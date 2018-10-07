@@ -1,7 +1,7 @@
 package gregtech.api.items;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
@@ -30,7 +30,7 @@ public class GT_Spray_Ice_Item extends GT_Tool_Item {
 		setEntityHitSound(GregTech_API.sSoundList.get(102));
 		setUsageAmounts(4, 16, 1);*/
 
-        for (Object tName : Arrays.asList(OrePrefixes.bucket.get(Materials.Water), OrePrefixes.cell.get(Materials.Water), OrePrefixes.capsule.get(Materials.Water))) {
+        for (Object tName : Arrays.asList(OrePrefixes.bucket.get(MaterialsOld.Water), OrePrefixes.cell.get(MaterialsOld.Water), OrePrefixes.capsule.get(MaterialsOld.Water))) {
             GT_ModHandler.addShapelessCraftingRecipe(new ItemStack(Blocks.ice, 1, 0), new Object[]{new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE), tName});
         }
     }

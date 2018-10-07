@@ -3,7 +3,7 @@ package gregtech.api.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.util.GT_LanguageManager;
@@ -50,7 +50,7 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
         for (int i = 0; i < GregTech_API.sGeneratedMaterials.length; i++) {
             OrePrefixes tPrefix = mPrefix;
             if (tPrefix == null) continue;
-            Materials tMaterial = GregTech_API.sGeneratedMaterials[i];
+            MaterialsOld tMaterial = GregTech_API.sGeneratedMaterials[i];
             if (tMaterial == null) continue;
             if (mPrefix.doGenerateItem(tMaterial)) {
                 ItemStack tStack = new ItemStack(this, 1, i);
@@ -75,7 +75,7 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
      * @param aMetaData a Index from [0 - 31999]
      * @return the Localized Name when default LangFiles are used.
      */
-    public String getDefaultLocalization(OrePrefixes aPrefix, Materials aMaterial, int aMetaData) {
+    public String getDefaultLocalization(OrePrefixes aPrefix, MaterialsOld aMaterial, int aMetaData) {
         return aPrefix.getDefaultLocalNameForItem(aMaterial);
     }
 
@@ -85,18 +85,18 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
      * @param aDoShowAllItems this is the Configuration Setting of the User, if he wants to see all the Stuff like Tiny Dusts or Crushed Ores as well.
      * @return if this Item should be visible in NEI or Creative
      */
-    public boolean doesShowInCreative(OrePrefixes aPrefix, Materials aMaterial, boolean aDoShowAllItems) {
+    public boolean doesShowInCreative(OrePrefixes aPrefix, MaterialsOld aMaterial, boolean aDoShowAllItems) {
         return true;
     }
 
     /**
      * @return the name of the Item to be registered at the OreDict.
      */
-    public String getOreDictString(OrePrefixes aPrefix, Materials aMaterial) {
+    public String getOreDictString(OrePrefixes aPrefix, MaterialsOld aMaterial) {
         return aPrefix.get(aMaterial).toString();
     }
 
-    public IIconContainer getIconContainer(int aMetaData, Materials aMaterial) {
+    public IIconContainer getIconContainer(int aMetaData, MaterialsOld aMaterial) {
         return aMaterial.mIconSet.mTextures[mIconSetIndex];
     }
 	
@@ -106,8 +106,8 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
     public ItemStack getContainerItem(ItemStack aStack) {
         int aMetaData = aStack.getItemDamage();
         if (aMetaData < GregTech_API.sGeneratedMaterials.length && aMetaData >= 0) {
-            Materials aMaterial = GregTech_API.sGeneratedMaterials[aMetaData];
-            if (aMaterial != null && aMaterial != Materials.Empty && aMaterial != Materials._NULL) {
+            MaterialsOld aMaterial = GregTech_API.sGeneratedMaterials[aMetaData];
+            if (aMaterial != null && aMaterial != MaterialsOld.Empty && aMaterial != MaterialsOld._NULL) {
                 return GT_Utility.copyAmount(1, mPrefix.mContainerItem);
             }
         }
@@ -117,7 +117,7 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
     @Override
     public short[] getRGBa(ItemStack aStack) {
         int aMetaData = getDamage(aStack);
-        return aMetaData < GregTech_API.sGeneratedMaterials.length && GregTech_API.sGeneratedMaterials[aMetaData] != null ? GregTech_API.sGeneratedMaterials[aMetaData].mRGBa : Materials._NULL.mRGBa;
+        return aMetaData < GregTech_API.sGeneratedMaterials.length && GregTech_API.sGeneratedMaterials[aMetaData] != null ? GregTech_API.sGeneratedMaterials[aMetaData].mRGBa : MaterialsOld._NULL.mRGBa;
     }
 
     @Override
@@ -141,7 +141,7 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
     public final IIcon getIconFromDamage(int aMetaData) {
         if (aMetaData < 0) return null;
         if (aMetaData < GregTech_API.sGeneratedMaterials.length) {
-            Materials tMaterial = GregTech_API.sGeneratedMaterials[aMetaData];
+            MaterialsOld tMaterial = GregTech_API.sGeneratedMaterials[aMetaData];
             if (tMaterial == null) return null;
             IIconContainer tIcon = getIconContainer(aMetaData, tMaterial);
             if (tIcon != null) return tIcon.getIcon();

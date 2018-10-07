@@ -1,6 +1,6 @@
 package gregtech.api.interfaces.tileentity;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 
 /**
  * Informative Class for Cables. Not used for now.
@@ -29,12 +29,12 @@ public interface IEnergyConductor extends IEnergyConnected {
     long getLossPerMeter();
 
     /**
-     * @return the Material the Cable consists of. (may return Materials._NULL)
+     * @return the Material the Cable consists of. (may return MaterialsOld._NULL)
      */
-    Materials getCableMaterial();
+    MaterialsOld getCableMaterial();
 
     /**
-     * @return the Material the Cable Insulation consists of. (may return Materials._NULL)
+     * @return the Material the Cable Insulation consists of. (may return MaterialsOld._NULL)
      */
-    Materials getInsulationMaterial();
+    MaterialsOld getInsulationMaterial();
 }

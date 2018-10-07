@@ -5,7 +5,7 @@ import forestry.api.genetics.IIndividual;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -45,7 +45,7 @@ public class GT_MetaTileEntity_Scanner
         if (getOutputAt(0) != null) {
             this.mOutputBlocked += 1;
         } else if ((GT_Utility.isStackValid(aStack)) && (aStack.stackSize > 0)) {
-            if ((getFillableStack() != null) && (getFillableStack().containsFluid(Materials.Honey.getFluid(100L)))) {
+            if ((getFillableStack() != null) && (getFillableStack().containsFluid(MaterialsOld.Honey.getFluid(100L)))) {
                 try {
                     Object tIndividual = AlleleManager.alleleRegistry.getIndividual(aStack);
                     if (tIndividual != null) {
@@ -99,7 +99,7 @@ public class GT_MetaTileEntity_Scanner
                     return 2;
                 }
                 ItemData tData = GT_OreDictUnificator.getAssociation(aStack);
-                if ((tData != null) && ((tData.mPrefix == OrePrefixes.dust) || (tData.mPrefix == OrePrefixes.cell)) && (tData.mMaterial.mMaterial.mElement != null) && (!tData.mMaterial.mMaterial.mElement.mIsIsotope) && (tData.mMaterial.mMaterial != Materials.Magic) && (tData.mMaterial.mMaterial.getMass() > 0L)) {
+                if ((tData != null) && ((tData.mPrefix == OrePrefixes.dust) || (tData.mPrefix == OrePrefixes.cell)) && (tData.mMaterial.mMaterial.mElement != null) && (!tData.mMaterial.mMaterial.mElement.mIsIsotope) && (tData.mMaterial.mMaterial != MaterialsOld.Magic) && (tData.mMaterial.mMaterial.getMass() > 0L)) {
                     getSpecialSlot().stackSize -= 1;
                     aStack.stackSize -= 1;
 

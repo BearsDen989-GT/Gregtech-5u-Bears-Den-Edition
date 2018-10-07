@@ -3,7 +3,7 @@ package gregtech.api.metatileentity.implementations;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.enums.Textures;
@@ -42,7 +42,7 @@ import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
 public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     public final float mThickNess;
-    public final Materials mMaterial;
+    public final MaterialsOld mMaterial;
     public final int mCapacity, mHeatResistance, mPipeAmount;
     public final boolean mGasProof;
     public final FluidStack[] mFluids;
@@ -52,11 +52,11 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
      */
     public byte mDisableInput = 0;
 
-    public GT_MetaPipeEntity_Fluid(int aID, String aName, String aNameRegional, float aThickNess, Materials aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof) {
+    public GT_MetaPipeEntity_Fluid(int aID, String aName, String aNameRegional, float aThickNess, MaterialsOld aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof) {
         this(aID, aName, aNameRegional, aThickNess, aMaterial, aCapacity, aHeatResistance, aGasProof, 1);
     }
 
-    public GT_MetaPipeEntity_Fluid(int aID, String aName, String aNameRegional, float aThickNess, Materials aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof, int aFluidTypes) {
+    public GT_MetaPipeEntity_Fluid(int aID, String aName, String aNameRegional, float aThickNess, MaterialsOld aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof, int aFluidTypes) {
     	super(aID, aName, aNameRegional, 0);
         mThickNess = aThickNess;
         mMaterial = aMaterial;
@@ -68,11 +68,11 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
 
     }
 
-    public GT_MetaPipeEntity_Fluid(String aName, float aThickNess, Materials aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof) {
+    public GT_MetaPipeEntity_Fluid(String aName, float aThickNess, MaterialsOld aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof) {
         this(aName, aThickNess, aMaterial, aCapacity, aHeatResistance, aGasProof, 1);
     }
 
-    public GT_MetaPipeEntity_Fluid(String aName, float aThickNess, Materials aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof, int aFluidTypes) {
+    public GT_MetaPipeEntity_Fluid(String aName, float aThickNess, MaterialsOld aMaterial, int aCapacity, int aHeatResistance, boolean aGasProof, int aFluidTypes) {
         super(aName, 0);
         mThickNess = aThickNess;
         mMaterial = aMaterial;
@@ -110,7 +110,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
         return new ITexture[]{aConnected ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex) : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa)), getRestrictorTexture(tMask)};
     }
 
-    protected static final ITexture getBaseTexture(float aThickNess, int aPipeAmount, Materials aMaterial, byte aColorIndex) {
+    protected static final ITexture getBaseTexture(float aThickNess, int aPipeAmount, MaterialsOld aMaterial, byte aColorIndex) {
     	if (aPipeAmount >= 9) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipeNonuple.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
     	if (aPipeAmount >= 4) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipeQuadruple.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
     	if (aThickNess < 0.124F) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));

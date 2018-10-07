@@ -7,7 +7,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.ITurnable;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
@@ -89,24 +89,24 @@ public class GT_Client extends GT_Proxy
         mAnimationDirection = false;
         isFirstClientPlayerTick = true;
         mMessage = EMPTY_STRING;
-        mPosR = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone);
-        mPosG = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth);
-        mPosB = Arrays.asList( /**Materials.ChargedCertusQuartz, **/Materials.Enderium, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
-                Materials.InfusedWater, Materials.Thaumium);
-        mNegR = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
-        mNegG = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
-        mNegB = Arrays.asList(Materials.InfusedEntropy, Materials.NetherStar);
-        mMoltenPosR = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.Thaumium, Materials.InfusedVis, Materials.InfusedAir, Materials.InfusedFire, Materials.FierySteel, Materials.Firestone);
-        mMoltenPosG = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder,
-                Materials.Pyrotheum, Materials.Sunnarium, Materials.Glowstone, Materials.InfusedAir, Materials.InfusedEarth);
-        mMoltenPosB = Arrays.asList(Materials.Enderium, Materials.NetherStar, Materials.Vinteum, Materials.Uranium235, Materials.InfusedGold, Materials.Plutonium241, Materials.NaquadahEnriched, Materials.Naquadria, Materials.InfusedOrder, Materials.InfusedVis,
-                Materials.InfusedWater, Materials.Thaumium);
-        mMoltenNegR = Arrays.asList(Materials.InfusedEntropy);
-        mMoltenNegG = Arrays.asList(Materials.InfusedEntropy);
-        mMoltenNegB = Arrays.asList(Materials.InfusedEntropy);
+        mPosR = Arrays.asList( /**MaterialsOld.ChargedCertusQuartz, **/MaterialsOld.Enderium, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder,
+                MaterialsOld.Pyrotheum, MaterialsOld.Sunnarium, MaterialsOld.Glowstone, MaterialsOld.Thaumium, MaterialsOld.InfusedVis, MaterialsOld.InfusedAir, MaterialsOld.InfusedFire, MaterialsOld.FierySteel, MaterialsOld.Firestone);
+        mPosG = Arrays.asList( /**MaterialsOld.ChargedCertusQuartz, **/MaterialsOld.Enderium, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder,
+                MaterialsOld.Pyrotheum, MaterialsOld.Sunnarium, MaterialsOld.Glowstone, MaterialsOld.InfusedAir, MaterialsOld.InfusedEarth);
+        mPosB = Arrays.asList( /**MaterialsOld.ChargedCertusQuartz, **/MaterialsOld.Enderium, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder, MaterialsOld.InfusedVis,
+                MaterialsOld.InfusedWater, MaterialsOld.Thaumium);
+        mNegR = Arrays.asList(MaterialsOld.InfusedEntropy, MaterialsOld.NetherStar);
+        mNegG = Arrays.asList(MaterialsOld.InfusedEntropy, MaterialsOld.NetherStar);
+        mNegB = Arrays.asList(MaterialsOld.InfusedEntropy, MaterialsOld.NetherStar);
+        mMoltenPosR = Arrays.asList(MaterialsOld.Enderium, MaterialsOld.NetherStar, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder,
+                MaterialsOld.Pyrotheum, MaterialsOld.Sunnarium, MaterialsOld.Glowstone, MaterialsOld.Thaumium, MaterialsOld.InfusedVis, MaterialsOld.InfusedAir, MaterialsOld.InfusedFire, MaterialsOld.FierySteel, MaterialsOld.Firestone);
+        mMoltenPosG = Arrays.asList(MaterialsOld.Enderium, MaterialsOld.NetherStar, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder,
+                MaterialsOld.Pyrotheum, MaterialsOld.Sunnarium, MaterialsOld.Glowstone, MaterialsOld.InfusedAir, MaterialsOld.InfusedEarth);
+        mMoltenPosB = Arrays.asList(MaterialsOld.Enderium, MaterialsOld.NetherStar, MaterialsOld.Vinteum, MaterialsOld.Uranium235, MaterialsOld.InfusedGold, MaterialsOld.Plutonium241, MaterialsOld.NaquadahEnriched, MaterialsOld.Naquadria, MaterialsOld.InfusedOrder, MaterialsOld.InfusedVis,
+                MaterialsOld.InfusedWater, MaterialsOld.Thaumium);
+        mMoltenNegR = Arrays.asList(MaterialsOld.InfusedEntropy);
+        mMoltenNegG = Arrays.asList(MaterialsOld.InfusedEntropy);
+        mMoltenNegB = Arrays.asList(MaterialsOld.InfusedEntropy);
     }
 
     private static void drawGrid(DrawBlockHighlightEvent aEvent) {
@@ -331,82 +331,82 @@ public class GT_Client extends GT_Proxy
                 mAnimationDirection = !mAnimationDirection;
             int tDirection = mAnimationDirection ? 1 : -1;
             for (Iterator i$ = mPosR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[0] += tDirection;
             }
 
             for (Iterator i$ = mPosG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[1] += tDirection;
             }
 
             for (Iterator i$ = mPosB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[2] += tDirection;
             }
 
             for (Iterator i$ = mPosA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[3] += tDirection;
             }
 
             for (Iterator i$ = mNegR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[0] -= tDirection;
             }
 
             for (Iterator i$ = mNegG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[1] -= tDirection;
             }
 
             for (Iterator i$ = mNegB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[2] -= tDirection;
             }
 
             for (Iterator i$ = mNegA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mRGBa[3] -= tDirection;
             }
 
             for (Iterator i$ = mMoltenPosR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[0] += tDirection;
             }
 
             for (Iterator i$ = mMoltenPosG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[1] += tDirection;
             }
 
             for (Iterator i$ = mMoltenPosB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[2] += tDirection;
             }
 
             for (Iterator i$ = mMoltenPosA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[3] += tDirection;
             }
 
             for (Iterator i$ = mMoltenNegR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[0] -= tDirection;
             }
 
             for (Iterator i$ = mMoltenNegG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[1] -= tDirection;
             }
 
             for (Iterator i$ = mMoltenNegB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[2] -= tDirection;
             }
 
             for (Iterator i$ = mMoltenNegA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
+                MaterialsOld tMaterial = (MaterialsOld) i$.next();
                 tMaterial.mMoltenRGBa[3] -= tDirection;
             }
 

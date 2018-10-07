@@ -2,7 +2,7 @@ package gregtech.api.metatileentity.implementations;
 
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.interfaces.ITexture;
@@ -19,9 +19,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import static gregtech.api.enums.GT_Values.RECIPE_ADDER_INSTANCE;
 
 public class GT_MetaPipeEntity_Frame extends MetaPipeEntity {
-    public final Materials mMaterial;
+    public final MaterialsOld mMaterial;
 
-    public GT_MetaPipeEntity_Frame(int aID, String aName, String aNameRegional, Materials aMaterial) {
+    public GT_MetaPipeEntity_Frame(int aID, String aName, String aNameRegional, MaterialsOld aMaterial) {
         super(aID, aName, aNameRegional, 0);
         mMaterial = aMaterial;
 
@@ -30,7 +30,7 @@ public class GT_MetaPipeEntity_Frame extends MetaPipeEntity {
         RECIPE_ADDER_INSTANCE.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.stick, aMaterial, 4), ItemList.Circuit_Integrated.getWithDamage(0, 4), getStackForm(1), 64, 8);
     }
 
-    public GT_MetaPipeEntity_Frame(String aName, Materials aMaterial) {
+    public GT_MetaPipeEntity_Frame(String aName, MaterialsOld aMaterial) {
         super(aName, 0);
         mMaterial = aMaterial;
     }

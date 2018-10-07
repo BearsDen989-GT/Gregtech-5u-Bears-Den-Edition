@@ -1,7 +1,7 @@
 package gregtech.api.metatileentity.implementations;
 
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.enums.Tier;
@@ -86,19 +86,19 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Steel);
+                            aRecipe[i] = OrePrefixes.plate.get(MaterialsOld.Steel);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Aluminium);
+                            aRecipe[i] = OrePrefixes.plate.get(MaterialsOld.Aluminium);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.StainlessSteel);
+                            aRecipe[i] = OrePrefixes.plate.get(MaterialsOld.StainlessSteel);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Titanium);
+                            aRecipe[i] = OrePrefixes.plate.get(MaterialsOld.Titanium);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.plate.get(MaterialsOld.TungstenSteel);
                             break;
                     }
                     continue;
@@ -108,19 +108,19 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Bronze);
+                            aRecipe[i] = OrePrefixes.pipeMedium.get(MaterialsOld.Bronze);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Steel);
+                            aRecipe[i] = OrePrefixes.pipeMedium.get(MaterialsOld.Steel);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.StainlessSteel);
+                            aRecipe[i] = OrePrefixes.pipeMedium.get(MaterialsOld.StainlessSteel);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Titanium);
+                            aRecipe[i] = OrePrefixes.pipeMedium.get(MaterialsOld.Titanium);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.pipeMedium.get(MaterialsOld.TungstenSteel);
                             break;
                     }
                     continue;
@@ -130,19 +130,19 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.AnyCopper);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.AnyCopper);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Cupronickel);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.Cupronickel);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Kanthal);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.Kanthal);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Nichrome);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.Nichrome);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.Nichrome);
+                            aRecipe[i] = OrePrefixes.wireGt08.get(MaterialsOld.Nichrome);
                             break;
                     }
                     continue;
@@ -152,19 +152,19 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.AnyCopper);
+                            aRecipe[i] = OrePrefixes.wireGt04.get(MaterialsOld.AnyCopper);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Cupronickel);
+                            aRecipe[i] = OrePrefixes.wireGt04.get(MaterialsOld.Cupronickel);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Kanthal);
+                            aRecipe[i] = OrePrefixes.wireGt04.get(MaterialsOld.Kanthal);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Nichrome);
+                            aRecipe[i] = OrePrefixes.wireGt04.get(MaterialsOld.Nichrome);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.wireGt16.get(Materials.Nichrome);
+                            aRecipe[i] = OrePrefixes.wireGt16.get(MaterialsOld.Nichrome);
                             break;
                     }
                     continue;
@@ -173,7 +173,7 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                 if (aRecipe[i] == X.STICK_DISTILLATION) {
                     switch (mTier) {
                         default:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Blaze);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.Blaze);
                             break;
                     }
                     continue;
@@ -183,14 +183,14 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.IronMagnetic);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.IronMagnetic);
                             break;
                         case 2:
                         case 3:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.SteelMagnetic);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.SteelMagnetic);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.NeodymiumMagnetic);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.NeodymiumMagnetic);
                             break;
                     }
                     continue;
@@ -200,17 +200,17 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.AnyIron);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.AnyIron);
                             break;
                         case 2:
                         case 3:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Steel);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.Steel);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Neodymium);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.Neodymium);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.VanadiumGallium);
+                            aRecipe[i] = OrePrefixes.stick.get(MaterialsOld.VanadiumGallium);
                             break;
                     }
                     continue;
@@ -219,22 +219,22 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                 if (aRecipe[i] == X.COIL_ELECTRIC) {
                     switch (mTier) {
                         case 0:
-                            aRecipe[i] = OrePrefixes.wireGt01.get(Materials.Tin);
+                            aRecipe[i] = OrePrefixes.wireGt01.get(MaterialsOld.Tin);
                             break;
                         case 1:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Tin);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.Tin);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.AnyCopper);
+                            aRecipe[i] = OrePrefixes.wireGt02.get(MaterialsOld.AnyCopper);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.AnyCopper);
+                            aRecipe[i] = OrePrefixes.wireGt04.get(MaterialsOld.AnyCopper);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.AnnealedCopper);
+                            aRecipe[i] = OrePrefixes.wireGt08.get(MaterialsOld.AnnealedCopper);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.wireGt16.get(Materials.AnnealedCopper);
+                            aRecipe[i] = OrePrefixes.wireGt16.get(MaterialsOld.AnnealedCopper);
                             break;
                     }
                     continue;
@@ -306,28 +306,28 @@ public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_
                     switch (mTier) {
                         case 0:
                         case 1:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Tin);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.Tin);
                             break;
                         case 2:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Bronze);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.Bronze);
                             break;
                         case 3:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Steel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.Steel);
                             break;
                         case 4:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.StainlessSteel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.StainlessSteel);
                             break;
                         case 5:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.TungstenSteel);
                             break;
                         case 6:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.TungstenSteel);
                             break;
                         case 7:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.TungstenSteel);
                             break;
                         default:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.TungstenSteel);
+                            aRecipe[i] = OrePrefixes.rotor.get(MaterialsOld.TungstenSteel);
                             break;
                     }
                     continue;

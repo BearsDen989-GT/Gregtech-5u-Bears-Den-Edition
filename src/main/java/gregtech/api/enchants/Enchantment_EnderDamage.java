@@ -1,7 +1,7 @@
 package gregtech.api.enchants;
 
 import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.util.GT_Config;
 import gregtech.api.util.GT_LanguageManager;
 import net.minecraft.enchantment.EnchantmentDamage;
@@ -18,11 +18,11 @@ public class Enchantment_EnderDamage extends EnchantmentDamage {
     public Enchantment_EnderDamage() {
         super(GT_Config.addIDConfig(ConfigCategories.IDs.enchantments, "Disjunction", 15), 2, -1);
         GT_LanguageManager.addStringLocalization(getName(), "Disjunction");
-        Materials.Silver.setEnchantmentForTools(this, 2);
-        Materials.Mercury.setEnchantmentForTools(this, 3);
-        Materials.Electrum.setEnchantmentForTools(this, 3);
-        Materials.SterlingSilver.setEnchantmentForTools(this, 4);
-        Materials.AstralSilver.setEnchantmentForTools(this, 5);
+        MaterialsOld.Silver.setEnchantmentForTools(this, 2);
+        MaterialsOld.Mercury.setEnchantmentForTools(this, 3);
+        MaterialsOld.Electrum.setEnchantmentForTools(this, 3);
+        MaterialsOld.SterlingSilver.setEnchantmentForTools(this, 4);
+        MaterialsOld.AstralSilver.setEnchantmentForTools(this, 5);
         INSTANCE = this;
     }
 

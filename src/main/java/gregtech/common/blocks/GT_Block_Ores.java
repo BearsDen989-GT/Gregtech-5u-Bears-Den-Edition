@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.items.GT_Generic_Block;
 import gregtech.api.util.GT_LanguageManager;
@@ -110,7 +110,7 @@ public class GT_Block_Ores
         FUCKING_LOCK = false;
     }
 
-    public String getLocalizedName(Materials aMaterial) {
+    public String getLocalizedName(MaterialsOld aMaterial) {
         switch (aMaterial) {
             case InfusedAir:
             case InfusedDull:
@@ -253,7 +253,7 @@ public class GT_Block_Ores
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item aItem, CreativeTabs aTab, List aList) {
         for (int i = 0; i < GregTech_API.sGeneratedMaterials.length; i++) {
-            Materials tMaterial = GregTech_API.sGeneratedMaterials[i];
+            MaterialsOld tMaterial = GregTech_API.sGeneratedMaterials[i];
             if ((tMaterial != null) && ((tMaterial.mTypes & 0x8) != 0)) {
                 aList.add(new ItemStack(aItem, 1, i));
                 aList.add(new ItemStack(aItem, 1, i + 1000));

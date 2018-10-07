@@ -1,6 +1,6 @@
 package gregtech.common.covers;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.IMachineProgress;
 import gregtech.api.util.GT_CoverBehavior;
@@ -30,15 +30,15 @@ extends GT_CoverBehavior {
 						(aTileEntity.getWorld().getPrecipitationHeight(aTileEntity.getXCoord(), aTileEntity.getZCoord()) - 2 < aTileEntity.getYCoord())) {
 					int tAmount = (int) (aTileEntity.getBiome().rainfall * 100.0F);
 					if (tAmount > 0) {
-						((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Water.getFluid(aTileEntity.getWorld().isThundering() ? tAmount * 2 : tAmount), true);
+						((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), MaterialsOld.Water.getFluid(aTileEntity.getWorld().isThundering() ? tAmount * 2 : tAmount), true);
 					}
 				}
 				FluidStack tLiquid = null;
 				if (tBlock != null) {
 					if (((tBlock == Blocks.water) || (tBlock == Blocks.flowing_water)) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
-						tLiquid = Materials.Water.getFluid(1000L);
+						tLiquid = MaterialsOld.Water.getFluid(1000L);
 					} else if (((tBlock == Blocks.lava) || (tBlock == Blocks.flowing_lava)) && (aTileEntity.getMetaIDAtSide(aSide) == 0)) {
-						tLiquid = Materials.Lava.getFluid(1000L);
+						tLiquid = MaterialsOld.Lava.getFluid(1000L);
 					} else if ((tBlock instanceof IFluidBlock)) {
 						tLiquid = ((IFluidBlock) tBlock).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
 					}

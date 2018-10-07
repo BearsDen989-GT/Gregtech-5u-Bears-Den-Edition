@@ -1,6 +1,6 @@
 package gregtech.api.objects;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.OrePrefixes;
 import net.minecraft.item.ItemStack;
 
@@ -22,14 +22,14 @@ public class ItemData {
     public boolean mBlackListed = false;
     public ItemStack mUnificationTarget = null;
 
-    public ItemData(OrePrefixes aPrefix, Materials aMaterial, boolean aBlackListed) {
+    public ItemData(OrePrefixes aPrefix, MaterialsOld aMaterial, boolean aBlackListed) {
         mPrefix = aPrefix;
         mMaterial = aMaterial == null ? null : new MaterialStack(aMaterial, aPrefix.mMaterialAmount);
         mBlackListed = aBlackListed;
         mByProducts = aPrefix.mSecondaryMaterial == null || aPrefix.mSecondaryMaterial.mMaterial == null ? EMPTY_MATERIALSTACK_ARRAY : new MaterialStack[]{aPrefix.mSecondaryMaterial.clone()};
     }
 
-    public ItemData(OrePrefixes aPrefix, Materials aMaterial) {
+    public ItemData(OrePrefixes aPrefix, MaterialsOld aMaterial) {
         this(aPrefix, aMaterial, false);
     }
 
@@ -50,11 +50,11 @@ public class ItemData {
         }
     }
 
-    public ItemData(Materials aMaterial, long aAmount, MaterialStack... aByProducts) {
+    public ItemData(MaterialsOld aMaterial, long aAmount, MaterialStack... aByProducts) {
         this(new MaterialStack(aMaterial, aAmount), aByProducts);
     }
 
-    public ItemData(Materials aMaterial, long aAmount, Materials aByProduct, long aByProductAmount) {
+    public ItemData(MaterialsOld aMaterial, long aAmount, MaterialsOld aByProduct, long aByProductAmount) {
         this(new MaterialStack(aMaterial, aAmount), new MaterialStack(aByProduct, aByProductAmount));
     }
 

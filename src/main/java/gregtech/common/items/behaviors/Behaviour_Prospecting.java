@@ -1,7 +1,7 @@
 package gregtech.common.items.behaviors;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.items.GT_MetaBase_Item;
 import gregtech.api.items.GT_MetaGenerated_Tool;
 import gregtech.api.objects.ItemData;
@@ -99,8 +99,8 @@ public class Behaviour_Prospecting
                     if ((tBlock instanceof GT_Block_Ores)) {
                         TileEntity tTileEntity = aWorld.getTileEntity(tX, tY, tZ);
                         if ((tTileEntity instanceof GT_TileEntity_Ores)) {
-                            MaterialsOld tMaterial = GregTech_API.sGeneratedMaterials[(((GT_TileEntity_Ores) tTileEntity).mMetaData % 1000)];
-                            if ((tMaterial != null) && (tMaterial != MaterialsOld._NULL)) {
+                            Materials tMaterial = GregTech_API.sGeneratedMaterials[(((GT_TileEntity_Ores) tTileEntity).mMetaData % 1000)];
+                            if ((tMaterial != null) && (tMaterial != Materials._NULL)) {
                                 GT_Utility.sendChatToPlayer(aPlayer, "Found traces of " + tMaterial.mDefaultLocalName + " Ore.");
                                 return true;
                             }

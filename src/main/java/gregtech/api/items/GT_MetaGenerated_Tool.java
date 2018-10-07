@@ -8,7 +8,7 @@ import crazypants.enderio.api.tool.ITool;
 import forestry.api.arboriculture.IToolGrafter;
 import gregtech.api.GregTech_API;
 import gregtech.api.enchants.Enchantment_Radioactivity;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.TC_Aspects.TC_AspectStack;
 import gregtech.api.interfaces.IDamagableItem;
 import gregtech.api.interfaces.IToolStats;
@@ -55,7 +55,7 @@ import static gregtech.api.enums.GT_Values.MOD_ID_RC;
 
 /**
  * This is an example on how you can create a Tool ItemStack, in this case a Bismuth Wrench:
- * GT_MetaGenerated_Tool.sInstances.get("gt.metatool.01").getToolWithStats(16, 1, MaterialsOld.Bismuth, MaterialsOld.Bismuth, null);
+ * GT_MetaGenerated_Tool.sInstances.get("gt.metatool.01").getToolWithStats(16, 1, Materials.Bismuth, Materials.Bismuth, null);
  */
 @InterfaceList(value = {@Interface(iface = "forestry.api.arboriculture.IToolGrafter", modid = MOD_ID_FR), @Interface(iface = "mods.railcraft.api.core.items.IToolCrowbar", modid = MOD_ID_RC), @Interface(iface = "buildcraft.api.tools.IToolWrench", modid = MOD_ID_BC), @Interface(iface = "crazypants.enderio.api.tool.ITool", modid = MOD_ID_EIO)})
 public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements IDamagableItem, IToolGrafter, IToolCrowbar, IToolWrench, ITool {
@@ -86,22 +86,22 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 
 	/* ---------- FOR ADDING CUSTOM ITEMS INTO THE REMAINING 766 RANGE ---------- */
 
-	public static final MaterialsOld getPrimaryMaterial(ItemStack aStack) {
+	public static final Materials getPrimaryMaterial(ItemStack aStack) {
 		NBTTagCompound aNBT = aStack.getTagCompound();
 		if (aNBT != null) {
 			aNBT = aNBT.getCompoundTag("GT.ToolStats");
-			if (aNBT != null) return MaterialsOld.getRealMaterial(aNBT.getString("PrimaryMaterial"));
+			if (aNBT != null) return Materials.getRealMaterial(aNBT.getString("PrimaryMaterial"));
 		}
-		return MaterialsOld._NULL;
+		return Materials._NULL;
 	}
 
-	public static final MaterialsOld getSecondaryMaterial(ItemStack aStack) {
+	public static final Materials getSecondaryMaterial(ItemStack aStack) {
 		NBTTagCompound aNBT = aStack.getTagCompound();
 		if (aNBT != null) {
 			aNBT = aNBT.getCompoundTag("GT.ToolStats");
-			if (aNBT != null) return MaterialsOld.getRealMaterial(aNBT.getString("SecondaryMaterial"));
+			if (aNBT != null) return Materials.getRealMaterial(aNBT.getString("SecondaryMaterial"));
 		}
-		return MaterialsOld._NULL;
+		return Materials._NULL;
 	}
 
 	/* ---------- INTERNAL OVERRIDES ---------- */
@@ -180,7 +180,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	 * @param aSecondaryMaterial Secondary (Rod/Handle) Material of this Tool
 	 * @param aElectricArray     The Electric Stats of this Tool (or null if not electric)
 	 */
-	public final ItemStack getToolWithStats(int aToolID, int aAmount, MaterialsOld aPrimaryMaterial, MaterialsOld aSecondaryMaterial, long[] aElectricArray) {
+	public final ItemStack getToolWithStats(int aToolID, int aAmount, Materials aPrimaryMaterial, Materials aSecondaryMaterial, long[] aElectricArray) {
 		ItemStack rStack = new ItemStack(this, aAmount, aToolID);
 		IToolStats tToolStats = getToolStats(rStack);
 		if (tToolStats != null) {
@@ -300,7 +300,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	@Override
 	public void addAdditionalToolTips(List aList, ItemStack aStack) {
 		long tMaxDamage = getToolMaxDamage(aStack);
-		MaterialsOld tMaterial = getPrimaryMaterial(aStack);
+		Materials tMaterial = getPrimaryMaterial(aStack);
 		IToolStats tStats = getToolStats(aStack);
 		int tOffset = getElectricStats(aStack) != null ? 2 : 1;
 		if (tStats != null) {
@@ -556,7 +556,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 			if (aNBT != null) aNBT.removeTag("ench");
 			return false;
 		}
-		MaterialsOld aMaterial = getPrimaryMaterial(aStack);
+		Materials aMaterial = getPrimaryMaterial(aStack);
 		HashMap<Integer, Integer> tMap = new HashMap<Integer, Integer>(), tResult = new HashMap<Integer, Integer>();
 		if (aMaterial.mEnchantmentTools != null) {
 			tMap.put(aMaterial.mEnchantmentTools.effectId, (int) aMaterial.mEnchantmentToolsLevel);

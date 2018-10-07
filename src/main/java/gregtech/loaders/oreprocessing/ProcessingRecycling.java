@@ -1,6 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
@@ -16,8 +16,8 @@ public class ProcessingRecycling implements gregtech.api.interfaces.IOreRecipeRe
                 tPrefix.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
-        if ((aMaterial != MaterialsOld.Empty) && (GT_Utility.getFluidForFilledItem(aStack, true) == null))
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+        if ((aMaterial != Materials.Empty) && (GT_Utility.getFluidForFilledItem(aStack, true) == null))
             RECIPE_ADDER_INSTANCE.addCannerRecipe(aStack, null, GT_Utility.getContainerItem(aStack, true), GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, aPrefix.mMaterialAmount / MATERIAL_UNIT), (int) Math.max(aMaterial.getMass() / 2L, 1L), 2);
     }
 }

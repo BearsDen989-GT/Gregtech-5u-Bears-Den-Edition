@@ -1,42 +1,42 @@
 package gregtech.api.objects;
 
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.MaterialsOld;
 
 import static gregtech.api.enums.GT_Values.EMPTY_STRING;
 
-public class MaterialStack {
+public class MaterialStackOld {
     public long mAmount;
-    public Materials mMaterial;
+    public MaterialsOld mMaterial;
 
-    public MaterialStack(Materials aMaterial, long aAmount) {
-        mMaterial = aMaterial == null ? Materials._NULL : aMaterial;
+    public MaterialStackOld(MaterialsOld aMaterial, long aAmount) {
+        mMaterial = aMaterial == null ? MaterialsOld._NULL : aMaterial;
         mAmount = aAmount;
     }
 
     /**
-     * {@link MaterialStack} Copy constructor
+     * {@link MaterialStackOld} Copy constructor
      * Replaces the old cloneable implementation.
-     * @param aMaterialStack {@link MaterialStack} to copy
+     * @param aMaterialStack {@link MaterialStackOld} to copy
      */
-    public MaterialStack(MaterialStack aMaterialStack) {
+    public MaterialStackOld(MaterialStackOld aMaterialStack) {
         mMaterial = aMaterialStack.mMaterial;
         mAmount = aMaterialStack.mAmount;
     }
 
-    public MaterialStack copy(long aAmount) {
-        return new MaterialStack(mMaterial, aAmount);
+    public MaterialStackOld copy(long aAmount) {
+        return new MaterialStackOld(mMaterial, aAmount);
     }
 
     @Override
     public boolean equals(Object aObject) {
         if (aObject == this) return true;
         if (aObject == null) return false;
-        if (aObject instanceof Materials) return aObject == mMaterial;
-        if (aObject instanceof MaterialStack)
-            return ((MaterialStack) aObject).mMaterial == mMaterial
+        if (aObject instanceof MaterialsOld) return aObject == mMaterial;
+        if (aObject instanceof MaterialStackOld)
+            return ((MaterialStackOld) aObject).mMaterial == mMaterial
                     && (mAmount < 0
-                        || ((MaterialStack) aObject).mAmount < 0
-                        || ((MaterialStack) aObject).mAmount == mAmount);
+                    || ((MaterialStackOld) aObject).mAmount < 0
+                    || ((MaterialStackOld) aObject).mAmount == mAmount);
         return false;
     }
 

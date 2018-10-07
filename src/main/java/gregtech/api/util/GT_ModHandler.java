@@ -5,7 +5,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OreDictNames;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.ToolDictNames;
@@ -527,7 +527,7 @@ public class GT_ModHandler {
             RECIPE_ADDER_INSTANCE.addPulveriserRecipe(aInput, new ItemStack[]{aOutput1, aOutput2, aOutput3}, new int[]{10000, aChance2 <= 0 ? 1000 : 100 * aChance2, aChance3 <= 0 ? 1000 : 100 * aChance3}, 400, 2);
 
             if (!OrePrefixes.log.contains(aInput)) {
-                if (MaterialsOld.Wood.contains(aOutput1)) {
+                if (Materials.Wood.contains(aOutput1)) {
                     if (GregTech_API.sRecipeFile.get(ConfigCategories.Machines.pulverization, aInput, true)) {
                         if (aOutput2 == null)
                             ThermalExpansion.addSawmillRecipe(32000, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1));
@@ -911,13 +911,13 @@ public class GT_ModHandler {
                 } else if (in instanceof ItemData) {
                     String tString = in.toString();
                     if (tString.equals("plankWood")) {
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Wood, MATERIAL_UNIT));
+                        tItemDataMap.put(chr, new ItemData(Materials.Wood, MATERIAL_UNIT));
                     } else if (tString.equals("stoneNetherrack")) {
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Netherrack, MATERIAL_UNIT));
+                        tItemDataMap.put(chr, new ItemData(Materials.Netherrack, MATERIAL_UNIT));
                     } else if (tString.equals("stoneObsidian")) {
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Obsidian, MATERIAL_UNIT));
+                        tItemDataMap.put(chr, new ItemData(Materials.Obsidian, MATERIAL_UNIT));
                     } else if (tString.equals("stoneEndstone")) {
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Endstone, MATERIAL_UNIT));
+                        tItemDataMap.put(chr, new ItemData(Materials.Endstone, MATERIAL_UNIT));
                     } else {
                         tItemDataMap.put(chr, (ItemData) in);
                     }
@@ -927,17 +927,17 @@ public class GT_ModHandler {
                     in = aRecipe[idx + 1] = in.toString();
                 } else if (in instanceof String) {
                     if (in.equals(OreDictNames.craftingChest.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Wood, MATERIAL_UNIT * 8));
+                        tItemDataMap.put(chr, new ItemData(Materials.Wood, MATERIAL_UNIT * 8));
                     else if (in.equals(OreDictNames.craftingBook.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Paper, MATERIAL_UNIT * 3));
+                        tItemDataMap.put(chr, new ItemData(Materials.Paper, MATERIAL_UNIT * 3));
                     else if (in.equals(OreDictNames.craftingPiston.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Stone, MATERIAL_UNIT * 4, MaterialsOld.Wood, MATERIAL_UNIT * 3));
+                        tItemDataMap.put(chr, new ItemData(Materials.Stone, MATERIAL_UNIT * 4, Materials.Wood, MATERIAL_UNIT * 3));
                     else if (in.equals(OreDictNames.craftingFurnace.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Stone, MATERIAL_UNIT * 8));
+                        tItemDataMap.put(chr, new ItemData(Materials.Stone, MATERIAL_UNIT * 8));
                     else if (in.equals(OreDictNames.craftingIndustrialDiamond.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Diamond, MATERIAL_UNIT));
+                        tItemDataMap.put(chr, new ItemData(Materials.Diamond, MATERIAL_UNIT));
                     else if (in.equals(OreDictNames.craftingAnvil.toString()))
-                        tItemDataMap.put(chr, new ItemData(MaterialsOld.Iron, MATERIAL_UNIT * 10));
+                        tItemDataMap.put(chr, new ItemData(Materials.Iron, MATERIAL_UNIT * 10));
                     ItemStack tStack = GT_OreDictUnificator.getFirstOre(in, 1);
                     if (tStack == null) tRemoveRecipe = false;
                     else tItemStackMap.put(chr, tStack);
@@ -1823,7 +1823,7 @@ public class GT_ModHandler {
             FMLInterModComms.sendMessage(MOD_ID_TE, "SmelterRecipe", toSend);
         }
 
-        public static void addSmelterBlastOre(MaterialsOld aMaterial) {
+        public static void addSmelterBlastOre(Materials aMaterial) {
             NBTTagCompound toSend = new NBTTagCompound();
             toSend.setString("oreType", aMaterial.toString());
             FMLInterModComms.sendMessage(MOD_ID_TE, "SmelterBlastOreType", toSend);

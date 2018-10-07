@@ -3,7 +3,7 @@ package gregtech.common.tileentities.machines.basic;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Element;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -40,10 +40,10 @@ public class GT_MetaTileEntity_Replicator
 
     public int checkRecipe() {
         FluidStack tFluid = getFillableStack();
-        if ((tFluid != null) && (tFluid.isFluidEqual(MaterialsOld.UUMatter.getFluid(1L)))) {
+        if ((tFluid != null) && (tFluid.isFluidEqual(Materials.UUMatter.getFluid(1L)))) {
             ItemStack tDataOrb = getSpecialSlot();
             if ((ItemList.Tool_DataOrb.isStackEqual(tDataOrb, false, true)) && (Behaviour_DataOrb.getDataTitle(tDataOrb).equals("Elemental-Scan"))) {
-                MaterialsOld tMaterial = Element.get(Behaviour_DataOrb.getDataName(tDataOrb)).mLinkedMaterials.get(0);
+                Materials tMaterial = Element.get(Behaviour_DataOrb.getDataName(tDataOrb)).mLinkedMaterials.get(0);
                 long tMass = tMaterial.getMass();
                 if ((tFluid.amount >= tMass) && (tMass > 0L)) {
                     this.mEUt = ((int) TIERED_VOLTAGES[this.mTier]);
@@ -85,14 +85,14 @@ public class GT_MetaTileEntity_Replicator
     }
 
     public boolean isFluidInputAllowed(FluidStack aFluid) {
-        return aFluid.isFluidEqual(MaterialsOld.UUMatter.getFluid(1L));
+        return aFluid.isFluidEqual(Materials.UUMatter.getFluid(1L));
     }
 
     public int getCapacity() {
         if ((sHeaviestElementMass == 0) && (GregTech_API.sPostloadFinished)) {
-            MaterialsOld tMaterial;
-            for (Iterator i$ = MaterialsOld.VALUES.iterator(); i$.hasNext(); sHeaviestElementMass = Math.max(sHeaviestElementMass, (int) tMaterial.getMass())) {
-                tMaterial = (MaterialsOld) i$.next();
+            Materials tMaterial;
+            for (Iterator i$ = Materials.VALUES.iterator(); i$.hasNext(); sHeaviestElementMass = Math.max(sHeaviestElementMass, (int) tMaterial.getMass())) {
+                tMaterial = (Materials) i$.next();
                 if ((tMaterial.mElement == null) || (tMaterial.mElement.mIsIsotope)) {
                 }
             }

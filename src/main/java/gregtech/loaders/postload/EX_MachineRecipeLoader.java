@@ -1,6 +1,6 @@
 package gregtech.loaders.postload;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.GT_OreDictUnificator;
@@ -21,9 +21,9 @@ public class EX_MachineRecipeLoader {
 	private final static void run(){
 
 		// Solid EBF Recipes
-		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Tungsten, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Tantalum, 9L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, MaterialsOld.Tantaloy60, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, MaterialsOld.DarkAsh, 1L), (int) Math.max(MaterialsOld.Tantaloy60.getMass() / 80L, 1L) * MaterialsOld.Tantaloy60.mBlastFurnaceTemp, 480, MaterialsOld.Tantaloy60.mBlastFurnaceTemp);
-		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Titanium, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Tantaloy60, 1L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, MaterialsOld.Tantaloy61, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, MaterialsOld.DarkAsh, 1L), (int) Math.max(MaterialsOld.Tantaloy61.getMass() / 80L, 1L) * MaterialsOld.Tantaloy61.mBlastFurnaceTemp, 480, MaterialsOld.Tantaloy61.mBlastFurnaceTemp);
-		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Titanium, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, MaterialsOld.Uranium, 9L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, MaterialsOld.Staballoy, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, MaterialsOld.Carbon, 1L), (int) Math.max(MaterialsOld.Staballoy.getMass() / 80L, 1L) * MaterialsOld.Staballoy.mBlastFurnaceTemp, 1000, MaterialsOld.Staballoy.mBlastFurnaceTemp);
+		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tungsten, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tantalum, 9L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, Materials.Tantaloy60, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.DarkAsh, 1L), (int) Math.max(Materials.Tantaloy60.getMass() / 80L, 1L) * Materials.Tantaloy60.mBlastFurnaceTemp, 480, Materials.Tantaloy60.mBlastFurnaceTemp);
+		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Titanium, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Tantaloy60, 1L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, Materials.Tantaloy61, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.DarkAsh, 1L), (int) Math.max(Materials.Tantaloy61.getMass() / 80L, 1L) * Materials.Tantaloy61.mBlastFurnaceTemp, 480, Materials.Tantaloy61.mBlastFurnaceTemp);
+		RECIPE_ADDER_INSTANCE.addBlastRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Titanium, 1L), GT_OreDictUnificator.get(OrePrefixes.ingot, Materials.Uranium, 9L), NULL_FLUID_STACK, NULL_FLUID_STACK, GT_OreDictUnificator.get(OrePrefixes.ingotHot, Materials.Staballoy, 1L), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Carbon, 1L), (int) Math.max(Materials.Staballoy.getMass() / 80L, 1L) * Materials.Staballoy.mBlastFurnaceTemp, 1000, Materials.Staballoy.mBlastFurnaceTemp);
 	}
 
 

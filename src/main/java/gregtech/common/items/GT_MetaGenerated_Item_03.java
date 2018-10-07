@@ -1,6 +1,6 @@
 package gregtech.common.items;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.items.GT_MetaGenerated_Item_X32;
 
@@ -13,7 +13,7 @@ public class GT_MetaGenerated_Item_03
         INSTANCE = this;
     }
 
-    public boolean doesShowInCreative(OrePrefixes aPrefix, MaterialsOld aMaterial, boolean aDoShowAllItems) {
+    public boolean doesShowInCreative(OrePrefixes aPrefix, Materials aMaterial, boolean aDoShowAllItems) {
         return aDoShowAllItems;
     }
 }

@@ -1,6 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
@@ -13,8 +13,8 @@ public class ProcessingCellPlasma implements gregtech.api.interfaces.IOreRecipeR
         OrePrefixes.cellPlasma.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
-        if (aMaterial == MaterialsOld.Empty) {
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+        if (aMaterial == Materials.Empty) {
             GT_ModHandler.removeRecipeByOutput(aStack);
         } else {
             RECIPE_ADDER_INSTANCE.addFuel(GT_Utility.copyAmount(1L, aStack), GT_Utility.getFluidForFilledItem(aStack, true) == null ? GT_Utility.getContainerItem(aStack, true) : null, (int) Math.max(1024L, 1024L * aMaterial.getMass()), 4);

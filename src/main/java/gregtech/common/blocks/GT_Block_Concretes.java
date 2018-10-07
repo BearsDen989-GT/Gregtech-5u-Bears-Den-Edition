@@ -1,6 +1,6 @@
 package gregtech.common.blocks;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_OreDictUnificator;
@@ -37,22 +37,22 @@ public class GT_Block_Concretes
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".13.name", "Mossy Light Concrete Bricks");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".14.name", "Chiseled Light Concrete");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".15.name", "Smooth Light Concrete");
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 0));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 1));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 2));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 3));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 4));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 5));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 6));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 7));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 8));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 9));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 10));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 11));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 12));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 13));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 14));
-        GT_OreDictUnificator.registerOre(OrePrefixes.stone, MaterialsOld.Concrete, new ItemStack(this, 1, 15));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 0));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 1));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 2));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 3));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 4));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 5));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 6));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 7));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 8));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 9));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 10));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 11));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 12));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 13));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 14));
+        GT_OreDictUnificator.registerOre(OrePrefixes.stone, Materials.Concrete, new ItemStack(this, 1, 15));
     }
 
     public int getHarvestLevel(int aMeta) {

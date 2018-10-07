@@ -2,6 +2,7 @@ package gregtech.api;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.MaterialsOld;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IDamagableItem;
@@ -161,7 +162,7 @@ public class GregTech_API {
     /**
      * A List containing all the MaterialsOld, which are somehow in use by GT and therefor receive a specific Set of Items.
      */
-    public static final MaterialsOld[] sGeneratedMaterials = new MaterialsOld[1000];
+    public static final Materials[] sGeneratedMaterials = new Materials[1000];
     /**
      * This is the generic Cover behavior. Used for the default Covers, which have no Behavior.
      */

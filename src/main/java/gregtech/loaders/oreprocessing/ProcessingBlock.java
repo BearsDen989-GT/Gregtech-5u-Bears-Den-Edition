@@ -3,7 +3,7 @@ package gregtech.loaders.oreprocessing;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.util.GT_ModHandler;
@@ -21,7 +21,7 @@ public class ProcessingBlock implements gregtech.api.interfaces.IOreRecipeRegist
 		OrePrefixes.block.add(this);
 	}
 
-	public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+	public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
 		RECIPE_ADDER_INSTANCE.addCutterRecipe(GT_Utility.copyAmount(1L, aStack), GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 9L), null, (int) Math.max(aMaterial.getMass() * 10L, 1L), 30);
 
 		ItemStack tStack1 = GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L);
@@ -95,16 +95,16 @@ public class ProcessingBlock implements gregtech.api.interfaces.IOreRecipeRegist
 				GT_ModHandler.addShapelessCraftingRecipe(tStack1, new Object[]{OrePrefixes.block.get(aMaterial)});
 			}
 		}
-		switch (aMaterial) {
-		case Mercury:
+		switch (aMaterial.name()) {
+		case "Mercury":
 			System.err.println("'blockQuickSilver'?, In which Ice Desert can you actually place this as a solid Block?");
 			break;
-		case Iron:
-		case WroughtIron:
+		case "Iron":
+		case "WroughtIron":
 			RECIPE_ADDER_INSTANCE.addExtruderRecipe(GT_Utility.copyAmount(1L, aStack), ItemList.Shape_Extruder_Rod.get(0L), ItemList.IC2_ShaftIron.get(1L), 640, 120);
 			RECIPE_ADDER_INSTANCE.addAssemblerRecipe(ItemList.IC2_Compressed_Coal_Ball.get(8L), GT_Utility.copyAmount(1L, aStack), ItemList.IC2_Compressed_Coal_Chunk.get(1L), 400, 4);
 			break;
-		case Steel:
+		case "Steel":
 			RECIPE_ADDER_INSTANCE.addExtruderRecipe(GT_Utility.copyAmount(1L, aStack), ItemList.Shape_Extruder_Rod.get(0L), ItemList.IC2_ShaftSteel.get(1L), 1280, 120);
 			RECIPE_ADDER_INSTANCE.addAssemblerRecipe(ItemList.IC2_Compressed_Coal_Ball.get(8L), GT_Utility.copyAmount(1L, aStack), ItemList.IC2_Compressed_Coal_Chunk.get(1L), 400, 4);
 		}

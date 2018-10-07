@@ -1,7 +1,7 @@
 package gregtech.loaders.oreprocessing;
 
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.util.GT_ModHandler;
@@ -17,7 +17,7 @@ public class ProcessingGem implements gregtech.api.interfaces.IOreRecipeRegistra
         OrePrefixes.gem.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (aMaterial.mFuelPower > 0) {
             RECIPE_ADDER_INSTANCE.addFuel(GT_Utility.copyAmount(1L, aStack), null, aMaterial.mFuelPower * 2, aMaterial.mFuelType);
         }
@@ -46,15 +46,15 @@ public class ProcessingGem implements gregtech.api.interfaces.IOreRecipeRegistra
         }
         gregtech.api.util.GT_RecipeRegistrator.registerUsagesForMaterials(GT_Utility.copyAmount(1L, aStack), OrePrefixes.plate.get(aMaterial).toString(), !aMaterial.contains(SubTag.NO_SMASHING));
 
-        switch (aMaterial) {
-            case _NULL:
+        switch (aMaterial.name()) {
+            case "_NULL":
                 break;
-            case Coal:
-            case Charcoal:
+            case "Coal":
+            case "Charcoal":
                 if (gregtech.api.GregTech_API.sRecipeFile.get(gregtech.api.enums.ConfigCategories.Recipes.disabledrecipes, "torchesFromCoal", false))
                     GT_ModHandler.removeRecipe(GT_Utility.copyAmount(1L, aStack), null, null, new ItemStack(net.minecraft.init.Items.stick, 1, 0));
                 break;
-            case CertusQuartz:
+            case "CertusQuartz":
                 RECIPE_ADDER_INSTANCE.addElectrolyzerRecipe(aStack, 0, GT_ModHandler.getModItem(MOD_ID_AE, "item.ItemMultiMaterial", 1L, 1), null, null, null, null, null, 2000, 30);
         }
     }

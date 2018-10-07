@@ -1,7 +1,7 @@
 package gregtech.common.tileentities.machines.multi;
 
 import gregtech.GT_Mod;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
@@ -151,7 +151,7 @@ public abstract class GT_MetaTileEntity_LargeBoiler
       int tGeneratedEU = (int)(this.mEUt * 2L * this.mEfficiency / 10000L);
       if (tGeneratedEU > 0) {
     	  long amount = (tGeneratedEU + 160) / 160;
-    	  if (depleteInput(MaterialsOld.Water.getFluid(amount)) || depleteInput(GT_ModHandler.getDistilledWater(amount))) {
+    	  if (depleteInput(Materials.Water.getFluid(amount)) || depleteInput(GT_ModHandler.getDistilledWater(amount))) {
           addOutput(GT_ModHandler.getSteam(tGeneratedEU));
         } else {
           explodeMultiblock();

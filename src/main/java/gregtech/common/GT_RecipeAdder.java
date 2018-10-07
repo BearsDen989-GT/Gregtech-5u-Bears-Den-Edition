@@ -3,7 +3,7 @@ package gregtech.common;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.interfaces.internal.IGT_RecipeAdder;
 import gregtech.api.util.GT_ModHandler;
@@ -111,7 +111,7 @@ public class GT_RecipeAdder
     }
 
     public boolean addAlloySmelterRecipe(ItemStack aInput1, ItemStack aInput2, ItemStack aOutput1, int aDuration, int aEUt) {
-        if ((aInput1 == null) || (aOutput1 == null || MaterialsOld.Graphite.contains(aInput1))) {
+        if ((aInput1 == null) || (aOutput1 == null || Materials.Graphite.contains(aInput1))) {
             return false;
         }
         if ((aInput2 == null) && ((OrePrefixes.ingot.contains(aInput1)) || (OrePrefixes.dust.contains(aInput1)) || (OrePrefixes.gem.contains(aInput1)))) {
@@ -160,9 +160,9 @@ public class GT_RecipeAdder
         if ((aDuration = GregTech_API.sRecipeFile.get("cutting", aInput, aDuration)) <= 0) {
             return false;
         }
-        GT_Recipe.GT_Recipe_Map.sCutterRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput1, aOutput2}, null, new FluidStack[]{MaterialsOld.Water.getFluid(Math.max(4, Math.min(1000, aDuration * aEUt / 320)))}, null, aDuration * 2, aEUt, 0);
+        GT_Recipe.GT_Recipe_Map.sCutterRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput1, aOutput2}, null, new FluidStack[]{Materials.Water.getFluid(Math.max(4, Math.min(1000, aDuration * aEUt / 320)))}, null, aDuration * 2, aEUt, 0);
         GT_Recipe.GT_Recipe_Map.sCutterRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput1, aOutput2}, null, new FluidStack[]{GT_ModHandler.getDistilledWater(Math.max(3, Math.min(750, aDuration * aEUt / 426)))}, null, aDuration * 2, aEUt, 0);
-        GT_Recipe.GT_Recipe_Map.sCutterRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput1, aOutput2}, null, new FluidStack[]{MaterialsOld.Lubricant.getFluid(Math.max(1, Math.min(250, aDuration * aEUt / 1280)))}, null, aDuration, aEUt, 0);
+        GT_Recipe.GT_Recipe_Map.sCutterRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput1, aOutput2}, null, new FluidStack[]{Materials.Lubricant.getFluid(Math.max(1, Math.min(250, aDuration * aEUt / 1280)))}, null, aDuration, aEUt, 0);
         return true;
     }
 
@@ -368,7 +368,7 @@ public class GT_RecipeAdder
         if ((aDuration = GregTech_API.sRecipeFile.get("amplifier", aAmplifierItem, aDuration)) <= 0) {
             return false;
         }
-        GT_Recipe.GT_Recipe_Map.sAmplifiers.addRecipe(true, new ItemStack[]{aAmplifierItem}, null, null, null, new FluidStack[]{MaterialsOld.UUAmplifier.getFluid(aAmplifierAmountOutputted)}, aDuration, 32, 0);
+        GT_Recipe.GT_Recipe_Map.sAmplifiers.addRecipe(true, new ItemStack[]{aAmplifierItem}, null, null, null, new FluidStack[]{Materials.UUAmplifier.getFluid(aAmplifierAmountOutputted)}, aDuration, 32, 0);
         return true;
     }
 
@@ -418,11 +418,11 @@ public class GT_RecipeAdder
         if ((aMold == null) || (aInput == null) || (aOutput == null)) {
             return false;
         }
-        if (aInput.isFluidEqual(MaterialsOld.PhasedGold.getMolten(FLUID_MATERIAL_UNIT))) {
-            aInput = MaterialsOld.VibrantAlloy.getMolten(aInput.amount);
+        if (aInput.isFluidEqual(Materials.PhasedGold.getMolten(FLUID_MATERIAL_UNIT))) {
+            aInput = Materials.VibrantAlloy.getMolten(aInput.amount);
         }
-        if (aInput.isFluidEqual(MaterialsOld.PhasedIron.getMolten(FLUID_MATERIAL_UNIT))) {
-            aInput = MaterialsOld.PulsatingIron.getMolten(aInput.amount);
+        if (aInput.isFluidEqual(Materials.PhasedIron.getMolten(FLUID_MATERIAL_UNIT))) {
+            aInput = Materials.PulsatingIron.getMolten(aInput.amount);
         }
 
         if ((aDuration = GregTech_API.sRecipeFile.get("fluidsolidifier", aOutput, aDuration)) <= 0) {
@@ -436,11 +436,11 @@ public class GT_RecipeAdder
         if ((aInput == null) || (aOutput == null)) {
             return false;
         }
-        if (aOutput.isFluidEqual(MaterialsOld.PhasedGold.getMolten(1))) {
-            aOutput = MaterialsOld.VibrantAlloy.getMolten(aOutput.amount);
+        if (aOutput.isFluidEqual(Materials.PhasedGold.getMolten(1))) {
+            aOutput = Materials.VibrantAlloy.getMolten(aOutput.amount);
         }
-        if (aOutput.isFluidEqual(MaterialsOld.PhasedIron.getMolten(1))) {
-            aOutput = MaterialsOld.PulsatingIron.getMolten(aOutput.amount);
+        if (aOutput.isFluidEqual(Materials.PhasedIron.getMolten(1))) {
+            aOutput = Materials.PulsatingIron.getMolten(aOutput.amount);
         }
         if ((aDuration = GregTech_API.sRecipeFile.get("fluidsmelter", aInput, aDuration)) <= 0) {
             return false;
@@ -453,11 +453,11 @@ public class GT_RecipeAdder
         if ((aInput == null) || (aOutput == null)) {
             return false;
         }
-        if (aOutput.isFluidEqual(MaterialsOld.PhasedGold.getMolten(1))) {
-            aOutput = MaterialsOld.VibrantAlloy.getMolten(aOutput.amount);
+        if (aOutput.isFluidEqual(Materials.PhasedGold.getMolten(1))) {
+            aOutput = Materials.VibrantAlloy.getMolten(aOutput.amount);
         }
-        if (aOutput.isFluidEqual(MaterialsOld.PhasedIron.getMolten(1))) {
-            aOutput = MaterialsOld.PulsatingIron.getMolten(aOutput.amount);
+        if (aOutput.isFluidEqual(Materials.PhasedIron.getMolten(1))) {
+            aOutput = Materials.PulsatingIron.getMolten(aOutput.amount);
         }
         if ((aDuration = GregTech_API.sRecipeFile.get("fluidextractor", aInput, aDuration)) <= 0) {
             return false;
@@ -597,8 +597,8 @@ public class GT_RecipeAdder
                 if ((aDuration = GregTech_API.sRecipeFile.get("arcfurnace", aInput, aDuration)) <= 0) {
                     return false;
                 }
-                GT_Recipe.GT_Recipe_Map.sArcFurnaceRecipes.addRecipe(true, new ItemStack[]{aInput}, aOutputs, null, aChances, new FluidStack[]{MaterialsOld.Oxygen.getGas(aDuration)}, null, Math.max(1, aDuration), Math.max(1, aEUt), 0);
-                for (MaterialsOld tMaterial : new MaterialsOld[]{MaterialsOld.Argon, MaterialsOld.Nitrogen}) {
+                GT_Recipe.GT_Recipe_Map.sArcFurnaceRecipes.addRecipe(true, new ItemStack[]{aInput}, aOutputs, null, aChances, new FluidStack[]{Materials.Oxygen.getGas(aDuration)}, null, Math.max(1, aDuration), Math.max(1, aEUt), 0);
+                for (Materials tMaterial : new Materials[]{Materials.Argon, Materials.Nitrogen}) {
                     if (tMaterial.mPlasma != null) {
                         int tPlasmaAmount = (int) Math.max(1L, aDuration / (tMaterial.getMass() * 16L));
                         GT_Recipe.GT_Recipe_Map.sPlasmaArcFurnaceRecipes.addRecipe(true, new ItemStack[]{aInput}, aOutputs, null, aChances, new FluidStack[]{tMaterial.getPlasma(tPlasmaAmount)}, new FluidStack[]{tMaterial.getGas(tPlasmaAmount)}, Math.max(1, aDuration / 16), Math.max(1, aEUt / 3), 0);

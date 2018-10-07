@@ -1,7 +1,7 @@
 package gregtech.common.blocks;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
@@ -76,7 +76,7 @@ public class GT_TileEntity_Ores
 
     public static byte getHarvestData(short aMetaData)
     {
-        MaterialsOld aMaterial = GregTech_API.sGeneratedMaterials[(aMetaData % 1000)];
+        Materials aMaterial = GregTech_API.sGeneratedMaterials[(aMetaData % 1000)];
         return aMaterial == null ? 0 : (byte)Math.max((aMetaData % 16000 / 1000 == 3) || (aMetaData % 16000 / 1000 == 4) ? 3 : 0, Math.min(7, aMaterial.mToolQuality - (aMetaData < 16000 ? 0 : 1)));
     }
 
@@ -187,7 +187,7 @@ public class GT_TileEntity_Ores
             rList.add(new ItemStack(GregTech_API.sBlockOres1, 1, this.mMetaData));
             return rList;
         }
-        MaterialsOld aMaterial = GregTech_API.sGeneratedMaterials[(this.mMetaData % 1000)];
+        Materials aMaterial = GregTech_API.sGeneratedMaterials[(this.mMetaData % 1000)];
         if (!this.mNatural) {
             aFortune = 0;
         }
@@ -250,15 +250,15 @@ public class GT_TileEntity_Ores
                 switch (this.mMetaData / 1000 % 16)
                 {
                     case 0:
-                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, MaterialsOld.Stone, 1L)); break;
+                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, Materials.Stone, 1L)); break;
                     case 1:
-                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, MaterialsOld.Netherrack, 1L)); break;
+                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, Materials.Netherrack, 1L)); break;
                     case 2:
-                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, MaterialsOld.Endstone, 1L)); break;
+                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, Materials.Endstone, 1L)); break;
                     case 3:
-                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, MaterialsOld.GraniteBlack, 1L)); break;
+                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, Materials.GraniteBlack, 1L)); break;
                     case 4:
-                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, MaterialsOld.GraniteRed, 1L));
+                        rList.add(GT_OreDictUnificator.get(tRandom.nextInt(3) > 0 ? OrePrefixes.dustImpure : OrePrefixes.dust, Materials.GraniteRed, 1L));
                 }
             }
         }
@@ -267,7 +267,7 @@ public class GT_TileEntity_Ores
 
     public ITexture[] getTexture(byte aSide)
     {
-        MaterialsOld aMaterial = GregTech_API.sGeneratedMaterials[(this.mMetaData % 1000)];
+        Materials aMaterial = GregTech_API.sGeneratedMaterials[(this.mMetaData % 1000)];
         if ((aMaterial != null) && (this.mMetaData < 32000)) {
             return new ITexture[] { mStoneTextures[(this.mMetaData / 1000 % 16)], new GT_RenderedTexture(aMaterial.mIconSet.mTextures[this.mMetaData/16000 ==0 ? OrePrefixes.ore.mTextureIndex:OrePrefixes.oreSmall.mTextureIndex], aMaterial.mRGBa) };
         }

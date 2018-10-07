@@ -1,6 +1,6 @@
 package gregtech.common.covers;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ICoverable;
 import gregtech.api.interfaces.tileentity.IMachineProgress;
 import gregtech.api.util.GT_CoverBehavior;
@@ -21,7 +21,7 @@ public class GT_Cover_AirVent
             Block tBlock = aTileEntity.getBlockAtSide(aSide);
             if ((aCoverVariable < 3) && (aTileEntity instanceof IFluidHandler)
                     && (tBlock == Blocks.air)) {
-                ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), MaterialsOld.Air.getGas(1000), true);
+                ((IFluidHandler) aTileEntity).fill(ForgeDirection.getOrientation(aSide), Materials.Air.getGas(1000), true);
             }
         }
         return aCoverVariable;

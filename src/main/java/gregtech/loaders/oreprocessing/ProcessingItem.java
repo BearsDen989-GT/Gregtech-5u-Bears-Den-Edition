@@ -1,6 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.objects.ItemData;
 import gregtech.api.util.GT_ModHandler;
@@ -17,7 +17,7 @@ public class ProcessingItem implements gregtech.api.interfaces.IOreRecipeRegistr
         OrePrefixes.item.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, MaterialsOld aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         if (GT_OreDictUnificator.getItemData(aStack) == null) {
 
             if (!aOreDictName.equals("itemCertusQuartz")) {
@@ -25,26 +25,26 @@ public class ProcessingItem implements gregtech.api.interfaces.IOreRecipeRegistr
                 if (!aOreDictName.equals("itemNetherQuartz")) {
 
                     if (aOreDictName.equals("itemSilicon")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Silicon, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Silicon, MATERIAL_UNIT));
                         RECIPE_ADDER_INSTANCE.addFormingPressRecipe(GT_Utility.copyAmount(1L, aStack), GT_ModHandler.getModItem(MOD_ID_AE, "item.ItemMultiMaterial", 0L, 19), GT_ModHandler.getModItem(MOD_ID_AE, "item.ItemMultiMaterial", 1L, 20), 200, 16);
                     } else if (aOreDictName.equals("itemWheat")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Wheat, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Wheat, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemManganese")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Manganese, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Manganese, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemSalt")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Salt, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Salt, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemMagnesium")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Magnesium, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Magnesium, MATERIAL_UNIT));
                     } else if ((aOreDictName.equals("itemPhosphorite")) || (aOreDictName.equals("itemPhosphorus"))) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Phosphorus, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Phosphorus, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemSulfur")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Sulfur, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Sulfur, MATERIAL_UNIT));
                     } else if ((aOreDictName.equals("itemAluminum")) || (aOreDictName.equals("itemAluminium"))) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Aluminium, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Aluminium, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemSaltpeter")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Saltpeter, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Saltpeter, MATERIAL_UNIT));
                     } else if (aOreDictName.equals("itemUranium")) {
-                        GT_OreDictUnificator.addItemData(aStack, new ItemData(MaterialsOld.Uranium, MATERIAL_UNIT));
+                        GT_OreDictUnificator.addItemData(aStack, new ItemData(Materials.Uranium, MATERIAL_UNIT));
                     } else {
                         //System.out.println("Item Name: " + aOreDictName + " !!!Unknown Item detected!!! Please report to GregTech Intergalactical for additional compatiblity. This is not an Error, it's just an Information.");
                     }

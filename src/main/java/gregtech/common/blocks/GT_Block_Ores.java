@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.items.GT_Generic_Block;
 import gregtech.api.util.GT_LanguageManager;
@@ -110,29 +110,29 @@ public class GT_Block_Ores
         FUCKING_LOCK = false;
     }
 
-    public String getLocalizedName(MaterialsOld aMaterial) {
-        switch (aMaterial) {
-            case InfusedAir:
-            case InfusedDull:
-            case InfusedEarth:
-            case InfusedEntropy:
-            case InfusedFire:
-            case InfusedOrder:
-            case InfusedVis:
-            case InfusedWater:
+    public String getLocalizedName(Materials aMaterial) {
+        switch (aMaterial.name()) {
+            case "InfusedAir":
+            case "InfusedDull":
+            case "InfusedEarth":
+            case "InfusedEntropy":
+            case "InfusedFire":
+            case "InfusedOrder":
+            case "InfusedVis":
+            case "InfusedWater":
                 return aMaterial.mDefaultLocalName + " Infused Stone";
-            case Vermiculite:
-            case Bentonite:
-            case Kaolinite:
-            case Talc:
-            case BasalticMineralSand:
-            case GraniticMineralSand:
-            case GlauconiteSand:
-            case CassiteriteSand:
-            case GarnetSand:
-            case QuartzSand:
-            case Pitchblende:
-            case FullersEarth:
+            case "Vermiculite":
+            case "Bentonite":
+            case "Kaolinite":
+            case "Talc":
+            case "BasalticMineralSand":
+            case "GraniticMineralSand":
+            case "GlauconiteSand":
+            case "CassiteriteSand":
+            case "GarnetSand":
+            case "QuartzSand":
+            case "Pitchblende":
+            case "FullersEarth":
                 return aMaterial.mDefaultLocalName;
             default:
                 return aMaterial.mDefaultLocalName + OrePrefixes.ore.mLocalizedMaterialPost;
@@ -253,7 +253,7 @@ public class GT_Block_Ores
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item aItem, CreativeTabs aTab, List aList) {
         for (int i = 0; i < GregTech_API.sGeneratedMaterials.length; i++) {
-            MaterialsOld tMaterial = GregTech_API.sGeneratedMaterials[i];
+            Materials tMaterial = GregTech_API.sGeneratedMaterials[i];
             if ((tMaterial != null) && ((tMaterial.mTypes & 0x8) != 0)) {
                 aList.add(new ItemStack(aItem, 1, i));
                 aList.add(new ItemStack(aItem, 1, i + 1000));

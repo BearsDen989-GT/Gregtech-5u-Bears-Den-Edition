@@ -3,7 +3,7 @@ package gregtech.api.util;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.ItemList;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.SubTag;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.interfaces.tileentity.IHasWorldObjectAndCoords;
@@ -306,12 +306,12 @@ public class GT_Recipe {
         int tOutputAmount = GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(mOutputs);
 
         if (tInputAmount < tOutputAmount) {
-            if (!MaterialsOld.Tin.contains(mInputs)) {
+            if (!Materials.Tin.contains(mInputs)) {
                 GT_Log.err.println("You get more Cells, than you put in? There must be something wrong.");
                 new Exception().printStackTrace(GT_Log.err);
             }
         } else if (tInputAmount > tOutputAmount) {
-            if (!MaterialsOld.Tin.contains(mOutputs)) {
+            if (!Materials.Tin.contains(mOutputs)) {
                 GT_Log.err.println("You get less Cells, than you put in? GT Machines usually don't destroy Cells.");
                 new Exception().printStackTrace(GT_Log.err);
             }

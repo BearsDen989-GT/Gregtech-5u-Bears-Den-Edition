@@ -1,7 +1,7 @@
 package gregtech.common;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.world.GT_Worldgen;
 import gregtech.common.blocks.GT_TileEntity_Ores;
 import gregtech.loaders.misc.GT_Achievements;
@@ -9,13 +9,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static gregtech.api.enums.GT_Values.DEBUG_LEVEL_1;
 
 public class GT_Worldgen_GT_Ore_Layer
         extends GT_Worldgen {
-    public static ArrayList<GT_Worldgen_GT_Ore_Layer> sList = new ArrayList();
+    public static List<GT_Worldgen_GT_Ore_Layer> sList = new ArrayList<>();
     public static int sWeight = 0;
     public final short mMinY;
     public final short mMaxY;
@@ -31,7 +32,7 @@ public class GT_Worldgen_GT_Ore_Layer
     public final boolean mEnd;
     public final boolean mEndAsteroid;
 
-    public GT_Worldgen_GT_Ore_Layer(String aName, boolean aDefault, int aMinY, int aMaxY, int aWeight, int aDensity, int aSize, boolean aOverworld, boolean aNether, boolean aEnd, MaterialsOld aPrimary, MaterialsOld aSecondary, MaterialsOld aBetween, MaterialsOld aSporadic) {
+    public GT_Worldgen_GT_Ore_Layer(String aName, boolean aDefault, int aMinY, int aMaxY, int aWeight, int aDensity, int aSize, boolean aOverworld, boolean aNether, boolean aEnd, Materials aPrimary, Materials aSecondary, Materials aBetween, Materials aSporadic) {
         super(aName, sList, aDefault);
         this.mOverworld = GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "Overworld", aOverworld);
         this.mNether = GregTech_API.sWorldgenFile.get("worldgen." + this.mWorldGenName, "Nether", aNether);

@@ -1,6 +1,6 @@
 package gregtech.common.render;
 
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.interfaces.IToolStats;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -110,7 +110,7 @@ public class GT_MetaGenerated_Tool_Renderer
                     }
                 }
             }
-            if ((aType == IItemRenderer.ItemRenderType.INVENTORY) && (GT_MetaGenerated_Tool.getPrimaryMaterial(aStack) != MaterialsOld._NULL)) {
+            if ((aType == IItemRenderer.ItemRenderType.INVENTORY) && (GT_MetaGenerated_Tool.getPrimaryMaterial(aStack) != Materials._NULL)) {
                 long tDamage = GT_MetaGenerated_Tool.getToolDamage(aStack);
                 long tMaxDamage = GT_MetaGenerated_Tool.getToolMaxDamage(aStack);
                 if (tDamage <= 0L) {

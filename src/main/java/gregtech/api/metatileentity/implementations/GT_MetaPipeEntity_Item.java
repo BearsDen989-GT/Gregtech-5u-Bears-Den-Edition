@@ -2,7 +2,7 @@ package gregtech.api.metatileentity.implementations;
 
 import gregtech.GT_Mod;
 import gregtech.api.enums.Dyes;
-import gregtech.api.enums.MaterialsOld;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.SubTag;
 import gregtech.api.enums.Textures;
@@ -35,13 +35,13 @@ import java.util.List;
 
 public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileEntityItemPipe {
     public final float mThickNess;
-    public final MaterialsOld mMaterial;
+    public final Materials mMaterial;
     public final int mStepSize;
     public int mTransferredItems = 0;
     public byte mLastReceivedFrom = 0, oLastReceivedFrom = 0;
     public boolean mIsRestrictive = false;
 
-    public GT_MetaPipeEntity_Item(int aID, String aName, String aNameRegional, float aThickNess, MaterialsOld aMaterial, int aInvSlotCount, int aStepSize, boolean aIsRestrictive) {
+    public GT_MetaPipeEntity_Item(int aID, String aName, String aNameRegional, float aThickNess, Materials aMaterial, int aInvSlotCount, int aStepSize, boolean aIsRestrictive) {
         super(aID, aName, aNameRegional, aInvSlotCount);
         mIsRestrictive = aIsRestrictive;
         mThickNess = aThickNess;
@@ -49,7 +49,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
         mStepSize = aStepSize;
     }
 
-    public GT_MetaPipeEntity_Item(String aName, float aThickNess, MaterialsOld aMaterial, int aInvSlotCount, int aStepSize, boolean aIsRestrictive) {
+    public GT_MetaPipeEntity_Item(String aName, float aThickNess, Materials aMaterial, int aInvSlotCount, int aStepSize, boolean aIsRestrictive) {
         super(aName, aInvSlotCount);
         mIsRestrictive = aIsRestrictive;
         mThickNess = aThickNess;

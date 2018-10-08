@@ -24,7 +24,7 @@ public abstract class GT_Tool_Turbine extends GT_Tool {
 
     @Override
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : null;
+        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getRGBa() : null;
     }
 
     public IChatComponent getDeathMessage(EntityLivingBase aPlayer, EntityLivingBase aEntity) {

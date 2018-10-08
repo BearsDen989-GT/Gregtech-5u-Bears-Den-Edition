@@ -1,7 +1,6 @@
 package gregtech.api.objects;
 
 import gregtech.api.enums.Dyes;
-import gregtech.api.interfaces.IColorModulationContainer;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.interfaces.ITexture;
 import net.minecraft.block.Block;
@@ -9,7 +8,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 
-public class GT_SidedTexture implements ITexture, IColorModulationContainer {
+public class GT_SidedTexture extends IColorModulationContainer implements ITexture {
     private final IIconContainer[] mIconContainer;
     private final boolean mAllowAlpha;
     /**
@@ -32,7 +31,7 @@ public class GT_SidedTexture implements ITexture, IColorModulationContainer {
     }
 
     public GT_SidedTexture(IIconContainer aIcon0, IIconContainer aIcon1, IIconContainer aIcon2, IIconContainer aIcon3, IIconContainer aIcon4, IIconContainer aIcon5) {
-        this(aIcon0, aIcon1, aIcon2, aIcon3, aIcon4, aIcon5, Dyes._NULL.mRGBa);
+        this(aIcon0, aIcon1, aIcon2, aIcon3, aIcon4, aIcon5, Dyes._NULL.getRGBa());
     }
 
     public GT_SidedTexture(IIconContainer aBottom, IIconContainer aTop, IIconContainer aSides, short[] aRGBa) {
@@ -40,7 +39,7 @@ public class GT_SidedTexture implements ITexture, IColorModulationContainer {
     }
 
     public GT_SidedTexture(IIconContainer aBottom, IIconContainer aTop, IIconContainer aSides) {
-        this(aBottom, aTop, aSides, Dyes._NULL.mRGBa);
+        this(aBottom, aTop, aSides, Dyes._NULL.getRGBa());
     }
 
     @Override
@@ -153,11 +152,6 @@ public class GT_SidedTexture implements ITexture, IColorModulationContainer {
             Tessellator.instance.setColorRGBA(204, 204, 204, 255);
             aRenderer.renderFaceZNeg(aBlock, aX, aY, aZ, mIconContainer[2].getOverlayIcon());
         }
-    }
-
-    @Override
-    public short[] getRGBA() {
-        return mRGBa;
     }
 
     @Override

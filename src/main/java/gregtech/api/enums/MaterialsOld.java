@@ -3,12 +3,11 @@ package gregtech.api.enums;
 import cpw.mods.fml.common.Loader;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.TC_Aspects.TC_AspectStack;
-import gregtech.api.interfaces.IColorModulationContainer;
+import gregtech.api.objects.IColorModulationContainer;
 import gregtech.api.interfaces.ISubTagContainer;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.objects.MaterialStackOld;
 import gregtech.api.util.GT_Config;
-import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -30,7 +29,7 @@ import static gregtech.api.enums.GT_Values.MOD_ID_TC;
 /**
  * This List contains every Material I know about, and is used to determine Recipes for the
  */
-@Deprecated public enum MaterialsOld implements IColorModulationContainer, ISubTagContainer {
+@Deprecated public enum MaterialsOld implements ISubTagContainer {
 	/**
 	 * This is the Default Material returned in case no Material has been found or a NullPointer has been inserted at a location where it shouldn't happen.
 	 * <p/>
@@ -1733,7 +1732,6 @@ import static gregtech.api.enums.GT_Values.MOD_ID_TC;
 		return new GT_FluidStack(mStandardMoltenFluid, (int) aAmount);
 	}
 
-	@Override
 	public short[] getRGBA() {
 		return mRGBa;
 	}

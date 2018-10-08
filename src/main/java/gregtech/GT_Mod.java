@@ -278,9 +278,7 @@ implements IGT_Mod {
 		GregTech_API.sMultiThreadedSounds = tMainConfig.get("general", "sound_multi_threading", false).getBoolean(false);
 		for (Dyes tDye : Dyes.values()) {
 			if ((tDye != Dyes._NULL) && (tDye.mIndex < 0)) {
-				tDye.mRGBa[0] = ((short) Math.min(255, Math.max(0, GregTech_API.sClientDataFile.get("ColorModulation." + tDye, "R", tDye.mRGBa[0]))));
-				tDye.mRGBa[1] = ((short) Math.min(255, Math.max(0, GregTech_API.sClientDataFile.get("ColorModulation." + tDye, "G", tDye.mRGBa[1]))));
-				tDye.mRGBa[2] = ((short) Math.min(255, Math.max(0, GregTech_API.sClientDataFile.get("ColorModulation." + tDye, "B", tDye.mRGBa[2]))));
+				tDye.setColor(GregTech_API.sClientDataFile.get("ColorModulation." + tDye, "ARGB", tDye.getColor()));
 			}
 		}
 		gregtechproxy.mMaxEqualEntitiesAtOneSpot = tMainConfig.get("general", "MaxEqualEntitiesAtOneSpot", 3).getInt(3);

@@ -1,6 +1,6 @@
 package gregtech.api.enums;
 
-import gregtech.api.interfaces.IColorModulationContainer;
+import gregtech.api.objects.IColorModulationContainer;
 import gregtech.api.objects.GT_ArrayList;
 import gregtech.api.util.GT_Utility;
 import net.minecraftforge.fluids.Fluid;
@@ -8,48 +8,58 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 
-public enum Dyes implements IColorModulationContainer {
+public enum Dyes {
     /**
      * The valid Colors, see VALUES Array below
      */
-    dyeBlack(0, 32, 32, 32, "Black"),
-    dyeRed(1, 255, 0, 0, "Red"),
-    dyeGreen(2, 0, 255, 0, "Green"),
-    dyeBrown(3, 96, 64, 0, "Brown"),
-    dyeBlue(4, 0, 0, 255, "Blue"),
-    dyePurple(5, 128, 0, 128, "Purple"),
-    dyeCyan(6, 0, 255, 255, "Cyan"),
-    dyeLightGray(7, 192, 192, 192, "Light Gray"),
-    dyeGray(8, 128, 128, 128, "Gray"),
-    dyePink(9, 255, 192, 192, "Pink"),
-    dyeLime(10, 128, 255, 128, "Lime"),
-    dyeYellow(11, 255, 255, 0, "Yellow"),
-    dyeLightBlue(12, 128, 128, 255, "Light Blue"),
-    dyeMagenta(13, 255, 0, 255, "Magenta"),
-    dyeOrange(14, 255, 128, 0, "Orange"),
-    dyeWhite(15, 255, 255, 255, "White"),
+    dyeBlack(0, 0x00202020, "Black"),
+    dyeRed(1, 0x00ff0000, "Red"),
+    dyeGreen(2, 0x0000ff00, "Green"),
+    dyeBrown(3, 0x00604000, "Brown"),
+    dyeBlue(4, 0x000000ff, "Blue"),
+    dyePurple(5, 0x00800080, "Purple"),
+    dyeCyan(6, 0x0000ffff, "Cyan"),
+    dyeLightGray(7, 0x00c0c0c0, "Light Gray"),
+    dyeGray(8, 0x00808080, "Gray"),
+    dyePink(9, 0x00ffc0c0, "Pink"),
+    dyeLime(10, 0x0080ff80, "Lime"),
+    dyeYellow(11, 0x00ffff00, "Yellow"),
+    dyeLightBlue(12, 0x008080ff, "Light Blue"),
+    dyeMagenta(13, 0x00ff00ff, "Magenta"),
+    dyeOrange(14, 0x00ff8000, "Orange"),
+    dyeWhite(15, 0x00ffffff, "White"),
     /**
      * The NULL Color
      */
-    _NULL(-1, 255, 255, 255, "INVALID COLOR"),
+    _NULL(-1, 0x00ffffff, "INVALID COLOR"),
     /**
      * Additional Colors only used for direct Color referencing
      */
-    CABLE_INSULATION(-1, 64, 64, 64, "Cable Insulation"),
-    CONSTRUCTION_FOAM(-1, 64, 64, 64, "Construction Foam"),
-    MACHINE_METAL(-1, 220, 220, 255, "Machine Metal");
+    CABLE_INSULATION(-1, 0x00404040, "Cable Insulation"),
+    CONSTRUCTION_FOAM(-1, 0x00404040, "Construction Foam"),
+    MACHINE_METAL(-1, 0x00dcdcff, "Machine Metal");
 
     public static final Dyes VALUES[] = {dyeBlack, dyeRed, dyeGreen, dyeBrown, dyeBlue, dyePurple, dyeCyan, dyeLightGray, dyeGray, dyePink, dyeLime, dyeYellow, dyeLightBlue, dyeMagenta, dyeOrange, dyeWhite};
 
     public final byte mIndex;
     public final String mName;
-    public final short[] mRGBa;
-    private final ArrayList<Fluid> mFluidDyes = new GT_ArrayList<Fluid>(false, 1);
+    private IColorModulationContainer mRGBa;
+    private final ArrayList<Fluid> mFluidDyes = new GT_ArrayList<>(false, 1);
 
+    /**
+     * @deprecated replaced by single int ARGB
+     */
+    @Deprecated
     Dyes(int aIndex, int aR, int aG, int aB, String aName) {
         mIndex = (byte) aIndex;
         mName = aName;
-        mRGBa = new short[]{(short) aR, (short) aG, (short) aB, 0};
+        mRGBa = new IColorModulationContainer(aR, aG, aB, 0);
+    }
+
+    Dyes(int aIndex, int aARGB, String aName) {
+        mIndex = (byte) aIndex;
+        mName = aName;
+        mRGBa = new IColorModulationContainer(aARGB);
     }
 
     public static Dyes get(int aColor) {
@@ -58,13 +68,13 @@ public enum Dyes implements IColorModulationContainer {
     }
 
     public static short[] getModulation(int aColor, short[] aDefaultModulation) {
-        if (aColor >= 0 && aColor < 16) return VALUES[aColor].mRGBa;
+        if (aColor >= 0 && aColor < 16) return VALUES[aColor].mRGBa.getRGBA();
         return aDefaultModulation;
     }
 
     public static Dyes get(String aColor) {
         Object tObject = GT_Utility.getFieldContent(Dyes.class, aColor, false, false);
-        if (tObject != null && tObject instanceof Dyes) return (Dyes) tObject;
+        if (tObject instanceof Dyes) return (Dyes) tObject;
         return _NULL;
     }
 
@@ -103,8 +113,15 @@ public enum Dyes implements IColorModulationContainer {
         return new FluidStack(mFluidDyes.get(aIndex), (int) aAmount);
     }
 
-    @Override
-    public short[] getRGBA() {
+    public void setColor(IColorModulationContainer aColor) {
+        mRGBa = aColor;
+    }
+
+    public IColorModulationContainer getColor() {
         return mRGBa;
+    }
+
+    public short[] getRGBa() {
+        return mRGBa.getRGBA();
     }
 }

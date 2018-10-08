@@ -38,7 +38,7 @@ public class GT_Tool_RollingPin
     }
 
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : Dyes._NULL.mRGBa;
+        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getRGBa() : Dyes._NULL.getRGBa();
     }
 
     public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {

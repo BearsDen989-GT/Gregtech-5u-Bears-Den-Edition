@@ -116,23 +116,23 @@ public class Textures {
          * 1 - 16 = Colors
          */
         public static final ITexture[][] HARDENEDFOAMS = new ITexture[][]{
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.CONSTRUCTION_FOAM.mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[0].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[1].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[2].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[3].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[4].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[5].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[6].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[7].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[8].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[9].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[10].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[11].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[12].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[13].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[14].mRGBa)},
-                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[15].mRGBa)}
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.CONSTRUCTION_FOAM.getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[0].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[1].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[2].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[3].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[4].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[5].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[6].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[7].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[8].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[9].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[10].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[11].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[12].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[13].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[14].getRGBa())},
+                new ITexture[]{new GT_RenderedTexture(CFOAM_HARDENED, Dyes.VALUES[15].getRGBa())}
         };
 
         public static final IIconContainer[]
@@ -388,13 +388,13 @@ public class Textures {
         static {
             for (byte i = 0; i < MACHINE_CASINGS.length; i++)
                 for (byte j = 0; j < MACHINE_CASINGS[i].length; j++)
-                    MACHINE_CASINGS[i][j] = new GT_SidedTexture(MACHINECASINGS_BOTTOM[i], MACHINECASINGS_TOP[i], MACHINECASINGS_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
+                    MACHINE_CASINGS[i][j] = new GT_SidedTexture(MACHINECASINGS_BOTTOM[i], MACHINECASINGS_TOP[i], MACHINECASINGS_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.getRGBa()));
         }
 
         static {
             for (byte i = 0; i < STORAGESTUFF.length; i++)
                 for (byte j = 0; j < STORAGESTUFF[i].length; j++)
-                    STORAGESTUFF[i][j] = new GT_SidedTexture(STORAGE_TOPBOTTOM[i], STORAGE_TOPBOTTOM[i], STORAGE_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.mRGBa));
+                    STORAGESTUFF[i][j] = new GT_SidedTexture(STORAGE_TOPBOTTOM[i], STORAGE_TOPBOTTOM[i], STORAGE_SIDE[i], Dyes.getModulation(j - 1, Dyes.MACHINE_METAL.getRGBa()));
         }
 
         protected IIcon mIcon;

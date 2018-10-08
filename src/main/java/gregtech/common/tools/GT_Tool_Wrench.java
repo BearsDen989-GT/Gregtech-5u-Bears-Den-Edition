@@ -108,7 +108,7 @@ extends GT_Tool {
 	}
 
 	public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-		return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : null;
+		return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getRGBa() : null;
 	}
 
 	public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {

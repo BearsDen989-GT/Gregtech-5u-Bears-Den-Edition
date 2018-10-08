@@ -1,6 +1,7 @@
 package gregtech.api.util;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.objects.IColorModulationContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -66,6 +67,10 @@ public class GT_Config implements Runnable {
         int rResult = tProperty.getInt(aDefault);
         if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
         return rResult;
+    }
+
+    public IColorModulationContainer get(Object aCategory, String aName, IColorModulationContainer aColor) {
+        return new IColorModulationContainer(Long.decode(get(aCategory.toString(), aName + "_" + String.format("0x%08X", aColor.getARGB()), String.format("0x%08X", aColor.getARGB()))).intValue());
     }
 
     public double get(Object aCategory, ItemStack aStack, double aDefault) {

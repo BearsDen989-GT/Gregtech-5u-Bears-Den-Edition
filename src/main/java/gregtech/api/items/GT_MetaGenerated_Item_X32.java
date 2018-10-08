@@ -74,7 +74,7 @@ public abstract class GT_MetaGenerated_Item_X32 extends GT_MetaGenerated_Item {
     @Override
     public short[] getRGBa(ItemStack aStack) {
         Materials tMaterial = GregTech_API.sGeneratedMaterials[getDamage(aStack) % 1000];
-        return tMaterial == null ? Materials._NULL.mRGBa : tMaterial.mRGBa;
+        return tMaterial == null ? Materials._NULL.getRGBa() : tMaterial.getRGBa();
     }
 
     /**

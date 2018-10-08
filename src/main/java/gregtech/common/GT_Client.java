@@ -227,10 +227,10 @@ public class GT_Client extends GT_Proxy
         }
         try {
             GT_Log.out.println("GT_Mod: Downloading News.");
-            @SuppressWarnings("resource")
-            Scanner tScanner = new Scanner(new URL("http://files.minecraftforge.net/maven/com/gregoriust/gregtech/message.txt").openStream());
-            while (tScanner.hasNextLine()) {
-                this.mMessage = (this.mMessage + tScanner.nextLine() + " ");
+            try (Scanner tScanner = new Scanner(new URL("http://files.minecraftforge.net/maven/com/gregoriust/gregtech/message.txt").openStream())) {
+                while (tScanner.hasNextLine()) {
+                    this.mMessage = (this.mMessage + tScanner.nextLine() + " ");
+                }
             }
         } catch (Throwable e) {
         }
@@ -239,12 +239,12 @@ public class GT_Client extends GT_Proxy
     @SubscribeEvent
     public void onPlayerTickEventClient(TickEvent.PlayerTickEvent aEvent) {
         if ((!aEvent.player.isDead) && (aEvent.phase == TickEvent.Phase.END) && (aEvent.side.isClient())) {
-            ArrayList<GT_PlayedSound> tList = new ArrayList();
+            ArrayList<GT_PlayedSound> tList = new ArrayList<>();
             for (Map.Entry<GT_PlayedSound, Integer> tEntry : GT_Utility.sPlayedSoundMap.entrySet()) {
-                if (tEntry.getValue().intValue() < 0) {
+                if (tEntry.getValue() < 0) {
                     tList.add(tEntry.getKey());
                 } else {
-                    tEntry.setValue(tEntry.getValue().intValue() - 1);
+                    tEntry.setValue(tEntry.getValue() - 1);
                 }
             }
             GT_PlayedSound tKey;
@@ -330,84 +330,84 @@ public class GT_Client extends GT_Proxy
             if (mAnimationTick % 50L == 0L)
                 mAnimationDirection = !mAnimationDirection;
             int tDirection = mAnimationDirection ? 1 : -1;
-            for (Iterator i$ = mPosR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[0] += tDirection;
+            for (Object aMPosR : mPosR) {
+                Materials tMaterial = (Materials) aMPosR;
+                tMaterial.getColor().setRed((short) (tMaterial.getColor().getRed() + tDirection));
             }
 
-            for (Iterator i$ = mPosG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[1] += tDirection;
+            for (Object aMPosG : mPosG) {
+                Materials tMaterial = (Materials) aMPosG;
+                tMaterial.getColor().setGreen((short) (tMaterial.getColor().getGreen() + tDirection));
             }
 
-            for (Iterator i$ = mPosB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[2] += tDirection;
+            for (Object aMPosB : mPosB) {
+                Materials tMaterial = (Materials) aMPosB;
+                tMaterial.getColor().setBlue((short) (tMaterial.getColor().getBlue() + tDirection));
             }
 
-            for (Iterator i$ = mPosA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[3] += tDirection;
+            for (Object aMPosA : mPosA) {
+                Materials tMaterial = (Materials) aMPosA;
+                tMaterial.getColor().setAlpha((short) (tMaterial.getColor().getAlpha() + tDirection));
             }
 
-            for (Iterator i$ = mNegR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[0] -= tDirection;
+            for (Object aMNegR : mNegR) {
+                Materials tMaterial = (Materials) aMNegR;
+                tMaterial.getColor().setRed((short) (tMaterial.getColor().getRed() - tDirection));
             }
 
-            for (Iterator i$ = mNegG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[1] -= tDirection;
+            for (Object aMNegG : mNegG) {
+                Materials tMaterial = (Materials) aMNegG;
+                tMaterial.getColor().setGreen((short)(tMaterial.getColor().getGreen() - tDirection));
             }
 
-            for (Iterator i$ = mNegB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[2] -= tDirection;
+            for (Object aMNegB : mNegB) {
+                Materials tMaterial = (Materials) aMNegB;
+                tMaterial.getColor().setBlue((short)(tMaterial.getColor().getBlue() - tDirection));
             }
 
-            for (Iterator i$ = mNegA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mRGBa[3] -= tDirection;
+            for (Object aMNegA : mNegA) {
+                Materials tMaterial = (Materials) aMNegA;
+                tMaterial.getColor().setAlpha((short)(tMaterial.getColor().getAlpha() - tDirection));
             }
 
-            for (Iterator i$ = mMoltenPosR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[0] += tDirection;
+            for (Object aMMoltenPosR : mMoltenPosR) {
+                Materials tMaterial = (Materials) aMMoltenPosR;
+                tMaterial.getMoltenColor().setRed((short) (tMaterial.getMoltenColor().getRed() + tDirection));
             }
 
-            for (Iterator i$ = mMoltenPosG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[1] += tDirection;
+            for (Object aMMoltenPosG : mMoltenPosG) {
+                Materials tMaterial = (Materials) aMMoltenPosG;
+                tMaterial.getMoltenColor().setGreen((short) (tMaterial.getMoltenColor().getGreen() + tDirection));
             }
 
-            for (Iterator i$ = mMoltenPosB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[2] += tDirection;
+            for (Object aMMoltenPosB : mMoltenPosB) {
+                Materials tMaterial = (Materials) aMMoltenPosB;
+                tMaterial.getMoltenColor().setBlue((short) (tMaterial.getMoltenColor().getBlue() + tDirection));
             }
 
-            for (Iterator i$ = mMoltenPosA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[3] += tDirection;
+            for (Object aMMoltenPosA : mMoltenPosA) {
+                Materials tMaterial = (Materials) aMMoltenPosA;
+                tMaterial.getMoltenColor().setAlpha((short) (tMaterial.getMoltenColor().getAlpha() + tDirection));
             }
 
-            for (Iterator i$ = mMoltenNegR.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[0] -= tDirection;
+            for (Object aMMoltenNegR : mMoltenNegR) {
+                Materials tMaterial = (Materials) aMMoltenNegR;
+                tMaterial.getMoltenColor().setRed((short) (tMaterial.getMoltenColor().getRed() - tDirection));
             }
 
-            for (Iterator i$ = mMoltenNegG.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[1] -= tDirection;
+            for (Object aMMoltenNegG : mMoltenNegG) {
+                Materials tMaterial = (Materials) aMMoltenNegG;
+                tMaterial.getMoltenColor().setGreen((short) (tMaterial.getMoltenColor().getGreen() - tDirection));
             }
 
-            for (Iterator i$ = mMoltenNegB.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[2] -= tDirection;
+            for (Object aMMoltenNegB : mMoltenNegB) {
+                Materials tMaterial = (Materials) aMMoltenNegB;
+                tMaterial.getMoltenColor().setBlue((short) (tMaterial.getMoltenColor().getBlue() - tDirection));
             }
 
-            for (Iterator i$ = mMoltenNegA.iterator(); i$.hasNext(); ) {
-                Materials tMaterial = (Materials) i$.next();
-                tMaterial.mMoltenRGBa[3] -= tDirection;
+            for (Object aMMoltenNegA : mMoltenNegA) {
+                Materials tMaterial = (Materials) aMMoltenNegA;
+                tMaterial.getMoltenColor().setAlpha((short) (tMaterial.getMoltenColor().getAlpha() - tDirection));
             }
 
         }

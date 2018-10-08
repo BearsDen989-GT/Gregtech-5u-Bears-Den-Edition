@@ -1,7 +1,7 @@
 package gregtech.api.enums;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.interfaces.IColorModulationContainer;
+import gregtech.api.objects.IColorModulationContainer;
 import gregtech.api.interfaces.ISubTagContainer;
 import gregtech.api.objects.GT_FluidStack;
 import gregtech.api.objects.MaterialStack;
@@ -17,14 +17,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+
+import static gregtech.api.enums.GT_Values.EMPTY_STRING;
+import static gregtech.api.enums.GT_Values.MATERIAL_UNIT;
 
 @SuppressWarnings({"squid:S1845", // Some methods and field names differ only by capitalization
 })
 
-public class Materials implements IColorModulationContainer, ISubTagContainer {
+public class Materials implements ISubTagContainer {
     public static final Collection<Materials> VALUES = new HashSet<>();
 
     /*
@@ -718,29 +720,53 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     @Deprecated public static Materials Wolframium = new Materials(Tungsten, false);
     @Deprecated public static Materials Wolfram = new Materials(Tungsten, false);
 
-    public final short[] mRGBa = new short[]{255, 255, 255, 0}, mMoltenRGBa = new short[]{255, 255, 255, 0};
+    public IColorModulationContainer mRGBa = new IColorModulationContainer(255, 255, 255, 0);
+    public IColorModulationContainer mMoltenRGBa = new IColorModulationContainer(255, 255, 255, 0);
     public TextureSet mIconSet;
     public int mMetaItemSubID;
     public boolean mUnificatable;
     public Materials mMaterialInto;
-    public final List<MaterialStack> mMaterialList = new ArrayList<MaterialStack>();
-    public final List<Materials> mOreByProducts = new ArrayList<Materials>(), mOreReRegistrations = new ArrayList<Materials>();
-    public final List<TC_Aspects.TC_AspectStack> mAspects = new ArrayList<TC_Aspects.TC_AspectStack>();
-    private final ArrayList<ItemStack> mMaterialItems = new ArrayList<ItemStack>();
-    private final Collection<SubTag> mSubTags = new HashSet<SubTag>();
-    public Enchantment mEnchantmentTools = null, mEnchantmentArmors = null;
-    public byte mEnchantmentToolsLevel = 0, mEnchantmentArmorsLevel = 0;
+    public List<MaterialStack> mMaterialList = new ArrayList<>();
+    public List<Materials> mOreByProducts = new ArrayList<>();
+    public List<Materials> mOreReRegistrations = new ArrayList<>();
+    public List<TC_Aspects.TC_AspectStack> mAspects = new ArrayList<>();
+    private List<ItemStack> mMaterialItems = new ArrayList<>();
+    private Collection<SubTag> mSubTags = new HashSet<>();
+    public Enchantment mEnchantmentTools = null;
+    public Enchantment mEnchantmentArmors = null;
+    public byte mEnchantmentToolsLevel = 0;
+    public byte mEnchantmentArmorsLevel = 0;
     public boolean mBlastFurnaceRequired = false;
-    public float mToolSpeed = 1.0F, mHeatDamage = 0.0F;
-    public String mChemicalFormula = "?", mName = "null", mDefaultLocalName = "null";
+    public float mToolSpeed = 1.0F;
+    public float mHeatDamage = 0.0F;
+    public String mChemicalFormula = "?";
+    public String mName = "null";
+    public String mDefaultLocalName = "null";
     public Dyes mColor = Dyes._NULL;
-    public short mMeltingPoint = 0, mBlastFurnaceTemp = 0;
-    public int mTypes = 0, mDurability = 16, mFuelPower = 0, mFuelType = 0, mExtraData = 0, mOreValue = 0, mOreMultiplier = 1, mByProductMultiplier = 1, mSmeltingMultiplier = 1;
-    public long mDensity = GT_Values.MATERIAL_UNIT;
+    public short mMeltingPoint = 0;
+    public short mBlastFurnaceTemp = 0;
+    public int mTypes = 0;
+    public int mDurability = 16;
+    public int mFuelPower = 0;
+    public int mFuelType = 0;
+    public int mExtraData = 0;
+    public int mOreValue = 0;
+    public int mOreMultiplier = 1;
+    public int mByProductMultiplier = 1;
+    public int mSmeltingMultiplier = 1;
+    public long mDensity = MATERIAL_UNIT;
     public Element mElement = null;
-    public Materials mDirectSmelting = this, mOreReplacement = this, mMacerateInto = this, mSmeltInto = this, mArcSmeltInto = this, mHandleMaterial = this;
+    public Materials mDirectSmelting = this;
+    public Materials mOreReplacement = this;
+    public Materials mMacerateInto = this;
+    public Materials mSmeltInto = this;
+    public Materials mArcSmeltInto = this;
+    public Materials mHandleMaterial = this;
     public byte mToolQuality = 0;
-    public Fluid mSolid = null, mFluid = null, mGas = null, mPlasma = null;
+    public Fluid mSolid = null;
+    public Fluid mFluid = null;
+    public Fluid mGas = null;
+    public Fluid mPlasma = null;
 
     /**
      * This Fluid is used as standard Unit for Molten Materials. 1296 is a Molten Block, what means 144 is one Material Unit worth
@@ -1075,18 +1101,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         Wood.mChemicalFormula = "";
         FoolsRuby.mChemicalFormula = Ruby.mChemicalFormula;
 
-        Naquadah.mMoltenRGBa[0] = 0;
-        Naquadah.mMoltenRGBa[1] = 255;
-        Naquadah.mMoltenRGBa[2] = 0;
-        Naquadah.mMoltenRGBa[3] = 0;
-        NaquadahEnriched.mMoltenRGBa[0] = 64;
-        NaquadahEnriched.mMoltenRGBa[1] = 255;
-        NaquadahEnriched.mMoltenRGBa[2] = 64;
-        NaquadahEnriched.mMoltenRGBa[3] = 0;
-        Naquadria.mMoltenRGBa[0] = 128;
-        Naquadria.mMoltenRGBa[1] = 255;
-        Naquadria.mMoltenRGBa[2] = 128;
-        Naquadria.mMoltenRGBa[3] = 0;
+        Naquadah.mMoltenRGBa.setARGB(0x00ff00);
+        NaquadahEnriched.mMoltenRGBa.setARGB(0x40ff40);
+        Naquadria.mMoltenRGBa.setARGB(0x80ff80);
 
         NaquadahEnriched.mChemicalFormula = "Nq+";
         Naquadah.mChemicalFormula = "Nq";
@@ -1299,21 +1316,21 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
 
     public static class Builder{
         private Materials rMaterials = new Materials();
-        private int mSolidARGB = 0x00ffffff;
-        private int mMoltenARGB = 0x00ffffff;
+        private IColorModulationContainer mSolidARGB = new IColorModulationContainer(0x00ffffff);
+        private IColorModulationContainer mMoltenARGB = new IColorModulationContainer(0x00ffffff);
         private TextureSet mIconSet;
         private int mMetaItemSubID;
-        private boolean mUnificatable;
+        private boolean mUnifiable;
         private Materials mMaterialInto;
         private List<MaterialStack> mMaterialList = new ArrayList<>();
         private List<Materials> mOreByProducts = new ArrayList<>();
         private List<Materials> mOreReRegistrations = new ArrayList<>();
         private List<TC_Aspects.TC_AspectStack> mAspects = new ArrayList<>();
-        private ArrayList<ItemStack> mMaterialItems = new ArrayList<>();
+        private List<ItemStack> mMaterialItems = new ArrayList<>();
         private Collection<SubTag> mSubTags = new HashSet<>();
         private Enchantment mEnchantmentTools = null;
-        private Enchantment mEnchantmentArmors = null;
         private byte mEnchantmentToolsLevel = 0;
+        private Enchantment mEnchantmentArmors = null;
         private byte mEnchantmentArmorsLevel = 0;
         private boolean mBlastFurnaceRequired = false;
         private float mToolSpeed = 1.0F;
@@ -1333,7 +1350,7 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         private int mOreMultiplier = 1;
         private int mByProductMultiplier = 1;
         private int mSmeltingMultiplier = 1;
-        private long mDensity = GT_Values.MATERIAL_UNIT;
+        private long mDensity = MATERIAL_UNIT;
         private Element mElement = null;
         private Materials mDirectSmelting = rMaterials;
         private Materials mOreReplacement = rMaterials;
@@ -1358,23 +1375,137 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
          * @return Materials for builder
          */
         public Builder solidARGB(int aARGB) {
-            this.mSolidARGB = aARGB;
+            this.mSolidARGB.setARGB(aARGB);
             return this;
         }
         public Builder moltenARGB(int aARGB) {
-            this.mMoltenARGB = aARGB;
+            this.mMoltenARGB.setARGB(aARGB);
+            return this;
+        }
+
+        public Builder textureSet(TextureSet aTextureSet) {
+            this.mIconSet = aTextureSet;
+            return this;
+        }
+
+        public Builder subID(int aMetaItemSubID) {
+            this.mMetaItemSubID = aMetaItemSubID;
+            return this;
+        }
+
+        public Builder unifiable(boolean aUnifiable) {
+            this.mUnifiable = aUnifiable;
+            return this;
+        }
+
+        public Builder matInto(Materials aMaterialInto) {
+            this.mMaterialInto = aMaterialInto;
+            return this;
+        }
+
+        public Builder matList(MaterialStack... aMaterialList) {
+            this.mMaterialList = Arrays.asList(aMaterialList);
+            return this;
+        }
+
+        public Builder byProducts(Materials... aByProducts) {
+            this.mOreByProducts = Arrays.asList(aByProducts);
+            return this;
+        }
+
+        public Builder oreRegistrations(Materials... aOres) {
+            this.mOreReRegistrations = Arrays.asList(aOres);
+            return this;
+        }
+
+        public Builder aspects(TC_Aspects.TC_AspectStack... aAspects) {
+            this.mAspects = Arrays.asList(aAspects);
+            return this;
+        }
+
+        public Builder items(ItemStack... aItemsStacks) {
+            this.mMaterialItems = Arrays.asList(aItemsStacks);
+            return this;
+        }
+
+        public Builder subTags(SubTag... aSubTags) {
+            this.mSubTags = Arrays.asList(aSubTags);
+            return this;
+        }
+
+        public Builder toolsEnchant(Enchantment aEnchantment) {
+            this.mEnchantmentTools = aEnchantment;
+            return this;
+        }
+
+        public Builder toolsEnchantLvl(byte aEnchantmentLevel) {
+            this.mEnchantmentToolsLevel = aEnchantmentLevel;
+            return this;
+        }
+
+        public Builder armorEnchant(Enchantment aEnchantment) {
+            this.mEnchantmentArmors = aEnchantment;
+            return this;
+        }
+
+        public Builder armorEnchantLvl(byte aEnchantmentLevel) {
+            this.mEnchantmentArmorsLevel = aEnchantmentLevel;
+            return this;
+        }
+
+        public Builder needBlastFurnace(boolean aNeedBlastFurnace) {
+            this.mBlastFurnaceRequired = aNeedBlastFurnace;
+            return this;
+        }
+
+        public Builder toolSpeed(float aToolSpeed) {
+            this.mToolSpeed = aToolSpeed;
+            return this;
+        }
+
+        public Builder heatDamage(float aHeatDamage) {
+            this.mHeatDamage = aHeatDamage;
+            return this;
+        }
+
+        public Builder chemForm(String aChemicalFormula) {
+            this.mChemicalFormula = aChemicalFormula;
+            return this;
+        }
+
+        public Builder name(String aName) {
+            this.mName = aName;
+            return this;
+        }
+
+        public Builder defaultLocalName(String aDefaultLocalName) {
+            this.mDefaultLocalName = aDefaultLocalName;
             return this;
         }
 
         public Materials build() {
-            rMaterials.mRGBa[0] = (short)((mSolidARGB >> 16) & (short)0x00ff); // Red
-            rMaterials.mRGBa[1] = (short)((mSolidARGB >> 8) & (short)0x00ff);  // Green
-            rMaterials.mRGBa[2] = (short)((mSolidARGB) & (short)0x00ff); // Blue
-            rMaterials.mRGBa[3] = (short)((mSolidARGB >> 24) & (short)0x00ff); // Alpha
-            rMaterials.mMoltenRGBa[0] = (short)((mMoltenARGB >> 16) & (short)0x00ff); // Red
-            rMaterials.mMoltenRGBa[1] = (short)((mMoltenARGB >> 8) & (short)0x00ff);  // Green
-            rMaterials.mMoltenRGBa[2] = (short)((mMoltenARGB) & (short)0x00ff); // Blue
-            rMaterials.mMoltenRGBa[3] = (short)((mMoltenARGB >> 24) & (short)0x00ff); // Alpha
+            this.rMaterials.mRGBa = mSolidARGB;
+            this.rMaterials.mMoltenRGBa = mMoltenARGB;
+            this.rMaterials.mIconSet = this.mIconSet;
+            this.rMaterials.mMetaItemSubID = this.mMetaItemSubID;
+            this.rMaterials.mUnificatable = this.mUnifiable;
+            this.rMaterials.mMaterialInto = this.mMaterialInto;
+            this.rMaterials.mMaterialList = this.mMaterialList;
+            this.rMaterials.mOreByProducts = this.mOreByProducts;
+            this.rMaterials.mOreReRegistrations = this.mOreReRegistrations;
+            this.rMaterials.mAspects = this.mAspects;
+            this.rMaterials.mMaterialItems = this.mMaterialItems;
+            this.rMaterials.mSubTags = this.mSubTags;
+            this.rMaterials.mEnchantmentTools = this.mEnchantmentTools;
+            this.rMaterials.mEnchantmentToolsLevel = this.mEnchantmentToolsLevel;
+            this.rMaterials.mEnchantmentArmors = this.mEnchantmentArmors;
+            this.rMaterials.mEnchantmentArmorsLevel = this.mEnchantmentArmorsLevel;
+            this.rMaterials.mBlastFurnaceRequired = this.mBlastFurnaceRequired;
+            this.rMaterials.mToolSpeed = this.mToolSpeed;
+            this.rMaterials.mHeatDamage = this.mHeatDamage;
+            this.rMaterials.mChemicalFormula = this.mChemicalFormula;
+            this.rMaterials.mName = this.mName;
+            this.rMaterials.mDefaultLocalName = this.mDefaultLocalName;
 
             return this.rMaterials;
         }
@@ -1405,7 +1536,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         mUnificatable = false;
         mDefaultLocalName = aMaterialInto.mDefaultLocalName;
         mMaterialInto = aMaterialInto.mMaterialInto;
-        if (aReRegisterIntoThis) mMaterialInto.mOreReRegistrations.add(this);
+        if (mMaterialInto != null && mMaterialInto.mOreReRegistrations != null && aReRegisterIntoThis) {
+            mMaterialInto.mOreReRegistrations.add(this);
+        }
         mChemicalFormula = aMaterialInto.mChemicalFormula;
         mMetaItemSubID = -1;
         mIconSet = TextureSet.SET_NONE;
@@ -1423,13 +1556,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         mFuelPower = aFuelPower;
         mFuelType = aFuelType;
         mOreValue = aOreValue;
-        mDensity = (GT_Values.MATERIAL_UNIT * aDensityMultiplier) / aDensityDivider;
+        mDensity = (MATERIAL_UNIT * aDensityMultiplier) / aDensityDivider;
         mColor = aColor == null ? Dyes._NULL : aColor;
         add(SubTag.HAS_COLOR);
-        mRGBa[0] = mMoltenRGBa[0] = (short) aR;
-        mRGBa[1] = mMoltenRGBa[1] = (short) aG;
-        mRGBa[2] = mMoltenRGBa[2] = (short) aB;
-        mRGBa[3] = mMoltenRGBa[3] = (short) aA;
+        mRGBa.setRGBA(aR, aG, aB, aA);
         mTypes = aTypes;
         if ((mTypes & 2) != 0) add(SubTag.SMELTING_TO_FLUID);
     }
@@ -1487,29 +1617,51 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         } else mAspects.addAll(aAspects);
     }
 
+    /**
+     * Gets the Name of the {@link Materials}
+     * @return the {@link Materials}'s Name
+     */
     public String name() {
         return this.mName;
     }
 
+    /**
+     * Gets the {@link Materials} from its Name
+     * @param aMaterialName The {@link Materials}'s Name
+     * @return the {@link Materials} or null if none found
+     */
     public static Materials get(String aMaterialName) {
         Object tObject = GT_Utility.getFieldContent(Materials.class, aMaterialName, false, false);
         if (tObject instanceof Materials) return (Materials) tObject;
         return _NULL;
     }
 
+    /**
+     * Gets the Aliased real {@link Materials} from an aliased {@link Materials}
+     * @param aMaterialName The {@link Materials}'s Alias Name
+     * @return the Aliased real {@link Materials} or null if none
+     */
     public static Materials getRealMaterial(String aMaterialName) {
         return get(aMaterialName).mMaterialInto;
     }
 
+    /**
+     * Determines if this {@link Materials} is Radioactive
+     * @return true if Radioactive
+     */
     public boolean isRadioactive() {
         if (mElement != null) return mElement.mHalfLifeSeconds >= 0;
         for (MaterialStack tMaterial : mMaterialList) if (tMaterial.mMaterial.isRadioactive()) return true;
         return false;
     }
 
+    /**
+     * Gets this {@link Materials}'s Protons count
+     * @return The Protons count
+     */
     public long getProtons() {
         if (mElement != null) return mElement.getProtons();
-        if (mMaterialList.size() <= 0) return Element.Tc.getProtons();
+        if (! (mMaterialList.isEmpty())) return Element.Tc.getProtons();
         long rAmount = 0, tAmount = 0;
         for (MaterialStack tMaterial : mMaterialList) {
             tAmount += tMaterial.mAmount;
@@ -1518,9 +1670,13 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         return (getDensity() * rAmount) / (tAmount * GT_Values.M);
     }
 
+    /**
+     * Gets this {@link Materials}'s Neutrons count
+     * @return The Neutrons count
+     */
     public long getNeutrons() {
         if (mElement != null) return mElement.getNeutrons();
-        if (mMaterialList.size() <= 0) return Element.Tc.getNeutrons();
+        if (! (mMaterialList.isEmpty())) return Element.Tc.getNeutrons();
         long rAmount = 0, tAmount = 0;
         for (MaterialStack tMaterial : mMaterialList) {
             tAmount += tMaterial.mAmount;
@@ -1529,43 +1685,74 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
         return (getDensity() * rAmount) / (tAmount * GT_Values.M);
     }
 
+    /**
+     * Gets this {@link Materials}'s Mass
+     * @return The Mass
+     */
     public long getMass() {
         if (mElement != null) return mElement.getMass();
-        if (mMaterialList.size() <= 0) return Element.Tc.getMass();
-        long rAmount = 0, tAmount = 0;
+        if (! (mMaterialList.isEmpty())) return Element.Tc.getMass();
+        long rAmount = 0;
+        long tAmount = 0;
         for (MaterialStack tMaterial : mMaterialList) {
             tAmount += tMaterial.mAmount;
             rAmount += tMaterial.mAmount * tMaterial.mMaterial.getMass();
         }
-        return (getDensity() * rAmount) / (tAmount * GT_Values.M);
+        return (getDensity() * rAmount) / (tAmount * MATERIAL_UNIT);
     }
 
+    /**
+     * Gets this {@link Materials}'s Density
+     * @return The Density
+     */
     public long getDensity() {
         return mDensity;
     }
 
+    /**
+     * Gets the ToolTip of this {@link Materials}
+     * @return The ToolTip String
+     */
     public String getToolTip() {
         return getToolTip(1, false);
     }
 
+    /**
+     * Gets the ToolTip of this {@link Materials}
+     * @param aShowQuestionMarks if Question Mark (unknown) is shown
+     * @return The ToolTip String
+     */
     public String getToolTip(boolean aShowQuestionMarks) {
         return getToolTip(1, aShowQuestionMarks);
     }
 
+    /**
+     * Gets the ToolTip of this {@link Materials} amount
+     * @param aMultiplier The {@link Materials} amount
+     * @return The ToolTip String
+     */
     public String getToolTip(long aMultiplier) {
         return getToolTip(aMultiplier, false);
     }
 
+    /**
+     * Gets the ToolTip's chemical formula of this {@link Materials} amount
+     * @param aMultiplier The {@link Materials} amount
+     * @param aShowQuestionMarks if Question Mark (unknown formula) is shown
+     * @return The ToolTip String
+     */
     public String getToolTip(long aMultiplier, boolean aShowQuestionMarks) {
-        if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return "";
-        if (aMultiplier >= GT_Values.MATERIAL_UNIT * 2 && !mMaterialList.isEmpty()) {
+        if (!aShowQuestionMarks && mChemicalFormula.equals("?")) return EMPTY_STRING;
+        if (aMultiplier >= MATERIAL_UNIT * 2 && !mMaterialList.isEmpty()) {
             return ((mElement != null || (mMaterialList.size() < 2 && mMaterialList.get(0).mAmount == 1)) ? mChemicalFormula : "(" + mChemicalFormula + ")") + aMultiplier;
         }
         return mChemicalFormula;
     }
 
     /**
-     * Adds an ItemStack to this Material.
+     * Adds / Associates the {@link ItemStack} to this {@link Materials}.
+     * @param aStack The {@link ItemStack} to add
+     * @return the updated {@link Materials} with added  {@link ItemStack}
      */
     public Materials add(ItemStack aStack) {
         if (aStack != null && !contains(aStack)) mMaterialItems.add(aStack);
@@ -1573,7 +1760,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * This is used to determine if any of the ItemStacks belongs to this Material.
+     * This is used to determine if any of the {@link ItemStack} belongs to this {@link Materials}.
+     * @param aStacks The {@link ItemStack} to search
+     * @return true if the {@link ItemStack} belongs to this {@link Materials}
      */
     public boolean contains(ItemStack... aStacks) {
         if (aStacks == null || aStacks.length <= 0) return false;
@@ -1584,34 +1773,48 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * This is used to determine if an ItemStack belongs to this Material.
-     */
+     * Removes / dissociates {@link ItemStack} from the {@link Materials}
+     * @param aStack the {@link ItemStack} to remove
+     * @return the {@link Materials} with removed {@link ItemStack}
+     * */
     public boolean remove(ItemStack aStack) {
         if (aStack == null) return false;
         boolean temp = false;
-        for (int i = 0; i < mMaterialItems.size(); i++)
+
+        int i = 0;
+        while (i < mMaterialItems.size()) {
             if (GT_Utility.areStacksEqual(aStack, mMaterialItems.get(i))) {
                 mMaterialItems.remove(i--);
                 temp = true;
             }
+            i++;
+        }
         return temp;
     }
 
     /**
-     * Adds a SubTag to this Material
+     * Adds SubTags to this {@link Materials}
+     * @param aTags the {@link SubTag}s to be added
+     * @return the {@link Materials} with the added {@link SubTag}s
      */
     @Override
     public ISubTagContainer add(SubTag... aTags) {
-        if (aTags != null) for (SubTag aTag : aTags)
+        if (aTags == null) return this;
+
+        for (SubTag aTag : aTags) {
             if (aTag != null && !contains(aTag)) {
                 aTag.addContainerToList(this);
                 mSubTags.add(aTag);
             }
+        }
+
         return this;
     }
 
     /**
-     * If this Material has this exact SubTag
+     * Tests if this {@link Materials} has this exact {@link SubTag}
+     * @param aTag the {@link SubTag} to test
+     * @return true if the {@link Materials} contains the {@link SubTag}
      */
     @Override
     public boolean contains(SubTag aTag) {
@@ -1619,7 +1822,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * Removes a SubTag from this Material
+     * Removes a SubTag from this {@link Materials}
+     * @param aTag the {@link SubTag} to be removed
+     * @return the {@link Materials} with the removed {@link SubTag}
      */
     @Override
     public boolean remove(SubTag aTag) {
@@ -1627,7 +1832,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * Sets the Heat Damage for this Material (negative = frost)
+     * Sets the Heat Damage for this {@link Materials} (negative = frost)
+     * @param aHeatDamage The Heat Damage (negative = frost)
+     * @return The updated {@link Materials} with the new Heat Damage
      */
     public Materials setHeatDamage(float aHeatDamage) {
         mHeatDamage = aHeatDamage;
@@ -1635,8 +1842,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * Adds a Material to the List of Byproducts when grinding this Ore.
+     * Adds The {@link Materials} to the List of Byproducts when grinding this Ore.
      * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of Materials.
+     * @param aMaterial The {@link Materials} to be added as byproducts
+     * @return The updated {@link Materials} with added byproducts
      */
     public Materials addOreByProduct(Materials aMaterial) {
         if (!mOreByProducts.contains(aMaterial.mMaterialInto)) mOreByProducts.add(aMaterial.mMaterialInto);
@@ -1644,8 +1853,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * Adds multiple Materials to the List of Byproducts when grinding this Ore.
+     * Adds multiple {@link Materials} to the List of Byproducts when grinding this Ore.
      * Is used for more precise Ore grinding, so that it is possible to choose between certain kinds of Materials.
+     * @param aMaterials The {@link Materials} to be added as byproducts
+     * @return The updated {@link Materials} with the added byproducts
      */
     public Materials addOreByProducts(Materials... aMaterials) {
         for (Materials tMaterial : aMaterials) if (tMaterial != null) addOreByProduct(tMaterial);
@@ -1653,8 +1864,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * If this Ore gives multiple drops of its Main Material.
+     * If this Ore gives multiple drops of its Main {@link Materials}.
      * Lapis Ore for example gives about 6 drops.
+     * @param aOreMultiplier The Main Ore Multiplier
+     * @return The updated {@link Materials} with the new Ore Multiplier
      */
     public Materials setOreMultiplier(int aOreMultiplier) {
         if (aOreMultiplier > 0) mOreMultiplier = aOreMultiplier;
@@ -1663,6 +1876,8 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
 
     /**
      * If this Ore gives multiple drops of its Byproduct Material.
+     * @param aByProductMultiplier The Byproduct Multiplier
+     * @return The updated {@link Materials} with the new Byproduct Multiplier
      */
     public Materials setByProductMultiplier(int aByProductMultiplier) {
         if (aByProductMultiplier > 0) mByProductMultiplier = aByProductMultiplier;
@@ -1670,8 +1885,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * If this Ore gives multiple drops of its Main Material.
-     * Lapis Ore for example gives about 6 drops.
+     * If this Ore smelts into multiple drops of its Main Material.
+     * Lapis Ore for example smelts into about 3 drops.
+     * @param aSmeltingMultiplier The Smelting Multiplier
+     * @return The updated {@link Materials} with the new Smelt Multiplier
      */
     public Materials setSmeltingMultiplier(int aSmeltingMultiplier) {
         if (aSmeltingMultiplier > 0) mSmeltingMultiplier = aSmeltingMultiplier;
@@ -1679,7 +1896,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * This Ore should be smolten directly into an Ingot of this Material instead of an Ingot of itself.
+     * This Ore should be smelted directly into an Ingot of this {@link Materials} instead of an Ingot of itself.
+     * @param aMaterial The Ingot's {@link Materials}
+     * @return The updated {@link Materials} with the added Ingot's {@link Materials} direct smelt
      */
     public Materials setDirectSmelting(Materials aMaterial) {
         if (aMaterial != null) mDirectSmelting = aMaterial.mMaterialInto.mDirectSmelting;
@@ -1688,8 +1907,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
 
     /**
      * This Material should be the Main Material this Ore gets ground into.
-     * Example, Chromite giving Chrome or Tungstate giving Tungsten.
-     */
+     * Example: {@link Materials#Chromite} giving {@link Materials#Chrome} or {@link Materials#Tungstate} giving {@link Materials#Tungsten}.
+     * @param aMaterial The ground {@link Materials}
+     * @return The updated {@link Materials} with the new ground {@link Materials}
+    */
     public Materials setOreReplacement(Materials aMaterial) {
         if (aMaterial != null) mOreReplacement = aMaterial.mMaterialInto.mOreReplacement;
         return this;
@@ -1697,6 +1918,8 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
 
     /**
      * This Material smelts always into an instance of aMaterial. Used for Magnets.
+     * @param aMaterial The always smelt-into {@link Materials}
+     * @return The updated {@link Materials} with the new smelt-into {@link Materials}
      */
     public Materials setSmeltingInto(Materials aMaterial) {
         if (aMaterial != null) mSmeltInto = aMaterial.mMaterialInto.mSmeltInto;
@@ -1704,7 +1927,10 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * This Material arc smelts always into an instance of aMaterial. Used for Wrought Iron.
+     * In an Arc Furnace, this Material always into an instance of {@link Materials}.
+     * Used for Wrought Iron.
+     * @param aMaterial The Arc Furnace always smelt-into {@link Materials}
+     * @return The updated {@link Materials} with the new Arc Furnace always smelt-into {@link Materials}
      */
     public Materials setArcSmeltingInto(Materials aMaterial) {
         if (aMaterial != null) mArcSmeltInto = aMaterial.mMaterialInto.mArcSmeltInto;
@@ -1712,54 +1938,108 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
     }
 
     /**
-     * This Material macerates always into an instance of aMaterial.
+     * This Material macerates always into an instance of {@link Materials}.
+     * @param aMaterial The maceration output {@link Materials}
+     * @return The updated {@link Materials} with the new maceration output {@link Materials}
      */
     public Materials setMaceratingInto(Materials aMaterial) {
         if (aMaterial != null) mMacerateInto = aMaterial.mMaterialInto.mMacerateInto;
         return this;
     }
 
+    /**
+     * Sets the {@link Enchantment} for Tools made of this {@link Materials}
+     * @param aEnchantment the {@link Enchantment}
+     * @param aEnchantmentLevel the {@link Enchantment}'s Level
+     * @return @return The updated {@link Materials} with the new {@link Enchantment} for Tools
+     */
     public Materials setEnchantmentForTools(Enchantment aEnchantment, int aEnchantmentLevel) {
         mEnchantmentTools = aEnchantment;
         mEnchantmentToolsLevel = (byte) aEnchantmentLevel;
         return this;
     }
 
+    /**
+     * Sets the {@link Enchantment} for Armors made of this {@link Materials}
+     * @param aEnchantment the {@link Enchantment}
+     * @param aEnchantmentLevel the {@link Enchantment}'s Level
+     * @return @return The updated {@link Materials} with the new {@link Enchantment} for Armors
+     */
     public Materials setEnchantmentForArmors(Enchantment aEnchantment, int aEnchantmentLevel) {
         mEnchantmentArmors = aEnchantment;
         mEnchantmentArmorsLevel = (byte) aEnchantmentLevel;
         return this;
     }
 
+    /**
+     * Get {@link GT_FluidStack} Fluid state amount from the Solid state of this {@link Materials}
+     * @param aAmount The amount of Fluid in Liters
+     * @return The {@link GT_FluidStack} Fluid state amount from the Solid state of this {@link Materials}
+     */
     public FluidStack getSolid(long aAmount) {
         if (mSolid == null) return null;
         return new GT_FluidStack(mSolid, (int) aAmount);
     }
 
+    /**
+     * Get {@link GT_FluidStack} Fluid state amount of this {@link Materials}
+     * @param aAmount The amount of Fluid in Liters
+     * @return The {@link GT_FluidStack} Fluid state amount of this {@link Materials}
+     */
     public FluidStack getFluid(long aAmount) {
         if (mFluid == null) return null;
         return new GT_FluidStack(mFluid, (int) aAmount);
     }
 
+    /**
+     * Get {@link GT_FluidStack} Gaseous state amount of this {@link Materials}
+     * @param aAmount The amount Gas in Liters
+     * @return The {@link GT_FluidStack} Gaseous state amount of this {@link Materials}
+     */
     public FluidStack getGas(long aAmount) {
         if (mGas == null) return null;
         return new GT_FluidStack(mGas, (int) aAmount);
     }
 
+    /**
+     * Get {@link GT_FluidStack} Plasma state amount of this {@link Materials}
+     * @param aAmount The amount Plasma in Liters
+     * @return The {@link GT_FluidStack} Plasma state amount of this {@link Materials}
+     */
     public FluidStack getPlasma(long aAmount) {
         if (mPlasma == null) return null;
         return new GT_FluidStack(mPlasma, (int) aAmount);
     }
 
+    /**
+     * Get {@link GT_FluidStack} Molten state amount of this {@link Materials}
+     * @param aAmount The amount Molten in Liters
+     * @return The {@link GT_FluidStack} Molten state amount of this {@link Materials}
+     */
     public FluidStack getMolten(long aAmount) {
         if (mStandardMoltenFluid == null) return null;
         return new GT_FluidStack(mStandardMoltenFluid, (int) aAmount);
     }
 
-    @Override
-    public short[] getRGBA() {
+    /**
+     * Get {@link Materials} color components as an int array
+     * @return int array color components
+     */
+    public short[] getRGBa() {
+        return mRGBa.getRGBA();
+    }
+
+    public short[] getMoltenRGBa() {
+        return mMoltenRGBa.getRGBA();
+    }
+
+    public IColorModulationContainer getColor() {
         return mRGBa;
     }
 
-    public static volatile int VERSION = 509;
+    public IColorModulationContainer getMoltenColor() {
+        return mMoltenRGBa;
+    }
+
+    public static volatile int VERSION = 508;
 }

@@ -88,7 +88,7 @@ public class GT_Tool_Crowbar
         String tTool = aBlock.getHarvestTool(aMetaData);
         if ((tTool == null) || (tTool.equals(EMPTY_STRING))) {
             for (Iterator i$ = GT_MetaGenerated_Tool_01.INSTANCE.mToolStats.values().iterator(); i$.hasNext(); i$.next()) {
-                if (((i$ instanceof GT_Tool_Crowbar)) && (!((IToolStats) i$).isMinableBlock(aBlock, aMetaData))) {
+                if (i$ instanceof GT_Tool_Crowbar && (!((IToolStats) i$).isMinableBlock(aBlock, aMetaData))) {
                     return false;
                 }
             }
@@ -106,7 +106,7 @@ public class GT_Tool_Crowbar
     }
 
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : null;
+        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getRGBa() : null;
     }
 
     public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {

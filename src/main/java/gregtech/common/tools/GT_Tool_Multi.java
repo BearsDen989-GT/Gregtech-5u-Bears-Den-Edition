@@ -53,7 +53,7 @@ public class GT_Tool_Multi
     }
 
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : GT_MetaGenerated_Tool.getSecondaryMaterial(aStack).mRGBa;
+        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getRGBa() : GT_MetaGenerated_Tool.getSecondaryMaterial(aStack).getRGBa();
     }
 
     public boolean isMinableBlock(Block aBlock, byte aMetaData) {

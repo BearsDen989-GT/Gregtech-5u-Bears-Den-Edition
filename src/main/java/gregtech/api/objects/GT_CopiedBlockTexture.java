@@ -33,7 +33,7 @@ public class GT_CopiedBlockTexture implements ITexture {
     }
 
     public GT_CopiedBlockTexture(Block aBlock, int aSide, int aMeta) {
-        this(aBlock, aSide, aMeta, Dyes._NULL.mRGBa);
+        this(aBlock, aSide, aMeta, Dyes._NULL.getRGBa());
     }
 
     private IIcon getIcon(int aSide) {

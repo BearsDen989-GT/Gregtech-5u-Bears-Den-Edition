@@ -46,10 +46,10 @@ public class GT_MetaTileEntity_PyrolyseOven extends GT_MetaTileEntity_MultiBlock
 
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
         if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[0],
+            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[61],
                     new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_FRONT_LARGE_BOILER_ACTIVE : Textures.BlockIcons.OVERLAY_FRONT_LARGE_BOILER)};
         }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[0]};
+        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[61]};
     }
 
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
@@ -105,16 +105,16 @@ public class GT_MetaTileEntity_PyrolyseOven extends GT_MetaTileEntity_MultiBlock
             for (int j = -2; j < 3; j++) {
                 for (int h = 0; h < 4; h++) {
                     IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, h, zDir + j);
-                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// innerer 3x3 ohne h�he
-                        if (h == 0) {// innen boden (cupronickel coils)
+                    if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// Inner 3x3 without height
+                        if (h == 0) {// Inside Bottom Layer(cupronickel coils)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings1) {
                                 return false;
                             }
                             if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, h, zDir + j) != 12) {
                                 return false;
                             }
-                        } else if (h == 3) {// innen decke (ulv casings + input + muffler)
-                            if ((!addInputToMachineList(tTileEntity, 22)) && (!addMufflerToMachineList(tTileEntity, 22))) {
+                        } else if (h == 3) {// // Inside Top Layer (ulv casings + input + muffler)
+                            if ((!addInputToMachineList(tTileEntity, 61)) && (!addMufflerToMachineList(tTileEntity, 61))) {
                                 if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings1) {
                                     return false;
                                 }
@@ -122,14 +122,14 @@ public class GT_MetaTileEntity_PyrolyseOven extends GT_MetaTileEntity_MultiBlock
                                     return false;
                                 }
                             }
-                        } else {// innen air
+                        } else {// Inside Air
                             if (!aBaseMetaTileEntity.getAirOffset(xDir + i, h, zDir + j)) {
                                 return false;
                             }
                         }
-                    } else {// Au�erer 5x5 ohne h�he
-                        if (h == 0) {// au�en boden (controller, output, energy, maintainance, rest ulv casings)
-                            if ((!addMaintenanceToMachineList(tTileEntity, 22)) && (!addOutputToMachineList(tTileEntity, 22)) && (!addEnergyInputToMachineList(tTileEntity, 22))) {
+                    } else {//  Outside 5x5 without height
+                        if (h == 0) {// Outside Bottom Layer (controller, output, energy, maintainance, rest ulv casings)
+                            if ((!addMaintenanceToMachineList(tTileEntity, 61)) && (!addOutputToMachineList(tTileEntity, 61)) && (!addEnergyInputToMachineList(tTileEntity, 61))) {
                                 if ((xDir + i != 0) || (zDir + j != 0)) {//no controller
                                     if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings1) {
                                         return false;
@@ -139,7 +139,7 @@ public class GT_MetaTileEntity_PyrolyseOven extends GT_MetaTileEntity_MultiBlock
                                     }
                                 }
                             }
-                        } else {// au�en �ber boden (ulv casings)
+                        } else {// Outside - Above Bottom Layer (ulv casings)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings1) {
                                 return false;
                             }

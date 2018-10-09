@@ -14,11 +14,13 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.objects.GT_ItemStack;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Recipe.GT_Recipe_Map;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.items.GT_MetaGenerated_Tool_01;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
@@ -177,6 +179,71 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity {
     @Override
     public void onMachineBlockUpdate() {
         mUpdate = 50;
+    }
+
+    /*Code for hatches not voiding items & fluids provided by Alkalus below (as appears in GT++)
+    *Copyright 2016-2018
+    *All rights reserved.
+    *Distribution of the software in any form is only allowed with explicit, prior permission from the owner.
+     */
+
+    public boolean canBufferOutputs(final GT_Recipe aRecipe, int aParallelRecipes) {
+        // Count slots available in output buses
+        ArrayList<ItemStack> tBusStacks = new ArrayList<>();
+
+        int tEmptySlots = 0;
+        for (final GT_MetaTileEntity_Hatch_OutputBus tBus : this.mOutputBusses) {
+            if (!isValidMetaTileEntity(tBus)) {
+                continue;
+            }
+            final IInventory tBusInv = tBus.getBaseMetaTileEntity();
+            for (int i = 0; i < tBusInv.getSizeInventory(); i++) {
+                if (tBus.getStackInSlot(i) == null) {
+                    tEmptySlots++;
+                }
+                else {
+                    tBusStacks.add(tBus.getStackInSlot(i));
+                }
+            }
+        }
+
+        int slotsNeeded = aRecipe.mOutputs.length;
+        for (final ItemStack tRecipeOutput: aRecipe.mOutputs) {
+            if (tRecipeOutput == null) continue;
+            int amount = tRecipeOutput.stackSize * aParallelRecipes;
+            for (final ItemStack tBusStack : tBusStacks) {
+                if (GT_Utility.areStacksEqual(tBusStack, tRecipeOutput)) {
+                    if (tBusStack.stackSize + amount <= tBusStack.getMaxStackSize()) {
+                        slotsNeeded--;
+                        break;
+                    }
+                }
+            }
+        }
+        // Enough open slots?
+        if (tEmptySlots < slotsNeeded) return false;
+
+        // For each output fluid, make sure an output hatch can accept it.
+        for (FluidStack tRecipeFluid: aRecipe.mFluidOutputs) {
+            if (tRecipeFluid == null) continue;
+            boolean tCanBufferFluid = false;
+            int tRecipeAmount = tRecipeFluid.amount;
+            for (final GT_MetaTileEntity_Hatch_Output tHatch : this.mOutputHatches) {
+                FluidStack tHatchFluid = tHatch.getFluid();
+                if (tHatchFluid == null) {
+                    if(tHatch.getCapacity() > tRecipeAmount) {
+                        tCanBufferFluid = true;
+                        break;
+                    }
+                }
+                else if (tHatchFluid.isFluidEqual(tRecipeFluid) && tHatch.getCapacity() - tHatchFluid.amount > tRecipeAmount) {
+                    tCanBufferFluid = true;
+                    break;
+                }
+            }
+            if (!tCanBufferFluid) return false;
+        }
+        return true;
     }
 
     @Override

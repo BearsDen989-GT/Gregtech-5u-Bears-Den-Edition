@@ -53,7 +53,7 @@ public class Behaviour_Prospecting
             GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
             return true;
         }
-        if ((aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone))) {
+        //if ((aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) || aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone))) {
             if (GT_ModHandler.damageOrDechargeItem(aStack, this.mVanillaCosts, this.mEUCosts, aPlayer)) {
                 GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
                 int tX = aX;
@@ -63,7 +63,7 @@ public class Behaviour_Prospecting
                 int tQuality = (aItem instanceof GT_MetaGenerated_Tool) ? aItem.getHarvestLevel(aStack, EMPTY_STRING) : 0;
 
                 int i = 0;
-                for (int j = 6 + tQuality; i < j; i++) {
+                for (int j = 16 + tQuality; i < j; i++) {
                     tX -= ForgeDirection.getOrientation(aSide).offsetX;
                     tY -= ForgeDirection.getOrientation(aSide).offsetY;
                     tZ -= ForgeDirection.getOrientation(aSide).offsetZ;
@@ -85,7 +85,7 @@ public class Behaviour_Prospecting
                         if (i >= 4) {
                             break;
                         }
-                        GT_Utility.sendChatToPlayer(aPlayer, "Material is changing behind this Rock.");
+                        GT_Utility.sendChatToPlayer(aPlayer, "Material is changing behind this Block.");
                         break;
                     }
                 }
@@ -114,12 +114,12 @@ public class Behaviour_Prospecting
                         }
                     }
                 }
-                GT_Utility.sendChatToPlayer(aPlayer, "No Ores found.");
+                GT_Utility.sendChatToPlayer(aPlayer, "No Ores found :(");
             }
             return true;
         }
-        return false;
-    }
+        //return false;
+    //}
 
     public List<String> getAdditionalToolTips(GT_MetaBase_Item aItem, List<String> aList, ItemStack aStack) {
         aList.add(this.mTooltip);

@@ -878,7 +878,11 @@ implements Runnable {
 			RECIPE_ADDER_INSTANCE.addPyrolyseRecipe(GT_OreDictUnificator.get(OrePrefixes.block, Materials.Coal, 8), null, 1, EnumCube.COKE_BLOCK.getItem(8), Materials.Creosote.getFluid(32000), 2560, 32);
 		}
 
-		RECIPE_ADDER_INSTANCE.addHydroFarmRecipe(new ItemStack(Items.melon_seeds, 9, 0), ItemList.IC2_Fertilizer.get(1L), Materials.Water.getFluid(1000), new ItemStack(Blocks.melon_block, 9, 0),   NULL_FLUID_STACK, 1000, 40);
+		//: TODO NOT WORKING HYDRPFARM RECIPES - 2nd output slot does not work correctly yet
+		RECIPE_ADDER_INSTANCE.addHydroFarmRecipe(new ItemStack(Items.melon_seeds, 9, 0), ItemList.IC2_Fertilizer.get(1L), Materials.Water.getFluid(1000), new ItemStack(Blocks.melon_block, 18, 0), new ItemStack(Items.melon_seeds, 9, 0), Materials.Oxygen.getGas(100L), 1000, 40);
+        RECIPE_ADDER_INSTANCE.addHydroFarmRecipe(new ItemStack(Items.pumpkin_seeds, 9, 0), ItemList.IC2_Fertilizer.get(1L), Materials.Water.getFluid(1000), new ItemStack(Blocks.pumpkin, 18, 0), new ItemStack(Items.pumpkin_seeds, 9, 0), Materials.Oxygen.getGas(100L), 1000, 40);
+        RECIPE_ADDER_INSTANCE.addHydroFarmRecipe(new ItemStack(Items.carrot, 9, 0), ItemList.IC2_Fertilizer.get(1L), Materials.Water.getFluid(1000), new ItemStack(Items.carrot, 27, 0), NULL_ITEM_STACK, Materials.Oxygen.getGas(100L), 1000, 40);
+        RECIPE_ADDER_INSTANCE.addHydroFarmRecipe(new ItemStack(Blocks.sapling, 1, 0), ItemList.IC2_Fertilizer.get(1L), Materials.Water.getFluid(1000), new ItemStack(Blocks.log, 3, 0), new ItemStack(Blocks.sapling, 1, 0), Materials.Oxygen.getGas(100L), 1000, 40);
 
 		RECIPE_ADDER_INSTANCE.addDistillationTowerRecipe(Materials.Oil.getFluid(64L), new FluidStack[]{Materials.Lubricant.getFluid(16L), Materials.Fuel.getFluid(64L), Materials.SulfuricAcid.getFluid(64L), Materials.Glyceryl.getFluid(4L), Materials.Methane.getGas(60L)}, null, 16, 64);
 		RECIPE_ADDER_INSTANCE.addDistillationTowerRecipe(new FluidStack(ItemList.sOilLight, 128), new FluidStack[]{Materials.Lubricant.getFluid(16L), Materials.Fuel.getFluid(64L), Materials.SulfuricAcid.getFluid(64L), Materials.Glyceryl.getFluid(4L), Materials.Methane.getGas(60L)}, null, 16, 64);

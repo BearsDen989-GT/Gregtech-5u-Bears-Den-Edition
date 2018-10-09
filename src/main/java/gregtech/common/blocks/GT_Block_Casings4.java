@@ -33,6 +33,7 @@ public class GT_Block_Casings4
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".7.name", "Fusion Coil");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".8.name", "Fusion Casing MK II");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".9.name", "Turbine Casing");
+        GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".13.name", "Dummy Casing");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".14.name", "Plastic Casing");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".15.name", "Dense Bricks");
 
@@ -45,6 +46,7 @@ public class GT_Block_Casings4
         ItemList.Casing_Fusion_Coil.set(new ItemStack(this, 1, 7));
         ItemList.Casing_Fusion2.set(new ItemStack(this, 1, 8));
         ItemList.Casing_Turbine.set(new ItemStack(this, 1, 9));
+        ItemList.Casing_Pyro.set(new ItemStack(this, 1, 13));
         ItemList.Casing_Plastic.set(new ItemStack(this, 1, 14));
         ItemList.Casing_DenseBricks.set(new ItemStack(this, 1, 15));
 
@@ -79,7 +81,7 @@ public class GT_Block_Casings4
             case 12:
                 return Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
             case 13:
-                return Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
+                return Textures.BlockIcons.MACHINE_8V_SIDE.getIcon();
             case 14:
                 return Textures.BlockIcons.MACHINE_CASING_PLASTIC.getIcon();
             case 15:

@@ -254,7 +254,7 @@ public class GT_Client extends GT_Proxy
             if ((this.isFirstClientPlayerTick) && (aEvent.player == GT_MOD_INSTANCE.getThePlayer())) {
                 this.isFirstClientPlayerTick = false;
                 GT_FluidStack.fixAllThoseFuckingFluidIDs();
-                aEvent.player.addChatComponentMessage(new ChatComponentText("Hi "+ Minecraft.getMinecraft().thePlayer.getDisplayName() +", welcome to GT5u: Bears Den Edition!"));
+                aEvent.player.addChatComponentMessage(new ChatComponentText("Hi "+ Minecraft.getMinecraft().thePlayer.getDisplayName() +", welcome to GT5u: Bear's Den Edition!"));
                 aEvent.player.addChatComponentMessage(new ChatComponentText("Visit http://bearsden.overminddl1.com/ for more info."));
                 aEvent.player.addChatComponentMessage(new ChatComponentText("Not ready for public use, still in alpha"));
                 if ((this.mMessage.length() > 5) && (GregTech_API.sSpecialFile.get(ConfigCategories.news, this.mMessage, true))) {

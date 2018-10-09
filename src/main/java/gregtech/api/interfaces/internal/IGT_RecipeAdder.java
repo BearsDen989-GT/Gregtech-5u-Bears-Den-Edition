@@ -302,12 +302,13 @@ public interface IGT_RecipeAdder {
      *
      * @param aInput1
      * @param aInput2
-     * @param aOutput
+     * @param aOutput1
+     * @param aOutput2
      * @param aFluidOutput
      * @param aDuration
      * @param aEUt
      */
-    boolean addHydroFarmRecipe(ItemStack aInput1 ,ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput, FluidStack aFluidOutput, int aDuration, int aEUt);
+    boolean addHydroFarmRecipe(ItemStack aInput1, ItemStack aInput2, FluidStack aFluidInput, ItemStack aOutput1, ItemStack aOutput2, FluidStack aFluidOutput, int aDuration, int aEUt);
 
     boolean addSimpleArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt);
 

@@ -46,10 +46,10 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
 
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
         if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[1],
+            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[62],
                     new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_SCREEN : Textures.BlockIcons.OVERLAY_SCREEN)};
         }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[1]};
+        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[62]};
     }
 
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
@@ -86,7 +86,7 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                         this.mEUt = (-this.mEUt);
                     }
                     this.mMaxProgresstime = Math.max(1, this.mMaxProgresstime);
-                    if (tRecipe.mOutputs.length > 0) this.mOutputItems = new ItemStack[]{tRecipe.getOutput(0)};
+                    if (tRecipe.mOutputs.length > 0) this.mOutputItems = new ItemStack[]{tRecipe.getOutput(0), tRecipe.getOutput(1)};
                     if (tRecipe.mFluidOutputs.length > 0)
                         this.mOutputFluids = new FluidStack[]{tRecipe.getFluidOutput(0)};
                     updateSlots();
@@ -106,14 +106,14 @@ public class GT_MetaTileEntity_HydroFarm extends GT_MetaTileEntity_MultiBlockBas
                 for (int h = 0; h < 5; h++) {
                     IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, h, zDir + j);
                     if ((i != -2 && i != 2) && (j != -2 && j != 2)) {// inner 3 x 3
-                        if (h == 0) {//inner bottom (plastic casings)
+                        if (h == 0) {// inner bottom (plastic casings)
                             if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                 return false;
                             }
                             if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, h, zDir + j) != 14) {
                                 return false;
                             }
-                        } else if (h == 4) {//inner top (plastic casings + input + muffler)
+                        } else if (h == 4) {// inner top (plastic casings + input + muffler)
                             if ((!addInputToMachineList(tTileEntity, 62)) && (!addMufflerToMachineList(tTileEntity, 62))) {
                                 if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
                                     return false;

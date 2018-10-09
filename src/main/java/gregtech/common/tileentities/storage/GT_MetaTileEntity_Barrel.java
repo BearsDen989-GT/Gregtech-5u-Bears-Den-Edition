@@ -21,7 +21,7 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
     public int mItemCount = 0;
     public ItemStack mItemStack = null;
     public GT_MetaTileEntity_Barrel(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 3, "This Barrel stores " + ((int) ((Math.pow(2, aTier)) * 2000)) + " Blocks");
+        super(aID, aName, aNameRegional, aTier, 3, "This Barrel stores " + ((int) ((Math.pow(2, aTier)) * 2048)) + " Blocks");
     }
 
     public GT_MetaTileEntity_Barrel(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {

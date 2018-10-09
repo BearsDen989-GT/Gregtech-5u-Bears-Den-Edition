@@ -80,7 +80,7 @@ public class ProcessingPlate1 implements gregtech.api.interfaces.IOreRecipeRegis
                 GregTech_API.registerCover(aStack, new GT_RenderedTexture(gregtech.api.enums.Textures.BlockIcons.CONCRETE_LIGHT_SMOOTH), null);
                 break;
             default:
-                GregTech_API.registerCover(aStack, new GT_RenderedTexture(aMaterial.mIconSet.mTextures[71], aMaterial.getRGBa(), false), null);
+                GregTech_API.registerCover(aStack, new GT_RenderedTexture(aMaterial.getTextureSet().mTextures[71], aMaterial.getRGBa(), false), null);
         }
 
         if (aMaterial.mFuelPower > 0)

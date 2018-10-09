@@ -97,7 +97,7 @@ public abstract class GT_MetaGenerated_Item_X01 extends GT_MetaGenerated_Item {
     }
 
     public IIconContainer getIconContainer(int aMetaData, Materials aMaterial) {
-        return aMaterial.mIconSet.mTextures[mIconSetIndex];
+        return aMaterial.getTextureSet().mTextures[mIconSetIndex];
     }
 	
 	/* ---------- INTERNAL OVERRIDES ---------- */

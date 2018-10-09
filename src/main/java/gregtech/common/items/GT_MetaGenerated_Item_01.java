@@ -87,12 +87,12 @@ public class GT_MetaGenerated_Item_01
 
         int tLastID = 0;
 
-        setBurnValue(17000 + Materials.Wood.mMetaItemSubID, 1600);
-        GT_OreDictUnificator.addToBlacklist(new ItemStack(this, 1, 17000 + Materials.Wood.mMetaItemSubID));
-        GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 8L), new ItemStack(this, 1, 17000 + Materials.Wood.mMetaItemSubID));
-        GregTech_API.registerCover(new ItemStack(this, 1, 17000 + Materials.Wood.mMetaItemSubID), new GT_RenderedTexture(Textures.BlockIcons.COVER_WOOD_PLATE), null);
+        setBurnValue(17000 + Materials.Wood.getSubID(), 1600);
+        GT_OreDictUnificator.addToBlacklist(new ItemStack(this, 1, 17000 + Materials.Wood.getSubID()));
+        GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 8L), new ItemStack(this, 1, 17000 + Materials.Wood.getSubID()));
+        GregTech_API.registerCover(new ItemStack(this, 1, 17000 + Materials.Wood.getSubID()), new GT_RenderedTexture(Textures.BlockIcons.COVER_WOOD_PLATE), null);
 
-        ItemStack tStack = new ItemStack(this, 1, 17000 + Materials.Wood.mMetaItemSubID);
+        ItemStack tStack = new ItemStack(this, 1, 17000 + Materials.Wood.getSubID());
         tStack.setStackDisplayName("The holy Planks of Sengir");
         GT_Utility.ItemNBT.addEnchantment(tStack, Enchantment.smite, 10);
         GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.NOT_REMOVABLE, new Object[]{"XXX", "XDX", "XXX", 'X', OrePrefixes.gem.get(Materials.NetherStar), 'D', new ItemStack(Blocks.dragon_egg, 1, OreDictionary.WILDCARD_VALUE)});

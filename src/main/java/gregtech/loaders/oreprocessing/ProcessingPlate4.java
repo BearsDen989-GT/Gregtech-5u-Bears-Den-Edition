@@ -17,7 +17,7 @@ public class ProcessingPlate4 implements gregtech.api.interfaces.IOreRecipeRegis
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         GT_ModHandler.removeRecipeByOutput(aStack);
-        GregTech_API.registerCover(aStack, new gregtech.api.objects.GT_RenderedTexture(aMaterial.mIconSet.mTextures[74], aMaterial.getRGBa(), false), null);
+        GregTech_API.registerCover(aStack, new gregtech.api.objects.GT_RenderedTexture(aMaterial.getTextureSet().mTextures[74], aMaterial.getRGBa(), false), null);
         if (!aMaterial.contains(gregtech.api.enums.SubTag.NO_WORKING))
             RECIPE_ADDER_INSTANCE.addCNCRecipe(GT_Utility.copyAmount(1L, aStack), GT_OreDictUnificator.get(OrePrefixes.gearGt, aMaterial, 1L), (int) Math.max(aMaterial.getMass() * 2L, 1L), 32);
         if ((!aMaterial.contains(gregtech.api.enums.SubTag.NO_SMASHING)) && (GregTech_API.sRecipeFile.get(gregtech.api.enums.ConfigCategories.Tools.hammerquadrupleplate, OrePrefixes.plate.get(aMaterial).toString(), true))) {

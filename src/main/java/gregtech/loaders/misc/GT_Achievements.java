@@ -215,7 +215,7 @@ public class GT_Achievements {
         if (this.achievementList.get(aMaterial.name()) == null) {
             oreReg++;
             return registerAchievement(aMaterial.name(), -(6 + oreReg % 5), ((oreReg) / 5) - 8, new ItemStack(GregTech_API.sBlockOres1, 1,
-                    aMaterial.mMetaItemSubID), AchievementList.openInventory, false);
+                    aMaterial.getSubID()), AchievementList.openInventory, false);
         }
         return null;
     }

@@ -32,17 +32,17 @@ public class ProcessingCell
             if (aMaterial.mFuelPower > 0) {
                 RECIPE_ADDER_INSTANCE.addFuel(GT_Utility.copyAmount(1L, aStack), GT_Utility.getFluidForFilledItem(aStack, true) == null ? GT_Utility.getContainerItem(aStack, true) : null, aMaterial.mFuelPower, aMaterial.mFuelType);
             }
-            if ((aMaterial.mMaterialList.size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
+            if ((aMaterial.getMaterialList().size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
                 int tAllAmount = 0;
                 MaterialStack tMat2;
-                for (Iterator i$ = aMaterial.mMaterialList.iterator(); i$.hasNext(); tAllAmount = (int) (tAllAmount + tMat2.mAmount)) {
+                for (Iterator i$ = aMaterial.getMaterialList().iterator(); i$.hasNext(); tAllAmount = (int) (tAllAmount + tMat2.mAmount)) {
                     tMat2 = (MaterialStack) i$.next();
                 }
                 long tItemAmount = 0L;
                 long tCapsuleCount = GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(aStack) * -tAllAmount;
                 long tDensityMultiplier = aMaterial.getDensity() > MATERIAL_UNIT ? aMaterial.getDensity() / MATERIAL_UNIT : 1L;
-                ArrayList<ItemStack> tList = new ArrayList();
-                for (MaterialStack tMat : aMaterial.mMaterialList) {
+                ArrayList<ItemStack> tList = new ArrayList<>();
+                for (MaterialStack tMat : aMaterial.getMaterialList()) {
                     if (tMat.mAmount > 0L) {
                         ItemStack tStack;
                         if (tMat.mMaterial == Materials.Air) {

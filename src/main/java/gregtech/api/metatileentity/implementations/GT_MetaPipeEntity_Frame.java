@@ -47,7 +47,7 @@ public class GT_MetaPipeEntity_Frame extends MetaPipeEntity {
 
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
-        return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.frameGt.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.getRGBa()))};
+        return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[OrePrefixes.frameGt.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.getRGBa()))};
     }
 
     @Override

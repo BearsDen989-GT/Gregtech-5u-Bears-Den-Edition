@@ -106,7 +106,7 @@ public abstract class GT_MetaGenerated_Item_X32 extends GT_MetaGenerated_Item {
      * @return an Icon Container for the Item Display.
      */
     public final IIconContainer getIconContainer(int aMetaData, Materials aMaterial) {
-        return mGeneratedPrefixList[aMetaData / 1000] != null && mGeneratedPrefixList[aMetaData / 1000].mTextureIndex >= 0 ? aMaterial.mIconSet.mTextures[mGeneratedPrefixList[aMetaData / 1000].mTextureIndex] : null;
+        return mGeneratedPrefixList[aMetaData / 1000] != null && mGeneratedPrefixList[aMetaData / 1000].mTextureIndex >= 0 ? aMaterial.getTextureSet().mTextures[mGeneratedPrefixList[aMetaData / 1000].mTextureIndex] : null;
     }
 
     /**

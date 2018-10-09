@@ -53,7 +53,6 @@ import gregtech.loaders.load.GT_ItemIterator;
 import gregtech.loaders.load.GT_SonictronLoader;
 import gregtech.loaders.misc.GT_Achievements;
 import gregtech.loaders.misc.GT_CoverLoader;
-import gregtech.loaders.postload.EX_MachineRecipeLoader;
 import gregtech.loaders.postload.GT_BlockResistanceLoader;
 import gregtech.loaders.postload.GT_BookAndLootLoader;
 import gregtech.loaders.postload.GT_CraftingRecipeLoader;
@@ -130,7 +129,15 @@ implements IGT_Mod {
 	public static GT_Achievements achievements;
 
 	static {
-		if ((508 != GregTech_API.VERSION) || (508 != GT_ModHandler.VERSION) || (508 != GT_OreDictUnificator.VERSION) || (508 != GT_Recipe.VERSION) || (508 != GT_Utility.VERSION) || (508 != GT_RecipeRegistrator.VERSION) || (508 != Element.VERSION) || (508 != Materials.VERSION) || (508 != OrePrefixes.VERSION)) {
+		if ((508 != GregTech_API.VERSION)
+				|| (508 != GT_ModHandler.VERSION)
+				|| (508 != GT_OreDictUnificator.VERSION)
+				|| (508 != GT_Recipe.VERSION)
+				|| (508 != GT_Utility.VERSION)
+				|| (508 != GT_RecipeRegistrator.VERSION)
+				|| (508 != Element.VERSION)
+				|| (508 != Materials.VERSION)
+				|| (508 != OrePrefixes.VERSION)) {
 			throw new GT_ItsNotMyFaultException("One of your Mods included GregTech-API Files inside it's download, mention this to the Mod Author, who does this bad thing, and tell him/her to use reflection. I have added a Version check, to prevent Authors from breaking my Mod that way.");
 		}
 	}
@@ -314,6 +321,8 @@ implements IGT_Mod {
 		GregTech_API.mRFExplosions = GregTech_API.sOPStuff.get(ConfigCategories.general, "RFExplosions", true);
 		GregTech_API.meIOLoaded = Loader.isModLoaded(MOD_ID_EIO);
 
+		Materials[] tDisableOres = new Materials[]{Materials.Chrome, Materials.Naquadria, Materials.Silicon, Materials.Cobalt, Materials.Cadmium, Materials.Indium, Materials.Tungsten,
+				Materials.Adamantium, Materials.Mithril, Materials.DarkIron, Materials.Rutile, Materials.Alduorite, Materials.Magnesium};
 
 		if (tMainConfig.get("general", "hardermobspawners", true).getBoolean(true)) {
 			Blocks.mob_spawner.setHardness(500.0F).setResistance(6000000.0F);
@@ -494,7 +503,6 @@ implements IGT_Mod {
 		new GT_RecyclerBlacklistLoader().run();
 		new GT_MinableRegistrator().run();
 		new GT_MachineRecipeLoader().run();
-		new EX_MachineRecipeLoader().LOAD_RECIPES();
 		new GT_ScrapboxDropLoader().run();
 		new GT_CropLoader().run();
 		new GT_Worldgenloader().run();

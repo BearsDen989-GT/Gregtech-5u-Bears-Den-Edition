@@ -4,7 +4,7 @@ package gregtech.api.objects;
  * Color container for anything dealing with colors
  */
 public class IColorModulationContainer {
-    private short[] mRGBA;
+    private short[] mRGBA = new short[4];
 
     public IColorModulationContainer() {
         setRGBA(255, 255, 255, 0);

@@ -686,7 +686,7 @@ public enum OrePrefixes {
     }
 
     public boolean isIgnored(Materials aMaterial) {
-        if (aMaterial != null && (!aMaterial.mUnificatable || aMaterial != aMaterial.mMaterialInto)) return true;
+        if (aMaterial != null && (!aMaterial.isUnifiable() || aMaterial != aMaterial.getMaterialInto())) return true;
         return mIgnoredMaterials.contains(aMaterial);
     }
 

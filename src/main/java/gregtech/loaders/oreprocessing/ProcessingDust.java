@@ -58,12 +58,12 @@ public class ProcessingDust implements gregtech.api.interfaces.IOreRecipeRegistr
         }
 
 
-        if ((aMaterial.mMaterialList.size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
+        if ((aMaterial.getMaterialList().size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
             long tItemAmount = 0L;
             long tCapsuleCount = 0L;
             long tDensityMultiplier = aMaterial.getDensity() > MATERIAL_UNIT ? aMaterial.getDensity() / MATERIAL_UNIT : 1L;
-            ArrayList<ItemStack> tList = new ArrayList();
-            for (MaterialStack tMat : aMaterial.mMaterialList)
+            ArrayList<ItemStack> tList = new ArrayList<>();
+            for (MaterialStack tMat : aMaterial.getMaterialList())
                 if (tMat.mAmount > 0L) {
                     if (tMat.mMaterial == Materials.Air) {
                         tStack = ItemList.Cell_Air.get(tMat.mAmount / 2L);
@@ -75,8 +75,7 @@ public class ProcessingDust implements gregtech.api.interfaces.IOreRecipeRegistr
                     if (tItemAmount + tMat.mAmount * MATERIAL_UNIT <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
                         tItemAmount += tMat.mAmount * MATERIAL_UNIT;
                         if (tStack != null) {
-                            ItemStack tmp793_791 = tStack;
-                            tmp793_791.stackSize = ((int) (tmp793_791.stackSize * tDensityMultiplier));
+                            tStack.stackSize = ((int) (tStack.stackSize * tDensityMultiplier));
                             while ((tStack.stackSize > 64) && (tList.size() < 6) && (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64 <= 64L)) {
                                 tCapsuleCount += GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64;
                                 tList.add(GT_Utility.copyAmount(64L, tStack));

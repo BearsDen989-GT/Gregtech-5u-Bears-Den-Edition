@@ -95,18 +95,18 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
         if (!mInsulated)
-            return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa())};
+            return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa())};
         if (aConnected) {
             float tThickNess = getThickNess();
             if (tThickNess < 0.37F)
-                return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_TINY, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
+                return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_TINY, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
             if (tThickNess < 0.49F)
-                return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_SMALL, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
+                return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_SMALL, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
             if (tThickNess < 0.74F)
-                return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_MEDIUM, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
+                return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_MEDIUM, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
             if (tThickNess < 0.99F)
-                return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_LARGE, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
-            return new ITexture[]{new GT_RenderedTexture(mMaterial.mIconSet.mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_HUGE, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
+                return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_LARGE, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
+            return new ITexture[]{new GT_RenderedTexture(mMaterial.getTextureSet().mTextures[TextureSet.INDEX_wire], mMaterial.getRGBa()), new GT_RenderedTexture(Textures.BlockIcons.INSULATION_HUGE, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
         }
         return new ITexture[]{new GT_RenderedTexture(Textures.BlockIcons.INSULATION_FULL, Dyes.getModulation(aColorIndex, Dyes.CABLE_INSULATION.getRGBa()))};
     }

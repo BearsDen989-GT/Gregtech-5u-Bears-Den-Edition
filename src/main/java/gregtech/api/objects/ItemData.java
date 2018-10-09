@@ -128,6 +128,6 @@ public class ItemData {
     @Override
     public String toString() {
         if (mPrefix == null || mMaterial == null || mMaterial.mMaterial == null) return EMPTY_STRING;
-        return mPrefix.name() + mMaterial.mMaterial.mName;
+        return mPrefix.name() + mMaterial.mMaterial.getName();
     }
 }

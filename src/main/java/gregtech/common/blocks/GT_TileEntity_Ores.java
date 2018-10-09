@@ -269,7 +269,7 @@ public class GT_TileEntity_Ores
     {
         Materials aMaterial = GregTech_API.sGeneratedMaterials[(this.mMetaData % 1000)];
         if ((aMaterial != null) && (this.mMetaData < 32000)) {
-            return new ITexture[] { mStoneTextures[(this.mMetaData / 1000 % 16)], new GT_RenderedTexture(aMaterial.mIconSet.mTextures[this.mMetaData/16000 ==0 ? OrePrefixes.ore.mTextureIndex:OrePrefixes.oreSmall.mTextureIndex], aMaterial.getRGBa()) };
+            return new ITexture[] { mStoneTextures[(this.mMetaData / 1000 % 16)], new GT_RenderedTexture(aMaterial.getTextureSet().mTextures[this.mMetaData/16000 ==0 ? OrePrefixes.ore.mTextureIndex:OrePrefixes.oreSmall.mTextureIndex], aMaterial.getRGBa()) };
         }
         return new ITexture[] { mStoneTextures[0], new GT_RenderedTexture(gregtech.api.enums.TextureSet.SET_NONE.mTextures[OrePrefixes.ore.mTextureIndex]) };
     }

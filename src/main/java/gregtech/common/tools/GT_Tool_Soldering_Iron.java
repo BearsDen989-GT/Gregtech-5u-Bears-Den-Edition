@@ -99,7 +99,7 @@ public class GT_Tool_Soldering_Iron extends GT_Tool {
     }
 
     public IIconContainer getIcon(boolean aIsToolHead, ItemStack aStack) {
-        return !aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mIconSet.mTextures[49] : Textures.ItemIcons.HANDLE_SOLDERING;
+        return !aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).getTextureSet().mTextures[49] : Textures.ItemIcons.HANDLE_SOLDERING;
     }
 
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {

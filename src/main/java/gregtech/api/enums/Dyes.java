@@ -37,7 +37,7 @@ public enum Dyes {
      */
     CABLE_INSULATION(-1, 0x00404040, "Cable Insulation"),
     CONSTRUCTION_FOAM(-1, 0x00404040, "Construction Foam"),
-    MACHINE_METAL(-1, 0x00dcdcff, "Machine Metal");
+    MACHINE_METAL(-1, 0x00ffffff, "Machine Metal");
 
     public static final Dyes VALUES[] = {dyeBlack, dyeRed, dyeGreen, dyeBrown, dyeBlue, dyePurple, dyeCyan, dyeLightGray, dyeGray, dyePink, dyeLime, dyeYellow, dyeLightBlue, dyeMagenta, dyeOrange, dyeWhite};
 

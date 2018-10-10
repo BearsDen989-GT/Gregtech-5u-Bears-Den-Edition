@@ -1089,6 +1089,7 @@ public class GT_Loader_MetaTileEntities
         makeWires(Materials.NiobiumTitanium, 1720, bEC ? 2L : 128L, bEC ? 4L : 256L, 4L, TIERED_VOLTAGES[6], true, false);
         makeWires(Materials.VanadiumGallium, 1740, bEC ? 2L : 128L, bEC ? 4L : 256L, 4L, TIERED_VOLTAGES[6], true, false);
         makeWires(Materials.YttriumBariumCuprate, 1760, bEC ? 4L : 256L, bEC ? 8L : 512L, 4L, TIERED_VOLTAGES[6], true, false);
+        makeWires(Materials.HSSG, 1780, bEC ? 2L : 128L, bEC ? 4L : 256L, 4L, TIERED_VOLTAGES[6], true, false);
 
         makeWires(Materials.RedAlloy, 2000, 0L, 1L, 1L, TIERED_VOLTAGES[0], true, false);
         makeWires(Materials.PurpleAlloy, 12060, bEC ? 1L : 2L, bEC ? 2L : 4L, 1L, TIERED_VOLTAGES[2], true, false);

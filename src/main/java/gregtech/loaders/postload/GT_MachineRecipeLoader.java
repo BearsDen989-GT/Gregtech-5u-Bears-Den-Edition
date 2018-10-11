@@ -1320,6 +1320,19 @@ implements Runnable {
             RECIPE_ADDER_INSTANCE.addPartFactoryRecipe(GT_OreDictUnificator.get(OrePrefixes.circuit, Materials.Basic, 1L), GT_ModHandler.getIC2Item("casingiron", 4L), (GT_ModHandler.getIC2Item("batBox", 1L)), (new ItemStack(Items.glowstone_dust, 2, 0)), (new ItemStack(Blocks.dragon_egg, 0, 0)), NULL_ITEM_STACK, (GT_ModHandler.getIC2Item("electricJetpack", 1L)), 200, 16);
         }
 
+        /* makes ic2 reactor stuff take some gt parts if ic2 cables are disabled */
+
+        if (GT_Mod.gregtechproxy.mDisableIC2Cables) {
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item("reactorvessel", 1L));
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item("reactorFluidPort", 1L));
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item("reactorAccessHatch", 1L));
+            GT_ModHandler.removeRecipeByOutput(GT_ModHandler.getIC2Item("reactorRedstonePort", 1L));
+            RECIPE_ADDER_INSTANCE.addPartFactoryRecipe(GT_OreDictUnificator.get(OrePrefixes.frameGt, Materials.Invar, 1L), (GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Lead, 6L)), NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, (GT_ModHandler.getIC2Item("reactorvessel", 1L)), 200, 16);
+            RECIPE_ADDER_INSTANCE.addPartFactoryRecipe(ItemList.Hatch_Input_LV.get(1L), (GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Lead, 6L)), NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, (GT_ModHandler.getIC2Item("reactorFluidPort", 1L)), 200, 16);
+            RECIPE_ADDER_INSTANCE.addPartFactoryRecipe(ItemList.Hull_LV.get(1L), (GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Lead, 6L)), NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, (GT_ModHandler.getIC2Item("reactorAccessHatch", 1L)), 200, 16);
+            RECIPE_ADDER_INSTANCE.addPartFactoryRecipe(GT_ModHandler.getIC2Item("reactorvessel", 1L), (GT_OreDictUnificator.get(OrePrefixes.circuit, Materials.Advanced, 1L)), NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, NULL_ITEM_STACK, (GT_ModHandler.getIC2Item("reactorRedstonePort", 1L)), 200, 16);
+        }
+
         GT_ModHandler.removeRecipe(new ItemStack(Items.lava_bucket), ItemList.Cell_Empty.get(1L));
 		GT_ModHandler.removeRecipe(new ItemStack(Items.water_bucket), ItemList.Cell_Empty.get(1L));
 

@@ -97,11 +97,10 @@ public class GT_MetaTileEntity_Tank  extends GT_MetaTileEntity_BasicTank {
     @Override
     public String[] getDescription() {
         return new String[]{
+                "Retains fluids when harvested!",
                 "Stores " + Integer.toString(getCapacity()) + "L",
                 "Melts at " + HEAT_CAPACITY[mTier] + "k",
-                isGasProof() ?
-                        "Can store gaseous fluids" :
-                        "Leaks gaseous fluids",
+                isGasProof() ? "Can store gaseous fluids" : "Leaks gaseous fluids",
                 "Outputs to Facing"};
     }
 

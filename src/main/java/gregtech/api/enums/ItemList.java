@@ -657,6 +657,8 @@ public enum ItemList implements IItemContainer {
     Basic_Tank,Basic_Tank_Steam, Basic_Tank_LV, Basic_Tank_MV, Basic_Tank_HV,
     Basic_Barrel,Basic_Barrel_Steam, Basic_Barrel_LV, Basic_Barrel_MV, Basic_Barrel_HV,
     Drain_Adv,Vent_Air,PyrolyseOven,ToolHull_LV,ToolHull_MV,ToolHull_HV,Machine_Bricked_BlastFurnace,Casing_DenseBricks,Casing_Plastic,HydroFarm,Casing_Pyro,
+    Machine_LV_Miner, Machine_MV_Miner, Machine_HV_Miner, Machine_EV_Miner,
+    MicroTransmitter_HV, MicroTransmitter_EV, MicroTransmitter_IV, MicroTransmitter_LUV, MicroTransmitter_ZPM,
 
     NULL, Cover_RedstoneTransmitterExternal, Cover_RedstoneTransmitterInternal, Cover_RedstoneReceiverExternal, Cover_RedstoneReceiverInternal,
     LargeSteamTurbine,

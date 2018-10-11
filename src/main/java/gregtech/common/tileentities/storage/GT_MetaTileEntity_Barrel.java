@@ -14,14 +14,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-//TODO: Make barrel/chest drop ALL items upon breaking
 //TODO: Item Render on Front Facing
 
 public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlock {
     public int mItemCount = 0;
     public ItemStack mItemStack = null;
     public GT_MetaTileEntity_Barrel(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 3, "This Barrel stores " + ((int) ((Math.pow(2, aTier)) * 2048)) + " Blocks");
+        super(aID, aName, aNameRegional, aTier, 3, "Null");
     }
 
     public GT_MetaTileEntity_Barrel(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -49,6 +48,13 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
     }
 
     @Override
+    public String[] getDescription() {
+        return new String[]{
+                "Retains inventory when harvested!",
+                "Stores " + ((int) ((Math.pow(2, mTier)) * 2048))};
+    }
+
+    @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_Barrel(mName, mTier, mDescription, mTextures);
     }
@@ -70,7 +76,7 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTimer) {
-
+        super.onPostTick(aBaseMetaTileEntity, aTimer);
         if (getBaseMetaTileEntity().isServerSide() && getBaseMetaTileEntity().isAllowedToWork()) {
             if ((getItemCount() <= 0)) {
                 this.mItemStack = null;
@@ -123,7 +129,7 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
     }
 
     public int getMaxItemCount() {
-        return (int) (((Math.pow(2, mTier)) * 2000) - 128);
+        return (int) (((Math.pow(2, mTier)) * 2048) - 128);
     }
 
     @Override
@@ -153,6 +159,7 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
                 mItemStack.getDisplayName(),
                 Integer.toString(mItemCount),
                 Integer.toString(getMaxItemCount())};
+
     }
 
     @Override
@@ -177,6 +184,13 @@ public class GT_MetaTileEntity_Barrel extends GT_MetaTileEntity_TieredMachineBlo
             this.mItemCount = aNBT.getInteger(COUNT);
         if (aNBT.hasKey(STACK))
             this.mItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) aNBT.getTag(STACK));
+    }
+
+    @Override
+    public void setItemNBT(NBTTagCompound aNBT) {
+        super.setItemNBT(aNBT);
+        if (mItemStack != null) aNBT.setTag(STACK, mItemStack.writeToNBT(new NBTTagCompound()));
+        if (mItemCount > 0) aNBT.setInteger(COUNT, (mItemCount - 64));
     }
 
     @Override

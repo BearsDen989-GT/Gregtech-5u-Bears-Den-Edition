@@ -53,7 +53,7 @@ public class Behaviour_Prospecting
             GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
             return true;
         }
-        //if ((aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) || aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone))) {
+        if ((aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) || aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) || (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone))) {
             if (GT_ModHandler.damageOrDechargeItem(aStack, this.mVanillaCosts, this.mEUCosts, aPlayer)) {
                 GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
                 int tX = aX;
@@ -118,8 +118,8 @@ public class Behaviour_Prospecting
             }
             return true;
         }
-        //return false;
-    //}
+        return false;
+    }
 
     public List<String> getAdditionalToolTips(GT_MetaBase_Item aItem, List<String> aList, ItemStack aStack) {
         aList.add(this.mTooltip);

@@ -53,6 +53,8 @@ import gregtech.common.tileentities.machines.GT_MetaTileEntity_BasicHull_SteelBr
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Boxinator;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Disassembler;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Massfabricator;
+import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_MicrowaveEnergyTransmitter;
+import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Miner;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_MonsterRepellent;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_PotionBrewer;
 import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Pump;
@@ -1329,6 +1331,26 @@ public class GT_Loader_MetaTileEntities
         GT_ModHandler.addCraftingRecipe(ItemList.PyrolyseOven.get(1L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"WEP", "EME", "WCP", 'M', ItemList.Hull_LV, 'W', ItemList.Electric_Piston_LV, 'P', OrePrefixes.wireGt04.get(Materials.Cupronickel), 'E', OrePrefixes.circuit.get(Materials.Basic), 'C', ItemList.Electric_Pump_LV});
 
         ItemList.HydroFarm.set(new GT_MetaTileEntity_HydroFarm(12041, "multimachine.hydrofarm", "Hydroponic Farm").getStackForm(1));
+
+        ItemList.Machine_LV_Miner.set(new GT_MetaTileEntity_Miner(12042, "basicmachine.miner.tier.01", "Basic Miner", 1).getStackForm(1L));
+        ItemList.Machine_MV_Miner.set(new GT_MetaTileEntity_Miner(12043, "basicmachine.miner.tier.02", "Advanced Miner", 2).getStackForm(1L));
+        ItemList.Machine_HV_Miner.set(new GT_MetaTileEntity_Miner(12044, "basicmachine.miner.tier.03", "Turbo Miner", 3).getStackForm(1L));
+        ItemList.Machine_EV_Miner.set(new GT_MetaTileEntity_Miner(12045, "basicmachine.miner.tier.04", "Vein Miner", 4).getStackForm(1L));
+        GT_ModHandler.addCraftingRecipe(ItemList.Machine_LV_Miner.get(1L), new Object[]{"EEE", "WMW", "CSC", 'M', ItemList.Hull_LV, 'E', ItemList.Electric_Motor_LV, 'C', OrePrefixes.circuit.get(Materials.Basic), 'W', OrePrefixes.cableGt01.get(Materials.Tin), 'S', ItemList.Sensor_LV});
+        GT_ModHandler.addCraftingRecipe(ItemList.Machine_MV_Miner.get(1L), new Object[]{"EEE", "WMW", "CSC", 'M', ItemList.Hull_MV, 'E', ItemList.Electric_Motor_MV, 'C', OrePrefixes.circuit.get(Materials.Good), 'W', OrePrefixes.cableGt01.get(Materials.Copper), 'S', ItemList.Sensor_MV});
+        GT_ModHandler.addCraftingRecipe(ItemList.Machine_HV_Miner.get(1L), new Object[]{"EEE", "WMW", "CSC", 'M', ItemList.Hull_HV, 'E', ItemList.Electric_Motor_HV, 'C', OrePrefixes.circuit.get(Materials.Advanced), 'W', OrePrefixes.cableGt01.get(Materials.Gold), 'S', ItemList.Sensor_HV});
+        GT_ModHandler.addCraftingRecipe(ItemList.Machine_EV_Miner.get(1L), new Object[]{"EEE", "WMW", "CSC", 'M', ItemList.Hull_EV, 'E', ItemList.Electric_Motor_EV, 'C', OrePrefixes.circuit.get(Materials.Elite), 'W', OrePrefixes.cableGt01.get(Materials.Aluminium), 'S', ItemList.Sensor_EV});
+
+        ItemList.MicroTransmitter_HV.set(new GT_MetaTileEntity_MicrowaveEnergyTransmitter(12046, "basicmachine.microtransmitter.03", "HV Microwave Energy Transmitter", 3).getStackForm(1L));
+        ItemList.MicroTransmitter_EV.set(new GT_MetaTileEntity_MicrowaveEnergyTransmitter(12047, "basicmachine.microtransmitter.04", "EV Microwave Energy Transmitter", 4).getStackForm(1L));
+        ItemList.MicroTransmitter_IV.set(new GT_MetaTileEntity_MicrowaveEnergyTransmitter(12048, "basicmachine.microtransmitter.05", "IV Microwave Energy Transmitter", 5).getStackForm(1L));
+        ItemList.MicroTransmitter_LUV.set(new GT_MetaTileEntity_MicrowaveEnergyTransmitter(12049, "basicmachine.microtransmitter.06", "LuV Microwave Energy Transmitter", 6).getStackForm(1L));
+        //ItemList.MicroTransmitter_ZPM.set(new GT_MetaTileEntity_MicrowaveEnergyTransmitter(12050, "basicmachine.microtransmitter.07", "ZPM Microwave Energy Transmitter", 7).getStackForm(1L));
+        GT_ModHandler.addCraftingRecipe(ItemList.MicroTransmitter_HV.get(1L, new Object[0]), new Object[]{"CPC", "WMW", "GBG", 'M', ItemList.Hull_HV, 'B',  ItemList.Battery_RE_HV_Lithium, 'C', ItemList.Emitter_HV, 'G', OrePrefixes.circuit.get(Materials.Advanced),'W', OrePrefixes.cableGt01.get(Materials.Gold), 'P', ItemList.Field_Generator_HV});
+        GT_ModHandler.addCraftingRecipe(ItemList.MicroTransmitter_EV.get(1L, new Object[0]), new Object[]{"CPC", "WMW", "GBG", 'M', ItemList.Hull_EV, 'B', OrePrefixes.battery.get(Materials.Master), 'C', ItemList.Emitter_EV, 'G', OrePrefixes.circuit.get(Materials.Data),'W', OrePrefixes.cableGt01.get(Materials.Aluminium), 'P', ItemList.Field_Generator_EV});
+        GT_ModHandler.addCraftingRecipe(ItemList.MicroTransmitter_IV.get(1L, new Object[0]), new Object[]{"CPC", "WMW", "GBG", 'M', ItemList.Hull_IV, 'B', OrePrefixes.battery.get(Materials.Ultimate), 'C', ItemList.Emitter_EV, 'G', OrePrefixes.circuit.get(Materials.Elite),'W', OrePrefixes.cableGt01.get(Materials.Tungsten), 'P', ItemList.Field_Generator_IV});
+        GT_ModHandler.addCraftingRecipe(ItemList.MicroTransmitter_LUV.get(1L, new Object[0]), new Object[]{"CPC", "WMW", "GBG", 'M', ItemList.Hull_LuV, 'B', ItemList.Energy_LapotronicOrb2, 'C', ItemList.Emitter_IV, 'G', OrePrefixes.circuit.get(Materials.Master),'W', OrePrefixes.cableGt04.get(Materials.Tungsten), 'P', ItemList.Field_Generator_IV});
+        //GT_ModHandler.addCraftingRecipe(ItemList.MicroTransmitter_ZPM.get(1L, new Object[0]), new Object[]{"CPC", "WMW", "GBG", 'M', ItemList.Hull_ZPM, 'B', GregTech_API.sOPStuff.get(ConfigCategories.Recipes.gregtechrecipes, "EnableZPMandUVBatteries", false) ? ItemList.Energy_Module : ItemList.ZPM2, 'C', ItemList.Emitter_IV, 'G', OrePrefixes.circuit.get(Materials.Ultimate), 'P', ItemList.Field_Generator_IV});
 
         /*adding in easier drain recipe */
 

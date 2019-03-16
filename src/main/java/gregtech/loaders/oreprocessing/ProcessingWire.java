@@ -26,21 +26,21 @@ public class ProcessingWire implements gregtech.api.interfaces.IOreRecipeRegistr
 	private Materials[] syntheticRubbers = {Materials.StyreneButadieneRubber, Materials.Silicone};
 	
 	public ProcessingWire() {
-        OrePrefixes.wireGt501.add(this);
-        OrePrefixes.wireGt502.add(this);
-        OrePrefixes.wireGt504.add(this);
-        OrePrefixes.wireGt508.add(this);
-        OrePrefixes.wireGt512.add(this);
-        OrePrefixes.wireGt516.add(this);
+        OrePrefixes.wireGt01.add(this);
+        OrePrefixes.wireGt02.add(this);
+        OrePrefixes.wireGt04.add(this);
+        OrePrefixes.wireGt08.add(this);
+        OrePrefixes.wireGt12.add(this);
+        OrePrefixes.wireGt16.add(this);
     }
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
     	int cableWidth;
     	OrePrefixes correspondingCable;
         switch (aPrefix) {
-            case wireGt501:
+            case wireGt01:
             	cableWidth = 1;
-            	correspondingCable = OrePrefixes.cableGt501;
+            	correspondingCable = OrePrefixes.cableGt01;
                 if (!aMaterial.contains(gregtech.api.enums.SubTag.NO_SMASHING)) {
                     GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.springSmall, aMaterial, 2L), 100, 8);
                     GT_Values.RA.addWiremillRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.wireFine, aMaterial, 4L), 200, 8);
@@ -48,46 +48,46 @@ public class ProcessingWire implements gregtech.api.interfaces.IOreRecipeRegistr
                     GT_Values.RA.addWiremillRecipe(GT_OreDictUnificator.get(OrePrefixes.stick, aMaterial, 1L), GT_Utility.copy(new Object[]{aStack, GT_OreDictUnificator.get(OrePrefixes.wireFine, aMaterial, 4L)}), 50, 4);
                 }
                 if (aMaterial.mUnificatable && (aMaterial.mMaterialInto == aMaterial) && !aMaterial.contains(SubTag.NO_WORKING))
-                    GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"Xx", Character.valueOf('X'), OrePrefixes.plate.get(aMaterial)});
-                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(2L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 2L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt502, aMaterial, 1L), 150, 8);
-                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(4L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 4L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt504, aMaterial, 1L), 200, 8);
-                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(8L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 8L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt508, aMaterial, 1L), 300, 8);
-                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(12L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 12L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt512, aMaterial, 1L), 400, 8);
-                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(16L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 16L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt516, aMaterial, 1L), 500, 8);
+                    GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"Xx", Character.valueOf('X'), OrePrefixes.plate.get(aMaterial)});
+                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(2L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 2L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt02, aMaterial, 1L), 150, 8);
+                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(4L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 4L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt04, aMaterial, 1L), 200, 8);
+                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(8L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 8L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt08, aMaterial, 1L), 300, 8);
+                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(12L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 12L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt12, aMaterial, 1L), 400, 8);
+                GT_Values.RA.addAssemblerRecipe(GT_Utility.copyAmount(16L, new Object[]{aStack}), ItemList.Circuit_Integrated.getWithDamage(0L, 16L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.wireGt16, aMaterial, 1L), 500, 8);
                 break;
-            case wireGt502:
+            case wireGt02:
             	cableWidth = 2;
-            	correspondingCable = OrePrefixes.cableGt502;
-                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 2L), new Object[]{aOreDictName});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial)});
+            	correspondingCable = OrePrefixes.cableGt02;
+                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 2L), new Object[]{aOreDictName});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial)});
                 break;
-            case wireGt504:
+            case wireGt04:
             	cableWidth = 4;
-            	correspondingCable = OrePrefixes.cableGt504;
-                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 4L), new Object[]{aOreDictName});
+            	correspondingCable = OrePrefixes.cableGt04;
+                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 4L), new Object[]{aOreDictName});
                 GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), 
-                		new Object[]{OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial)});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt502.get(aMaterial), OrePrefixes.wireGt502.get(aMaterial)});
+                		new Object[]{OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial)});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt02.get(aMaterial), OrePrefixes.wireGt02.get(aMaterial)});
                 break;
-            case wireGt508:
+            case wireGt08:
             	cableWidth = 8;
-            	correspondingCable = OrePrefixes.cableGt508;
-                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 8L), new Object[]{aOreDictName});
+            	correspondingCable = OrePrefixes.cableGt08;
+                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 8L), new Object[]{aOreDictName});
                 GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), 
-                		new Object[]{OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial),
-                				     OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial), OrePrefixes.wireGt501.get(aMaterial)});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt504.get(aMaterial), OrePrefixes.wireGt504.get(aMaterial)});
+                		new Object[]{OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial),
+                				     OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial), OrePrefixes.wireGt01.get(aMaterial)});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt04.get(aMaterial), OrePrefixes.wireGt04.get(aMaterial)});
                 break;
-            case wireGt512:
+            case wireGt12:
             	cableWidth = 12;
-            	correspondingCable = OrePrefixes.cableGt512;
-                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 12L), new Object[]{aOreDictName});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt508.get(aMaterial), OrePrefixes.wireGt504.get(aMaterial)});
+            	correspondingCable = OrePrefixes.cableGt12;
+                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 12L), new Object[]{aOreDictName});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt08.get(aMaterial), OrePrefixes.wireGt04.get(aMaterial)});
                 break;
-            case wireGt516:
-                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt501, aMaterial, 16L), new Object[]{aOreDictName});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt508.get(aMaterial), OrePrefixes.wireGt508.get(aMaterial)});
-                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt512.get(aMaterial), OrePrefixes.wireGt504.get(aMaterial)});
+            case wireGt16:
+                GT_ModHandler.addShapelessCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 16L), new Object[]{aOreDictName});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt08.get(aMaterial), OrePrefixes.wireGt08.get(aMaterial)});
+                GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt12.get(aMaterial), OrePrefixes.wireGt04.get(aMaterial)});
 
                 if (GT5_Mod.gregtechproxy.mAE2Integration) {
                     Api.INSTANCE.registries().p2pTunnel().addNewAttunement(aStack, TunnelType.IC2_POWER);

@@ -1,6 +1,6 @@
 package gregtech.common.blocks;
 
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -53,7 +53,7 @@ public class GT_Block_Ores extends GT_Block_Ores_Abstract {
 
     @Override
     public boolean[] getEnabledMetas() {
-        return new boolean[]{true, true, true, GT_Mod.gregtechproxy.enableBlackGraniteOres, GT_Mod.gregtechproxy.enableRedGraniteOres, GT_Mod.gregtechproxy.enableMarbleOres, GT_Mod.gregtechproxy.enableBasaltOres, true};
+        return new boolean[]{true, true, true, GT5_Mod.gregtechproxy.enableBlackGraniteOres, GT5_Mod.gregtechproxy.enableRedGraniteOres, GT5_Mod.gregtechproxy.enableMarbleOres, GT5_Mod.gregtechproxy.enableBasaltOres, true};
     }
 
     @Override

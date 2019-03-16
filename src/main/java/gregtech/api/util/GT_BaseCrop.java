@@ -1,7 +1,7 @@
 package gregtech.api.util;
 
 import cpw.mods.fml.common.Loader;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.enums.Materials;
@@ -135,7 +135,7 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     @Override
     public final boolean canGrow(ICropTile aCrop) {
-        if (GT_Mod.gregtechproxy.mCropNeedBlock && mBlock != null && aCrop.getSize() == mMaxSize - 1) {
+        if (GT5_Mod.gregtechproxy.mCropNeedBlock && mBlock != null && aCrop.getSize() == mMaxSize - 1) {
             return isBlockBelow(aCrop);
         }
         return aCrop.getSize() < maxSize();

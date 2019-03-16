@@ -1,6 +1,6 @@
 package gregtech.loaders.postload;
 
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -15,7 +15,7 @@ public class GT_BookAndLootLoader
         implements Runnable {
     public void run() {
         GT_Log.out.println("GT_Mod: Adding worldgenerated Chest Content.");
-        if (GT_Mod.gregtechproxy.mIncreaseDungeonLoot) {
+        if (GT5_Mod.gregtechproxy.mIncreaseDungeonLoot) {
             ChestGenHooks tChest = ChestGenHooks.getInfo("bonusChest");
             tChest.setMax(tChest.getMax() + 8);
             tChest.setMin(tChest.getMin() + 4);

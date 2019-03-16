@@ -1,6 +1,6 @@
 package gregtech.common.tileentities.boilers;
 
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.enums.Dyes;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -107,7 +107,7 @@ public class GT_MetaTileEntity_Boiler_Lava
                         
                         double efficiency = 1.0;
 
-						if (GT_Mod.gregtechproxy.mSmallLavaBoilerEfficiencyLoss) {
+						if (GT5_Mod.gregtechproxy.mSmallLavaBoilerEfficiencyLoss) {
 							ItemStack byproductStack = aBaseMetaTileEntity.getStackInSlot(3);
 
 							if (byproductStack != null && !(GT_Utility.isStackInvalid(byproductStack))) {

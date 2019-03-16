@@ -1016,7 +1016,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
                                             GT_OreDictUnificator.registerOre(OreDictNames.craftingQuartz, aEvent.Ore);
                                         }
                                         break;
-                                    case cableGt01:
+                                    case cableGt501:
                                         if (aMaterial == Materials.Tin) {
                                             GT_OreDictUnificator.registerOre(OreDictNames.craftingWireTin, aEvent.Ore);
                                         } else if (aMaterial == Materials.Copper) {

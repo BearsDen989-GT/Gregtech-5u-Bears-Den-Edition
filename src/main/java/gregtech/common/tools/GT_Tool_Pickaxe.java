@@ -1,6 +1,6 @@
 package gregtech.common.tools;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -17,7 +17,7 @@ import net.minecraft.util.IChatComponent;
 public class GT_Tool_Pickaxe
         extends GT_Tool {
     public int getToolDamagePerBlockBreak() {
-        return GT5_Mod.gregtechproxy.mHardRock ? 25 : 50;
+        return GT_Mod.gregtechproxy.mHardRock ? 25 : 50;
     }
 
     public int getToolDamagePerDropConversion() {
@@ -97,7 +97,7 @@ public class GT_Tool_Pickaxe
         aPlayer.triggerAchievement(AchievementList.buildPickaxe);
         aPlayer.triggerAchievement(AchievementList.buildBetterPickaxe);
         try {
-            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "flintpick");
+            GT_Mod.instance.achievements.issueAchievement(aPlayer, "flintpick");
         } catch (Exception e) {
         }
     }

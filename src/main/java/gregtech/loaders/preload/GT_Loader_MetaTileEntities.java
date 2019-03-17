@@ -2,7 +2,7 @@ package gregtech.loaders.preload;
 
 import codechicken.nei.api.API;
 import cpw.mods.fml.common.Loader;
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.*;
 import gregtech.api.interfaces.ITexture;
@@ -162,7 +162,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         GT_ModHandler.removeRecipeByOutput(ItemList.Hull_UV.get(1L, new Object[0]));
         GT_ModHandler.removeRecipeByOutput(ItemList.Hull_MAX.get(1L, new Object[0]));
 
-        if (GT5_Mod.gregtechproxy.mHardMachineCasings) {
+        if (GT_Mod.gregtechproxy.mHardMachineCasings) {
             GT_ModHandler.addCraftingRecipe(ItemList.Hull_ULV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PHP", aTextCableHull, 'M', ItemList.Casing_ULV, 'C', OrePrefixes.cableGt01.get(Materials.Lead), 'H', OrePrefixes.plate.get(Materials.WroughtIron), 'P', OrePrefixes.plate.get(Materials.Wood)});
             GT_ModHandler.addCraftingRecipe(ItemList.Hull_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PHP", aTextCableHull, 'M', ItemList.Casing_LV, 'C', OrePrefixes.cableGt01.get(Materials.Tin), 'H', OrePrefixes.plate.get(Materials.Steel), 'P', OrePrefixes.plate.get(Materials.WroughtIron)});
             GT_ModHandler.addCraftingRecipe(ItemList.Hull_MV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PHP", aTextCableHull, 'M', ItemList.Casing_MV, 'C', OrePrefixes.cableGt01.get(Materials.Copper), 'H', OrePrefixes.plate.get(Materials.Aluminium), 'P', OrePrefixes.plate.get(Materials.WroughtIron)});
@@ -414,7 +414,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         }
 
         ItemList.Machine_Bricked_BlastFurnace.set(new GT_MetaTileEntity_BrickedBlastFurnace(130, "multimachine.brickedblastfurnace", "Bricked Blast Furnace").getStackForm(1L));
-        if (GT5_Mod.gregtechproxy.mBrickedBlastFurnace) {
+        if (GT_Mod.gregtechproxy.mBrickedBlastFurnace) {
         	GT_ModHandler.addCraftingRecipe(ItemList.Machine_Bricked_BlastFurnace.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"BBB", "BPB", "BBB", 'B', ItemList.Firebrick, 'P', Materials.Iron.getPlates(1)});
         }
         
@@ -1299,7 +1299,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
 
 		ItemList.Machine_Multi_Cleanroom.set(new GT_MetaTileEntity_Cleanroom(1172, "multimachine.cleanroom", "Cleanroom Controller").getStackForm(1));
 		//If Cleanroom is enabled, add a recipe, else hide from NEI.
-		if (GT5_Mod.gregtechproxy.mEnableCleanroom){
+		if (GT_Mod.gregtechproxy.mEnableCleanroom){
 			GT_ModHandler.addCraftingRecipe(ItemList.Machine_Multi_Cleanroom.get(1L, new Object[0]), bitsd, new Object[]{"FFF", "RHR", "MCM", 'H', ItemList.Hull_HV, 'F', ItemList.Component_Filter, 'R', OrePrefixes.rotor.get(Materials.StainlessSteel), 'M', ItemList.Electric_Motor_HV, 'C', OrePrefixes.circuit.get(Materials.Advanced)});
 		}
 		else {
@@ -1341,7 +1341,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
                 new GT_MetaPipeEntity_Frame(4096 + i, "GT_Frame_" + GregTech_API.sGeneratedMaterials[i], (GT_LanguageManager.i18nPlaceholder ? "%material" : GregTech_API.sGeneratedMaterials[i].mDefaultLocalName) + " Frame Box", GregTech_API.sGeneratedMaterials[i]);
             }
         }
-        boolean bEC = !GT5_Mod.gregtechproxy.mHardcoreCables;
+        boolean bEC = !GT_Mod.gregtechproxy.mHardcoreCables;
 
         makeWires(Materials.RedAlloy, 2000, 0L, 1L, 1L, gregtech.api.enums.GT_Values.V[0], true, aBoolConst_0);
 
@@ -1386,7 +1386,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         makeWires(Materials.Duranium, 1820, bEC ? 8L : 64L, bEC ? 16L : 128L, 1L, gregtech.api.enums.GT_Values.V[8], true, aBoolConst_0);
 
         makeWires(Materials.Superconductor, 2020, 1L, 1L, 4L, gregtech.api.enums.GT_Values.V[9], aBoolConst_0, true);
-        if (!GT5_Mod.gregtechproxy.mDisableIC2Cables) {
+        if (!GT_Mod.gregtechproxy.mDisableIC2Cables) {
             GT_ModHandler.addCraftingRecipe(GT_ModHandler.getIC2Item("copperCableItem", 2L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"xP", 'P', OrePrefixes.plate.get(Materials.Copper)});
             GT_ModHandler.addCraftingRecipe(GT_ModHandler.getIC2Item("goldCableItem", 4L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"xP", 'P', OrePrefixes.plate.get(Materials.Gold)});
             GT_ModHandler.addCraftingRecipe(GT_ModHandler.getIC2Item("ironCableItem", 3L), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"xP", 'P', OrePrefixes.plate.get(Materials.Iron)});

@@ -9,7 +9,7 @@ import codechicken.lib.vec.Rotation;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
@@ -218,15 +218,15 @@ public class GT_Client extends GT_Proxy
     
     @SubscribeEvent
     public void manipulateDensity(EntityViewRenderEvent.FogDensity event) {
-    	if(GT_Pollution.mPlayerPollution > (GT5_Mod.gregtechproxy.mPollutionSmogLimit)){    	
-        event.density = (0.15f*(Math.min(GT_Pollution.mPlayerPollution/((float)GT5_Mod.gregtechproxy.mPollutionSourRainLimit),1.0f)))+0.1f;
+    	if(GT_Pollution.mPlayerPollution > (GT_Mod.gregtechproxy.mPollutionSmogLimit)){    	
+        event.density = (0.15f*(Math.min(GT_Pollution.mPlayerPollution/((float)GT_Mod.gregtechproxy.mPollutionSourRainLimit),1.0f)))+0.1f;
         event.setCanceled(true);
     	}
     }
 
     @SubscribeEvent
     public void manipulateColor(EntityViewRenderEvent.FogColors event) {
-    	if(GT_Pollution.mPlayerPollution > GT5_Mod.gregtechproxy.mPollutionSmogLimit){
+    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
         event.red = 140f/255f;
         event.green = 80f/255f;
         event.blue = 40f/255f;
@@ -235,21 +235,21 @@ public class GT_Client extends GT_Proxy
     
     @SubscribeEvent
     public void manipulateGrassColor(BiomeEvent.GetGrassColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT5_Mod.gregtechproxy.mPollutionSmogLimit){
+    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
         event.newColor = 0xD2691E;
     	}
     }
 
     @SubscribeEvent
     public void manipulateWaterColor(BiomeEvent.GetWaterColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT5_Mod.gregtechproxy.mPollutionSmogLimit){
+    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
         event.newColor = 0x556B2F;
     	}
     }
 
     @SubscribeEvent
     public void manipulateFoliageColor(BiomeEvent.GetFoliageColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT5_Mod.gregtechproxy.mPollutionSmogLimit){
+    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
         event.newColor = 0xCD853F;
     	}
     }
@@ -373,7 +373,7 @@ public class GT_Client extends GT_Proxy
                 StatFileWriter sfw= Minecraft.getMinecraft().thePlayer.getStatFileWriter();
                 try {
                     for(GT_Recipe recipe: GT_Recipe.GT_Recipe_Map.sAssemblylineVisualRecipes.mRecipeList){
-                        recipe.mHidden=!sfw.hasAchievementUnlocked(GT5_Mod.achievements.getAchievement(recipe.getOutput(0).getUnlocalizedName()));
+                        recipe.mHidden=!sfw.hasAchievementUnlocked(GT_Mod.achievements.getAchievement(recipe.getOutput(0).getUnlocalizedName()));
                     }
                 }catch (Exception e){}
             }

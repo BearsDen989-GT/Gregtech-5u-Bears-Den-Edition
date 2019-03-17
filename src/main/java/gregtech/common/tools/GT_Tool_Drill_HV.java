@@ -1,6 +1,6 @@
 package gregtech.common.tools;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class GT_Tool_Drill_HV
         extends GT_Tool_Drill_LV {
     public int getToolDamagePerBlockBreak() {
-        return GT5_Mod.gregtechproxy.mHardRock ? 400 : 800;
+        return GT_Mod.gregtechproxy.mHardRock ? 400 : 800;
     }
 
     public int getToolDamagePerDropConversion() {
@@ -43,8 +43,8 @@ public class GT_Tool_Drill_HV
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "highpowerdrill");
-            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "buildDDrill");
+            GT_Mod.instance.achievements.issueAchievement(aPlayer, "highpowerdrill");
+            GT_Mod.instance.achievements.issueAchievement(aPlayer, "buildDDrill");
         } catch (Exception e) {
         }
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import appeng.api.config.TunnelType;
 import appeng.core.Api;
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
@@ -89,7 +89,7 @@ public class ProcessingWire implements gregtech.api.interfaces.IOreRecipeRegistr
                 GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt08.get(aMaterial), OrePrefixes.wireGt08.get(aMaterial)});
                 GT_ModHandler.addShapelessCraftingRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), new Object[]{OrePrefixes.wireGt12.get(aMaterial), OrePrefixes.wireGt04.get(aMaterial)});
 
-                if (GT5_Mod.gregtechproxy.mAE2Integration) {
+                if (GT_Mod.gregtechproxy.mAE2Integration) {
                     Api.INSTANCE.registries().p2pTunnel().addNewAttunement(aStack, TunnelType.IC2_POWER);
                 }
                 return;
@@ -136,7 +136,7 @@ public class ProcessingWire implements gregtech.api.interfaces.IOreRecipeRegistr
         	}
             break;
         default:
-        	if (GT5_Mod.gregtechproxy.mEasierIVPlusCables) {
+        	if (GT_Mod.gregtechproxy.mEasierIVPlusCables) {
                 GT_Values.RA.addAssemblerRecipe(aStack, GT_Utility.getIntegratedCircuit(24), Materials.Rubber.getMolten(144 * costMultiplier), 
                   		GT_OreDictUnificator.get(correspondingCable, aMaterial, 1L), 100, 8);        		
                 GT_Values.RA.addAssemblerRecipe(aStack, GT_Utility.getIntegratedCircuit(24), Materials.StyreneButadieneRubber.getMolten(108 * costMultiplier), 
@@ -172,7 +172,7 @@ public class ProcessingWire implements gregtech.api.interfaces.IOreRecipeRegistr
         	break;
         }
         GT_Values.RA.addUnboxingRecipe(GT_OreDictUnificator.get(correspondingCable, aMaterial, 1L), GT_Utility.copyAmount(1L, new Object[]{aStack}), null, 100, 8);
-        if (GT5_Mod.gregtechproxy.mAE2Integration) {
+        if (GT_Mod.gregtechproxy.mAE2Integration) {
             Api.INSTANCE.registries().p2pTunnel().addNewAttunement(aStack, TunnelType.IC2_POWER);
             Api.INSTANCE.registries().p2pTunnel().addNewAttunement(GT_OreDictUnificator.get(correspondingCable, aMaterial, 1L), TunnelType.IC2_POWER);
         }

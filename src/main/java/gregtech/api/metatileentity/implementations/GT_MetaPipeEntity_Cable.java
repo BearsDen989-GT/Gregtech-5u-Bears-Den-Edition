@@ -1,7 +1,7 @@
 package gregtech.api.metatileentity.implementations;
 
 import cofh.api.energy.IEnergyReceiver;
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import static gregtech.api.enums.GT_Values.D1;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Dyes;
@@ -53,7 +53,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     public long mTransferredAmperage = 0, mTransferredAmperageLast20 = 0, mTransferredVoltageLast20 = 0;
     public long mRestRF;
     public short mOverheat;
-    private boolean mCheckConnections = !GT5_Mod.gregtechproxy.gt6Cable;
+    private boolean mCheckConnections = !GT_Mod.gregtechproxy.gt6Cable;
 
     public GT_MetaPipeEntity_Cable(int aID, String aName, String aNameRegional, float aThickNess, Materials aMaterial, long aCableLossPerMeter, long aAmperage, long aVoltage, boolean aInsulated, boolean aCanShock) {
         super(aID, aName, aNameRegional, 0);
@@ -214,7 +214,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
         mTransferredVoltageLast20 = Math.max(mTransferredVoltageLast20, aVoltage);
         mTransferredAmperageLast20 = Math.max(mTransferredAmperageLast20, mTransferredAmperage);
         if (aVoltage > mVoltage || mTransferredAmperage > mAmperage) {
-        	if(mOverheat>GT5_Mod.gregtechproxy.mWireHeatingTicks * 100){
+        	if(mOverheat>GT_Mod.gregtechproxy.mWireHeatingTicks * 100){
             getBaseMetaTileEntity().setToFire();}else{mOverheat +=100;}
             return aAmperage;
         }
@@ -239,18 +239,18 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
                     	disconnect(tSide);
                     }
                 }
-                if (GT5_Mod.gregtechproxy.gt6Cable) mCheckConnections = false;
+                if (GT_Mod.gregtechproxy.gt6Cable) mCheckConnections = false;
             }
         }else if(aBaseMetaTileEntity.isClientSide() && GT_Client.changeDetected==4) aBaseMetaTileEntity.issueTextureUpdate();
     }
 
     @Override
     public boolean onWireCutterRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-        if (GT5_Mod.gregtechproxy.gt6Cable && GT_ModHandler.damageOrDechargeItem(aPlayer.inventory.getCurrentItem(), 1, 500, aPlayer)) {
+        if (GT_Mod.gregtechproxy.gt6Cable && GT_ModHandler.damageOrDechargeItem(aPlayer.inventory.getCurrentItem(), 1, 500, aPlayer)) {
             if(isConnectedAtSide(aWrenchingSide)) {
                 disconnect(aWrenchingSide);
                 GT_Utility.sendChatToPlayer(aPlayer, trans("215", "Disconnected"));
-            }else if(!GT5_Mod.gregtechproxy.costlyCableConnection){
+            }else if(!GT_Mod.gregtechproxy.costlyCableConnection){
     			if (connect(aWrenchingSide) > 0)
     				GT_Utility.sendChatToPlayer(aPlayer, trans("214", "Connected"));
     		}
@@ -260,11 +260,11 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     }
 
     public boolean onSolderingToolRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-        if (GT5_Mod.gregtechproxy.gt6Cable && GT_ModHandler.damageOrDechargeItem(aPlayer.inventory.getCurrentItem(), 1, 500, aPlayer)) {
+        if (GT_Mod.gregtechproxy.gt6Cable && GT_ModHandler.damageOrDechargeItem(aPlayer.inventory.getCurrentItem(), 1, 500, aPlayer)) {
             if (isConnectedAtSide(aWrenchingSide)) {
     			disconnect(aWrenchingSide);
     			GT_Utility.sendChatToPlayer(aPlayer, trans("215", "Disconnected"));
-            } else if (!GT5_Mod.gregtechproxy.costlyCableConnection || GT_ModHandler.consumeSolderingMaterial(aPlayer)) {
+            } else if (!GT_Mod.gregtechproxy.costlyCableConnection || GT_ModHandler.consumeSolderingMaterial(aPlayer)) {
                 if (connect(aWrenchingSide) > 0)
                     GT_Utility.sendChatToPlayer(aPlayer, trans("214", "Connected"));
     		}
@@ -310,7 +310,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
             boolean tIsEnergySink = tTileEntity instanceof IEnergySink;
             boolean tSinkAcceptsEnergyFromSide = tIsEnergySink && ((IEnergySink) tTileEntity).acceptsEnergyFrom((TileEntity) getBaseMetaTileEntity(), ForgeDirection.getOrientation(tSide));
 
-            boolean tIsGTp2pProvider = (GT5_Mod.gregtechproxy.mAE2Integration && tTileEntity instanceof IEnergySource 
+            boolean tIsGTp2pProvider = (GT_Mod.gregtechproxy.mAE2Integration && tTileEntity instanceof IEnergySource 
             		&& tTileEntity instanceof IPartHost && ((IPartHost)tTileEntity).getPart(ForgeDirection.getOrientation(tSide)) instanceof PartP2PGTPower);
             boolean tGTp2pProvidesEnergyToSide = tIsGTp2pProvider && ((IEnergySource) tTileEntity).emitsEnergyTo((TileEntity) getBaseMetaTileEntity(), ForgeDirection.getOrientation(tSide));
 
@@ -375,19 +375,19 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
 
     @Override
     public float getThickNess() {
-        if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x1) != 0) return 0.0625F;
+        if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x1) != 0) return 0.0625F;
         return mThickNess;
     }
 
     @Override
     public void saveNBTData(NBTTagCompound aNBT) {
-        if (GT5_Mod.gregtechproxy.gt6Cable)
+        if (GT_Mod.gregtechproxy.gt6Cable)
         	aNBT.setByte("mConnections", mConnections);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
-        if (GT5_Mod.gregtechproxy.gt6Cable) {
+        if (GT_Mod.gregtechproxy.gt6Cable) {
         	if (!aNBT.hasKey("mConnections"))
         		mCheckConnections = true;
         	mConnections = aNBT.getByte("mConnections");
@@ -396,7 +396,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
-    	if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0)
+    	if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0)
     		return AxisAlignedBB.getBoundingBox(aX, aY, aZ, aX + 1, aY + 1, aZ + 1);
     	else
     		return getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
@@ -432,7 +432,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     @Override
     public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List<AxisAlignedBB> outputAABB, Entity collider) {
     	super.addCollisionBoxesToList(aWorld, aX, aY, aZ, inputAABB, outputAABB, collider);
-    	if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0) {
+    	if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0) {
     		AxisAlignedBB aabb = getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
     		if (inputAABB.intersectsWith(aabb)) outputAABB.add(aabb);
     	}

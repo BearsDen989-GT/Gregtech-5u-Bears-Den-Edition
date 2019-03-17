@@ -1,6 +1,6 @@
 package gregtech.common.tools;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.util.GT_Recipe;
@@ -20,7 +20,7 @@ import java.util.List;
 public class GT_Tool_JackHammer
         extends GT_Tool_Drill_LV {
     public int getToolDamagePerBlockBreak() {
-        return GT5_Mod.gregtechproxy.mHardRock ? 200 : 400;
+        return GT_Mod.gregtechproxy.mHardRock ? 200 : 400;
     }
 
     public int getToolDamagePerDropConversion() {
@@ -83,7 +83,7 @@ public class GT_Tool_JackHammer
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "hammertime");
+            GT_Mod.instance.achievements.issueAchievement(aPlayer, "hammertime");
         } catch (Exception e) {
         }
     }

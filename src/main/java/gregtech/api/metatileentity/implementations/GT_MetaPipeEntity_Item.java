@@ -1,6 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.*;
 import gregtech.api.interfaces.ITexture;
@@ -40,7 +40,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     public int mTransferredItems = 0;
     public byte mLastReceivedFrom = 0, oLastReceivedFrom = 0;
     public boolean mIsRestrictive = false;
-    private boolean mCheckConnections = !GT5_Mod.gregtechproxy.gt6Pipe;
+    private boolean mCheckConnections = !GT_Mod.gregtechproxy.gt6Pipe;
 
     public GT_MetaPipeEntity_Item(int aID, String aName, String aNameRegional, float aThickNess, Materials aMaterial, int aInvSlotCount, int aStepSize, boolean aIsRestrictive, int aTickTime) {
         super(aID, aName, aNameRegional, aInvSlotCount, false);
@@ -149,14 +149,14 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     @Override
     public void saveNBTData(NBTTagCompound aNBT) {
         aNBT.setByte("mLastReceivedFrom", mLastReceivedFrom);
-        if (GT5_Mod.gregtechproxy.gt6Pipe)
+        if (GT_Mod.gregtechproxy.gt6Pipe)
         	aNBT.setByte("mConnections", mConnections);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound aNBT) {
         mLastReceivedFrom = aNBT.getByte("mLastReceivedFrom");
-        if (GT5_Mod.gregtechproxy.gt6Pipe) {
+        if (GT_Mod.gregtechproxy.gt6Pipe) {
         	if (!aNBT.hasKey("mConnections"))
         		mCheckConnections = true;
         	mConnections = aNBT.getByte("mConnections");
@@ -178,7 +178,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
                 	disconnect(tSide);
                 }
             }
-            if (GT5_Mod.gregtechproxy.gt6Pipe) mCheckConnections = false;
+            if (GT_Mod.gregtechproxy.gt6Pipe) mCheckConnections = false;
 
             if (oLastReceivedFrom == mLastReceivedFrom) {
                 doTickProfilingInThisTick = false;
@@ -205,7 +205,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
 
     @Override
     public boolean onWrenchRightClick(byte aSide, byte aWrenchingSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-    	if (GT5_Mod.gregtechproxy.gt6Pipe) {
+    	if (GT_Mod.gregtechproxy.gt6Pipe) {
     		byte tSide = GT_Utility.determineWrenchingSide(aSide, aX, aY, aZ);
     		if (!isConnectedAtSide(tSide)) {
     			if (connect(tSide) > 0)
@@ -371,13 +371,13 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
 
     @Override
     public float getThickNess() {
-        if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x1) != 0) return 0.0625F;
+        if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x1) != 0) return 0.0625F;
         return mThickNess;
     }
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
-    	if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0)
+    	if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0)
     		return AxisAlignedBB.getBoundingBox(aX, aY, aZ, aX + 1, aY + 1, aZ + 1);
     	else
     		return getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
@@ -413,7 +413,7 @@ public class GT_MetaPipeEntity_Item extends MetaPipeEntity implements IMetaTileE
     @Override
     public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List<AxisAlignedBB> outputAABB, Entity collider) {
     	super.addCollisionBoxesToList(aWorld, aX, aY, aZ, inputAABB, outputAABB, collider);
-    	if (GT5_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0) {
+    	if (GT_Mod.instance.isClientSide() && (GT_Client.hideValue & 0x2) != 0) {
     		AxisAlignedBB aabb = getActualCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ);
     		if (inputAABB.intersectsWith(aabb)) outputAABB.add(aabb);
     	}

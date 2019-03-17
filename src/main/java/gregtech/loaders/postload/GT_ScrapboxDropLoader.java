@@ -1,6 +1,6 @@
 package gregtech.loaders.postload;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -55,7 +55,7 @@ public class GT_ScrapboxDropLoader
         GT_ModHandler.addScrapboxDrop(1.8F, ItemList.Circuit_Board_Basic.get(1L, new Object[0]));
         GT_ModHandler.addScrapboxDrop(0.4F, ItemList.Circuit_Board_Advanced.get(1L, new Object[0]));
         GT_ModHandler.addScrapboxDrop(0.2F, ItemList.Circuit_Board_Elite.get(1L, new Object[0]));
-        if (!GT5_Mod.gregtechproxy.mDisableIC2Cables) {
+        if (!GT_Mod.gregtechproxy.mDisableIC2Cables) {
             GT_ModHandler.addScrapboxDrop(2.0F, GT_ModHandler.getIC2Item("insulatedCopperCableItem", 1L));
             GT_ModHandler.addScrapboxDrop(0.4F, GT_ModHandler.getIC2Item("insulatedGoldCableItem", 1L));
         }

@@ -1,6 +1,6 @@
 package gregtech.common.tileentities.boilers;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -254,14 +254,14 @@ public abstract class GT_MetaTileEntity_Boiler
     }
 
     public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if (GT5_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
+        if (GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
         return true;
         else
             return false;
     }
 
     public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if(GT5_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
+        if(GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
         return true;
         else
             return false;

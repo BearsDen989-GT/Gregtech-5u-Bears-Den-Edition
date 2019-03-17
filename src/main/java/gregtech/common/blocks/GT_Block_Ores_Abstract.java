@@ -3,7 +3,7 @@ package gregtech.common.blocks;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -47,7 +47,7 @@ public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements
         this.isBlockContainer = true;
         setStepSound(soundTypeStone);
         setCreativeTab(GregTech_API.TAB_GREGTECH_ORES);
-        tHideOres = Loader.isModLoaded("NotEnoughItems") && GT5_Mod.gregtechproxy.mHideUnusedOres;
+        tHideOres = Loader.isModLoaded("NotEnoughItems") && GT_Mod.gregtechproxy.mHideUnusedOres;
         if(aOreMetaCount > 8 || aOreMetaCount < 0) aOreMetaCount = 8;
 
         for (int i = 0; i < 16; i++) {

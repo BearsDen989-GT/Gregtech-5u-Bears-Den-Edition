@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cpw.mods.fml.common.Loader;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
@@ -505,12 +505,12 @@ public class GT_RecipeAdder
         if ((aItemStack == null) || (aSoundName == null) || (aSoundName.equals(""))) {
             return false;
         }
-        GT_Mod.gregtechproxy.mSoundItems.add(aItemStack);
-        GT_Mod.gregtechproxy.mSoundNames.add(aSoundName);
+        GT5_Mod.gregtechproxy.mSoundItems.add(aItemStack);
+        GT5_Mod.gregtechproxy.mSoundNames.add(aSoundName);
         if (aSoundName.startsWith("note.")) {
-            GT_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(25));
+            GT5_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(25));
         } else {
-            GT_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(1));
+            GT5_Mod.gregtechproxy.mSoundCounts.add(Integer.valueOf(1));
         }
         return true;
     }
@@ -782,7 +782,7 @@ public class GT_RecipeAdder
         if ((aDuration = GregTech_API.sRecipeFile.get("autoclave", aInput, aDuration)) <= 0) {
             return false;
         }
-		if (!GT_Mod.gregtechproxy.mEnableCleanroom){
+		if (!GT5_Mod.gregtechproxy.mEnableCleanroom){
 			aCleanroom = false;
 		}
         GT_Recipe.GT_Recipe_Map.sAutoclaveRecipes.addRecipe(true, new ItemStack[]{aInput}, new ItemStack[]{aOutput}, null, new int[]{aChance}, new FluidStack[]{aFluid}, null, aDuration, aEUt, aCleanroom ? -100 : 0);
@@ -814,7 +814,7 @@ public class GT_RecipeAdder
         if ((aDuration = GregTech_API.sRecipeFile.get("laserengraving", aEngravedItem, aDuration)) <= 0) {
             return false;
         }
-		if (!GT_Mod.gregtechproxy.mEnableCleanroom){
+		if (!GT5_Mod.gregtechproxy.mEnableCleanroom){
 			aCleanroom = false;
 		}
         GT_Recipe.GT_Recipe_Map.sLaserEngraverRecipes.addRecipe(true, new ItemStack[]{aItemToEngrave, aLens}, new ItemStack[]{aEngravedItem}, null, null, null, aDuration, aEUt, aCleanroom ? -200 : 0);

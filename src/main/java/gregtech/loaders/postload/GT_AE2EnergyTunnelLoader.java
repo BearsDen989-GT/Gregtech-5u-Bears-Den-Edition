@@ -1,7 +1,7 @@
 package gregtech.loaders.postload;
 
 import appeng.items.parts.PartType;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.util.GT_Log;
 
 import java.lang.reflect.Field;
@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 public class GT_AE2EnergyTunnelLoader implements Runnable {
     @Override
     public void run() {
-        if (GT_Mod.gregtechproxy.mAE2Integration && GT_Mod.gregtechproxy.mAE2Tunnel) {
+        if (GT5_Mod.gregtechproxy.mAE2Integration && GT5_Mod.gregtechproxy.mAE2Tunnel) {
             try {
                 load();
             } catch (Throwable e) {

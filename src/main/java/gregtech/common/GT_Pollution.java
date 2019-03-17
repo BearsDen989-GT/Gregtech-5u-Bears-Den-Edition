@@ -1,7 +1,7 @@
 package gregtech.common;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.objects.XSTR;
 import gregtech.api.util.GT_Utility;
@@ -77,7 +77,7 @@ public class GT_Pollution {
 
 	public static void onWorldTick(TickEvent.WorldTickEvent aEvent){//called from proxy
 		//return if pollution disabled
-		if(!GT_Mod.gregtechproxy.mPollution) return;
+		if(!GT5_Mod.gregtechproxy.mPollution) return;
 		final GT_Pollution pollutionInstance = dimensionWisePollution.get(aEvent.world.provider.dimensionId);
 		if(pollutionInstance==null)return;
 		pollutionInstance.tickPollutionInWorld((int)(aEvent.world.getTotalWorldTime()%cycleLen));
@@ -126,7 +126,7 @@ public class GT_Pollution {
 
 
 				//Create Pollution effects
-				if(tPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit) {
+				if(tPollution > GT5_Mod.gregtechproxy.mPollutionSmogLimit) {
 					AxisAlignedBB chunk = AxisAlignedBB.getBoundingBox(actualPos.chunkXPos << 4, 0, actualPos.chunkZPos << 4, (actualPos.chunkXPos << 4) + 16, 256, (actualPos.chunkZPos << 4) + 16);
 					List<EntityLivingBase> tEntitys = aWorld.getEntitiesWithinAABB(EntityLivingBase.class, chunk);
 					for (EntityLivingBase tEnt : tEntitys) {
@@ -144,7 +144,7 @@ public class GT_Pollution {
 
 
 					//Poison effects
-					if (tPollution > GT_Mod.gregtechproxy.mPollutionPoisonLimit) {
+					if (tPollution > GT5_Mod.gregtechproxy.mPollutionPoisonLimit) {
 						//AxisAlignedBB chunk = AxisAlignedBB.getBoundingBox(tPos.chunkPosX*16, 0, tPos.chunkPosZ*16, tPos.chunkPosX*16+16, 256, tPos.chunkPosZ*16+16);
 						//List<EntityLiving> tEntitys = aWorld.getEntitiesWithinAABB(EntityLiving.class, chunk);
 						for (EntityLivingBase tEnt : tEntitys) {
@@ -164,13 +164,13 @@ public class GT_Pollution {
 
 
 						//killing plants
-						if (tPollution > GT_Mod.gregtechproxy.mPollutionVegetationLimit) {
+						if (tPollution > GT5_Mod.gregtechproxy.mPollutionVegetationLimit) {
 							int f = 20;
 							for (; f < (tPollution / 25000); f++) {
 								int x = (actualPos.chunkXPos << 4) + tRan.nextInt(16);
 								int y = 60 + (-f + tRan.nextInt(f * 2 + 1));
 								int z = (actualPos.chunkZPos << 4) + tRan.nextInt(16);
-								damageBlock(aWorld, x, y, z, tPollution > GT_Mod.gregtechproxy.mPollutionSourRainLimit);
+								damageBlock(aWorld, x, y, z, tPollution > GT5_Mod.gregtechproxy.mPollutionSourRainLimit);
 							}
 						}
 					}
@@ -236,7 +236,7 @@ public class GT_Pollution {
 	}
 
 	public static void addPollution(Chunk ch, int aPollution){
-		if(!GT_Mod.gregtechproxy.mPollution)return;
+		if(!GT5_Mod.gregtechproxy.mPollution)return;
 		HashMap<ChunkCoordIntPair,int[]> dataMap=dimensionWiseChunkData.get(ch.worldObj.provider.dimensionId);
 		if(dataMap==null){
 			dataMap=new HashMap<>(1024);
@@ -256,14 +256,14 @@ public class GT_Pollution {
 	}
 
 	public static int getPollution(Chunk ch){
-		if(!GT_Mod.gregtechproxy.mPollution)return 0;
+		if(!GT5_Mod.gregtechproxy.mPollution)return 0;
 		HashMap<ChunkCoordIntPair,int[]> dataMap=dimensionWiseChunkData.get(ch.worldObj.provider.dimensionId);
 		if(dataMap==null || dataMap.get(ch.getChunkCoordIntPair())==null) return 0;
 		return dataMap.get(ch.getChunkCoordIntPair())[GTPOLLUTION];
 	}
 
 	public static int getPollution(ChunkCoordIntPair aCh, int aDim){
-		if(!GT_Mod.gregtechproxy.mPollution)return 0;
+		if(!GT5_Mod.gregtechproxy.mPollution)return 0;
 		HashMap<ChunkCoordIntPair,int[]> dataMap=dimensionWiseChunkData.get(aDim);
 		if(dataMap==null || dataMap.get(aCh)==null) return 0;
 		return dataMap.get(aCh)[GTPOLLUTION];

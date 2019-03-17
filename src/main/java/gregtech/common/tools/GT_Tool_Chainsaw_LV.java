@@ -1,6 +1,6 @@
 package gregtech.common.tools;
 
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
@@ -87,8 +87,8 @@ public class GT_Tool_Chainsaw_LV
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "brrrr");
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "buildChainsaw");
+            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "brrrr");
+            GT5_Mod.instance.achievements.issueAchievement(aPlayer, "buildChainsaw");
         } catch (Exception e) {
         }
     }

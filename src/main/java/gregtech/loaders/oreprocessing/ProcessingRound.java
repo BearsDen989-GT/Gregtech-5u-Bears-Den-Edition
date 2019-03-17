@@ -1,7 +1,7 @@
 package gregtech.loaders.oreprocessing;
 
 import appeng.core.Api;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -24,7 +24,7 @@ public class ProcessingRound implements gregtech.api.interfaces.IOreRecipeRegist
             if ((aMaterial.mUnificatable) && (aMaterial.mMaterialInto == aMaterial))
                 GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.round, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"fX", "X ", Character.valueOf('X'), OrePrefixes.nugget.get(aMaterial)});
         }
-        if (GT_Mod.gregtechproxy.mAE2Integration) {
+        if (GT5_Mod.gregtechproxy.mAE2Integration) {
             Api.INSTANCE.registries().matterCannon().registerAmmo(GT_OreDictUnificator.get(OrePrefixes.round, aMaterial, 1L), aMaterial.getMass());
         }
     }

@@ -1,6 +1,6 @@
 package gregtech.common;
 
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.objects.GT_UO_Fluid;
 import gregtech.api.objects.XSTR;
@@ -36,7 +36,7 @@ public class GT_UndergroundOil {
     //Returns whole content for information purposes -> when drainSpeedCoeff < 0
     //Else returns extracted fluidStack if amount > 0, or null otherwise
     public static FluidStack undergroundOil(Chunk chunk, float readOrDrainCoefficient) {
-        if (GT_Mod.gregtechproxy.mUndergroundOil.CheckBlackList(chunk.worldObj.provider.dimensionId)) return null;
+        if (GT5_Mod.gregtechproxy.mUndergroundOil.CheckBlackList(chunk.worldObj.provider.dimensionId)) return null;
         World aWorld = chunk.worldObj;
 
         //Read hash map
@@ -58,7 +58,7 @@ public class GT_UndergroundOil {
         final XSTR tRandom = new XSTR( (aWorld.getSeed() + aWorld.provider.dimensionId * 2 +
                 ((int)Math.floor((double)chunk.getChunkCoordIntPair().chunkXPos/(double)6)) +
                 (7 * ((int)Math.floor((double)chunk.getChunkCoordIntPair().chunkZPos/6)))));
-        GT_UO_Fluid uoFluid = GT_Mod.gregtechproxy.mUndergroundOil.GetDimension(aWorld.provider.dimensionId).getRandomFluid(tRandom);
+        GT_UO_Fluid uoFluid = GT5_Mod.gregtechproxy.mUndergroundOil.GetDimension(aWorld.provider.dimensionId).getRandomFluid(tRandom);
 
         //Fluid stack holder
         FluidStack fluidInChunk;

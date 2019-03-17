@@ -10,7 +10,7 @@ import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
-import gregtech.GT_Mod;
+import gregtech.GT5_Mod;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.gui.GT_GUIContainer_BasicMachine;
@@ -222,9 +222,9 @@ public class GT_NEI_DefaultHandler
 				drawText(10, 113, String.format("%s%.2f%s", trans("158","Time: "), 0.05 * tDuration, trans("161"," secs")), -16777216);
 			}
 			int tSpecial = ((CachedDefaultRecipe) this.arecipes.get(aRecipeIndex)).mRecipe.mSpecialValue;
-			if (tSpecial == -100 && GT_Mod.gregtechproxy.mLowGravProcessing) {
+			if (tSpecial == -100 && GT5_Mod.gregtechproxy.mLowGravProcessing) {
 				drawText(10, 123, trans("159","Needs Low Gravity"), -16777216);
-			} else if (tSpecial == -200 && GT_Mod.gregtechproxy.mEnableCleanroom) {
+			} else if (tSpecial == -200 && GT5_Mod.gregtechproxy.mEnableCleanroom) {
 				drawText(10, 123, trans("160","Needs Cleanroom"), -16777216);
 			} else if (tSpecial == -300) {
 				drawText(10, 123, trans("216","Deprecated Recipe"), -16777216);

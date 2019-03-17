@@ -1,6 +1,6 @@
 package gregtech.common.tileentities.machines.multi;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -192,7 +192,7 @@ public abstract class GT_MetaTileEntity_PrimitiveBlastFurnace extends MetaTileEn
 						this.mOutputItems = null;
 						this.mProgresstime = 0;
 						this.mMaxProgresstime = 0;
-						GT5_Mod.achievements.issueAchievement(
+						GT_Mod.achievements.issueAchievement(
 								aBaseMetaTileEntity.getWorld().getPlayerEntityByName(aBaseMetaTileEntity.getOwnerName()), "steel");
 					}
 				} else if (aBaseMetaTileEntity.isAllowedToWork()) {

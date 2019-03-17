@@ -1,6 +1,6 @@
 package gregtech.api.metatileentity;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
@@ -121,7 +121,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
             aNBT.setBoolean("mInputDisabled", mInputDisabled);
             aNBT.setBoolean("mOutputDisabled", mOutputDisabled);
             aNBT.setTag("GT.CraftingComponents", mRecipeStuff);
-            aNBT.setInteger("nbtVersion", GT5_Mod.TOTAL_VERSION);
+            aNBT.setInteger("nbtVersion", GT_Mod.TOTAL_VERSION);
         } catch (Throwable e) {
             GT_Log.err.println("Encountered CRITICAL ERROR while saving MetaTileEntity, the Chunk whould've been corrupted by now, but I prevented that. Please report immidietly to GregTech Intergalactical!!!");
             e.printStackTrace(GT_Log.err);
@@ -440,7 +440,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
                                             || (getCoverIDAtSide((byte) 5) == 0 && worldObj.getPrecipitationHeight(xCoord + 1, zCoord) - 1 < yCoord)) {
                                         if (GregTech_API.sMachineRainExplosions && worldObj.isRaining() && getBiome().rainfall > 0) {
                                             if (getRandomNumber(10) == 0) {
-                                                try{GT5_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "badweather");}catch(Exception e){}
+                                                try{GT_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "badweather");}catch(Exception e){}
                                                 doEnergyExplosion();
                                             } else setOnFire();
                                         }
@@ -449,7 +449,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
                                             return;
                                         }
                                         if (GregTech_API.sMachineThunderExplosions && worldObj.isThundering() && getBiome().rainfall > 0 && getRandomNumber(3) == 0) {
-                                        	try{GT5_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "badweather");}catch(Exception e){}
+                                        	try{GT_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "badweather");}catch(Exception e){}
                                             doEnergyExplosion();
                                         }
                                     }
@@ -1162,7 +1162,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
     public void doEnergyExplosion() {
         if (getUniversalEnergyCapacity() > 0 && getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 5) {
             doExplosion(oOutput * (getUniversalEnergyStored() >= getUniversalEnergyCapacity() ? 4 : getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 2 ? 2 : 1));
-            GT5_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "electricproblems");
+            GT_Mod.instance.achievements.issueAchievement(this.getWorldObj().getPlayerEntityByName(mOwnerName), "electricproblems");
         }
     }
 
@@ -1179,7 +1179,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
             mReleaseEnergy = false;
             // Normal Explosion Code
             mMetaTileEntity.onExplosion();
-            if(GT5_Mod.gregtechproxy.mExplosionItemDrop){
+            if(GT_Mod.gregtechproxy.mExplosionItemDrop){
                 for (int i = 0; i < this.getSizeInventory(); i++) {
                     ItemStack tItem = this.getStackInSlot(i);
                     if ((tItem != null) && (tItem.stackSize > 0) && (this.isValidSlot(i))) {
@@ -1982,7 +1982,7 @@ public class BaseMetaTileEntity extends BaseTileEntity implements IGregTechTileE
      */
     private int shiftInventoryIndex(int slotIndex, int nbtVersion){
     	int oldInputSize, newInputSize, oldOutputSize, newOutputSize;
-    	int chemistryUpdateVersion = GT5_Mod.calculateTotalGTVersion(509, 31);
+    	int chemistryUpdateVersion = GT_Mod.calculateTotalGTVersion(509, 31);
     	if (mID >= 211 && mID <= 218) {//Assembler
     		if (nbtVersion < chemistryUpdateVersion) {
     			oldInputSize = 2;

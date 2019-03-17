@@ -1,6 +1,6 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -36,7 +36,7 @@ public class ProcessingOreSmelting implements gregtech.api.interfaces.IOreRecipe
                     		outputSize = 10;
                         	outputPrefix = OrePrefixes.nugget;
                     	} else {
-                    		if (GT5_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre) {
+                    		if (GT_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre) {
                     			outputSize = 6;
                     			outputPrefix = OrePrefixes.nugget;
                     		} else {
@@ -46,7 +46,7 @@ public class ProcessingOreSmelting implements gregtech.api.interfaces.IOreRecipe
                     	}
                     	break;
                     case dust:
-            			int outputAmount = GT5_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre ? 2 : 3;
+            			int outputAmount = GT_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre ? 2 : 3;
                     	if (aMaterial.mDirectSmelting != aMaterial) {
                     		if (!aMaterial.contains(SubTag.DONT_ADD_DEFAULT_BBF_RECIPE)) {
                     			GT_Values.RA.addPrimitiveBlastRecipe(GT_Utility.copyAmount(2, aStack), GT_Values.NI,            2, aMaterial.mDirectSmelting.getIngots(outputAmount), GT_Values.NI,                                         2400);
@@ -67,7 +67,7 @@ public class ProcessingOreSmelting implements gregtech.api.interfaces.IOreRecipe
                     		outputPrefix = OrePrefixes.ingot;
                     		outputSize = 1;
                     	} else {
-                    		if (GT5_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre) {
+                    		if (GT_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre) {
                     			outputSize = 6;
                     			outputPrefix = OrePrefixes.nugget;
                     		} else {

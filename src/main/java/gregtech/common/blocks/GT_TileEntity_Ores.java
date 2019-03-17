@@ -1,6 +1,6 @@
 package gregtech.common.blocks;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
@@ -31,8 +31,8 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
     public static byte getHarvestData(short aMetaData, int aBaseBlockHarvestLevel) {
         Materials aMaterial = GregTech_API.sGeneratedMaterials[(aMetaData % 1000)];
         byte tByte = aMaterial == null ? 0 : (byte) Math.max(aBaseBlockHarvestLevel, Math.min(7, aMaterial.mToolQuality - (aMetaData < 16000 ? 0 : 1)));
-        if(GT5_Mod.gregtechproxy.mChangeHarvestLevels ){
-            tByte = aMaterial == null ? 0 : (byte) Math.max(aBaseBlockHarvestLevel, Math.min(GT5_Mod.gregtechproxy.mMaxHarvestLevel, GT5_Mod.gregtechproxy.mHarvestLevel[aMaterial.mMetaItemSubID] - (aMetaData < 16000 ? 0 : 1)));
+        if(GT_Mod.gregtechproxy.mChangeHarvestLevels ){
+            tByte = aMaterial == null ? 0 : (byte) Math.max(aBaseBlockHarvestLevel, Math.min(GT_Mod.gregtechproxy.mMaxHarvestLevel, GT_Mod.gregtechproxy.mHarvestLevel[aMaterial.mMetaItemSubID] - (aMetaData < 16000 ? 0 : 1)));
         }
         return tByte;
     }

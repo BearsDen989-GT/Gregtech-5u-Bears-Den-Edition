@@ -1,6 +1,6 @@
 package gregtech.loaders.postload;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_Log;
@@ -13,7 +13,7 @@ public class GT_ItemMaxStacksizeLoader
     public void run() {
         GT_Log.out.println("GT_Mod: Changing maximum Stacksizes if configured.");
 
-        ItemList.Upgrade_Overclocker.getItem().setMaxStackSize(GT5_Mod.gregtechproxy.mUpgradeCount);
+        ItemList.Upgrade_Overclocker.getItem().setMaxStackSize(GT_Mod.gregtechproxy.mUpgradeCount);
         Items.cake.setMaxStackSize(64);
         Items.wooden_door.setMaxStackSize(8);
         Items.iron_door.setMaxStackSize(8);

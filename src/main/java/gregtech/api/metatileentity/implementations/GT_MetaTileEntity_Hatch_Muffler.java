@@ -1,6 +1,6 @@
 package gregtech.api.metatileentity.implementations;
 
-import gregtech.GT5_Mod;
+import gregtech.GT_Mod;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -107,7 +107,7 @@ public class GT_MetaTileEntity_Hatch_Muffler extends GT_MetaTileEntity_Hatch {
         boolean chk1,chk2,chk3;
         float ran1=floatGen.nextFloat(),ran2=0,ran3=0;
         chk1=ran1*100<calculatePollutionReduction(100);
-        if(GT_Pollution.getPollution(getBaseMetaTileEntity())>= GT5_Mod.gregtechproxy.mPollutionSmogLimit){
+        if(GT_Pollution.getPollution(getBaseMetaTileEntity())>= GT_Mod.gregtechproxy.mPollutionSmogLimit){
             ran2=floatGen.nextFloat();
             ran3=floatGen.nextFloat();
             chk2=ran2*100<calculatePollutionReduction(100);

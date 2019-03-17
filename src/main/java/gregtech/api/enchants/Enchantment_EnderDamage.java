@@ -16,7 +16,7 @@ public class Enchantment_EnderDamage extends EnchantmentDamage {
     public static Enchantment_EnderDamage INSTANCE;
 
     public Enchantment_EnderDamage() {
-        super(GT_Config.addIDConfig(ConfigCategories.IDs.enchantments, "Disjunction", 11), 2, -1);
+        super(GT_Config.addIDConfig(ConfigCategories.IDs.enchantments, "Disjunction", 15), 2, -1);
         GT_LanguageManager.addStringLocalization(getName(), "Disjunction");
         Materials.Silver.setEnchantmentForTools(this, 2);
         Materials.Mercury.setEnchantmentForTools(this, 3);

@@ -1194,7 +1194,7 @@ if(Loader.isModLoaded("Railcraft")){
         GT_Values.RA.addElectrolyzerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Scheelite, 7L), GT_Values.NI, Materials.Hydrogen.getGas(7000L), Materials.Oxygen.getGas(4000L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Tungsten, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Calcium, 2L), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, new int[]{10000, 10000, 0, 0, 0, 0}, 120, 1920);
         //GT_Values.RA.addElectrolyzerRecipe(GT_OreDictUnificator.get(OrePrefixes.cell, Materials.CarbonDioxide, 4), GT_Values.NI, GT_Values.NF,GT_Values.NF,									   GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Carbon, 3),   GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Oxygen, 1), ItemList.Cell_Empty.get(3, new Object[0]), GT_Values.NI, GT_Values.NI, GT_Values.NI,new int[]{10000,10000,10000,0,0,0}, 180, 60);
         GT_Values.RA.addElectrolyzerRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Graphite, 1), 0, GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Carbon, 4), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, 100, 64);
-        
+                
         GT_Values.RA.addChemicalRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.NetherQuartz, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 1L), Materials.Water.getFluid(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.NetherQuartz, 3L), 500);
         GT_Values.RA.addChemicalRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.CertusQuartz, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 1L), Materials.Water.getFluid(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.CertusQuartz, 3L), 500);
         GT_Values.RA.addChemicalRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Quartzite, 3L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 1L), Materials.Water.getFluid(1000L), GT_Values.NF, GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Quartzite, 3L), 500);
@@ -1799,6 +1799,16 @@ if(Loader.isModLoaded("Railcraft")){
     }
 
 	private void run2(){
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Chalcopyrite, 1L), Materials.Oxygen.getGas(4000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Copper, 1L)), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Iron, 1L)), GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+		GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Molybdenite, 1L), Materials.Oxygen.getGas(6000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Molybdenum, 1L)), GT_Values.NI, GT_Values.NI ,Materials.SulfurDioxide.getGas(200L),null, 512, 16);
+		GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Cobaltite, 1L), Materials.Oxygen.getGas(3000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Cobalt, 1L)), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Arsenic, 1L)), GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+		GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Pentlandite, 1L), Materials.Oxygen.getGas(8000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Nickel, 2L)), GT_Values.NI , GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stibnite, 1L), Materials.Oxygen.getGas(5000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Antimony, 1L)), GT_Values.NI , GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sphalerite, 1L), Materials.Oxygen.getGas(4000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Zinc, 2L)), GT_Values.NI , GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Galena, 1L), Materials.Oxygen.getGas(2000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Silver, 1L)), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Lead, 1L)) , GT_Values.NI ,Materials.SulfurDioxide.getGas(500L),null, 512, 16);
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Pyrite, 1L), Materials.Oxygen.getGas(3000L), (GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Iron, 1L)), GT_Values.NI , GT_Values.NI ,Materials.SulfurDioxide.getGas(1000L),null, 512, 16);
+        GT_Values.RA.addRoasterRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1L), Materials.Oxygen.getGas(8000L), (GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.Sulfur, 1L)), GT_Values.NI, GT_Values.NI , Materials.SulfurDioxide.getGas(3000L), new int[]{1000} , 512, 16);
+		
         GT_Values.RA.addCentrifugeRecipe(new ItemStack(Items.golden_apple, 1, 1), GT_Values.NI, GT_Values.NF, Materials.Methane.getGas(4608L), new ItemStack(Items.gold_ingot, 64), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 9216, 5);
         GT_Values.RA.addCentrifugeRecipe(new ItemStack(Items.golden_apple, 1, 0), GT_Values.NI, GT_Values.NF, Materials.Methane.getGas(576L), new ItemStack(Items.gold_ingot, 7), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 9216, 5);
         GT_Values.RA.addCentrifugeRecipe(new ItemStack(Items.golden_carrot, 1, 0), GT_Values.NI, GT_Values.NF, Materials.Methane.getGas(576L), new ItemStack(Items.gold_nugget, 6), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 9216, 5);
@@ -3435,23 +3445,7 @@ if(Loader.isModLoaded("Railcraft")){
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.Iron.getDust(1), GT_Values.NI, 4, Materials.Steel.getIngots(1), GT_Values.NI, 7200);
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.Iron.getBlocks(1), GT_Values.NI, 36, Materials.Steel.getIngots(9), GT_Values.NI, 64800);
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.Steel.getDust(1), GT_Values.NI, 2, Materials.Steel.getIngots(1), GT_Values.NI, 7200);
-    	
-    	//Roasting
-    	GT_Values.RA.addBlastRecipe(Materials.Tetrahedrite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(2000), Materials.CupricOxide.getDust(1), Materials.AntimonyTrioxide.getDustTiny(3), 120, 120, 1200);
-    	GT_Values.RA.addBlastRecipe(Materials.Chalcopyrite.getDust(1), Materials.SiliconDioxide.getDust(1), Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(2000), Materials.CupricOxide.getDust(1), Materials.Ferrosilite.getDust(1), 120, 120, 1200);
-    	
-    	GT_Values.RA.addBlastRecipe(Materials.Pyrite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(2000), Materials.BandedIron.getDust(1), Materials.Ash.getDustTiny(1), 120, 120, 1200);
-
-    	GT_Values.RA.addBlastRecipe(Materials.Pentlandite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(1000), Materials.Garnierite.getDust(1), Materials.Ash.getDustTiny(1), 120, 120, 1200);
-
-    	GT_Values.RA.addBlastRecipe(Materials.Sphalerite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(1000), Materials.Zincite.getDust(1), Materials.Ash.getDustTiny(1), 120, 120, 1200);
-
-    	GT_Values.RA.addBlastRecipe(Materials.Cobaltite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(1000), Materials.CobaltOxide.getDust(1), Materials.ArsenicTrioxide.getDust(1), 120, 120, 1200);
-
-    	GT_Values.RA.addBlastRecipe(Materials.Stibnite.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(1500), Materials.AntimonyTrioxide.getDust(1), Materials.Ash.getDustTiny(1), 120, 120, 1200);
-    	
-    	GT_Values.RA.addBlastRecipe(Materials.Galena.getDust(1), GT_Values.NI, Materials.Oxygen.getGas(3000), Materials.SulfurDioxide.getGas(1000), Materials.Massicot.getDust(1), Materials.Silver.getIngots(1), 120, 120, 1200);
-    	
+    	    	
     	//Carbothermic Reduction
     	int outputIngotAmount = GT_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre ? 2 : 3;
     	GT_Values.RA.addBlastRecipe(Materials.CupricOxide.getDust(2),         Materials.Carbon.getDust(1),      GT_Values.NF, Materials.CarbonDioxide.getGas(1000),  Materials.Copper.getIngots(outputIngotAmount),   Materials.Ash.getDustTiny(2), 240, 120, 1200);

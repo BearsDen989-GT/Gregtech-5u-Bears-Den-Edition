@@ -907,6 +907,23 @@ public class GT_RecipeAdder
         }
         return false;
     }
+    
+    @Override
+    public boolean addRoasterRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack aOutput1 , ItemStack aOutput2, ItemStack aOutput3, FluidStack aFluidOutput, int[] aChances, int aDuration, int aEUt) {
+        if ((aInput == null) || (aOutput1 == null) || aFluidInput == null) {
+            return false;
+        }
+        if ((aDuration = GregTech_API.sRecipeFile.get("roaster", aInput, aDuration)) <= 0) {
+            return false;
+        }
+                GT_Recipe.GT_Recipe_Map.sRoasterRecipes.addRecipe(
+                		true, new ItemStack[]{aInput},new ItemStack[]{aOutput1, aOutput2, aOutput3},
+                        null, aChances,
+                        new FluidStack[]{aFluidInput},new FluidStack[]{aFluidOutput},
+                        Math.max(1, aDuration), Math.max(1, aEUt), 0);
+                return true;
+            }
+
 
     public boolean addPlasmaArcFurnaceRecipe(ItemStack aInput, FluidStack aFluidInput, ItemStack[] aOutputs, int[] aChances, int aDuration, int aEUt) {
         if ((aInput == null) || (aOutputs == null) || aFluidInput == null) {

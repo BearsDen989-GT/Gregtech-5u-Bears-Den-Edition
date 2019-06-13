@@ -133,7 +133,9 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
             return GT_Recipe.GT_Recipe_Map.sPolarizerRecipes;
         } else if(tmp.startsWith("press")){
             return GT_Recipe.GT_Recipe_Map.sPressRecipes;
-        } else if (tmp.startsWith("plasmaarcfurnace")) {
+        } else if (tmp.startsWith("roaster")) {
+			return GT_Recipe.GT_Recipe_Map.sRoasterRecipes;
+		} else if (tmp.startsWith("plasmaarcfurnace")) {
             return GT_Recipe.GT_Recipe_Map.sPlasmaArcFurnaceRecipes;
         } else if (tmp.startsWith("printer")) {
             return GT_Recipe.GT_Recipe_Map.sPrinterRecipes;

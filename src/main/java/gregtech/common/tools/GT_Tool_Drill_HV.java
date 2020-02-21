@@ -1,6 +1,7 @@
 package gregtech.common.tools;
 
 import gregtech.GT_Mod;
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +35,11 @@ public class GT_Tool_Drill_HV
 
     public float getSpeedMultiplier() {
         return 9.0F;
+    }
+    
+    @Override
+    public ItemStack getBrokenItem(ItemStack aStack) {
+        return (ItemList.ToolHull_HV.get(1L, new Object[0]));
     }
 
     public float getMaxDurabilityMultiplier() {

@@ -2,6 +2,7 @@ package gregtech.common.tools;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import gregtech.api.items.GT_MetaGenerated_Tool;
@@ -79,7 +80,7 @@ public class GT_Tool_Drill_LV
     }
 
     public ItemStack getBrokenItem(ItemStack aStack) {
-        return null;
+        return (ItemList.ToolHull_LV.get(1L, new Object[0]));
     }
 
     public IIconContainer getIcon(boolean aIsToolHead, ItemStack aStack) {

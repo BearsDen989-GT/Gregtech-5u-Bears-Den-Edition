@@ -1,2 +1,13 @@
-# Auto detect text files and perform LF normalization
 * text=auto
+
+*.java text
+*.lang text
+*.json text
+*.info text
+*.txt text
+
+*.bat text eol=crlf
+
+*.ogg binary
+*.png binary
+

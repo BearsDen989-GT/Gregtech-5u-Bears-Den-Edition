@@ -1,7 +1,6 @@
 package gregtech.common.tools;
 
 import gregtech.GT_Mod;
-import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IIconContainer;
 import net.minecraft.item.ItemStack;
@@ -30,11 +29,6 @@ public class GT_Tool_Drill_MV
 
     public float getBaseDamage() {
         return 2.5F;
-    }
-    
-    @Override
-    public ItemStack getBrokenItem(ItemStack aStack) {
-        return (ItemList.ToolHull_MV.get(1L, new Object[0]));
     }
 
     public float getSpeedMultiplier() {

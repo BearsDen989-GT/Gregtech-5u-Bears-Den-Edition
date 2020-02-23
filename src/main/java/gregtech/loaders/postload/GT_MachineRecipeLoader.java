@@ -3448,6 +3448,9 @@ if(Loader.isModLoaded("Railcraft")){
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.Steel.getDust(1), GT_Values.NI, 2, Materials.Steel.getIngots(1), GT_Values.NI, 7200);
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.BlackBronze.getDust(1), GT_Values.NI, 2, Materials.BlackBronze.getIngots(1), GT_Values.NI, 7200);
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.BismuthBronze.getDust(1), GT_Values.NI, 2, Materials.BismuthBronze.getIngots(1), GT_Values.NI, 7200);
+    	GT_Values.RA.addPrimitiveBlastRecipe(Materials.BlackSteel.getDust(1), GT_Values.NI, 2, Materials.BlackSteel.getIngots(1), GT_Values.NI, 9600);
+    	GT_Values.RA.addPrimitiveBlastRecipe(Materials.BlueSteel.getDust(1), GT_Values.NI, 2, Materials.BlueSteel.getIngots(1), GT_Values.NI, 12000);
+    	GT_Values.RA.addPrimitiveBlastRecipe(Materials.RedSteel.getDust(1), GT_Values.NI, 2, Materials.RedSteel.getIngots(1), GT_Values.NI, 12000);
     	    	
     	//Carbothermic Reduction
     	int outputIngotAmount = GT_Mod.gregtechproxy.mMixedOreOnlyYieldsTwoThirdsOfPureOre ? 2 : 3;

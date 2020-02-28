@@ -3460,6 +3460,7 @@ if(Loader.isModLoaded("Railcraft")){
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.BlueSteel.getDust(1), GT_Values.NI, 2, Materials.BlueSteel.getIngots(1), GT_Values.NI, 12000);
     	GT_Values.RA.addPrimitiveBlastRecipe(Materials.RedSteel.getDust(1), GT_Values.NI, 2, Materials.RedSteel.getIngots(1), GT_Values.NI, 12000);
 		GT_Values.RA.addPrimitiveBlastRecipe(Materials.SterlingSilver.getDust(1), GT_Values.NI, 2, Materials.SterlingSilver.getIngots(1), GT_Values.NI, 5400);
+		GT_Values.RA.addPrimitiveBlastRecipe(Materials.RoseGold.getDust(1), GT_Values.NI, 2, Materials.RoseGold.getIngots(1), GT_Values.NI, 5400);
 		
     	    	
     	//Carbothermic Reduction

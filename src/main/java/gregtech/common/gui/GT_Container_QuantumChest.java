@@ -2,6 +2,7 @@ package gregtech.common.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import e99999.barrelBasic;
 import gregtech.api.gui.GT_ContainerMetaTile_Machine;
 import gregtech.api.gui.GT_Slot_Output;
 import gregtech.api.gui.GT_Slot_Render;
@@ -36,7 +37,11 @@ public class GT_Container_QuantumChest extends GT_ContainerMetaTile_Machine {
         if (mTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_QuantumChest) {
             mContent = ((GT_MetaTileEntity_QuantumChest) mTileEntity.getMetaTileEntity()).mItemCount;
         } else {
-            mContent = 0;
+        	if (mTileEntity.getMetaTileEntity() instanceof barrelBasic) {
+        		mContent = ((barrelBasic) mTileEntity.getMetaTileEntity()).mItemCount;
+        	} else {
+        		mContent = 0;
+        	}
         }
 
         Iterator var2 = this.crafters.iterator();

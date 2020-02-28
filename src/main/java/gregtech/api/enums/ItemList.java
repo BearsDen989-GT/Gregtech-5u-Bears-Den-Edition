@@ -633,6 +633,8 @@ public enum ItemList implements IItemContainer {
     Energy_Module, Energy_Cluster,
     ZPM2, Quantum_Tank_LV, Quantum_Tank_MV, Quantum_Tank_HV, Quantum_Tank_EV, Quantum_Tank_IV, Quantum_Chest_LV, Quantum_Chest_MV, Quantum_Chest_HV, Quantum_Chest_EV, Quantum_Chest_IV,
 
+    Basic_Tank,Basic_Tank_Steam, Basic_Tank_LV, Basic_Tank_MV, Basic_Tank_HV,
+    
     NULL, Cover_RedstoneTransmitterExternal, Cover_RedstoneTransmitterInternal, Cover_RedstoneReceiverExternal, Cover_RedstoneReceiverInternal,
     LargeSteamTurbine, LargeGasTurbine, LargeHPSteamTurbine, LargePlasmaTurbine,
     Ingot_Heavy1, Ingot_Heavy2, Ingot_Heavy3,

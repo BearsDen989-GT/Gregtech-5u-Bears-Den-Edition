@@ -1004,6 +1004,7 @@ if(Loader.isModLoaded("Railcraft")){
         GT_ModHandler.addCompressionRecipe(new ItemStack(Items.wheat, 9, 0), new ItemStack(Blocks.hay_block, 1, 0));
         GT_ModHandler.addCompressionRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Glowstone, 4L), new ItemStack(Blocks.glowstone, 1));
         GT_ModHandler.addCompressionRecipe(Materials.Fireclay.getDust(1), ItemList.CompressedFireclay.get(1));
+        GT_ModHandler.addCompressionRecipe(Materials.Paper.getDust(7), new ItemStack(Items.paper, 2));
         
     	GameRegistry.addSmelting(ItemList.CompressedFireclay.get(1, new Object[0]), ItemList.Firebrick.get(1, new Object[0]), 0);
 
@@ -1748,6 +1749,7 @@ if(Loader.isModLoaded("Railcraft")){
 			GT_Values.RA.addChemicalRecipe(Materials.Water.getCells(1), GT_Values.NI, Materials.HydricSulfide.getGas(1000), Materials.DilutedSulfuricAcid.getFluid(2000), Materials.Empty.getCells(1), 60);
 		}
 		addChemicalRecipesShared();
+
 		if (GT_Mod.gregtechproxy.mMoreComplicatedChemicalRecipes) {
 			addChemicalRecipesComplicated();
 		} else {
@@ -1755,6 +1757,8 @@ if(Loader.isModLoaded("Railcraft")){
 		}
         GT_Values.RA.addAutoclaveRecipe(Materials.SiliconDioxide.getDust(1), Materials.Water.getFluid(200L), 		Materials.Quartzite.getGems(1), 750,  2000, 24);
         GT_Values.RA.addAutoclaveRecipe(Materials.SiliconDioxide.getDust(1), GT_ModHandler.getDistilledWater(200L), Materials.Quartzite.getGems(1), 1000, 1500, 24);
+        
+        
 
         addRecipesMay2017OilRefining();
 		addPyrometallurgicalRecipes();
@@ -2997,40 +3001,6 @@ if(Loader.isModLoaded("Railcraft")){
     	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)}, new FluidStack[]{Materials.Hydrogen.getGas(3000), Materials.Nitrogen.getGas(1000), Materials.Oxygen.getGas(4000)}, new FluidStack[]{Materials.NitricAcid.getFluid(5000), Materials.Water.getFluid(3000)}, null, 320, 480);
     	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)}, new FluidStack[]{Materials.Ammonia.getGas(4000), Materials.Oxygen.getGas(4000)}, new FluidStack[]{Materials.NitricAcid.getFluid(5000), Materials.Water.getFluid(3000)}, null, 320, 30);
 
-        GT_Values.RA.addChemicalRecipe(Materials.Sulfur.getDust(1),         GT_Utility.getIntegratedCircuit(2), Materials.Oxygen.getGas(2000), Materials.SulfurDioxide.getGas(3000),  GT_Values.NI, 60, 8);
-
-        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(1),  Materials.Oxygen.getGas(3000),        Materials.SulfurDioxide.getGas(3000), Materials.Water.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(1),  Materials.HydricSulfide.getGas(3000), Materials.SulfurDioxide.getGas(3000), Materials.Water.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(11), Materials.Oxygen.getGas(3000),        Materials.Water.getFluid(3000),       Materials.SulfurDioxide.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(11), Materials.HydricSulfide.getGas(3000), Materials.Water.getFluid(3000),       Materials.SulfurDioxide.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(2),  Materials.Oxygen.getGas(3000),        Materials.SulfurDioxide.getGas(3000), Materials.Empty.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(2),  Materials.HydricSulfide.getGas(3000), Materials.SulfurDioxide.getGas(3000), Materials.Empty.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(12), Materials.Oxygen.getGas(3000),        GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(12), Materials.HydricSulfide.getGas(3000), GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), 120);
-        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Oxygen.getCells(3),        Materials.HydricSulfide.getCells(3), GT_Values.NF,                         GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), Materials.Water.getCells(3), 120, 30);
-
-        GT_Values.RA.addChemicalRecipe(Materials.SulfurDioxide.getCells(1), GT_Utility.getIntegratedCircuit(1), Materials.HydricSulfide.getGas(2000), Materials.Water.getFluid(2000), Materials.Sulfur.getDust(1), Materials.Empty.getCells(1), 120);
-        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(1), Materials.SulfurDioxide.getGas(1000), Materials.Water.getFluid(2000), Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
-        GT_Values.RA.addChemicalRecipe(Materials.SulfurDioxide.getCells(1), GT_Utility.getIntegratedCircuit(2), Materials.HydricSulfide.getGas(2000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(1), 120);
-        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(2), Materials.SulfurDioxide.getGas(1000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
-        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(2), Materials.SulfurDioxide.getGas(1000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
-
-        GT_Values.RA.addChemicalRecipe(                   Materials.Sulfur.getDust(1),         GT_Utility.getIntegratedCircuit(3),  Materials.Oxygen.getGas(3000),        Materials.SulfurTrioxide.getGas(4000), GT_Values.NI, 280);
-        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Sulfur.getDust(1),         Materials.Empty.getCells(4),         Materials.Oxygen.getGas(3000),        GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), GT_Values.NI, 280, 30);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(1),        GT_Utility.getIntegratedCircuit(1),  Materials.SulfurDioxide.getGas(3000), Materials.SulfurTrioxide.getGas(4000), Materials.Empty.getCells(1), 200);
-        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurDioxide.getCells(3), GT_Utility.getIntegratedCircuit(1),  Materials.Oxygen.getGas(1000),        Materials.SulfurTrioxide.getGas(4000), Materials.Empty.getCells(3), 200);
-        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(1),        Materials.Empty.getCells(3),         Materials.SulfurDioxide.getGas(3000), GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), 200);
-        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurDioxide.getCells(3), Materials.Empty.getCells(1),         Materials.Oxygen.getGas(1000),        GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), 200);
-        
-        GT_Values.RA.addChemicalRecipe(                   Materials.Water.getCells(3),          GT_Utility.getIntegratedCircuit(1),   Materials.SulfurTrioxide.getGas(4000), Materials.SulfuricAcid.getFluid(7000), Materials.Empty.getCells(3), 320, 8);
-        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurTrioxide.getCells(4), GT_Utility.getIntegratedCircuit(1),   Materials.Water.getFluid(3000),        Materials.SulfuricAcid.getFluid(7000), Materials.Empty.getCells(4), 320, 8);
-        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Water.getCells(3),          Materials.Empty.getCells(4),          Materials.SulfurTrioxide.getGas(4000), GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
-        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.SulfurTrioxide.getCells(4), Materials.Empty.getCells(3),          Materials.Water.getFluid(3000),        GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
-        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.SulfurTrioxide.getCells(4), Materials.Water.getCells(3),          GT_Values.NF,                          GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
-    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{Materials.Sulfur.getDust(1), GT_Utility.getIntegratedCircuit(24)}, new FluidStack[]{Materials.Oxygen.getGas(3000),        Materials.Water.getFluid(3000)},                                new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
-    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)},                              new FluidStack[]{Materials.HydricSulfide.getGas(3000), Materials.Oxygen.getGas(4000)},                                 new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
-    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)},                              new FluidStack[]{Materials.SulfurDioxide.getGas(3000), Materials.Oxygen.getGas(1000), Materials.Water.getFluid(3000)}, new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
-
         GT_Values.RA.addChemicalRecipe(                   Materials.Chlorine.getCells(2), GT_Utility.getIntegratedCircuit(1),  Materials.Ethylene.getGas(6000), Materials.VinylChloride.getGas(6000),      Materials.HydrochloricAcid.getCells(2), 160);
         GT_Values.RA.addChemicalRecipe(                   Materials.Ethylene.getCells(6), GT_Utility.getIntegratedCircuit(1),  Materials.Chlorine.getGas(2000), Materials.VinylChloride.getGas(6000),      Materials.HydrochloricAcid.getCells(2), Materials.Empty.getCells(4), 160);
         GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Chlorine.getCells(2), Materials.Empty.getCells(4),         Materials.Ethylene.getGas(6000), Materials.HydrochloricAcid.getFluid(2000), Materials.VinylChloride.getCells(6), GT_Values.NI, 160, 30);
@@ -3089,6 +3059,39 @@ if(Loader.isModLoaded("Railcraft")){
 	}
 	
 	private void addChemicalRecipesShared(){
+        GT_Values.RA.addChemicalRecipe(Materials.Sulfur.getDust(1),         GT_Utility.getIntegratedCircuit(2), Materials.Oxygen.getGas(2000), Materials.SulfurDioxide.getGas(3000),  GT_Values.NI, 60, 8);
+        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(1),  Materials.Oxygen.getGas(3000),        Materials.SulfurDioxide.getGas(3000), Materials.Water.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(1),  Materials.HydricSulfide.getGas(3000), Materials.SulfurDioxide.getGas(3000), Materials.Water.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(11), Materials.Oxygen.getGas(3000),        Materials.Water.getFluid(3000),       Materials.SulfurDioxide.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(11), Materials.HydricSulfide.getGas(3000), Materials.Water.getFluid(3000),       Materials.SulfurDioxide.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(2),  Materials.Oxygen.getGas(3000),        Materials.SulfurDioxide.getGas(3000), Materials.Empty.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(2),  Materials.HydricSulfide.getGas(3000), Materials.SulfurDioxide.getGas(3000), Materials.Empty.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.HydricSulfide.getCells(3), GT_Utility.getIntegratedCircuit(12), Materials.Oxygen.getGas(3000),        GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(3),        GT_Utility.getIntegratedCircuit(12), Materials.HydricSulfide.getGas(3000), GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), 120);
+        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Oxygen.getCells(3),        Materials.HydricSulfide.getCells(3), GT_Values.NF,                         GT_Values.NF,                         Materials.SulfurDioxide.getCells(3), Materials.Water.getCells(3), 120, 30);
+
+        GT_Values.RA.addChemicalRecipe(Materials.SulfurDioxide.getCells(1), GT_Utility.getIntegratedCircuit(1), Materials.HydricSulfide.getGas(2000), Materials.Water.getFluid(2000), Materials.Sulfur.getDust(1), Materials.Empty.getCells(1), 120);
+        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(1), Materials.SulfurDioxide.getGas(1000), Materials.Water.getFluid(2000), Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
+        GT_Values.RA.addChemicalRecipe(Materials.SulfurDioxide.getCells(1), GT_Utility.getIntegratedCircuit(2), Materials.HydricSulfide.getGas(2000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(1), 120);
+        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(2), Materials.SulfurDioxide.getGas(1000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
+        GT_Values.RA.addChemicalRecipe(Materials.HydricSulfide.getCells(2), GT_Utility.getIntegratedCircuit(2), Materials.SulfurDioxide.getGas(1000), GT_Values.NF,                   Materials.Sulfur.getDust(1), Materials.Empty.getCells(2), 120);
+
+        GT_Values.RA.addChemicalRecipe(                   Materials.Sulfur.getDust(1),         GT_Utility.getIntegratedCircuit(3),  Materials.Oxygen.getGas(3000),        Materials.SulfurTrioxide.getGas(4000), GT_Values.NI, 280);
+        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Sulfur.getDust(1),         Materials.Empty.getCells(4),         Materials.Oxygen.getGas(3000),        GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), GT_Values.NI, 280, 30);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(1),        GT_Utility.getIntegratedCircuit(1),  Materials.SulfurDioxide.getGas(3000), Materials.SulfurTrioxide.getGas(4000), Materials.Empty.getCells(1), 200);
+        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurDioxide.getCells(3), GT_Utility.getIntegratedCircuit(1),  Materials.Oxygen.getGas(1000),        Materials.SulfurTrioxide.getGas(4000), Materials.Empty.getCells(3), 200);
+        GT_Values.RA.addChemicalRecipe(                   Materials.Oxygen.getCells(1),        Materials.Empty.getCells(3),         Materials.SulfurDioxide.getGas(3000), GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), 200);
+        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurDioxide.getCells(3), Materials.Empty.getCells(1),         Materials.Oxygen.getGas(1000),        GT_Values.NF,                          Materials.SulfurTrioxide.getCells(4), 200);
+        
+        GT_Values.RA.addChemicalRecipe(                   Materials.Water.getCells(3),          GT_Utility.getIntegratedCircuit(1),   Materials.SulfurTrioxide.getGas(4000), Materials.SulfuricAcid.getFluid(7000), Materials.Empty.getCells(3), 320, 8);
+        GT_Values.RA.addChemicalRecipe(                   Materials.SulfurTrioxide.getCells(4), GT_Utility.getIntegratedCircuit(1),   Materials.Water.getFluid(3000),        Materials.SulfuricAcid.getFluid(7000), Materials.Empty.getCells(4), 320, 8);
+        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.Water.getCells(3),          Materials.Empty.getCells(4),          Materials.SulfurTrioxide.getGas(4000), GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
+        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.SulfurTrioxide.getCells(4), Materials.Empty.getCells(3),          Materials.Water.getFluid(3000),        GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
+        GT_Values.RA.addChemicalRecipeForBasicMachineOnly(Materials.SulfurTrioxide.getCells(4), Materials.Water.getCells(3),          GT_Values.NF,                          GT_Values.NF,                          Materials.SulfuricAcid.getCells(7), GT_Values.NI, 320, 8);
+    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{Materials.Sulfur.getDust(1), GT_Utility.getIntegratedCircuit(24)}, new FluidStack[]{Materials.Oxygen.getGas(3000),        Materials.Water.getFluid(3000)},                                new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
+    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)},                              new FluidStack[]{Materials.HydricSulfide.getGas(3000), Materials.Oxygen.getGas(4000)},                                 new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
+    	GT_Values.RA.addMultiblockChemicalRecipe(new ItemStack[]{GT_Utility.getIntegratedCircuit(24)},                              new FluidStack[]{Materials.SulfurDioxide.getGas(3000), Materials.Oxygen.getGas(1000), Materials.Water.getFluid(3000)}, new FluidStack[]{Materials.SulfuricAcid.getFluid(7000)}, null, 480, 30);
+
 		GT_Values.RA.addElectrolyzerRecipe(GT_Utility.getIntegratedCircuit(1),  GT_Values.NI,                Materials.CarbonDioxide.getGas(3000), Materials.Oxygen.getGas(2000), Materials.Carbon.getDust(1), GT_Values.NI,                 GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 300, 120);
 		GT_Values.RA.addElectrolyzerRecipe(GT_Utility.getIntegratedCircuit(11), Materials.Empty.getCells(2), Materials.CarbonDioxide.getGas(3000), GT_Values.NF,                  Materials.Carbon.getDust(1), Materials.Oxygen.getCells(2), GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 300, 120);
 		GT_Values.RA.addElectrolyzerRecipe(GT_Utility.getIntegratedCircuit(1),  GT_Values.NI,                Materials.SulfurDioxide.getGas(3000), Materials.Oxygen.getGas(2000), Materials.Sulfur.getDust(1), GT_Values.NI,                 GT_Values.NI, GT_Values.NI, GT_Values.NI, GT_Values.NI, null, 300, 120);

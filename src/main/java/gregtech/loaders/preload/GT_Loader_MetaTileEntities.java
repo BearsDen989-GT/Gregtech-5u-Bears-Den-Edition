@@ -1501,7 +1501,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         generateItemPipes(Materials.Osmium, Materials.Osmium.mName, 5632, 8);
         generateItemPipes(Materials.PolyvinylChloride, Materials.PolyvinylChloride.mName, "PVC", 5640, 4);
         //generateItemPipes(Materials.WroughtIron, Materials.WroughtIron.mName, 5646, 1);
-        generateItemPipes(Materials.Nickel, Materials.Nickel.mName, 5652, 1);
+        //generateItemPipes(Materials.Nickel, Materials.Nickel.mName, 5652, 1);
         //generateItemPipes(Materials.Cobalt, Materials.Cobalt.mName, 5658, 2);
         //generateItemPipes(Materials.Aluminium, Materials.Aluminium.mName, 5664, 2);
         generateItemPipes(Materials.Cupronickel, Materials.Cupronickel.mName, 5646, 1);

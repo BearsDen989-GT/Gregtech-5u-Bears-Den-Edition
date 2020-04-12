@@ -1528,6 +1528,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         generateItemPipes(Materials.Angmallen, Materials.Angmallen.mName, 5652, 2);
         generateItemPipes(Materials.BlackBronze, Materials.BlackBronze.mName, 5688, 2);
         generateItemPipes(Materials.AluminiumBrass, Materials.AluminiumBrass.mName, 5694, 2);
+        generateItemPipes(Materials.Enderium, Materials.Enderium.mName, 5700, 16);
 
 
         ItemList.Automation_ChestBuffer_ULV.set(new GT_MetaTileEntity_ChestBuffer(9230, "automation.chestbuffer.tier.00", "Ultra Low Voltage Chest Buffer", 0).getStackForm(1L));

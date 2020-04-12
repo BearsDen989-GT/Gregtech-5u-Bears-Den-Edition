@@ -1462,7 +1462,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         generateFluidMultiPipes(Materials.TungstenSteel, Materials.TungstenSteel.mName, "Tungstensteel", 5225, 600, 7500, true);
         generateFluidMultiPipes(Materials.Plastic, Materials.Plastic.mName, "Plastic", 5230, 360, 350, true);
         generateFluidMultiPipes(Materials.Polytetrafluoroethylene, Materials.Polytetrafluoroethylene.mName, "PTFE", 5235, 480, 600, true);
-        generateFluidPipes(Materials.IronWood, Materials.IronWood.mName,"IronWood", 5240, 120, 1977, true);
+        generateFluidPipes(Materials.IronWood, Materials.IronWood.mName, "IronWood", 5240, 120, 1975, true);
 
         GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.pipeSmall, Materials.TungstenSteel, 1L), ItemList.Electric_Pump_EV.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.pipeSmall, Materials.Ultimate, 1L), 300, 96);
         GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.pipeMedium, Materials.TungstenSteel, 1L), ItemList.Electric_Pump_IV.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.pipeMedium, Materials.Ultimate, 1L), 400, 148);
@@ -1508,7 +1508,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         generateItemPipes(Materials.CobaltBrass, Materials.CobaltBrass.mName, 5658, 1);
         generateItemPipes(Materials.RoseGold, Materials.RoseGold.mName, 5682, 2);
         generateItemPipes(Materials.SterlingSilver, Materials.SterlingSilver.mName, 5670, 2);
-        generateItemPipes(Materials.Ultimet, Materials.Ultimet.mName, 5676, 4);
+        generateItemPipes(Materials.Ultimet, Materials.Ultimet.mName, 5676, 16);
 
 
         ItemList.Automation_ChestBuffer_ULV.set(new GT_MetaTileEntity_ChestBuffer(9230, "automation.chestbuffer.tier.00", "Ultra Low Voltage Chest Buffer", 0).getStackForm(1L));

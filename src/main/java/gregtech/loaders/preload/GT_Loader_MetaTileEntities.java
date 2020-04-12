@@ -1467,6 +1467,7 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         generateFluidPipes(Materials.Rubber, Materials.Rubber.mName, "Rubber", 5250, 30, 350, true);
         generateFluidPipes(Materials.TinAlloy, Materials.TinAlloy.mName, "Tin Alloy", 5255, 37, 1572, true);
         generateFluidPipes(Materials.Iridium, Materials.Iridium.mName, "Iridium", 5260, 150, 3398, true);
+        generateFluidPipes(Materials.Aluminium, Materials.Aluminium.mName, "Aluminium", 5265, 30, 1166, true);
 
         GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.pipeSmall, Materials.TungstenSteel, 1L), ItemList.Electric_Pump_EV.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.pipeSmall, Materials.Ultimate, 1L), 300, 96);
         GT_Values.RA.addAssemblerRecipe(GT_OreDictUnificator.get(OrePrefixes.pipeMedium, Materials.TungstenSteel, 1L), ItemList.Electric_Pump_IV.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.pipeMedium, Materials.Ultimate, 1L), 400, 148);

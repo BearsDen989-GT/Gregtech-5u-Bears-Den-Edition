@@ -1,24 +1,25 @@
 language: java
 dist: trusty
 install:
-  - jdk_switcher use oraclejdk8
-  - ./gradlew setupDecompworkspace
-  - ./gradlew build
+- jdk_switcher use oraclejdk8
+- "./gradlew setupDecompworkspace"
+- "./gradlew build"
 before_deploy:
-# Set up git user name and tag this commit
-  - git config --local user.name "testdeploy"
-  - git config --local user.email "testdeploy"
-  - git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+- git config --local user.name "testdeploy"
+- git config --local user.email "testdeploy"
+- git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
   prerelease: true
-  api_key: e+PrqHgzL2+8RDVPMGggtsXZVFZqKKRyorpyfSv7WwVPS9jEJicQqJfszvHaWkQ954v0E/5zkhIwYGATwXWyffEPHMbjVEH+UmgkM/ZRc2HAQT2Nyb2k/Yqj8VBaI1OZ1YKXVcXaGvvLUSdLON4dXeIHDvb1S8wKXB/BjQkyNujW8FsZJyhVHfz0ZpSYIVzXAkreg1Q/yEj5a9n/AMWhJLgog6TjDLXfnOeUvuxA7HMxPL8fkNMoQ6+mCxlB+dRgvXMMyoq21GIbPEKt4TvYgAnR8mktnMk5OPql6T5zOqPIAiYLn6bcwFGWyLO587JxD+PI2fJtanVH+fJXCyUcqoyj57Ki/G7E4a84xOl5sS208sd1wPwUtB6Bb870R3a4sdngAfkS952SrwtnyLtysUAyHjqdE9PLv3zyjp3QJBgF35R7HD+DnfAX1sKO1EQKPtSFcxcowk9+ItDtfb9s55LTlv4kPmbE8Lhv+dAO09ZpEaaFO13VE7cxNiksemzZDql6kOMX8D/DlRiHgrZZeiTtX6EeM1oSqUTFv5y8Js0S1CLdP03SKmjYAUNvDWSKji1Tbpc2iGFunnjmSm5ZkLG/UFsDAiQVzq8OieCy/Pe0LO99zHxB4W76nSq/7KKgsT56zd+gPcVY/0YWNa5e581PAbnxcnvx7smiN27Pgz4=
   file_glob: true
-  file: 
-    - "build/libs/*.jar"
-    - "README.md"
+  file:
+  - build/libs/*.jar
+  - README.md
   skip_cleanup: true
   on:
     tags: false
     all_branches: true
-    condition: $TRAVIS_BRANCH =~ ^dev|test|main$
+    condition: "$TRAVIS_BRANCH =~ ^dev|test|main$"
+env:
+  global:
+    secure: nqxOdQQxpKvSxd84y1/4w/L97wHXpGTN2u1pQQgIkA7MvAx+5uWCPxdWjW4nx1hmDEiynooHWNeoY7nL+V7QoJ9pTDDFcw7W4Kc3sDFDL1IirdmgR4PlKD9rxsM2khaWnabbvEM9SHpzSj0Eg6UBYetB7EiiQwsfH0B/IqhaLMBn88RgEBzLrMIjVBYSazN3WuXZQIopea1IiMpod/QKvGFdqQeFKnqWEg/O0SpR+U4Oz3z+bR9/xEHmjRBbnEYfTcaK9z3AdDybDSSsTk56lgP25YFbvUITTu8l4IDQg0H1cFc4WuqJItwgAdWiurqWM0c3duaSlZZqTTe8IWz20+EMmu5b+IJvSfACf4k0RuP4m6jlxTa1iCfEG5V6cXetdVLyxMJrCTsceF+tlE36p7Nc36nGZXeDr3ZCJGzqrzYBT+yGOrV6esJhCX+U7fASUQuP5B6xueVdUzMhpdlAk6ZyuKIzCkJW9tMVVNMQHZ2OFoNx3WdkXJDBUAhawcbvr1C2l+vfT8428F7cDvMB10R+NnM7Psm8rrkEuxazDjGCozkh5PKguT8y6T0yIt0v9GhOR48YWtXAmSTOuQMpSePK3+3TZ/93r5C8M8u1DflaTFBOKZoliy5rTET0C0uBzTzh+eADZ5gneiJDPYXTop4vCrF8vRl0CH5OTza8dAo=

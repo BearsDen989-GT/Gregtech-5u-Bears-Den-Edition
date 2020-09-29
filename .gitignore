@@ -6,6 +6,7 @@
 
 !/.gitignore
 !/.gitattributes
+!/.travis.yml
 
 # License files
 !/LICENSE*

@@ -9,6 +9,7 @@ before_deploy:
 - git config --local user.email "testdeploy"
 - git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
+  api_key: nqxOdQQxpKvSxd84y1/4w/L97wHXpGTN2u1pQQgIkA7MvAx+5uWCPxdWjW4nx1hmDEiynooHWNeoY7nL+V7QoJ9pTDDFcw7W4Kc3sDFDL1IirdmgR4PlKD9rxsM2khaWnabbvEM9SHpzSj0Eg6UBYetB7EiiQwsfH0B/IqhaLMBn88RgEBzLrMIjVBYSazN3WuXZQIopea1IiMpod/QKvGFdqQeFKnqWEg/O0SpR+U4Oz3z+bR9/xEHmjRBbnEYfTcaK9z3AdDybDSSsTk56lgP25YFbvUITTu8l4IDQg0H1cFc4WuqJItwgAdWiurqWM0c3duaSlZZqTTe8IWz20+EMmu5b+IJvSfACf4k0RuP4m6jlxTa1iCfEG5V6cXetdVLyxMJrCTsceF+tlE36p7Nc36nGZXeDr3ZCJGzqrzYBT+yGOrV6esJhCX+U7fASUQuP5B6xueVdUzMhpdlAk6ZyuKIzCkJW9tMVVNMQHZ2OFoNx3WdkXJDBUAhawcbvr1C2l+vfT8428F7cDvMB10R+NnM7Psm8rrkEuxazDjGCozkh5PKguT8y6T0yIt0v9GhOR48YWtXAmSTOuQMpSePK3+3TZ/93r5C8M8u1DflaTFBOKZoliy5rTET0C0uBzTzh+eADZ5gneiJDPYXTop4vCrF8vRl0CH5OTza8dAo=
   provider: releases
   prerelease: true
   file_glob: true

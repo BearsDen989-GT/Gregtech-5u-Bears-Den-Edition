@@ -1,0 +1,25 @@
+language: java
+dist: trusty
+install:
+  - jdk_switcher use oraclejdk8
+  - ./gradlew setupDecompworkspace
+  - ./gradlew build
+before_deploy:
+# Set up git user name and tag this commit
+  - git config --local user.name "testdeploy"
+  - git config --local user.email "testdeploy"
+  - git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+deploy:
+  provider: releases
+  prerelease: true
+  api_key:
+    secure: $OAUTH_TOKEN
+  file_glob: true
+  file: 
+    - "build/libs/*.jar"
+    - "README.md"
+  skip_cleanup: true
+  on:
+    tags: false
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^dev|test|master$

@@ -22,4 +22,4 @@ deploy:
   on:
     tags: false
     all_branches: true
-    condition: $TRAVIS_BRANCH =~ ^dev|test|master$
+    condition: $TRAVIS_BRANCH =~ ^dev|test|main$

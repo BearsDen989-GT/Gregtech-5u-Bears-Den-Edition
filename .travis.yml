@@ -9,14 +9,13 @@ before_deploy:
 - git config --local user.email "testdeploy"
 - git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
-  api_key: kiG6ygHLSBL2riq1weS2s24ikHutqPGT3Ye/fLePO62OKTD40UsCeed+RRVZKNXzKseBG7bDMfmXPFeqDaJES6RnM9c2qliHkuY31/PLCZbmG08YTefiV4aashUveT2hann0SZe6yQyqZdsHFhzCg2LYRbciRRDdWBJEGFPG4hQcavMsTNRgAE150VyC0HwjQ0ezJwpEaJWa9B27RCuef+PVsch7s2ZvfIfPwRe3gagILSnWpK9SnJFftGt1GxNv7k51ukcsfK8Gx5MZnCmItqe2U+3S9huj9HzLV9wuGNXvvQBmnIg82yFC3bNPpr4tM4gwmkwHeDgmPJwS3qydgDITm0uTXYe7P15p02ezLVWG2jehI8D2QVCY9kSjWOMbmsvKjonKxwagfy1GyrZSBZl5PZCWs1rX5KMemEQBu3pBhm6x+4j2QmC/dCnGMWxpgkj9fPvH1LbtOjQBpo0qdXeUWsG+dwzfEObOShB6qwFQiiBhNPGQVM2OOxP3SsVMCam3h9yjELKN9/5THf8/NY7NeqB37GzvU48AzAo/4Nrs4Und9tMLQzep51m9KwdPoZEhp9YB3Tkwdem9WBqxl1brRHV0sBz1TU9P+RgReme3MgKpfM3VuDQthg1EJAcKnclUtBwRMtnRSqtaGW/aQXEvrfZHK2OQXXQXPHWm/D0=
   provider: releases
-  prerelease: true
-  file_glob: true
+  api_key:
+    secure: kiG6ygHLSBL2riq1weS2s24ikHutqPGT3Ye/fLePO62OKTD40UsCeed+RRVZKNXzKseBG7bDMfmXPFeqDaJES6RnM9c2qliHkuY31/PLCZbmG08YTefiV4aashUveT2hann0SZe6yQyqZdsHFhzCg2LYRbciRRDdWBJEGFPG4hQcavMsTNRgAE150VyC0HwjQ0ezJwpEaJWa9B27RCuef+PVsch7s2ZvfIfPwRe3gagILSnWpK9SnJFftGt1GxNv7k51ukcsfK8Gx5MZnCmItqe2U+3S9huj9HzLV9wuGNXvvQBmnIg82yFC3bNPpr4tM4gwmkwHeDgmPJwS3qydgDITm0uTXYe7P15p02ezLVWG2jehI8D2QVCY9kSjWOMbmsvKjonKxwagfy1GyrZSBZl5PZCWs1rX5KMemEQBu3pBhm6x+4j2QmC/dCnGMWxpgkj9fPvH1LbtOjQBpo0qdXeUWsG+dwzfEObOShB6qwFQiiBhNPGQVM2OOxP3SsVMCam3h9yjELKN9/5THf8/NY7NeqB37GzvU48AzAo/4Nrs4Und9tMLQzep51m9KwdPoZEhp9YB3Tkwdem9WBqxl1brRHV0sBz1TU9P+RgReme3MgKpfM3VuDQthg1EJAcKnclUtBwRMtnRSqtaGW/aQXEvrfZHK2OQXXQXPHWm/D0=
   file:
   - build/libs/*.jar
   - README.md
-  skip_cleanup: true
+  skip_cleanup: 'true'
   draft: true
   on:
     tags: false

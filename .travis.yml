@@ -11,7 +11,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: n4dt0EPF7PE+LZKfHDxfpvCkMZG6iZJb/TjQicEvv/pJqBhvAm8dX8kMjDQQO2bgLl/HEJCsAUAnaWXATQl796RPVR9rnwy/YZyet3wlw9oY+TWVdn0FGgwhNkzy8antXYi9JmCZfr2KBsJVNNErYNBbkM1Ip3Kl93UvhKE1jv9x8hfL5vxPLF4YKhZxFUqvfBAKz9+DuvsHJexoJpSRPAnufUeRBHz0n3xL+BxiUnpHhoFAFs8iIJcjajWzMGOt/nM0MMA/S6DYfdu2mph3QpnpdDjUjvdQ+bXCHOunZd/fvQZEC/fsd/ngvwoGP8E2Fp44ZH+EIX/PxbvUsgC3rzxYr2rvLGh+AV9onmjHKX2shosnsdWw2m+xIYlJi88CSTTbVjYUFstcWrUHM/1jahN5BY7VqpOoXrVN56HuBcJtFmn9EJNBcsFhwqNqHIYADKKrPADfBxTSziCTblXkYChiV7B16KT+L+B2fNFBNwazeJXEOxDDaHB2uTZF1TIt2qSe6W03s+mh59jUXT0WjNmHDncC2VwqOnZmIJGz8ue8hTyVuvNUQWt03vV3OicJjJtnrLliWUJCZKLL7XXexU/rKqReYhplq4I0BkD9UiGK5K0mkkOIWkrKKaGUDq0LCgGRLGHkW6jjrS8tYZXd/jf8oTqsiJwoGcdtc9gh390=
+    secure: $API_KEY
   file:
   - build/libs/*.jar
   - README.md
@@ -23,6 +23,3 @@ deploy:
     branch: main
   skip_cleanup: 'true'
   draft: 'true'
-#env:
-#  global:
-#  - secure: phDf8PGUg1ikNRaN6Qv/lQme6oFjWeqfc6WRelyUdGTzhtc0uCmbDZypL+EY9iGJfp5GA7eWbUfeUwuojcUCfBRQ0KJmOGkJDIcTsJ2lMUtZzXVTUQOMPMVb6nLPFfkk2oQL8dZpYiLKiuD4dGQnuzx/M3MG7auOPLhEc34uFKewc5MiLhXJaWR2YAlIhGPjEIiM0Ct6WSKHqMTA6F0gWEq4IwgsbV7CbEFAShEzxyt+3qWs/HjwApCvR9ycT2JOTyUvaojoBHAURO67zc3iNr5MBnIczKWoAc2jcWS8tsXKN7ebddVdvBsgDlBYkHOdijPFfMzKRmTRGd1n5MncFvx21zqSeNhip/lWOZUbToEJNc/zr2Wh/1j3pMVtdfxEeVNCe8SnSXjReuYJnm0tx95XTj5f7sfG1gpu+XwUUPDJB//0e+7kIpjYExp9WAwclRIgHdY82pEhUbLwjEm8/GHa79Oe2eFghVidvnKghXyUN75BSCjON8BCfNERg0jxHoUi7D5944hcedPt5oFmexLprLpT70yI3Tqupo7TR6YyN+KuWBPmjLG0t3aJ/9R20kHt73z/XoMhrS5maI9+JFbv5tmTlOlj8wvVjAJ1wkGOrA2VKVIY8MTFPMIt+DUhqYHe6f4wxQNHoc1dq3d4Yj/m3QHqSxRKTQS7CuGV+wU=

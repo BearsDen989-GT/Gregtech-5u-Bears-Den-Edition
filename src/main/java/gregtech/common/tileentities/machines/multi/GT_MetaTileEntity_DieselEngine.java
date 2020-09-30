@@ -126,8 +126,16 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
             for (byte j = -1; j < 2; j = (byte) (j + 1)) {
                 if ((i != 0) || (j != 0)) {
                     for (byte k = 0; k < 4; k = (byte) (k + 1)) {
-                        Block frontAir = getBaseMetaTileEntity().getBlock(tX - (tSide == 5 ? 1 : tSide == 4 ? -1 : i), tY + j, tZ - (tSide == 2 ? -1 : tSide == 3 ? 1 : i));
-                        if(!(frontAir.getUnlocalizedName().equalsIgnoreCase("tile.air") || frontAir.getUnlocalizedName().equalsIgnoreCase("tile.railcraft.residual.heat"))) {
+
+                        final int fX = tX - (tSide == 5 ? 1 : tSide == 4 ? -1 : i),
+                                  fZ = tZ - (tSide == 2 ? -1 : tSide == 3 ? 1 : i),
+                                  aY = tY + j,
+                                  aX = tX + (tSide == 5 ? k : tSide == 4 ? -k : i),
+                                  aZ = tZ + (tSide == 2 ? -k : tSide == 3 ? k : i);
+
+                        final Block frontAir = getBaseMetaTileEntity().getBlock(fX, aY, fZ);
+                        final String frontAirName = frontAir.getUnlocalizedName();
+                        if(!(getBaseMetaTileEntity().getAir(fX, aY, fZ) || frontAirName.equalsIgnoreCase("tile.air") || frontAirName.equalsIgnoreCase("tile.railcraft.residual.heat"))) {
                             return false; //Fail if vent blocks are obstructed
                         }
                         if (((i == 0) || (j == 0)) && ((k == 1) || (k == 2))) {

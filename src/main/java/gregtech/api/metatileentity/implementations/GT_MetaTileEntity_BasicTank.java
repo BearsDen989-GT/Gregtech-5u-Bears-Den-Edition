@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
-
+import net.minecraftforge.fluids.IFluidContainerItem;
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
  * <p/>

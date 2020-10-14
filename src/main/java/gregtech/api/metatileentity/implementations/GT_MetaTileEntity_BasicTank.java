@@ -91,6 +91,13 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
         return true;
     }
 
+    
+    @Override
+    public boolean isItemValidForSlot(int aIndex, ItemStack aStack) {
+        return getBaseMetaTileEntity().isValidSlot(aIndex) && aStack != null && aStack.getItem() instanceof IFluidContainerItem;
+    }
+
+    
     public FluidStack getFillableStack() {
         return mFluid;
     }

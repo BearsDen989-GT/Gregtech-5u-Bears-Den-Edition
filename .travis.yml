@@ -10,8 +10,7 @@ before_deploy:
 - git tag "$TRAVIS_BRANCH-build-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
-  api_key:
-    secure: $API_KEY_QUOTES
+  api_key: $GH_DEPLOY_KEY
   file:
   - build/libs/*.jar
   - README.md

@@ -11,6 +11,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key: $GH_DEPLOY_KEY
+  file_glob: true
   file:
   - build/libs/*.jar
   - README.md
@@ -20,5 +21,5 @@ deploy:
     condition: "$TRAVIS_BRANCH =~ ^dev|test|main$"
     repo: BearsDen989-GT/Gregtech-5u-Bears-Den-Edition
     branch: main
-  skip_cleanup: 'true'
-  draft: 'true'
+  skip_cleanup: true
+  draft: true

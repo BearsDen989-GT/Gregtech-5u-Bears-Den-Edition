@@ -29,7 +29,7 @@ public class tankBasic
 
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        return aSide == aFacing ? new ITexture[]{Textures.BlockIcons.STORAGESTUFF[mTier][aColorIndex + 0], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_PIPE_OUT)} : new ITexture[]{Textures.BlockIcons.STORAGESTUFF[mTier][aColorIndex + 0]};
+        return aSide == aFacing ? new ITexture[]{Textures.BlockIcons.STORAGESTUFF[mTier][aColorIndex + 1], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_PIPE_OUT)} : new ITexture[]{Textures.BlockIcons.STORAGESTUFF[mTier][aColorIndex + 1]};
     }
 
     @Override

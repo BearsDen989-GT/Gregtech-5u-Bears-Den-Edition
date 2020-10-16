@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
  * <p/>
@@ -91,13 +91,6 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
         return true;
     }
 
-    
-    @Override
-    public boolean isItemValidForSlot(int aIndex, ItemStack aStack) {
-        return getBaseMetaTileEntity().isValidSlot(aIndex) && aStack != null && aStack.getItem() instanceof IFluidContainerItem;
-    }
-
-    
     public FluidStack getFillableStack() {
         return mFluid;
     }

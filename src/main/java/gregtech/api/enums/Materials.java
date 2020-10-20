@@ -1376,6 +1376,11 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
 
     public static void init() {
         new ProcessingConfig();
+
+	if (GT_Mod.gregtechproxy.mBearCoreRecipes) {
+	    Magnesiumchloride.add(SubTag.SMELTING_TO_FLUID);
+	}
+
         if (!GT_Mod.gregtechproxy.mEnableAllMaterials) new ProcessingModSupport();
         for (IMaterialHandler aRegistrator : mMaterialHandlers) {
             aRegistrator.onMaterialsInit(); //This is where addon mods can add/manipulate materials

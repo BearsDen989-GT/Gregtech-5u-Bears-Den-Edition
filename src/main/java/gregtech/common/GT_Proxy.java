@@ -216,6 +216,12 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
     public boolean costlyCableConnection = false;
     public boolean mMoreComplicatedChemicalRecipes = false;
     
+    //BearCore settings
+    public boolean mBearCoreGeneral = false;
+    public boolean mBearCorePipes = false; 
+    public boolean mBearCoreRecipes = false;
+
+
     public GT_Proxy() {
         GameRegistry.registerFuelHandler(this);
         MinecraftForge.EVENT_BUS.register(this);

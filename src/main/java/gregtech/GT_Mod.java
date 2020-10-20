@@ -316,7 +316,13 @@ public class GT_Mod implements IGT_Mod {
                 tPrefix.mDefaultStackSize = ((byte) Math.min(64, Math.max(16, tMainConfig.get("features", "MaxOtherBlockStackSize", 64).getInt())));
             }
         }
-        
+
+	// Settings for BearCore
+	gregtechproxy.mBearCoreGeneral = tMainConfig.get("bearcore", "enableBearCoreSettings", false).getBoolean(false);
+	gregtechproxy.mBearCorePipes = tMainConfig.get("bearcore", "extraPipes", false).getBoolean(false);
+	gregtechproxy.mBearCoreRecipes = tMainConfig.get("bearcore", "lessStupidRecipes", false).getBoolean(false);
+
+
         new Enchantment_EnderDamage();
         new Enchantment_Radioactivity();
         

@@ -80,9 +80,9 @@ public class GT_Client extends GT_Proxy
     private long afterSomeTime;
     private long mAnimationTick;
     private boolean mAnimationDirection;
-    
+
     public GT_Client() {
-    	mCapeRenderer = new GT_CapeRenderer(mCapeList);
+        mCapeRenderer = new GT_CapeRenderer(mCapeList);
         mAnimationTick = 0L;
         mAnimationDirection = false;
         mPosR = Arrays.asList(new Materials[]{
@@ -148,110 +148,110 @@ public class GT_Client extends GT_Proxy
         GL11.glVertex3d(-.25D, .0D, +.50D);
         TileEntity tTile = aEvent.player.worldObj.getTileEntity(aEvent.target.blockX, aEvent.target.blockY, aEvent.target.blockZ);
         if (tTile instanceof BaseMetaPipeEntity) {
-        	int[][] GridSwitchArr = new int[][]{
-            	{0, 5, 3, 1, 2, 4},
-            	{5, 0, 1, 3, 2, 4},
-            	{1, 3, 0, 5, 2, 4},
-            	{3, 1, 5, 0, 2, 4},
-            	{4, 2, 3, 1, 0, 5},
-            	{2, 4, 3, 1, 5, 0},
-            }; 
-        	int tConnections = ((BaseMetaPipeEntity) tTile).mConnections;
-        	for (byte i = 0; i < 6; i++) {
-        		if ((tConnections & (1 << i)) != 0) {
-        			switch (GridSwitchArr[aEvent.target.sideHit][i]) {
-        	        case 0:
-        	        	GL11.glVertex3d(+.25D, .0D, +.25D);
-        	        	GL11.glVertex3d(-.25D, .0D, -.25D);
-        	        	GL11.glVertex3d(-.25D, .0D, +.25D);
-        	        	GL11.glVertex3d(+.25D, .0D, -.25D);
-        	        	break;
-        	        case 1:
-        	        	GL11.glVertex3d(-.25D, .0D, +.50D);
-        				GL11.glVertex3d(+.25D, .0D, +.25D);
-        				GL11.glVertex3d(-.25D, .0D, +.25D);
-        				GL11.glVertex3d(+.25D, .0D, +.50D);
-        	        	break;
-        	        case 2:
-        	        	GL11.glVertex3d(-.50D, .0D, -.25D);
-        				GL11.glVertex3d(-.25D, .0D, +.25D);
-        				GL11.glVertex3d(-.50D, .0D, +.25D);
-        				GL11.glVertex3d(-.25D, .0D, -.25D);
-        	        	break;
-        	        case 3:
-        	        	GL11.glVertex3d(-.25D, .0D, -.50D);
-        				GL11.glVertex3d(+.25D, .0D, -.25D);
-        				GL11.glVertex3d(-.25D, .0D, -.25D);
-        				GL11.glVertex3d(+.25D, .0D, -.50D);
-        	        	break;
-        	        case 4:
-        	        	GL11.glVertex3d(+.50D, .0D, -.25D);
-        				GL11.glVertex3d(+.25D, .0D, +.25D);
-        				GL11.glVertex3d(+.50D, .0D, +.25D);
-        				GL11.glVertex3d(+.25D, .0D, -.25D);
-        	        	break;
-        	        case 5:
-        	        	GL11.glVertex3d(+.50D, .0D, +.50D);
-        	        	GL11.glVertex3d(+.25D, .0D, +.25D);
-        	        	GL11.glVertex3d(+.50D, .0D, +.25D);
-        	        	GL11.glVertex3d(+.25D, .0D, +.50D);
-        	        	GL11.glVertex3d(+.50D, .0D, -.50D);
-        	        	GL11.glVertex3d(+.25D, .0D, -.25D);
-        	        	GL11.glVertex3d(+.50D, .0D, -.25D);
-        	        	GL11.glVertex3d(+.25D, .0D, -.50D);
-        	        	GL11.glVertex3d(-.50D, .0D, +.50D);
-        	        	GL11.glVertex3d(-.25D, .0D, +.25D);
-        	        	GL11.glVertex3d(-.50D, .0D, +.25D);
-        	        	GL11.glVertex3d(-.25D, .0D, +.50D);
-        	        	GL11.glVertex3d(-.50D, .0D, -.50D);
-        	        	GL11.glVertex3d(-.25D, .0D, -.25D);
-        	        	GL11.glVertex3d(-.50D, .0D, -.25D);
-        	        	GL11.glVertex3d(-.25D, .0D, -.50D);
-        	        	break;
-        	        }
-        		}
-        	}
+            int[][] GridSwitchArr = new int[][]{
+                    {0, 5, 3, 1, 2, 4},
+                    {5, 0, 1, 3, 2, 4},
+                    {1, 3, 0, 5, 2, 4},
+                    {3, 1, 5, 0, 2, 4},
+                    {4, 2, 3, 1, 0, 5},
+                    {2, 4, 3, 1, 5, 0},
+            };
+            int tConnections = ((BaseMetaPipeEntity) tTile).mConnections;
+            for (byte i = 0; i < 6; i++) {
+                if ((tConnections & (1 << i)) != 0) {
+                    switch (GridSwitchArr[aEvent.target.sideHit][i]) {
+                        case 0:
+                            GL11.glVertex3d(+.25D, .0D, +.25D);
+                            GL11.glVertex3d(-.25D, .0D, -.25D);
+                            GL11.glVertex3d(-.25D, .0D, +.25D);
+                            GL11.glVertex3d(+.25D, .0D, -.25D);
+                            break;
+                        case 1:
+                            GL11.glVertex3d(-.25D, .0D, +.50D);
+                            GL11.glVertex3d(+.25D, .0D, +.25D);
+                            GL11.glVertex3d(-.25D, .0D, +.25D);
+                            GL11.glVertex3d(+.25D, .0D, +.50D);
+                            break;
+                        case 2:
+                            GL11.glVertex3d(-.50D, .0D, -.25D);
+                            GL11.glVertex3d(-.25D, .0D, +.25D);
+                            GL11.glVertex3d(-.50D, .0D, +.25D);
+                            GL11.glVertex3d(-.25D, .0D, -.25D);
+                            break;
+                        case 3:
+                            GL11.glVertex3d(-.25D, .0D, -.50D);
+                            GL11.glVertex3d(+.25D, .0D, -.25D);
+                            GL11.glVertex3d(-.25D, .0D, -.25D);
+                            GL11.glVertex3d(+.25D, .0D, -.50D);
+                            break;
+                        case 4:
+                            GL11.glVertex3d(+.50D, .0D, -.25D);
+                            GL11.glVertex3d(+.25D, .0D, +.25D);
+                            GL11.glVertex3d(+.50D, .0D, +.25D);
+                            GL11.glVertex3d(+.25D, .0D, -.25D);
+                            break;
+                        case 5:
+                            GL11.glVertex3d(+.50D, .0D, +.50D);
+                            GL11.glVertex3d(+.25D, .0D, +.25D);
+                            GL11.glVertex3d(+.50D, .0D, +.25D);
+                            GL11.glVertex3d(+.25D, .0D, +.50D);
+                            GL11.glVertex3d(+.50D, .0D, -.50D);
+                            GL11.glVertex3d(+.25D, .0D, -.25D);
+                            GL11.glVertex3d(+.50D, .0D, -.25D);
+                            GL11.glVertex3d(+.25D, .0D, -.50D);
+                            GL11.glVertex3d(-.50D, .0D, +.50D);
+                            GL11.glVertex3d(-.25D, .0D, +.25D);
+                            GL11.glVertex3d(-.50D, .0D, +.25D);
+                            GL11.glVertex3d(-.25D, .0D, +.50D);
+                            GL11.glVertex3d(-.50D, .0D, -.50D);
+                            GL11.glVertex3d(-.25D, .0D, -.25D);
+                            GL11.glVertex3d(-.50D, .0D, -.25D);
+                            GL11.glVertex3d(-.25D, .0D, -.50D);
+                            break;
+                    }
+                }
+            }
         }
         GL11.glEnd();
         GL11.glPopMatrix();
     }
-    
+
     @SubscribeEvent
     public void manipulateDensity(EntityViewRenderEvent.FogDensity event) {
-    	if(GT_Pollution.mPlayerPollution > (GT_Mod.gregtechproxy.mPollutionSmogLimit)){    	
-        event.density = (0.15f*(Math.min(GT_Pollution.mPlayerPollution/((float)GT_Mod.gregtechproxy.mPollutionSourRainLimit),1.0f)))+0.1f;
-        event.setCanceled(true);
-    	}
+        if(GT_Pollution.mPlayerPollution > (GT_Mod.gregtechproxy.mPollutionSmogLimit)){
+            event.density = (0.15f*(Math.min(GT_Pollution.mPlayerPollution/((float)GT_Mod.gregtechproxy.mPollutionSourRainLimit),1.0f)))+0.1f;
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
     public void manipulateColor(EntityViewRenderEvent.FogColors event) {
-    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
-        event.red = 140f/255f;
-        event.green = 80f/255f;
-        event.blue = 40f/255f;
-    	}
+        if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
+            event.red = 140f/255f;
+            event.green = 80f/255f;
+            event.blue = 40f/255f;
+        }
     }
-    
+
     @SubscribeEvent
     public void manipulateGrassColor(BiomeEvent.GetGrassColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
-        event.newColor = 0xD2691E;
-    	}
+        if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
+            event.newColor = 0xD2691E;
+        }
     }
 
     @SubscribeEvent
     public void manipulateWaterColor(BiomeEvent.GetWaterColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
-        event.newColor = 0x556B2F;
-    	}
+        if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
+            event.newColor = 0x556B2F;
+        }
     }
 
     @SubscribeEvent
     public void manipulateFoliageColor(BiomeEvent.GetFoliageColor event) {
-    	if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
-        event.newColor = 0xCD853F;
-    	}
+        if(GT_Pollution.mPlayerPollution > GT_Mod.gregtechproxy.mPollutionSmogLimit){
+            event.newColor = 0xCD853F;
+        }
     }
 
     public boolean isServerSide() {
@@ -349,16 +349,16 @@ public class GT_Client extends GT_Proxy
         } catch (Throwable e) {
         }
         /**try {
-            GT_Log.out.println("Skip: GT_Mod: Downloading News.");
-            @SuppressWarnings("resource")
-            Scanner tScanner = new Scanner(new URL("http://files.minecraftforge.net/maven/com/gregoriust/gregtech/message.txt").openStream());
-            while (tScanner.hasNextLine()) {
-                this.mMessage = (this.mMessage + tScanner.nextLine() + " ");
-            }
-        } catch (Throwable e) {
-        }**/
+         GT_Log.out.println("Skip: GT_Mod: Downloading News.");
+         @SuppressWarnings("resource")
+         Scanner tScanner = new Scanner(new URL("http://files.minecraftforge.net/maven/com/gregoriust/gregtech/message.txt").openStream());
+         while (tScanner.hasNextLine()) {
+         this.mMessage = (this.mMessage + tScanner.nextLine() + " ");
+         }
+         } catch (Throwable e) {
+         }**/
     }
-    
+
     @SubscribeEvent
     public void receiveRenderSpecialsEvent(net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre aEvent) {
         mCapeRenderer.receiveRenderSpecialsEvent(aEvent);
@@ -432,9 +432,9 @@ public class GT_Client extends GT_Proxy
                     return;
                 }
                 if (aTileEntity instanceof BaseTileEntity && (GT_Utility.isStackInList(aEvent.currentItem, GregTech_API.sWireCutterList) || GT_Utility.isStackInList(aEvent.currentItem, GregTech_API.sSolderingToolList))) {
-                	drawGrid(aEvent);
-                	return;
-            	}
+                    drawGrid(aEvent);
+                    return;
+                }
             } catch (Throwable e) {
                 if (GT_Values.D1) {
                     e.printStackTrace(GT_Log.err);
@@ -464,7 +464,7 @@ public class GT_Client extends GT_Proxy
             }
             mAnimationTick++;
             if (mAnimationTick % 50L == 0L)
-                {mAnimationDirection = !mAnimationDirection;}
+            {mAnimationDirection = !mAnimationDirection;}
             int tDirection = mAnimationDirection ? 1 : -1;
             for (Iterator i$ = mPosR.iterator(); i$.hasNext(); ) {
                 Materials tMaterial = (Materials) i$.next();
@@ -647,14 +647,14 @@ public class GT_Client extends GT_Proxy
                 }
             }
             if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sWrenchList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sScrewdriverList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sHardHammerList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sSoftHammerList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sWireCutterList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sSolderingToolList)
-            		|| GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCrowbarList)
-            		|| GregTech_API.sCovers.containsKey(new GT_ItemStack(tCurrentItem))) {
-            	hide |= 0x2;
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sScrewdriverList)
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sHardHammerList)
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sSoftHammerList)
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sWireCutterList)
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sSolderingToolList)
+                    || GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCrowbarList)
+                    || GregTech_API.sCovers.containsKey(new GT_ItemStack(tCurrentItem))) {
+                hide |= 0x2;
             }
             return hide;
         }catch(Exception e){

@@ -1,5 +1,7 @@
 package gregtech.api;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.enums.Materials;
@@ -11,6 +13,7 @@ import gregtech.api.interfaces.internal.IThaumcraftCompat;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.items.GT_CoolantCellIC_Item;
 import gregtech.api.items.GT_CoolantCell_Item;
+import gregtech.api.items.GT_MetaGenerated_Tool;
 import gregtech.api.items.GT_Tool_Item;
 import gregtech.api.metatileentity.BaseMetaTileEntity;
 import gregtech.api.objects.GT_Cover_Default;
@@ -20,12 +23,17 @@ import gregtech.api.objects.GT_ItemStack;
 import gregtech.api.threads.GT_Runnable_MachineBlockUpdate;
 import gregtech.api.util.*;
 import gregtech.api.world.GT_Worldgen;
+import gregtech.common.items.GT_MetaGenerated_Tool_01;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.*;
@@ -189,6 +197,9 @@ public class GregTech_API {
     public static Block sBlockOres1, sBlockOresUb1, sBlockOresUb2, sBlockOresUb3, sBlockOresGC, sBlockGem, sBlockMetal1, sBlockMetal2, sBlockMetal3, sBlockMetal4, sBlockMetal5, sBlockMetal6, sBlockMetal7, sBlockMetal8, sBlockGem1, sBlockGem2, sBlockGem3, sBlockReinforced;
     public static Block sBlockGranites, sBlockConcretes, sBlockStones;
     public static Block sBlockCasings1, sBlockCasings2, sBlockCasings3, sBlockCasings4, sBlockCasings5, sBlockCasings8;
+
+    public static Block
+            sBlockLongDistancePipes;
     /**
      * Getting assigned by the Config
      */
@@ -301,7 +312,7 @@ public class GregTech_API {
      * You should call @causeMachineUpdate in @Block.breakBlock and in @Block.onBlockAdded of your registered Block.
      * You don't need to register TileEntities which implement @IMachineBlockUpdateable
      *
-     * @param aID   the ID of your Block
+     *
      * @param aMeta the Metadata of the Blocks as Bitmask! -1 or ~0 for all Metavalues
      */
     public static boolean registerMachineBlock(Block aBlock, int aMeta) {

@@ -25,6 +25,8 @@ import gregtech.common.tileentities.machines.GT_MetaTileEntity_BasicHull_BronzeB
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_BasicHull_Steel;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_BasicHull_SteelBricks;
 import gregtech.common.tileentities.machines.basic.*;
+import gregtech.common.tileentities.machines.long_distance.GT_MetaTileEntity_LongDistancePipelineFluid;
+import gregtech.common.tileentities.machines.long_distance.GT_MetaTileEntity_LongDistancePipelineItem;
 import gregtech.common.tileentities.machines.multi.*;
 import gregtech.common.tileentities.machines.steam.*;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_Locker;
@@ -274,6 +276,10 @@ public class GT_Loader_MetaTileEntities implements Runnable {
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Input_ZPM.get(1L, new Object[0]), bitsd, new Object[]{"G", "M", 'M', ItemList.Hull_ZPM, 'G', Ic2Items.reinforcedGlass});
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Input_UV.get(1L, new Object[0]), bitsd, new Object[]{"G", "M", 'M', ItemList.Hull_UV, 'G', Ic2Items.reinforcedGlass});
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Input_MAX.get(1L, new Object[0]), bitsd, new Object[]{"G", "M", 'M', ItemList.Hull_MAX, 'G', Ic2Items.reinforcedGlass});
+
+        ItemList.Long_Distance_Pipeline_Fluid.set(new GT_MetaTileEntity_LongDistancePipelineFluid(2700, "long.distance.pipeline.fluid", "Long Distance Fluid Pipeline", 1).getStackForm(1L));
+        ItemList.Long_Distance_Pipeline_Item.set(new GT_MetaTileEntity_LongDistancePipelineItem(2701, "long.distance.pipeline.item", "Long Distance Item Pipeline", 1).getStackForm(1L));
+
 
         ItemList.Hatch_Output_ULV.set(new GT_MetaTileEntity_Hatch_Output(60, "hatch.output.tier.00", "Output Hatch (ULV)", 0).getStackForm(1L));
         ItemList.Hatch_Output_LV.set(new GT_MetaTileEntity_Hatch_Output(61, "hatch.output.tier.01", "Output Hatch (LV)", 1).getStackForm(1L));

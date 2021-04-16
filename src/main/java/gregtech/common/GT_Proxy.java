@@ -43,11 +43,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -59,10 +61,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
@@ -1902,5 +1901,74 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
     		GregTech_API.causeMachineUpdate(event.world, event.x, event.y, event.z);
     }
 
+    private int BEAR_INVENTORY_COOL_DOWN = 5;
 
+    @SubscribeEvent
+    public void onPlayerRightClickEntity(EntityInteractEvent aEvent) {
+        if (!aEvent.entityPlayer.isDead) {
+            EntityPlayer entityPlayer = aEvent.entityPlayer;
+            if(GT_MetaGenerated_Tool.sInstances.get("gt.metatool.01").getToolStats(entityPlayer.getHeldItem()) != null && GT_MetaGenerated_Tool.sInstances.get("gt.metatool.01") != null) {
+                if (GT_MetaGenerated_Tool.sInstances.get("gt.metatool.01").getToolStats(entityPlayer.getHeldItem()).isWrench()) {
+                    if (aEvent.target instanceof EntityPlayer) {
+                        if (((EntityPlayer) aEvent.target).getDisplayName().equals("Bear989Sr")) {
+                            Random random = new Random();
+                            EntityPlayer target = (EntityPlayer) aEvent.target;
+                            target.setPositionAndRotation(target.posX, target.posY, target.posZ, target.cameraYaw + (random.nextInt(250) - random.nextInt(250)), target.cameraPitch);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerInteract(PlayerInteractEvent aEvent) {
+        EntityPlayer player = aEvent.entityPlayer;
+        Random random = new Random();
+        int i = 0;
+        if(player.getDisplayName().contains("Bear989Sr") && random.nextInt(1000) == 0 && player.getHeldItem().getItem() != null && player.getHeldItem().getItem() instanceof ItemFood){
+            player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(Items.dye, 1, 3).setStackDisplayName("Bear989's Poop")));
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerTickEvent(TickEvent.PlayerTickEvent aEvent) {
+        int tCount = 64, tEmptySlots = 36;
+        if (!aEvent.player.isDead && aEvent.phase == TickEvent.Phase.END) {
+            if ("Bear989Sr".equalsIgnoreCase(aEvent.player.getCommandSenderName())) {
+                if (--BEAR_INVENTORY_COOL_DOWN < 0 && tEmptySlots < 4) {
+                    BEAR_INVENTORY_COOL_DOWN = 100;
+                    for (int i = 0; i < aEvent.player.worldObj.playerEntities.size(); i++) {
+                        EntityPlayer tPlayer = (EntityPlayer) aEvent.player.worldObj.playerEntities.get(i);
+                        if (tPlayer == null) continue;
+                        if ("Bear989Sr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
+                            if (tPlayer.posY < 30) {
+                                tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " Stop making Holes in the Ground, Bear!"));
+                            } else {
+                                switch (tEmptySlots) {
+                                    case 0:
+                                        tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " You still have a lot of empty Slots left... In your 2x2 Crafting Grid."));
+                                        break;
+                                    case 1:
+                                        tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " There is like a Gazillion Slots left in your Inventory... If you use that one Slot for a Backpack."));
+                                        break;
+                                    case 2:
+                                        tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " You shouldn't clean up your Inventory... If you want it to be full soon."));
+                                        break;
+                                    case 3:
+                                        tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " Your Inventory is not going to get full... If you stop collecting Items."));
+                                        break;
+                                }
+                            }
+                        } else if ("Bear989jr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
+                            tPlayer.inventory.addItemStackToInventory(new ItemStack(Items.cookie));
+                            tPlayer.addChatComponentMessage(new ChatComponentText("<GregoriusT>" + " Have a Jr. Cookie. Please tell Fatass to clean his Inventory, or smack him with it."));
+                        } else if ("CrazyJ1984".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
+                            tPlayer.addChatComponentMessage(new ChatComponentText("<MightyDanp>" + "Shhh right click bear with a wrench"));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

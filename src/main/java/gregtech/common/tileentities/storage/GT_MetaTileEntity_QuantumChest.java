@@ -73,36 +73,47 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTimer) {
-
+        // Slot 0 is input
+        // Slot 1 is output
+        // Slot 2 is the internal storage
         if (getBaseMetaTileEntity().isServerSide() && getBaseMetaTileEntity().isAllowedToWork()) {
+            // There are not any stored, reset the storage
             if ((getItemCount() <= 0)) {
-                this.mItemStack = null;
                 this.mItemCount = 0;
+                // Only null the set storage when the output is also empty
+                if (this.mInventory[1] == null) {
+                    this.mItemStack = null;
+                }
             }
+            // If we don't have a stack set, and the input slot has something, copy its stack
             if (this.mItemStack == null && this.mInventory[0] != null) {
                 this.mItemStack = mInventory[0].copy();
             }
+            // If input is not empty, and we aren't full and the input stack is the same as storage
             if ((this.mInventory[0] != null) && (this.mItemCount < getMaxItemCount()) && GT_Utility.areStacksEqual(this.mInventory[0], this.mItemStack)) {
-                this.mItemCount += this.mInventory[0].stackSize;
-                if (this.mItemCount > getMaxItemCount()) {
+                this.mItemCount += this.mInventory[0].stackSize; // add it to storage
+                if (this.mItemCount > getMaxItemCount()) { //we over filled, reduce stack by overage
                     this.mInventory[0].stackSize = (this.mItemCount - getMaxItemCount());
                     this.mItemCount = getMaxItemCount();
-                } else {
+                } else { // not overfull, we ate the whole stack, dispose of it
                     this.mInventory[0] = null;
                 }
             }
+            // There is NOT a stack in the output, and the storage is set
             if (this.mInventory[1] == null && mItemStack != null) {
                 this.mInventory[1] = mItemStack.copy();
                 this.mInventory[1].stackSize = Math.min(mItemStack.getMaxStackSize(), this.mItemCount);
                 this.mItemCount -= this.mInventory[1].stackSize;
+            // There are items stored and output stack is the same type and the output stack isn't full
             } else if ((this.mItemCount > 0) && GT_Utility.areStacksEqual(this.mInventory[1], this.mItemStack) && this.mInventory[1].getMaxStackSize() > this.mInventory[1].stackSize) {
                 int tmp = Math.min(this.mItemCount, this.mInventory[1].getMaxStackSize() - this.mInventory[1].stackSize);
                 this.mInventory[1].stackSize += tmp;
                 this.mItemCount -= tmp;
             }
+            // Update the stored stack
             if (this.mItemStack != null) {
                 this.mInventory[2] = this.mItemStack.copy();
-                this.mInventory[2].stackSize = Math.min(mItemStack.getMaxStackSize(), this.mItemCount);
+                this.mInventory[2].stackSize = this.mItemCount;
             } else {
                 this.mInventory[2] = null;
             }
@@ -131,12 +142,13 @@ public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_TieredMach
 
     @Override
     public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        return aIndex==1;
+        return aIndex == 1 || aIndex == 2;
     }
+
 
     @Override
     public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        return aIndex==0&&(mInventory[0]==null||GT_Utility.areStacksEqual(this.mInventory[0], aStack));
+        return aIndex==0 && (mInventory[1] == null || GT_Utility.areStacksEqual(this.mInventory[1], aStack));
     }
 
     @Override

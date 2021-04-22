@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class GT_Slot_Render extends GT_Slot_Holo {
     public GT_Slot_Render(IInventory par1iInventory, int par2, int par3, int par4) {
-        super(par1iInventory, par2, par3, par4, false, false, 0);
+        super(par1iInventory, par2, par3, par4, false, false, 1);
     }
 
     /**
@@ -18,5 +18,12 @@ public class GT_Slot_Render extends GT_Slot_Holo {
             inventory.setInventorySlotContents(getSlotIndex(), aStack);
         }
         onSlotChanged();
+    }
+
+    @Override
+    public ItemStack getStack() {
+        ItemStack mItemStack = super.getStack().copy();
+        mItemStack.stackSize = getSlotStackLimit();
+        return mItemStack;
     }
 }

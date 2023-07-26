@@ -124,7 +124,19 @@ repositories {
 	//// Main storage for forestry_1.7.10
 	maven {
 		name = "ic2"
-		url = "http://maven.ic2.player.to/"
+		url = "https://maven.ic2.player.to/"
+		metadataSources {
+			mavenPom()
+			artifact()
+		}
+	}
+	maven {
+		name = "ic2-mirror"
+		url = "https://maven2.ic2.player.to/"
+		metadataSources {
+			mavenPom()
+			artifact()
+		}
 	}
 	//// Main storage for waila, jabba
 	//maven {

@@ -1,19 +1,20 @@
 package gregtech.common.blocks;
 
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Textures;
-import gregtech.api.objects.GT_CopiedBlockTexture;
-import gregtech.api.util.GT_LanguageManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class GT_Block_Casings3
-        extends GT_Block_Casings_Abstract {
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.Textures;
+import gregtech.api.util.GT_LanguageManager;
+
+/**
+ * The casings are split into separate files because they are registered as regular blocks, and a regular block can have
+ * 16 subtypes at most.
+ */
+public class GT_Block_Casings3 extends GT_Block_Casings_Abstract {
+
     public GT_Block_Casings3() {
-        super(GT_Item_Casings3.class, "gt.blockcasings3", GT_Material_Casings.INSTANCE);
-        for (byte i = 0; i < 16; i = (byte) (i + 1)) {
-            Textures.BlockIcons.CASING_BLOCKS[(i + 32)] = new GT_CopiedBlockTexture(this, 6, i);
-        }
+        super(GT_Item_Casings3.class, "gt.blockcasings3", GT_Material_Casings.INSTANCE, 16);
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".0.name", "Yellow Stripes Block");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".1.name", "Yellow Stripes Block");
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".2.name", "Radioactive Hazard Sign Block");
@@ -48,41 +49,34 @@ public class GT_Block_Casings3
         ItemList.Casing_Firebox_TungstenSteel.set(new ItemStack(this, 1, 15));
     }
 
-    public IIcon getIcon(int aSide, int aMeta) {
-        switch (aMeta) {
-            case 0:
-                return Textures.BlockIcons.MACHINE_CASING_STRIPES_A.getIcon();
-            case 1:
-                return Textures.BlockIcons.MACHINE_CASING_STRIPES_B.getIcon();
-            case 2:
-                return Textures.BlockIcons.MACHINE_CASING_RADIOACTIVEHAZARD.getIcon();
-            case 3:
-                return Textures.BlockIcons.MACHINE_CASING_BIOHAZARD.getIcon();
-            case 4:
-                return Textures.BlockIcons.MACHINE_CASING_EXPLOSIONHAZARD.getIcon();
-            case 5:
-                return Textures.BlockIcons.MACHINE_CASING_FIREHAZARD.getIcon();
-            case 6:
-                return Textures.BlockIcons.MACHINE_CASING_ACIDHAZARD.getIcon();
-            case 7:
-                return Textures.BlockIcons.MACHINE_CASING_MAGICHAZARD.getIcon();
-            case 8:
-                return Textures.BlockIcons.MACHINE_CASING_FROSTHAZARD.getIcon();
-            case 9:
-                return Textures.BlockIcons.MACHINE_CASING_NOISEHAZARD.getIcon();
-            case 10:
-                return Textures.BlockIcons.MACHINE_CASING_GRATE.getIcon();
-            case 11:
-                return Textures.BlockIcons.MACHINE_CASING_VENT.getIcon();
-            case 12:
-                return Textures.BlockIcons.MACHINE_CASING_RADIATIONPROOF.getIcon();
-            case 13:
-                return aSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_BRONZE.getIcon() : Textures.BlockIcons.MACHINE_BRONZEPLATEDBRICKS.getIcon();
-            case 14:
-                return aSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_STEEL.getIcon() : Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
-            case 15:
-                return aSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_TUNGSTENSTEEL.getIcon() : Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
-        }
-        return Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
+    @Override
+    public int getTextureIndex(int aMeta) {
+        return aMeta + 32;
+    }
+
+    @Override
+    public IIcon getIcon(int ordinalSide, int aMeta) {
+        return switch (aMeta) {
+            case 0 -> Textures.BlockIcons.MACHINE_CASING_STRIPES_A.getIcon();
+            case 1 -> Textures.BlockIcons.MACHINE_CASING_STRIPES_B.getIcon();
+            case 2 -> Textures.BlockIcons.MACHINE_CASING_RADIOACTIVEHAZARD.getIcon();
+            case 3 -> Textures.BlockIcons.MACHINE_CASING_BIOHAZARD.getIcon();
+            case 4 -> Textures.BlockIcons.MACHINE_CASING_EXPLOSIONHAZARD.getIcon();
+            case 5 -> Textures.BlockIcons.MACHINE_CASING_FIREHAZARD.getIcon();
+            case 6 -> Textures.BlockIcons.MACHINE_CASING_ACIDHAZARD.getIcon();
+            case 7 -> Textures.BlockIcons.MACHINE_CASING_MAGICHAZARD.getIcon();
+            case 8 -> Textures.BlockIcons.MACHINE_CASING_FROSTHAZARD.getIcon();
+            case 9 -> Textures.BlockIcons.MACHINE_CASING_NOISEHAZARD.getIcon();
+            case 10 -> Textures.BlockIcons.MACHINE_CASING_GRATE.getIcon();
+            case 11 -> Textures.BlockIcons.MACHINE_CASING_VENT.getIcon();
+            case 12 -> Textures.BlockIcons.MACHINE_CASING_RADIATIONPROOF.getIcon();
+            case 13 -> ordinalSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_BRONZE.getIcon()
+                : Textures.BlockIcons.MACHINE_BRONZEPLATEDBRICKS.getIcon();
+            case 14 -> ordinalSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_STEEL.getIcon()
+                : Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
+            case 15 -> ordinalSide > 1 ? Textures.BlockIcons.MACHINE_CASING_FIREBOX_TUNGSTENSTEEL.getIcon()
+                : Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
+            default -> Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
+        };
     }
 }

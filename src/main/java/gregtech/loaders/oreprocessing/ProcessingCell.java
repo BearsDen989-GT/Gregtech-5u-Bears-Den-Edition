@@ -1,101 +1,214 @@
 package gregtech.loaders.oreprocessing;
 
+import static gregtech.api.recipe.RecipeMaps.centrifugeRecipes;
+import static gregtech.api.recipe.RecipeMaps.electrolyzerRecipes;
+import static gregtech.api.recipe.RecipeMaps.vacuumFreezerRecipes;
+import static gregtech.api.util.GT_RecipeBuilder.TICKS;
+import static gregtech.api.util.GT_RecipeConstants.FUEL_TYPE;
+import static gregtech.api.util.GT_RecipeConstants.FUEL_VALUE;
+
+import java.util.ArrayList;
+
+import net.minecraft.item.ItemStack;
+
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.TierEU;
 import gregtech.api.interfaces.IOreRecipeRegistrator;
 import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GT_RecipeBuilder;
+import gregtech.api.util.GT_RecipeConstants;
 import gregtech.api.util.GT_Utility;
-import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+public class ProcessingCell implements IOreRecipeRegistrator {
 
-public class ProcessingCell
-        implements IOreRecipeRegistrator {
     public ProcessingCell() {
         OrePrefixes.cell.add(this);
         OrePrefixes.cellPlasma.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+    @Override
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName,
+        ItemStack aStack) {
         switch (aPrefix) {
-            case cell:
+            case cell -> {
                 if (aMaterial == Materials.Empty) {
-                    GT_ModHandler.removeRecipeByOutput(aStack);
+                    GT_ModHandler.removeRecipeByOutputDelayed(aStack);
                     if (aModName.equalsIgnoreCase("AtomicScience")) {
-                        GT_ModHandler.addExtractionRecipe(ItemList.Cell_Empty.get(1L, new Object[0]), aStack);
+                        GT_ModHandler.addExtractionRecipe(ItemList.Cell_Empty.get(1L), aStack);
                     }
                 } else {
                     if (aMaterial.mFuelPower > 0) {
-                        GT_Values.RA.addFuel(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_Utility.getFluidForFilledItem(aStack, true) == null ? GT_Utility.getContainerItem(aStack, true) : null, aMaterial.mFuelPower, aMaterial.mFuelType);
+                        GT_RecipeBuilder recipeBuilder = GT_Values.RA.stdBuilder();
+                        recipeBuilder.itemInputs(GT_Utility.copyAmount(1, aStack));
+                        if (GT_Utility.getFluidForFilledItem(aStack, true) == null
+                            && GT_Utility.getContainerItem(aStack, true) != null) {
+                            recipeBuilder.itemOutputs(GT_Utility.getContainerItem(aStack, true));
+                        }
+                        recipeBuilder.metadata(FUEL_VALUE, aMaterial.mFuelPower)
+                            .metadata(FUEL_TYPE, aMaterial.mFuelType)
+                            .addTo(GT_RecipeConstants.Fuel);
                     }
-                    if ((aMaterial.mMaterialList.size() > 0) && ((aMaterial.mExtraData & 0x3) != 0)) {
-                        int tAllAmount = 0;
-                        MaterialStack tMat2;
-                        for (Iterator i$ = aMaterial.mMaterialList.iterator(); i$.hasNext(); tAllAmount = (int) (tAllAmount + tMat2.mAmount)) {
-                            tMat2 = (MaterialStack) i$.next();
+                    if (!((aMaterial.mMaterialList.size() > 0) && ((aMaterial.mExtraData & 0x3) != 0))) {
+                        break;
+                    }
+
+                    int tAllAmount = 0;
+                    for (MaterialStack tMat2 : aMaterial.mMaterialList) {
+                        tAllAmount = (int) (tAllAmount + tMat2.mAmount);
+                    }
+                    long tItemAmount = 0L;
+                    long tCapsuleCount = (long) GT_ModHandler
+                        .getCapsuleCellContainerCountMultipliedWithStackSize(aStack) * -tAllAmount;
+                    long tDensityMultiplier = aMaterial.getDensity() > 3628800L ? aMaterial.getDensity() / 3628800L
+                        : 1L;
+                    ArrayList<ItemStack> tList = new ArrayList<>();
+                    for (MaterialStack tMat : aMaterial.mMaterialList) {
+                        if (tMat.mAmount <= 0) {
+                            continue;
                         }
-                        long tItemAmount = 0L;
-                        long tCapsuleCount = GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(new ItemStack[]{aStack}) * -tAllAmount;
-                        long tDensityMultiplier = aMaterial.getDensity() > 3628800L ? aMaterial.getDensity() / 3628800L : 1L;
-                        ArrayList<ItemStack> tList = new ArrayList();
-                        for (MaterialStack tMat : aMaterial.mMaterialList) {
-                            if (tMat.mAmount > 0L) {
-                                ItemStack tStack;
-                                if (tMat.mMaterial == Materials.Air) {
-                                    tStack = ItemList.Cell_Air.get(tMat.mAmount * tDensityMultiplier / 2L, new Object[0]);
-                                } else {
-                                    tStack = GT_OreDictUnificator.get(OrePrefixes.dust, tMat.mMaterial, tMat.mAmount);
-                                    if (tStack == null) {
-                                        tStack = GT_OreDictUnificator.get(OrePrefixes.cell, tMat.mMaterial, tMat.mAmount);
-                                    }
-                                }
-                                if (tItemAmount + tMat.mAmount * 3628800L <= aStack.getMaxStackSize() * aMaterial.getDensity()) {
-                                    tItemAmount += tMat.mAmount * 3628800L;
-                                    if (tStack != null) {
-                                        ItemStack tmp397_395 = tStack;
-                                        tmp397_395.stackSize = ((int) (tmp397_395.stackSize * tDensityMultiplier));
-                                        while ((tStack.stackSize > 64) && (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64 < 0L ? tList.size() < 5 : tList.size() < 6) && (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64 <= 64L)) {
-                                            tCapsuleCount += GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64;
-                                            tList.add(GT_Utility.copyAmount(64L, new Object[]{tStack}));
-                                            tStack.stackSize -= 64;
-                                        }
-                                        if ((tStack.stackSize > 0) && tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(new ItemStack[]{tStack}) <= 64L) {
-                                            if (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(new ItemStack[]{tStack}) < 0L ? tList.size() < 5 : tList.size() < 6) {
-                                                tCapsuleCount += GT_ModHandler.getCapsuleCellContainerCountMultipliedWithStackSize(new ItemStack[]{tStack});
-                                                tList.add(tStack);
-                                            }
-                                        }
-                                    }
-                                }
+
+                        ItemStack tStack;
+                        if (tMat.mMaterial == Materials.Air) {
+                            tStack = ItemList.Cell_Air.get(tMat.mAmount * tDensityMultiplier / 2L);
+                        } else {
+                            tStack = GT_OreDictUnificator.get(OrePrefixes.dust, tMat.mMaterial, tMat.mAmount);
+                            if (tStack == null) {
+                                tStack = GT_OreDictUnificator.get(OrePrefixes.cell, tMat.mMaterial, tMat.mAmount);
                             }
                         }
-                        tItemAmount = (tItemAmount * tDensityMultiplier % aMaterial.getDensity() > 0L ? 1 : 0) + tItemAmount * tDensityMultiplier / aMaterial.getDensity();
-                        if (tList.size() > 0) {
-                            if ((aMaterial.mExtraData & 0x1) != 0) {
-                                //GT_Values.RA.addElectrolyzerRecipe(GT_Utility.copyAmount(tItemAmount, new Object[] { aStack }), tCapsuleCount >  0L ? (int)tCapsuleCount : 0, (ItemStack)tList.get(0), tList.size() <  2 ? null : (ItemStack)tList.get(1), tList.size() <  3 ? null : (ItemStack)tList.get(2), tList.size() <  4 ? null : (ItemStack)tList.get(3), tList.size() <  5 ? null : (ItemStack)tList.get(4), tList.size()    < 6 ? null : tCapsuleCount < 0L ? ItemList.Cell_Empty.get(-tCapsuleCount, new Object[0]) : (ItemStack)tList.get(5), (int)Math.max(1L, Math.abs(aMaterial.getProtons() * 8L * tItemAmount)), Math.min(4, tList.size()) * 30);
-                                GT_Values.RA.addElectrolyzerRecipe(GT_Utility.copyAmount(tItemAmount, new Object[]{aStack}), tCapsuleCount <= 0L ? 0 : (int) tCapsuleCount, (ItemStack) tList.get(0), tList.size() >= 2 ? (ItemStack) tList.get(1) : null, tList.size() >= 3 ? (ItemStack) tList.get(2) : null, tList.size() >= 4 ? (ItemStack) tList.get(3) : null, tList.size() >= 5 ? (ItemStack) tList.get(4) : null, tCapsuleCount >= 0L ? tList.size() >= 6 ? (ItemStack) tList.get(5) : null : ItemList.Cell_Empty.get(-tCapsuleCount, new Object[0]), (int) Math.max(1L, Math.abs(aMaterial.getProtons() * 8L * tItemAmount)), Math.min(4, tList.size()) * 30);
-                            }
-                            if ((aMaterial.mExtraData & 0x2) != 0) {
-                                //GT_Values.RA.addCentrifugeRecipe(GT_Utility.copyAmount(tItemAmount, new Object[] { aStack }), tCapsuleCount > 0L ? (int)tCapsuleCount : 0, (ItemStack)tList.get(0), tList.size() < 2 ? null : (ItemStack)tList.get(1), tList.size() < 3 ? null : (ItemStack)tList.get(2), tList.size() < 4 ? null : (ItemStack)tList.get(3), tList.size() < 5 ? null : (ItemStack)tList.get(4), tList.size() < 6 ? null : tCapsuleCount < 0L ? ItemList.Cell_Empty.get(-tCapsuleCount, new Object[0]) : (ItemStack)tList.get(5), (int)Math.max(1L, Math.abs(aMaterial.getMass() * 2L * tItemAmount)));
-                                GT_Values.RA.addCentrifugeRecipe(GT_Utility.copyAmount(tItemAmount, new Object[]{aStack}), tCapsuleCount <= 0L ? 0 : (int) tCapsuleCount, (ItemStack) tList.get(0), tList.size() >= 2 ? (ItemStack) tList.get(1) : null, tList.size() >= 3 ? (ItemStack) tList.get(2) : null, tList.size() >= 4 ? (ItemStack) tList.get(3) : null, tList.size() >= 5 ? (ItemStack) tList.get(4) : null, tCapsuleCount >= 0L ? tList.size() >= 6 ? (ItemStack) tList.get(5) : null : ItemList.Cell_Empty.get(-tCapsuleCount, new Object[0]), (int) Math.max(1L, Math.abs(aMaterial.getMass() * 2L * tItemAmount)));
+                        if (tItemAmount + tMat.mAmount * 3628800L > aStack.getMaxStackSize() * aMaterial.getDensity()) {
+                            continue;
+                        }
+
+                        tItemAmount += tMat.mAmount * 3628800L;
+
+                        if (tStack == null) {
+                            continue;
+                        }
+
+                        tStack.stackSize = ((int) (tStack.stackSize * tDensityMultiplier));
+                        while ((tStack.stackSize > 64)
+                            && (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64L < 0L
+                                ? tList.size() < 5
+                                : tList.size() < 6)
+                            && (tCapsuleCount + GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64L <= 64L)) {
+                            tCapsuleCount += GT_ModHandler.getCapsuleCellContainerCount(tStack) * 64L;
+                            tList.add(GT_Utility.copyAmount(64, tStack));
+                            tStack.stackSize -= 64;
+                        }
+                        int tThisCapsuleCount = GT_ModHandler
+                            .getCapsuleCellContainerCountMultipliedWithStackSize(tStack);
+                        if (tStack.stackSize > 0 && tCapsuleCount + tThisCapsuleCount <= 64L) {
+                            if (tCapsuleCount + tThisCapsuleCount < 0L ? tList.size() < 5 : tList.size() < 6) {
+                                tCapsuleCount += tThisCapsuleCount;
+                                tList.add(tStack);
                             }
                         }
+                    }
+
+                    tItemAmount = GT_Utility.ceilDiv(tItemAmount * tDensityMultiplier, aMaterial.getDensity());
+
+                    if (tList.size() <= 0) {
+                        break;
+                    }
+
+                    if ((aMaterial.mExtraData & 0x1) != 0) {
+
+                        // Electrolyzer recipe
+                        if (GT_Utility.getFluidForFilledItem(aStack, true) == null) {
+                            // dust stuffed cell e.g. Phosphate, Phosphorous Pentoxide
+                            GT_RecipeBuilder recipeBuilder = GT_Values.RA.stdBuilder();
+                            if (tCapsuleCount > 0L) {
+                                recipeBuilder.itemInputs(
+                                    GT_Utility.copyAmount(tItemAmount, aStack),
+                                    ItemList.Cell_Empty.get(tCapsuleCount));
+                            } else {
+                                recipeBuilder.itemInputs(GT_Utility.copyAmount(tItemAmount, aStack));
+                            }
+                            if (tCapsuleCount < 0L) {
+                                tList.add(ItemList.Cell_Empty.get(-tCapsuleCount));
+                            }
+                            ItemStack[] outputsArray = tList.toArray(new ItemStack[Math.min(tList.size(), 6)]);
+                            recipeBuilder.itemOutputs(outputsArray)
+                                .duration(Math.max(1L, Math.abs(aMaterial.getProtons() * 2L * tItemAmount)))
+                                .eut(Math.min(4, tList.size()) * 30)
+                                .addTo(electrolyzerRecipes);
+                        } else {
+                            long tCellBalance = tCapsuleCount + tItemAmount - 1;
+                            GT_RecipeBuilder recipeBuilder = GT_Values.RA.stdBuilder();
+                            if (tCellBalance > 0L) {
+                                recipeBuilder.itemInputs(aStack, ItemList.Cell_Empty.get(tCellBalance));
+                            } else {
+                                recipeBuilder.itemInputs(aStack);
+                            }
+                            if (tCellBalance < 0L) {
+                                tList.add(ItemList.Cell_Empty.get(-tCellBalance));
+                            }
+                            ItemStack[] outputsArray = tList.toArray(new ItemStack[Math.min(tList.size(), 6)]);
+                            recipeBuilder.itemOutputs(outputsArray)
+                                .duration(Math.max(1L, Math.abs(aMaterial.getProtons() * 8L * tItemAmount)))
+                                .eut(Math.min(4, tList.size()) * 30)
+                                .addTo(electrolyzerRecipes);
+                        }
+                    }
+                    if ((aMaterial.mExtraData & 0x2) != 0) {
+                        GT_RecipeBuilder recipeBuilder = GT_Values.RA.stdBuilder();
+                        if (tCapsuleCount > 0L) {
+                            recipeBuilder.itemInputs(
+                                GT_Utility.copyAmount(tItemAmount, aStack),
+                                ItemList.Cell_Empty.get(tCapsuleCount));
+                        } else {
+                            recipeBuilder.itemInputs(GT_Utility.copyAmount(tItemAmount, aStack));
+                        }
+                        if (tCapsuleCount < 0L) {
+                            tList.add(ItemList.Cell_Empty.get(-tCapsuleCount));
+                        }
+                        ItemStack[] outputsArray = tList.toArray(new ItemStack[Math.min(tList.size(), 6)]);
+                        recipeBuilder.itemOutputs(outputsArray)
+                            .duration(Math.max(1L, Math.abs(aMaterial.getMass() * 2L * tItemAmount)))
+                            .eut(5)
+                            .addTo(centrifugeRecipes);
                     }
                 }
-                break;
-            case cellPlasma:
+            }
+            case cellPlasma -> {
                 if (aMaterial == Materials.Empty) {
-                    GT_ModHandler.removeRecipeByOutput(aStack);
+                    GT_ModHandler.removeRecipeByOutputDelayed(aStack);
                 } else {
-                    GT_Values.RA.addFuel(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_Utility.getFluidForFilledItem(aStack, true) == null ? GT_Utility.getContainerItem(aStack, true) : null, (int) Math.max(1024L, 1024L * aMaterial.getMass()), 4);
-                    GT_Values.RA.addVacuumFreezerRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), gregtech.api.util.GT_OreDictUnificator.get(OrePrefixes.cell, aMaterial, 1L), (int) Math.max(aMaterial.getMass() * 2L, 1L));
+                    GT_RecipeBuilder recipeBuilder = GT_Values.RA.stdBuilder();
+                    recipeBuilder.itemInputs(GT_Utility.copyAmount(1, aStack));
+                    if (GT_Utility.getFluidForFilledItem(aStack, true) == null
+                        && GT_Utility.getContainerItem(aStack, true) != null) {
+                        recipeBuilder.itemOutputs(GT_Utility.getContainerItem(aStack, true));
+                    }
+                    // Switch case to set manual values for specific plasmas and escape the formula based on mass
+                    // when it doesn't make sense for powergen balance.
+                    switch (aMaterial.mName) {
+                        case "Tin":
+                            recipeBuilder.metadata(FUEL_VALUE, 150_000)
+                                .metadata(FUEL_TYPE, 4)
+                                .addTo(GT_RecipeConstants.Fuel);
+                        default:
+                            recipeBuilder.metadata(FUEL_VALUE, (int) Math.max(1024L, 1024L * aMaterial.getMass()))
+                                .metadata(FUEL_TYPE, 4)
+                                .addTo(GT_RecipeConstants.Fuel);
+                    }
+                    if (GT_OreDictUnificator.get(OrePrefixes.cell, aMaterial, 1L) != null) {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(1, aStack))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.cell, aMaterial, 1L))
+                            .duration(((int) Math.max(aMaterial.getMass() * 2L, 1L)) * TICKS)
+                            .eut(TierEU.RECIPE_MV)
+                            .addTo(vacuumFreezerRecipes);
+                    }
                 }
-                break;
+            }
+            default -> {}
         }
     }
 }

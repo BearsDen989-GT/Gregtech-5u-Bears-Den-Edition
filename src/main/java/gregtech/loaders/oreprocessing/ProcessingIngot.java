@@ -1,15 +1,35 @@
 package gregtech.loaders.oreprocessing;
 
+import static gregtech.api.recipe.RecipeMaps.benderRecipes;
+import static gregtech.api.recipe.RecipeMaps.fluidSolidifierRecipes;
+import static gregtech.api.recipe.RecipeMaps.hammerRecipes;
+import static gregtech.api.recipe.RecipeMaps.vacuumFreezerRecipes;
+import static gregtech.api.util.GT_RecipeBuilder.SECONDS;
+import static gregtech.api.util.GT_RecipeBuilder.TICKS;
+import static gregtech.api.util.GT_RecipeConstants.FUEL_TYPE;
+import static gregtech.api.util.GT_RecipeConstants.FUEL_VALUE;
+import static gregtech.api.util.GT_Utility.calculateRecipeEU;
+
+import net.minecraft.item.ItemStack;
+
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.*;
+import gregtech.api.enums.ConfigCategories;
+import gregtech.api.enums.GT_Values;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.Materials;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.SubTag;
+import gregtech.api.enums.TierEU;
+import gregtech.api.enums.ToolDictNames;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GT_RecipeConstants;
 import gregtech.api.util.GT_RecipeRegistrator;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.GT_Proxy;
-import net.minecraft.item.ItemStack;
 
 public class ProcessingIngot implements gregtech.api.interfaces.IOreRecipeRegistrator {
+
     public ProcessingIngot() {
         OrePrefixes.ingot.add(this);
         OrePrefixes.ingotDouble.add(this);
@@ -19,89 +39,267 @@ public class ProcessingIngot implements gregtech.api.interfaces.IOreRecipeRegist
         OrePrefixes.ingotHot.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
+    @Override
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName,
+        ItemStack aStack) {
         boolean aNoSmashing = aMaterial.contains(SubTag.NO_SMASHING);
+        boolean aStretchy = aMaterial.contains(SubTag.STRETCHY);
         boolean aNoSmelting = aMaterial.contains(SubTag.NO_SMELTING);
         long aMaterialMass = aMaterial.getMass();
-        boolean aSpecialRecipeReq = aMaterial.mUnificatable && (aMaterial.mMaterialInto == aMaterial) && !aMaterial.contains(SubTag.NO_SMASHING);
+        boolean aSpecialRecipeReq = aMaterial.mUnificatable && (aMaterial.mMaterialInto == aMaterial)
+            && !aMaterial.contains(SubTag.NO_SMASHING);
 
         switch (aPrefix) {
-            case ingot:
+            case ingot -> {
+                // Fuel recipe
                 if (aMaterial.mFuelPower > 0) {
-                    GT_Values.RA.addFuel(GT_Utility.copyAmount(1L, new Object[]{aStack}), null, aMaterial.mFuelPower, aMaterial.mFuelType);
+                    GT_Values.RA.stdBuilder()
+                        .itemInputs(GT_Utility.copyAmount(1, aStack))
+                        .metadata(FUEL_VALUE, aMaterial.mFuelPower)
+                        .metadata(FUEL_TYPE, aMaterial.mFuelType)
+                        .addTo(GT_RecipeConstants.Fuel);
                 }
-                if (aMaterial.mStandardMoltenFluid != null) {
-                    GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Ingot.get(0L, new Object[0]), aMaterial.getMolten(144L), GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L), 32, 8);
+                if (aMaterial.mStandardMoltenFluid != null
+                    && !(aMaterial == Materials.AnnealedCopper || aMaterial == Materials.WroughtIron)) {
+                    // Fluid solidifier recipes
+
+                    GT_Values.RA.stdBuilder()
+                        .itemInputs(ItemList.Shape_Mold_Ingot.get(0L))
+                        .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L))
+                        .fluidInputs(aMaterial.getMolten(144L))
+                        .duration(1 * SECONDS + 12 * TICKS)
+                        .eut(calculateRecipeEU(aMaterial, 8))
+                        .addTo(fluidSolidifierRecipes);
                 }
-                GT_RecipeRegistrator.registerReverseFluidSmelting(aStack, aMaterial, aPrefix.mMaterialAmount, null);
-                GT_RecipeRegistrator.registerReverseMacerating(aStack, aMaterial, aPrefix.mMaterialAmount, null, null, null, false);
-                if (aMaterial.mSmeltInto.mArcSmeltInto != aMaterial) {
-                    GT_RecipeRegistrator.registerReverseArcSmelting(GT_Utility.copyAmount(1L, new Object[]{aStack}), aMaterial, aPrefix.mMaterialAmount, null, null, null);
+                // Reverse recipes
+                {
+                    GT_RecipeRegistrator.registerReverseFluidSmelting(aStack, aMaterial, aPrefix.mMaterialAmount, null);
+                    GT_RecipeRegistrator
+                        .registerReverseMacerating(aStack, aMaterial, aPrefix.mMaterialAmount, null, null, null, false);
+                    if (aMaterial.mSmeltInto.mArcSmeltInto != aMaterial) {
+                        GT_RecipeRegistrator.registerReverseArcSmelting(
+                            GT_Utility.copyAmount(1, aStack),
+                            aMaterial,
+                            aPrefix.mMaterialAmount,
+                            null,
+                            null,
+                            null);
+                    }
                 }
-                ItemStack tStack;
-                if ((null != (tStack = GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L))) && (
-                        (aMaterial.mBlastFurnaceRequired) || aNoSmelting)) {
+                ItemStack tStack = GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L);
+                if ((tStack != null) && ((aMaterial.mBlastFurnaceRequired) || aNoSmelting)) {
                     GT_ModHandler.removeFurnaceSmelting(tStack);
                 }
+                if (aMaterial.mUnificatable && (aMaterial.mMaterialInto == aMaterial)
+                    && !aMaterial.contains(SubTag.NO_WORKING)
+                    && !aMaterial.contains(SubTag.SMELTING_TO_GEM)
+                    && aMaterial.contains(SubTag.MORTAR_GRINDABLE)
+                    && GregTech_API.sRecipeFile.get(ConfigCategories.Tools.mortar, aMaterial.mName, true)) {
+                    GT_ModHandler.addShapelessCraftingRecipe(
+                        GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, 1L),
+                        GT_Proxy.tBits,
+                        new Object[] { ToolDictNames.craftingToolMortar, OrePrefixes.ingot.get(aMaterial) });
+                }
+                if (!aNoSmashing || aStretchy) {
+                    // Forge hammer recipes
+                    if (aMaterial.getProcessingMaterialTierEU() < TierEU.IV
+                        && GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 1L) != null) {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(3, aStack))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 2L))
+                            .duration(Math.max(aMaterialMass, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 16))
+                            .addTo(hammerRecipes);
+                    }
 
-                if (aMaterial.mUnificatable && (aMaterial.mMaterialInto == aMaterial) && !aMaterial.contains(SubTag.NO_WORKING)) {
-                    if (!aMaterial.contains(SubTag.SMELTING_TO_GEM))
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"XXX", "XXX", "XXX", Character.valueOf('X'), OrePrefixes.nugget.get(aMaterial)});
-                    if ((aMaterial.contains(SubTag.MORTAR_GRINDABLE)) && (GregTech_API.sRecipeFile.get(ConfigCategories.Tools.mortar, aMaterial.mName, true)))
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"X", "m", Character.valueOf('X'), OrePrefixes.ingot.get(aMaterial)});
-                }
+                    // Bender recipes
+                    {
+                        if (GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(1))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 24))
+                                .addTo(benderRecipes);
+                        }
 
-                if (!aNoSmashing) {
-                    //GT_Values.RA.addWiremillRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_Utility.copy(new Object[]{GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 2L), GT_OreDictUnificator.get(OrePrefixes.wireFine, aMaterial, 8L)}), 100, 4);
-                    //GT_Values.RA.addWiremillRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.wireGt01, aMaterial, 2L), 100, 4);
-                    GT_Values.RA.addForgeHammerRecipe(GT_Utility.copyAmount(3L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 2L), (int) Math.max(aMaterialMass, 1L), 16);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 1L), (int) Math.max(aMaterialMass * 1L, 1L), 24);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(2L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateDouble, aMaterial, 1L), (int) Math.max(aMaterialMass * 2L, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(3L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateTriple, aMaterial, 1L), (int) Math.max(aMaterialMass * 3L, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(4L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L), (int) Math.max(aMaterialMass * 4L, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(5L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateQuintuple, aMaterial, 1L), (int) Math.max(aMaterialMass * 5L, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(9L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateDense, aMaterial, 1L), (int) Math.max(aMaterialMass * 9L, 1L), 96);
-                }
+                        if (GT_OreDictUnificator.get(OrePrefixes.plateDouble, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(2, aStack), GT_Utility.getIntegratedCircuit(2))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateDouble, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass * 2L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 96))
+                                .addTo(benderRecipes);
+                        }
 
-                GT_RecipeRegistrator.registerUsagesForMaterials(GT_Utility.copyAmount(1L, new Object[]{aStack}), OrePrefixes.plate.get(aMaterial).toString(), !aNoSmashing);
-                break;
-            case ingotDouble:
-                if (!aNoSmashing) {
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateDouble, aMaterial, 1L), (int) Math.max(aMaterialMass, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(2L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L), (int) Math.max(aMaterialMass * 2L, 1L), 96);
-                    if (aSpecialRecipeReq && GregTech_API.sRecipeFile.get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.ingotDouble, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"I", "I", "h", Character.valueOf('I'), OrePrefixes.ingot.get(aMaterial)});
+                        if (GT_OreDictUnificator.get(OrePrefixes.plateTriple, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(3, aStack), GT_Utility.getIntegratedCircuit(3))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateTriple, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass * 3L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 96))
+                                .addTo(benderRecipes);
+                        }
+
+                        if (GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(4, aStack), GT_Utility.getIntegratedCircuit(4))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass * 4L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 96))
+                                .addTo(benderRecipes);
+                        }
+
+                        if (GT_OreDictUnificator.get(OrePrefixes.plateQuintuple, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(5, aStack), GT_Utility.getIntegratedCircuit(5))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateQuintuple, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass * 5L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 96))
+                                .addTo(benderRecipes);
+                        }
+
+                        if (GT_OreDictUnificator.get(OrePrefixes.plateDense, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(9, aStack), GT_Utility.getIntegratedCircuit(9))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateDense, aMaterial, 1L))
+                                .duration(Math.max(aMaterialMass * 9L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 96))
+                                .addTo(benderRecipes);
+                        }
+
+                        if (GT_OreDictUnificator.get(OrePrefixes.foil, aMaterial, 1L) != null) {
+                            GT_Values.RA.stdBuilder()
+                                .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(10))
+                                .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.foil, aMaterial, 4L))
+                                .duration(Math.max(aMaterialMass * 2L, 1L))
+                                .eut(calculateRecipeEU(aMaterial, 24))
+                                .addTo(benderRecipes);
+                        }
                     }
                 }
-                break;
-            case ingotTriple:
-                if (!aNoSmashing) {
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateTriple, aMaterial, 1L), (int) Math.max(aMaterialMass, 1L), 96);
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(3L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateDense, aMaterial, 1L), (int) Math.max(aMaterialMass * 3L, 1L), 96);
-                    if (aSpecialRecipeReq && GregTech_API.sRecipeFile.get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.ingotTriple, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"I", "B", "h", Character.valueOf('I'), OrePrefixes.ingotDouble.get(aMaterial), Character.valueOf('B'), OrePrefixes.ingot.get(aMaterial)});
+            }
+            case ingotDouble -> {
+                if (!aNoSmashing || aStretchy) {
+                    // bender recipes
+                    {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(1))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateDouble, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(2, aStack), GT_Utility.getIntegratedCircuit(2))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass * 2L, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+                    }
+
+                    // Enable crafting with hammer if tier is < IV.
+                    if (aMaterial.getProcessingMaterialTierEU() < TierEU.IV && aSpecialRecipeReq
+                        && GregTech_API.sRecipeFile
+                            .get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
+                        GT_ModHandler.addCraftingRecipe(
+                            GT_OreDictUnificator.get(OrePrefixes.ingotDouble, aMaterial, 1L),
+                            GT_Proxy.tBits,
+                            new Object[] { "I", "I", "h", 'I', OrePrefixes.ingot.get(aMaterial) });
                     }
                 }
-                break;
-            case ingotQuadruple:
-                if (!aNoSmashing) {
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L), (int) Math.max(aMaterialMass, 1L), 96);
-                    if (aSpecialRecipeReq && GregTech_API.sRecipeFile.get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.ingotQuadruple, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"I", "B", "h", Character.valueOf('I'), OrePrefixes.ingotTriple.get(aMaterial), Character.valueOf('B'), OrePrefixes.ingot.get(aMaterial)});
+            }
+            case ingotTriple -> {
+                if (!aNoSmashing || aStretchy) {
+                    // Bender recipes
+                    {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(1))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateTriple, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(3, aStack), GT_Utility.getIntegratedCircuit(3))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateDense, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass * 3L, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+                    }
+
+                    if (aMaterial.getProcessingMaterialTierEU() < TierEU.IV && aSpecialRecipeReq
+                        && GregTech_API.sRecipeFile
+                            .get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
+                        GT_ModHandler.addCraftingRecipe(
+                            GT_OreDictUnificator.get(OrePrefixes.ingotTriple, aMaterial, 1L),
+                            GT_Proxy.tBits,
+                            new Object[] { "I", "B", "h", 'I', OrePrefixes.ingotDouble.get(aMaterial), 'B',
+                                OrePrefixes.ingot.get(aMaterial) });
                     }
                 }
-                break;
-            case ingotQuintuple:
-                if (!aNoSmashing) {
-                    GT_Values.RA.addBenderRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.plateQuintuple, aMaterial, 1L), (int) Math.max(aMaterialMass, 1L), 96);
-                    if (aSpecialRecipeReq && GregTech_API.sRecipeFile.get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
-                        GT_ModHandler.addCraftingRecipe(GT_OreDictUnificator.get(OrePrefixes.ingotQuintuple, aMaterial, 1L), GT_Proxy.tBits, new Object[]{"I", "B", "h", Character.valueOf('I'), OrePrefixes.ingotQuadruple.get(aMaterial), Character.valueOf('B'), OrePrefixes.ingot.get(aMaterial)});
+            }
+            case ingotQuadruple -> {
+                if (!aNoSmashing || aStretchy) {
+                    // Bender recipes
+                    {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(1))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateQuadruple, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+                    }
+
+                    // If tier < IV add manual crafting.
+                    if (aMaterial.getProcessingMaterialTierEU() < TierEU.IV && aSpecialRecipeReq
+                        && GregTech_API.sRecipeFile
+                            .get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
+                        GT_ModHandler.addCraftingRecipe(
+                            GT_OreDictUnificator.get(OrePrefixes.ingotQuadruple, aMaterial, 1L),
+                            GT_Proxy.tBits,
+                            new Object[] { "I", "B", "h", 'I', OrePrefixes.ingotTriple.get(aMaterial), 'B',
+                                OrePrefixes.ingot.get(aMaterial) });
                     }
                 }
-                break;
-            case ingotHot:
-                GT_Values.RA.addVacuumFreezerRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L), (int) Math.max(aMaterialMass * 3L, 1L));
-                break;
+            }
+            case ingotQuintuple -> {
+                if (!aNoSmashing || aStretchy) {
+                    // Bender recipes
+                    {
+                        GT_Values.RA.stdBuilder()
+                            .itemInputs(GT_Utility.copyAmount(1, aStack), GT_Utility.getIntegratedCircuit(1))
+                            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.plateQuintuple, aMaterial, 1L))
+                            .duration(Math.max(aMaterialMass, 1L))
+                            .eut(calculateRecipeEU(aMaterial, 96))
+                            .addTo(benderRecipes);
+                    }
+
+                    // Crafting recipes
+                    if (aMaterial.getProcessingMaterialTierEU() < TierEU.IV && aSpecialRecipeReq
+                        && GregTech_API.sRecipeFile
+                            .get(ConfigCategories.Tools.hammermultiingot, aMaterial.toString(), true)) {
+                        GT_ModHandler.addCraftingRecipe(
+                            GT_OreDictUnificator.get(OrePrefixes.ingotQuintuple, aMaterial, 1L),
+                            GT_Proxy.tBits,
+                            new Object[] { "I", "B", "h", 'I', OrePrefixes.ingotQuadruple.get(aMaterial), 'B',
+                                OrePrefixes.ingot.get(aMaterial) });
+                    }
+                }
+            }
+            case ingotHot -> {
+                if (aMaterial.mAutoGenerateVacuumFreezerRecipes
+                    && GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L) != null) {
+                    // Vacuum freezer recipes
+                    GT_Values.RA.stdBuilder()
+                        .itemInputs(GT_Utility.copyAmount(1, aStack))
+                        .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.ingot, aMaterial, 1L))
+                        .duration(((int) Math.max(aMaterialMass * 3L, 1L)) * TICKS)
+                        .eut(TierEU.RECIPE_MV)
+                        .addTo(vacuumFreezerRecipes);
+                }
+            }
+            default -> {}
         }
     }
 }

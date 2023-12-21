@@ -1,28 +1,86 @@
 package gregtech.common.tileentities.machines.multi;
 
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.lazy;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static gregtech.api.enums.GT_HatchElement.Dynamo;
+import static gregtech.api.enums.GT_HatchElement.InputHatch;
+import static gregtech.api.enums.GT_HatchElement.Maintenance;
+import static gregtech.api.enums.GT_HatchElement.Muffler;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE_ACTIVE;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE_ACTIVE_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.casingTexturePages;
+import static gregtech.api.util.GT_StructureUtility.buildHatchAdder;
+import static gregtech.api.util.GT_Utility.filterValidMTEs;
+
+import java.util.ArrayList;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.gtnewhorizon.structurelib.alignment.constructable.ISurvivalConstructable;
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.StructureDefinition;
+
+import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
-import gregtech.api.enums.Textures;
-import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_EnhancedMultiBlockBase;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Dynamo;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_MultiBlockBase;
-import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Muffler;
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.recipe.RecipeMaps;
+import gregtech.api.recipe.check.CheckRecipeResult;
+import gregtech.api.recipe.check.CheckRecipeResultRegistry;
+import gregtech.api.recipe.check.SimpleCheckRecipeResult;
+import gregtech.api.recipe.maps.FuelBackend;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public class GT_MetaTileEntity_DieselEngine
+    extends GT_MetaTileEntity_EnhancedMultiBlockBase<GT_MetaTileEntity_DieselEngine> implements ISurvivalConstructable {
 
-public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlockBase {
+    private static final String STRUCTURE_PIECE_MAIN = "main";
+    private static final ClassValue<IStructureDefinition<GT_MetaTileEntity_DieselEngine>> STRUCTURE_DEFINITION = new ClassValue<>() {
+
+        @Override
+        protected IStructureDefinition<GT_MetaTileEntity_DieselEngine> computeValue(Class<?> type) {
+            return StructureDefinition.<GT_MetaTileEntity_DieselEngine>builder()
+                .addShape(
+                    STRUCTURE_PIECE_MAIN,
+                    transpose(
+                        new String[][] { { "---", "iii", "chc", "chc", "ccc", }, { "---", "i~i", "hgh", "hgh", "cdc", },
+                            { "---", "iii", "chc", "chc", "ccc", }, }))
+                .addElement('i', lazy(t -> ofBlock(t.getIntakeBlock(), t.getIntakeMeta())))
+                .addElement('c', lazy(t -> ofBlock(t.getCasingBlock(), t.getCasingMeta())))
+                .addElement('g', lazy(t -> ofBlock(t.getGearboxBlock(), t.getGearboxMeta())))
+                .addElement('d', lazy(t -> Dynamo.newAny(t.getCasingTextureIndex(), 2)))
+                .addElement(
+                    'h',
+                    lazy(
+                        t -> buildHatchAdder(GT_MetaTileEntity_DieselEngine.class)
+                            .atLeast(InputHatch, InputHatch, InputHatch, Muffler, Maintenance)
+                            .casingIndex(t.getCasingTextureIndex())
+                            .dot(1)
+                            .buildAndChain(t.getCasingBlock(), t.getCasingMeta())))
+                .build();
+        }
+    };
     protected int fuelConsumption = 0;
     protected int fuelValue = 0;
     protected int fuelRemaining = 0;
@@ -36,30 +94,58 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
         super(aName);
     }
 
-    public String[] getDescription() {
-        return new String[]{
-                "Controller Block for the Large Combustion Engine",
-                "Size(WxHxD): 3x3x4, Controller (front centered)",
-                "3x3x4 of Stable Titanium Machine Casing (hollow, Min 16!)",
-                "2x Titanium Gear Box Machine Casing inside the Hollow Casing",
-                "8x Engine Intake Machine Casing (around controller)",
-                "2x Input Hatch (Fuel/Lubricant) (one of the Casings next to a Gear Box)",
-                "1x Maintenance Hatch (one of the Casings next to a Gear Box)",
-                "1x Muffler Hatch (top middle back, next to the rear Gear Box)",
-                "1x Dynamo Hatch (back centered)",
-                "Engine Intake Casings must not be obstructed in front (only air blocks)",
-                "Supply Flammable Fuels and 1000L of Lubricant per hour to run.",
-                "Supply 40L of Oxygen per second to boost output (optional).",
-                "Default: Produces 2048EU/t at 100% efficiency",
-                "Boosted: Produces 6144EU/t at 150% efficiency",
-                "Causes " + 20 * getPollutionPerTick(null) + " Pollution per second"};
+    @Override
+    protected GT_Multiblock_Tooltip_Builder createTooltip() {
+        final GT_Multiblock_Tooltip_Builder tt = new GT_Multiblock_Tooltip_Builder();
+        tt.addMachineType("Combustion Generator")
+            .addInfo("Controller block for the Large Combustion Engine")
+            .addInfo("Supply Diesel Fuels and 1000L of Lubricant per hour to run")
+            .addInfo("Supply 40L/s of Oxygen to boost output (optional)")
+            .addInfo("Default: Produces 2048EU/t at 100% fuel efficiency")
+            .addInfo("Boosted: Produces 6144EU/t at 150% fuel efficiency")
+            .addInfo("You need to wait for it to reach 300% to output full power")
+            .addPollutionAmount(getPollutionPerSecond(null))
+            .addSeparator()
+            .beginStructureBlock(3, 3, 4, false)
+            .addController("Front center")
+            .addCasingInfoRange("Stable Titanium Machine Casing", 16, 22, false)
+            .addOtherStructurePart("Titanium Gear Box Machine Casing", "Inner 2 blocks")
+            .addOtherStructurePart("Engine Intake Machine Casing", "8x, ring around controller")
+            .addStructureInfo("Engine Intake Casings must not be obstructed in front (only air blocks)")
+            .addDynamoHatch("Back center", 2)
+            .addMaintenanceHatch("One of the casings next to a Gear Box", 1)
+            .addMufflerHatch("Top middle back, above the rear Gear Box", 1)
+            .addInputHatch("Diesel Fuel, next to a Gear Box", 1)
+            .addInputHatch("Lubricant, next to a Gear Box", 1)
+            .addInputHatch("Oxygen, optional, next to a Gear Box", 1)
+            .toolTipFinisher("Gregtech");
+        return tt;
     }
 
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[50], new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE_ACTIVE : Textures.BlockIcons.OVERLAY_FRONT_DIESEL_ENGINE)};
+    @Override
+    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, ForgeDirection side, ForgeDirection aFacing,
+        int colorIndex, boolean aActive, boolean redstoneLevel) {
+        if (side == aFacing) {
+            if (aActive) return new ITexture[] { casingTexturePages[0][50], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_DIESEL_ENGINE_ACTIVE)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_DIESEL_ENGINE_ACTIVE_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
+            return new ITexture[] { casingTexturePages[0][50], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_DIESEL_ENGINE)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_DIESEL_ENGINE_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
         }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[50]};
+        return new ITexture[] { casingTexturePages[0][50] };
     }
 
     @Override
@@ -67,99 +153,123 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
         return getMaxEfficiency(aStack) > 0;
     }
 
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "LargeDieselEngine.png");
+    @Override
+    public RecipeMap<FuelBackend> getRecipeMap() {
+        return RecipeMaps.dieselFuels;
     }
 
     @Override
-    public boolean checkRecipe(ItemStack aStack) {
+    protected boolean filtersFluid() {
+        return false;
+    }
+
+    /**
+     * The nominal energy output This can be further multiplied by {@link #getMaxEfficiency(ItemStack)} when boosted
+     */
+    protected int getNominalOutput() {
+        return 2048;
+    }
+
+    protected Materials getBooster() {
+        return Materials.Oxygen;
+    }
+
+    /**
+     * x times fuel will be consumed when boosted This will however NOT increase power output Go tweak
+     * {@link #getMaxEfficiency(ItemStack)} and {@link #getNominalOutput()} instead
+     */
+    protected int getBoostFactor() {
+        return 2;
+    }
+
+    /**
+     * x times of additive will be consumed when boosted
+     */
+    protected int getAdditiveFactor() {
+        return 1;
+    }
+
+    /**
+     * Efficiency will increase by this amount every tick
+     */
+    protected int getEfficiencyIncrease() {
+        return 15;
+    }
+
+    @Override
+    @NotNull
+    public CheckRecipeResult checkProcessing() {
         ArrayList<FluidStack> tFluids = getStoredFluids();
-        Collection<GT_Recipe> tRecipeList = GT_Recipe.GT_Recipe_Map.sDieselFuels.mRecipeList;
 
-        if(tFluids.size() > 0 && tRecipeList != null) { //Does input hatch have a diesel fuel?
-            for (FluidStack hatchFluid1 : tFluids) { //Loops through hatches
-                for(GT_Recipe aFuel : tRecipeList) { //Loops through diesel fuel recipes
-                    FluidStack tLiquid;
-                    if ((tLiquid = GT_Utility.getFluidForFilledItem(aFuel.getRepresentativeInput(0), true)) != null) { //Create fluidstack from current recipe
-                        if (hatchFluid1.isFluidEqual(tLiquid)) { //Has a diesel fluid
-                            fuelConsumption = tLiquid.amount = boostEu ? (4096 / aFuel.mSpecialValue) : (2048 / aFuel.mSpecialValue); //Calc fuel consumption
-                            if(depleteInput(tLiquid)) { //Deplete that amount
-                                boostEu = depleteInput(Materials.Oxygen.getGas(2L));
+        // fast track lookup
+        if (!tFluids.isEmpty()) {
+            double boostedFuelValue = 0;
+            double boostedOutput = 0;
+            double extraFuelFraction = 0;
+            for (FluidStack tFluid : tFluids) {
+                GT_Recipe tRecipe = getRecipeMap().getBackend()
+                    .findFuel(tFluid);
+                if (tRecipe == null) continue;
+                fuelValue = tRecipe.mSpecialValue;
 
-                                if(tFluids.contains(Materials.Lubricant.getFluid(1L))) { //Has lubricant?
-                                    //Deplete Lubricant. 1000L should = 1 hour of runtime (if baseEU = 2048)
-                                    if(mRuntime % 72 == 0 || mRuntime == 0) depleteInput(Materials.Lubricant.getFluid(boostEu ? 2 : 1));
-                                } else return false;
+                FluidStack tLiquid = tFluid.copy();
+                if (boostEu) {
+                    boostedFuelValue = GT_Utility.safeInt((long) (fuelValue * 1.5));
+                    boostedOutput = getNominalOutput() * 3;
 
-                                fuelValue = aFuel.mSpecialValue;
-                                fuelRemaining = hatchFluid1.amount; //Record available fuel
-                                this.mEUt = mEfficiency < 2000 ? 0 : 2048; //Output 0 if startup is less than 20%
-                                this.mProgresstime = 1;
-                                this.mMaxProgresstime = 1;
-                                this.mEfficiencyIncrease = 15;
-                                return true;
-                            }
+                    fuelConsumption = tLiquid.amount = getBoostFactor() * getNominalOutput() / fuelValue;
+
+                    // HOG consumption rate is normally 1 L/t, when it's supposed to be around 1.64 L/t
+                    // This code increases fuel consumption by 1 at random, but with a weighted chance
+                    if (boostedFuelValue * 2 > boostedOutput) {
+                        extraFuelFraction = boostedOutput / boostedFuelValue;
+                        extraFuelFraction = extraFuelFraction - (int) extraFuelFraction;
+                        double rand = Math.random();
+                        if (rand < extraFuelFraction) {
+                            tLiquid.amount += 1;
                         }
                     }
+
+                } else {
+                    fuelConsumption = tLiquid.amount = getNominalOutput() / fuelValue;
                 }
+
+                // Deplete that amount
+                if (!depleteInput(tLiquid)) return CheckRecipeResultRegistry.NO_FUEL_FOUND;
+                boostEu = depleteInput(getBooster().getGas(2L * getAdditiveFactor()));
+
+                // Check to prevent burning HOG without consuming it, if not boosted
+                if (!boostEu && fuelValue > getNominalOutput()) {
+                    return SimpleCheckRecipeResult.ofFailure("fuel_quality_too_high");
+                }
+
+                // Deplete Lubricant. 1000L should = 1 hour of runtime (if baseEU = 2048)
+                if ((mRuntime % 72 == 0 || mRuntime == 0)
+                    && !depleteInput(Materials.Lubricant.getFluid((boostEu ? 2L : 1L) * getAdditiveFactor())))
+                    return SimpleCheckRecipeResult.ofFailure("no_lubricant");
+
+                fuelRemaining = tFluid.amount; // Record available fuel
+                this.mEUt = mEfficiency < 2000 ? 0 : getNominalOutput(); // Output 0 if startup is less than 20%
+                this.mProgresstime = 1;
+                this.mMaxProgresstime = 1;
+                this.mEfficiencyIncrease = getEfficiencyIncrease();
+                return CheckRecipeResultRegistry.GENERATING;
             }
         }
         this.mEUt = 0;
         this.mEfficiency = 0;
-        return false;
+        return CheckRecipeResultRegistry.NO_FUEL_FOUND;
+    }
+
+    @Override
+    public IStructureDefinition<GT_MetaTileEntity_DieselEngine> getStructureDefinition() {
+        return STRUCTURE_DEFINITION.get(getClass());
     }
 
     @Override
     public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
-        byte tSide = getBaseMetaTileEntity().getBackFacing();
-        int tX = getBaseMetaTileEntity().getXCoord();
-        int tY = getBaseMetaTileEntity().getYCoord();
-        int tZ = getBaseMetaTileEntity().getZCoord();
-
-        if(getBaseMetaTileEntity().getBlockAtSideAndDistance(tSide, 1) != getGearboxBlock() && getBaseMetaTileEntity().getBlockAtSideAndDistance(tSide, 2) != getGearboxBlock()) {
-            return false;
-        }
-        if(getBaseMetaTileEntity().getMetaIDAtSideAndDistance(tSide, 1) != getGearboxMeta() && getBaseMetaTileEntity().getMetaIDAtSideAndDistance(tSide, 2) != getGearboxMeta()) {
-            return false;
-        }
-        for (byte i = -1; i < 2; i = (byte) (i + 1)) {
-            for (byte j = -1; j < 2; j = (byte) (j + 1)) {
-                if ((i != 0) || (j != 0)) {
-                    for (byte k = 0; k < 4; k = (byte) (k + 1)) {
-                        Block frontAir = getBaseMetaTileEntity().getBlock(tX - (tSide == 5 ? 1 : tSide == 4 ? -1 : i), tY + j, tZ - (tSide == 2 ? -1 : tSide == 3 ? 1 : i));
-                        if(!(frontAir.getUnlocalizedName().equalsIgnoreCase("tile.air") || frontAir.getUnlocalizedName().equalsIgnoreCase("tile.railcraft.residual.heat"))) {
-                            return false; //Fail if vent blocks are obstructed
-                        }
-                        if (((i == 0) || (j == 0)) && ((k == 1) || (k == 2))) {
-                            if (getBaseMetaTileEntity().getBlock(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getCasingBlock() && getBaseMetaTileEntity().getMetaID(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getCasingMeta()) {
-                            } else if (!addMufflerToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(tX + (tSide == 5 ? 2 : tSide == 4 ? -2 : 0), tY + 1, tZ + (tSide == 3 ? 2 : tSide == 2 ? -2 : 0)), getCasingTextureIndex())) {
-                                return false; //Fail if no muffler top middle back
-                            } else if (!addToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)))) {
-                                return false;
-                            }
-                        } else if (k == 0) {
-                          if(!(getBaseMetaTileEntity().getBlock(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getIntakeBlock() && getBaseMetaTileEntity().getMetaID(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getIntakeMeta())) {
-                              return false;
-                          }
-                        } else if (getBaseMetaTileEntity().getBlock(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getCasingBlock() && getBaseMetaTileEntity().getMetaID(tX + (tSide == 5 ? k : tSide == 4 ? -k : i), tY + j, tZ + (tSide == 2 ? -k : tSide == 3 ? k : i)) == getCasingMeta()) {
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        this.mDynamoHatches.clear();
-        IGregTechTileEntity tTileEntity = getBaseMetaTileEntity().getIGregTechTileEntityAtSideAndDistance(getBaseMetaTileEntity().getBackFacing(), 3);
-        if ((tTileEntity != null) && (tTileEntity.getMetaTileEntity() != null)) {
-            if ((tTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_Hatch_Dynamo)) {
-                this.mDynamoHatches.add((GT_MetaTileEntity_Hatch_Dynamo) tTileEntity.getMetaTileEntity());
-                ((GT_MetaTileEntity_Hatch) tTileEntity.getMetaTileEntity()).updateTexture(getCasingTextureIndex());
-            } else {
-                return false;
-            }
-        }
-        return true;
+        return checkPiece(STRUCTURE_PIECE_MAIN, 1, 1, 1) && !mMufflerHatches.isEmpty()
+            && mMaintenanceHatches.size() == 1;
     }
 
     public Block getCasingBlock() {
@@ -190,10 +300,6 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
         return 50;
     }
 
-    private boolean addToMachineList(IGregTechTileEntity tTileEntity) {
-        return ((addMaintenanceToMachineList(tTileEntity, getCasingTextureIndex())) || (addInputToMachineList(tTileEntity, getCasingTextureIndex())) || (addOutputToMachineList(tTileEntity, getCasingTextureIndex())) || (addMufflerToMachineList(tTileEntity, getCasingTextureIndex())));
-    }
-
     @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_DieselEngine(this.mName);
@@ -214,13 +320,14 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
         return 1;
     }
 
+    @Override
     public int getMaxEfficiency(ItemStack aStack) {
         return boostEu ? 30000 : 10000;
     }
 
     @Override
-    public int getPollutionPerTick(ItemStack aStack) {
-        return 16;
+    public int getPollutionPerSecond(ItemStack aStack) {
+        return GT_Mod.gregtechproxy.mPollutionLargeCombustionEnginePerSecond;
     }
 
     @Override
@@ -230,18 +337,80 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
 
     @Override
     public String[] getInfoData() {
-        return new String[]{
-                "Diesel Engine",
-                "Current Output: " + mEUt * mEfficiency / 10000 + " EU/t",
-                "Fuel Consumption: " + fuelConsumption + "L/t",
-                "Fuel Value: " + fuelValue + " EU/L",
-                "Fuel Remaining: " + fuelRemaining + " Litres",
-                "Current Efficiency: " + (mEfficiency / 100) + "%",
-                getIdealStatus() == getRepairStatus() ? "No Maintainance issues" : "Needs Maintainance"};
+        int mPollutionReduction = 0;
+        for (GT_MetaTileEntity_Hatch_Muffler tHatch : filterValidMTEs(mMufflerHatches)) {
+            mPollutionReduction = Math.max(tHatch.calculatePollutionReduction(100), mPollutionReduction);
+        }
+
+        long storedEnergy = 0;
+        long maxEnergy = 0;
+        for (GT_MetaTileEntity_Hatch_Dynamo tHatch : filterValidMTEs(mDynamoHatches)) {
+            storedEnergy += tHatch.getBaseMetaTileEntity()
+                .getStoredEU();
+            maxEnergy += tHatch.getBaseMetaTileEntity()
+                .getEUCapacity();
+        }
+
+        return new String[] { EnumChatFormatting.BLUE + "Diesel Engine" + EnumChatFormatting.RESET,
+            StatCollector.translateToLocal("GT5U.multiblock.energy") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(storedEnergy)
+                + EnumChatFormatting.RESET
+                + " EU / "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(maxEnergy)
+                + EnumChatFormatting.RESET
+                + " EU",
+            getIdealStatus() == getRepairStatus()
+                ? EnumChatFormatting.GREEN + StatCollector.translateToLocal("GT5U.turbine.maintenance.false")
+                    + EnumChatFormatting.RESET
+                : EnumChatFormatting.RED + StatCollector.translateToLocal("GT5U.turbine.maintenance.true")
+                    + EnumChatFormatting.RESET,
+            StatCollector.translateToLocal("GT5U.engine.output") + ": "
+                + EnumChatFormatting.RED
+                + GT_Utility.formatNumbers(((long) mEUt * mEfficiency / 10000))
+                + EnumChatFormatting.RESET
+                + " EU/t",
+            StatCollector.translateToLocal("GT5U.engine.consumption") + ": "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(fuelConsumption)
+                + EnumChatFormatting.RESET
+                + " L/t",
+            StatCollector.translateToLocal("GT5U.engine.value") + ": "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(fuelValue)
+                + EnumChatFormatting.RESET
+                + " EU/L",
+            StatCollector.translateToLocal("GT5U.turbine.fuel") + ": "
+                + EnumChatFormatting.GOLD
+                + GT_Utility.formatNumbers(fuelRemaining)
+                + EnumChatFormatting.RESET
+                + " L",
+            StatCollector.translateToLocal("GT5U.engine.efficiency") + ": "
+                + EnumChatFormatting.YELLOW
+                + (mEfficiency / 100F)
+                + EnumChatFormatting.YELLOW
+                + " %",
+            StatCollector.translateToLocal("GT5U.multiblock.pollution") + ": "
+                + EnumChatFormatting.GREEN
+                + mPollutionReduction
+                + EnumChatFormatting.RESET
+                + " %" };
     }
 
     @Override
     public boolean isGivingInformation() {
         return true;
+    }
+
+    @Override
+    public void construct(ItemStack stackSize, boolean hintsOnly) {
+        buildPiece(STRUCTURE_PIECE_MAIN, stackSize, hintsOnly, 1, 1, 1);
+    }
+
+    @Override
+    public int survivalConstruct(ItemStack stackSize, int elementBudget, ISurvivalBuildEnvironment env) {
+        if (mMachine) return -1;
+        return survivialBuildPiece(STRUCTURE_PIECE_MAIN, stackSize, 1, 1, 1, elementBudget, env, false, true);
     }
 }

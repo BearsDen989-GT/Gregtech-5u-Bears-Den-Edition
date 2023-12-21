@@ -1,15 +1,18 @@
 package gregtech.api.net;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+
+@SuppressWarnings("deprecation")
 public interface IGT_NetworkHandler {
-    public void sendToPlayer(GT_Packet aPacket, EntityPlayerMP aPlayer);
 
-    public void sendToAllAround(GT_Packet aPacket, TargetPoint aPosition);
+    void sendToPlayer(GT_Packet aPacket, EntityPlayerMP aPlayer);
 
-    public void sendToServer(GT_Packet aPacket);
+    void sendToAllAround(GT_Packet aPacket, TargetPoint aPosition);
 
-    public void sendPacketToAllPlayersInRange(World aWorld, GT_Packet aPacket, int aX, int aZ);
+    void sendToServer(GT_Packet aPacket);
+
+    void sendPacketToAllPlayersInRange(World aWorld, GT_Packet aPacket, int aX, int aZ);
 }

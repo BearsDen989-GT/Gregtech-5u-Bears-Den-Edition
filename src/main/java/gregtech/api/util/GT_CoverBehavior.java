@@ -1,21 +1,218 @@
 package gregtech.api.util;
 
-import gregtech.api.interfaces.tileentity.ICoverable;
-import gregtech.api.objects.GT_ItemStack;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-
 import static gregtech.api.enums.GT_Values.E;
 
+import java.lang.ref.WeakReference;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+
+import gregtech.api.enums.GT_Values;
+import gregtech.api.gui.modularui.GT_UIInfos;
+import gregtech.api.interfaces.ITexture;
+import gregtech.api.interfaces.tileentity.ICoverable;
+import gregtech.api.net.GT_Packet_TileEntityCoverGUI;
+
 /**
- * For Covers with a special behavior.
+ * For Covers with a special behavior. Has fixed storage format of 4 byte. Not very convenient...
  */
-public abstract class GT_CoverBehavior {
+public abstract class GT_CoverBehavior extends GT_CoverBehaviorBase<ISerializableObject.LegacyCoverData> {
+
+    public boolean mPlayerNotified = false;
+
+    public GT_CoverBehavior() {
+        this(null);
+    }
+
+    public GT_CoverBehavior(ITexture coverTexture) {
+        super(ISerializableObject.LegacyCoverData.class, coverTexture);
+    }
+
+    protected static int convert(ISerializableObject.LegacyCoverData data) {
+        return data == null ? 0 : data.get();
+    }
+
+    // region bridge the parent call to legacy calls
+
+    @Override
+    public final ISerializableObject.LegacyCoverData createDataObject() {
+        return new ISerializableObject.LegacyCoverData();
+    }
+
+    @Override
+    public ISerializableObject.LegacyCoverData createDataObject(int aLegacyData) {
+        return new ISerializableObject.LegacyCoverData(aLegacyData);
+    }
+
+    @Override
+    protected boolean isRedstoneSensitiveImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, long aTimer) {
+        return isRedstoneSensitive(side, aCoverID, aCoverVariable.get(), aTileEntity, aTimer);
+    }
+
+    @Override
+    protected ISerializableObject.LegacyCoverData doCoverThingsImpl(ForgeDirection side, byte aInputRedstone,
+        int aCoverID, ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, long aTimer) {
+        if (aCoverVariable == null) aCoverVariable = new ISerializableObject.LegacyCoverData();
+        aCoverVariable.set(doCoverThings(side, aInputRedstone, aCoverID, aCoverVariable.get(), aTileEntity, aTimer));
+        return aCoverVariable;
+    }
+
+    @Override
+    protected boolean onCoverRightClickImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX,
+        float aY, float aZ) {
+        return onCoverRightclick(side, aCoverID, convert(aCoverVariable), aTileEntity, aPlayer, aX, aY, aZ);
+    }
+
+    @Override
+    protected ISerializableObject.LegacyCoverData onCoverScrewdriverClickImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX,
+        float aY, float aZ) {
+        if (aCoverVariable == null) aCoverVariable = new ISerializableObject.LegacyCoverData();
+        aCoverVariable
+            .set(onCoverScrewdriverclick(side, aCoverID, convert(aCoverVariable), aTileEntity, aPlayer, aX, aY, aZ));
+        return aCoverVariable;
+    }
+
+    @Override
+    protected boolean onCoverShiftRightClickImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer) {
+        return onCoverShiftRightclick(side, aCoverID, convert(aCoverVariable), aTileEntity, aPlayer);
+    }
+
+    @Deprecated
+    @Override
+    protected Object getClientGUIImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer,
+        World aWorld) {
+        return getClientGUI(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean onCoverRemovalImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity, boolean aForced) {
+        return onCoverRemoval(side, aCoverID, convert(aCoverVariable), aTileEntity, aForced);
+    }
+
+    @Override
+    protected String getDescriptionImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return getDescription(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected float getBlastProofLevelImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return getBlastProofLevel(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean letsRedstoneGoInImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return letsRedstoneGoIn(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean letsRedstoneGoOutImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return letsRedstoneGoOut(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean letsEnergyInImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return letsEnergyIn(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean letsEnergyOutImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return letsEnergyOut(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean letsFluidInImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
+        return letsFluidIn(side, aCoverID, convert(aCoverVariable), aFluid, aTileEntity);
+    }
+
+    @Override
+    protected boolean letsFluidOutImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
+        return letsFluidOut(side, aCoverID, convert(aCoverVariable), aFluid, aTileEntity);
+    }
+
+    @Override
+    protected boolean letsItemsInImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, int aSlot, ICoverable aTileEntity) {
+        return letsItemsIn(side, aCoverID, convert(aCoverVariable), aSlot, aTileEntity);
+    }
+
+    @Override
+    protected boolean letsItemsOutImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, int aSlot, ICoverable aTileEntity) {
+        return letsItemsOut(side, aCoverID, convert(aCoverVariable), aSlot, aTileEntity);
+    }
+
+    @Override
+    protected boolean isGUIClickableImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return isGUIClickable(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean manipulatesSidedRedstoneOutputImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return manipulatesSidedRedstoneOutput(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected boolean alwaysLookConnectedImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return alwaysLookConnected(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected byte getRedstoneInputImpl(ForgeDirection side, byte aInputRedstone, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return getRedstoneInput(side, aInputRedstone, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected int getTickRateImpl(ForgeDirection side, int aCoverID, ISerializableObject.LegacyCoverData aCoverVariable,
+        ICoverable aTileEntity) {
+        return getTickRate(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected byte getLensColorImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return getLensColor(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    @Override
+    protected ItemStack getDropImpl(ForgeDirection side, int aCoverID,
+        ISerializableObject.LegacyCoverData aCoverVariable, ICoverable aTileEntity) {
+        return getDrop(side, aCoverID, convert(aCoverVariable), aTileEntity);
+    }
+
+    // endregion
+
+    public boolean isRedstoneSensitive(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        long aTimer) {
+        return true;
+    }
+
     /**
      * Called by updateEntity inside the covered TileEntity. aCoverVariable is the Value you returned last time.
      */
-    public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
+    public int doCoverThings(ForgeDirection side, byte aInputRedstone, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity, long aTimer) {
         return aCoverVariable;
     }
 
@@ -24,16 +221,8 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * return true, if something actually happens.
      */
-    public boolean onCoverRightclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-        return false;
-    }
-
-    /**
-     * Called when someone rightclicks this Cover Client Side
-     * <p/>
-     * return true, if something actually happens.
-     */
-    public boolean onCoverRightclickClient(byte aSide, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+    public boolean onCoverRightclick(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        EntityPlayer aPlayer, float aX, float aY, float aZ) {
         return false;
     }
 
@@ -42,36 +231,61 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * return the new Value of the Cover Variable
      */
-    public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+    public int onCoverScrewdriverclick(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        EntityPlayer aPlayer, float aX, float aY, float aZ) {
         return aCoverVariable;
     }
 
     /**
-     * Checks if the Cover can be placed on this.
+     * Called when someone shift-rightclicks this Cover with no tool. Doesn't call @onCoverRightclick in this Case.
      */
-    public boolean isCoverPlaceable(byte aSide, GT_ItemStack aStack, ICoverable aTileEntity) {
-        return true;
+    public boolean onCoverShiftRightclick(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        EntityPlayer aPlayer) {
+        if (hasCoverGUI() && aPlayer instanceof EntityPlayerMP) {
+            lastPlayer = new WeakReference<>(aPlayer);
+            mPlayerNotified = false;
+            if (useModularUI()) {
+                GT_UIInfos.openCoverUI(aTileEntity, aPlayer, side);
+            } else {
+                GT_Values.NW.sendToPlayer(
+                    new GT_Packet_TileEntityCoverGUI(
+                        side,
+                        aCoverID,
+                        aCoverVariable,
+                        aTileEntity,
+                        (EntityPlayerMP) aPlayer),
+                    (EntityPlayerMP) aPlayer);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Deprecated
+    public Object getClientGUI(ForgeDirection side, int aCoverID, int coverData, ICoverable aTileEntity) {
+        return null;
     }
 
     /**
-     * Removes the Cover if this returns true, or if aForced is true.
-     * Doesn't get called when the Machine Block is getting broken, only if you break the Cover away from the Machine.
+     * Removes the Cover if this returns true, or if aForced is true. Doesn't get called when the Machine Block is
+     * getting broken, only if you break the Cover away from the Machine.
      */
-    public boolean onCoverRemoval(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
+    public boolean onCoverRemoval(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        boolean aForced) {
         return true;
     }
 
     /**
      * Gives a small Text for the status of the Cover.
      */
-    public String getDescription(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public String getDescription(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return E;
     }
 
     /**
      * How Blast Proof the Cover is. 30 is normal.
      */
-    public float getBlastProofLevel(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public float getBlastProofLevel(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return 10.0F;
     }
 
@@ -80,103 +294,96 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * This is just Informative so that Machines know if their Redstone Input is blocked or not
      */
-    public boolean letsRedstoneGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean letsRedstoneGoIn(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets RS-Signals out of the Block
      */
-    public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return false;
-    }
-
-    /**
-     * If it lets Fibre-Signals into the Block
-     * <p/>
-     * This is just Informative so that Machines know if their Redstone Input is blocked or not
-     */
-    public boolean letsFibreGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return false;
-    }
-
-    /**
-     * If it lets Fibre-Signals out of the Block
-     */
-    public boolean letsFibreGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean letsRedstoneGoOut(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets Energy into the Block
      */
-    public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean letsEnergyIn(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets Energy out of the Block
      */
-    public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean letsEnergyOut(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets Liquids into the Block, aFluid can be null meaning if this is generally allowing Fluids or not.
      */
-    public boolean letsFluidIn(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
+    public boolean letsFluidIn(ForgeDirection side, int aCoverID, int aCoverVariable, Fluid aFluid,
+        ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets Liquids out of the Block, aFluid can be null meaning if this is generally allowing Fluids or not.
      */
-    public boolean letsFluidOut(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
+    public boolean letsFluidOut(ForgeDirection side, int aCoverID, int aCoverVariable, Fluid aFluid,
+        ICoverable aTileEntity) {
         return false;
     }
 
     /**
-     * If it lets Items into the Block, aSlot = -1 means if it is generally accepting Items (return false for no Interaction at all), aSlot = -2 means if it would accept for all Slots (return true to skip the Checks for each Slot).
+     * If it lets Items into the Block, aSlot = -1 means if it is generally accepting Items (return false for no
+     * Interaction at all), aSlot = -2 means if it would accept for all Slots (return true to skip the Checks for each
+     * Slot).
      */
-    public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, int aSlot, ICoverable aTileEntity) {
+    public boolean letsItemsIn(ForgeDirection side, int aCoverID, int aCoverVariable, int aSlot,
+        ICoverable aTileEntity) {
         return false;
     }
 
     /**
-     * If it lets Items out of the Block, aSlot = -1 means if it is generally accepting Items (return false for no Interaction at all), aSlot = -2 means if it would accept for all Slots (return true to skip the Checks for each Slot).
+     * If it lets Items out of the Block, aSlot = -1 means if it is generally accepting Items (return false for no
+     * Interaction at all), aSlot = -2 means if it would accept for all Slots (return true to skip the Checks for each
+     * Slot).
      */
-    public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, int aSlot, ICoverable aTileEntity) {
+    public boolean letsItemsOut(ForgeDirection side, int aCoverID, int aCoverVariable, int aSlot,
+        ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * If it lets you rightclick the Machine normally
      */
-    public boolean isGUIClickable(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return false;
+    public boolean isGUIClickable(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+        return true;
     }
 
     /**
      * Needs to return true for Covers, which have a Redstone Output on their Facing.
      */
-    public boolean manipulatesSidedRedstoneOutput(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean manipulatesSidedRedstoneOutput(ForgeDirection side, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity) {
         return false;
     }
 
     /**
      * if this Cover should let Pipe Connections look connected even if it is not the case.
      */
-    public boolean alwaysLookConnected(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public boolean alwaysLookConnected(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
 
     /**
-     * Called to determine the incoming Redstone Signal of a Machine.
-     * Returns the original Redstone per default.
-     * The Cover should @letsRedstoneGoIn or the aInputRedstone Parameter is always 0.
+     * Called to determine the incoming Redstone Signal of a Machine. Returns the original Redstone per default. The
+     * Cover should @letsRedstoneGoIn or the aInputRedstone Parameter is always 0.
      */
-    public byte getRedstoneInput(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return letsRedstoneGoIn(aSide, aCoverID, aCoverVariable, aTileEntity) ? aInputRedstone : 0;
+    public byte getRedstoneInput(ForgeDirection side, byte aInputRedstone, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity) {
+        return letsRedstoneGoIn(side, aCoverID, aCoverVariable, aTileEntity) ? aInputRedstone : 0;
     }
 
     /**
@@ -184,39 +391,21 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * 0 = No Ticks! Yes, 0 is Default, you have to override this
      */
-    public int getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public int getTickRate(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return 0;
-    }
-
-    /**
-     * If this is a simple Cover, which can also be used on Bronze Machines and similar.
-     */
-    public boolean isSimpleCover() {
-        return false;
     }
 
     /**
      * The MC Color of this Lens. -1 for no Color (meaning this isn't a Lens then).
      */
-    public byte getLensColor(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    public byte getLensColor(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return -1;
     }
 
     /**
      * @return the ItemStack dropped by this Cover
      */
-    public ItemStack getDrop(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return GT_OreDictUnificator.get(true, aTileEntity.getCoverItemAtSide(aSide));
-    }
-
-    /**
-     * @return sets the Cover upon placement.
-     */
-    public void placeCover(byte aSide, ItemStack aCover, ICoverable aTileEntity) {
-        aTileEntity.setCoverIDAtSide(aSide, GT_Utility.stackToInt(aCover));
-    }
-    
-    public String trans(String aNr, String aEnglish){
-    	return GT_LanguageManager.addStringLocalization("Interaction_DESCRIPTION_Index_"+aNr, aEnglish, false);
+    public ItemStack getDrop(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+        return GT_OreDictUnificator.get(true, aTileEntity.getCoverItemAtSide(side));
     }
 }

@@ -1,21 +1,22 @@
 package gregtech.common.items.behaviors;
 
-import gregtech.api.items.GT_MetaBase_Item;
-import gregtech.api.util.GT_Utility;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-import java.util.List;
+import gregtech.api.items.GT_MetaBase_Item;
+import gregtech.api.util.GT_Utility;
 
-public class Behaviour_DataOrb
-        extends Behaviour_None {
+public class Behaviour_DataOrb extends Behaviour_None {
+
     public static void copyInventory(ItemStack[] aInventory, ItemStack[] aNewContent, int aIndexlength) {
         for (int i = 0; i < aIndexlength; i++) {
             if (aNewContent[i] == null) {
                 aInventory[i] = null;
             } else {
-                aInventory[i] = GT_Utility.copy(new Object[]{aNewContent[i]});
+                aInventory[i] = GT_Utility.copyOrNull(aNewContent[i]);
             }
         }
     }
@@ -66,7 +67,7 @@ public class Behaviour_DataOrb
         for (int i = 0; i < tNBT_ItemList.tagCount(); i++) {
             NBTTagCompound tag = tNBT_ItemList.getCompoundTagAt(i);
             byte slot = tag.getByte("Slot");
-            if ((slot >= 0) && (slot < tInventory.length)) {
+            if (slot >= 0) {
                 tInventory[slot] = GT_Utility.loadItem(tag);
             }
         }
@@ -93,6 +94,7 @@ public class Behaviour_DataOrb
         return tNBT;
     }
 
+    @Override
     public List<String> getAdditionalToolTips(GT_MetaBase_Item aItem, List<String> aList, ItemStack aStack) {
         if (!(getDataTitle(aStack).length() == 0)) {
             aList.add(getDataTitle(aStack));

@@ -1,17 +1,31 @@
 package gregtech.api.metatileentity.implementations;
 
+import static gregtech.api.enums.GT_Values.V;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-import static gregtech.api.enums.GT_Values.V;
 
 public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
+
     public GT_MetaTileEntity_Hatch_Dynamo(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 0, new String[]{"Generating electric Energy from Multiblocks", "Puts out up to 1 Amp"});
+        super(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            0,
+            new String[] { "Generating electric Energy from Multiblocks", "Puts out up to 1 Amp" });
+    }
+
+    public GT_MetaTileEntity_Hatch_Dynamo(int aID, String aName, String aNameRegional, int aTier,
+        String[] aDescription) {
+        super(aID, aName, aNameRegional, aTier, 0, aDescription);
     }
 
     public GT_MetaTileEntity_Hatch_Dynamo(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -24,12 +38,12 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
 
     @Override
     public ITexture[] getTexturesActive(ITexture aBaseTexture) {
-        return new ITexture[]{aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_OUT_MULTI[mTier]};
+        return new ITexture[] { aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_OUT_MULTI[mTier] };
     }
 
     @Override
     public ITexture[] getTexturesInactive(ITexture aBaseTexture) {
-        return new ITexture[]{aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_OUT_MULTI[mTier]};
+        return new ITexture[] { aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_OUT_MULTI[mTier] };
     }
 
     @Override
@@ -38,7 +52,7 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean isFacingValid(byte aFacing) {
+    public boolean isFacingValid(ForgeDirection facing) {
         return true;
     }
 
@@ -53,8 +67,8 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean isOutputFacing(byte aSide) {
-        return aSide == getBaseMetaTileEntity().getFrontFacing();
+    public boolean isOutputFacing(ForgeDirection side) {
+        return side == getBaseMetaTileEntity().getFrontFacing();
     }
 
     @Override
@@ -74,7 +88,7 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
 
     @Override
     public long maxEUStore() {
-        return 512 + V[mTier + 1] * 2;
+        return 512L + V[mTier + 1] * 2L;
     }
 
     @Override
@@ -83,12 +97,14 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
     }
 
     @Override
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
     }
 }

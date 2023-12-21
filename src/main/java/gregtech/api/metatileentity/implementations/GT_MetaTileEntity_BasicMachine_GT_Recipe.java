@@ -1,708 +1,820 @@
 package gregtech.api.metatileentity.implementations;
 
-import gregtech.api.enums.*;
-import gregtech.api.gui.GT_Container_BasicMachine;
-import gregtech.api.gui.GT_GUIContainer_BasicMachine;
+import static gregtech.api.enums.GT_Values.V;
+import static gregtech.api.enums.GT_Values.VN;
+import static gregtech.api.enums.GT_Values.W;
+import static gregtech.api.enums.GT_Values.ticksBetweenSounds;
+import static gregtech.api.enums.Mods.BartWorks;
+import static gregtech.api.objects.XSTR.XSTR_INSTANCE;
+import static net.minecraftforge.common.util.ForgeDirection.UP;
+
+import java.util.Locale;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import com.gtnewhorizons.modularui.api.drawable.FallbackableUITexture;
+import com.gtnewhorizons.modularui.api.drawable.UITexture;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.Materials;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.ParticleFX;
+import gregtech.api.enums.SoundResource;
+import gregtech.api.enums.Textures.BlockIcons.CustomIcon;
+import gregtech.api.enums.Tier;
+import gregtech.api.gui.modularui.GT_UITextures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.metatileentity.BaseMetaTileEntity;
+import gregtech.api.recipe.BasicUIProperties;
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.ExternalMaterials;
 import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_ModHandler.RecipeBits;
-import gregtech.api.util.GT_Recipe.GT_Recipe_Map;
 import gregtech.api.util.GT_Utility;
+import gregtech.api.util.WorldSpawnedEventBuilder.ParticleEventBuilder;
 import ic2.core.Ic2Items;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Locale;
-import java.util.Random;
-
-import static gregtech.api.enums.GT_Values.V;
-import static gregtech.api.enums.GT_Values.W;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
  * <p/>
- * This is the main construct for my Basic Machines such as the Automatic Extractor
- * Extend this class to make a simple Machine
+ * This is the main construct for my Basic Machines such as the Automatic Extractor Extend this class to make a simple
+ * Machine
  */
 public class GT_MetaTileEntity_BasicMachine_GT_Recipe extends GT_MetaTileEntity_BasicMachine {
-    private final GT_Recipe_Map mRecipes;
-    private final int mTankCapacity, mSpecialEffect;
-    private final String mSound;
-    private final boolean mSharedTank, mRequiresFluidForFiltering;
-    private final byte mGUIParameterA, mGUIParameterB;
 
-    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier, String aDescription, GT_Recipe_Map aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity, int aGUIParameterA, int aGUIParameterB, String aGUIName, String aSound, boolean aSharedTank, boolean aRequiresFluidForFiltering, int aSpecialEffect, String aOverlays, Object[] aRecipe) {
-        super(aID, aName, aNameRegional, aTier, aRecipes.mAmperage, aDescription, aInputSlots, aOutputSlots, aGUIName, aRecipes.mNEIName, new ITexture[]{new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE_ACTIVE")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT_ACTIVE")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP_ACTIVE")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM_ACTIVE")), new GT_RenderedTexture(new Textures.BlockIcons.CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM"))});
-        mSharedTank = aSharedTank;
-        mTankCapacity = aTankCapacity;
-        mSpecialEffect = aSpecialEffect;
-        mRequiresFluidForFiltering = aRequiresFluidForFiltering;
-        mRecipes = aRecipes;
-        mSound = aSound;
-        mGUIParameterA = (byte) aGUIParameterA;
-        mGUIParameterB = (byte) aGUIParameterB;
+    private final RecipeMap<?> mRecipes;
+    private final int mTankCapacity;
+    private final SpecialEffects mSpecialEffect;
+    private final ResourceLocation mSoundResourceLocation;
+    private FallbackableUITexture progressBarTexture;
+    private int recipeCatalystPriority;
 
+    /**
+     * Registers machine with single-line description, specific tank capacity, and sound specified by ResourceLocation.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity,
+        ResourceLocation aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        this(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            new String[] { aDescription },
+            aRecipes,
+            aInputSlots,
+            aOutputSlots,
+            aTankCapacity,
+            aSound,
+            aSpecialEffect,
+            aOverlays,
+            aRecipe);
+    }
+
+    /**
+     * Registers machine with multi-line descriptions, specific tank capacity, and sound specified by ResourceLocation.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String[] aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity,
+        ResourceLocation aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        super(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            aRecipes.getAmperage(),
+            aDescription,
+            aInputSlots,
+            aOutputSlots,
+            TextureFactory.of(
+                TextureFactory.of(
+                    new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE_ACTIVE")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE_ACTIVE_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory
+                    .of(new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_SIDE_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory.of(
+                    new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT_ACTIVE")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT_ACTIVE_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory
+                    .of(new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_FRONT_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory.of(
+                    new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP_ACTIVE")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP_ACTIVE_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory
+                    .of(new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_TOP_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory.of(
+                    new CustomIcon(
+                        "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM_ACTIVE")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM_ACTIVE_GLOW")))
+                    .glow()
+                    .build()),
+            TextureFactory.of(
+                TextureFactory
+                    .of(new CustomIcon("basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM")),
+                TextureFactory.builder()
+                    .addIcon(
+                        (new CustomIcon(
+                            "basicmachines/" + aOverlays.toLowerCase(Locale.ENGLISH) + "/OVERLAY_BOTTOM_GLOW")))
+                    .glow()
+                    .build()));
+        this.mTankCapacity = aTankCapacity;
+        this.mSpecialEffect = aSpecialEffect;
+        this.mRecipes = aRecipes;
+        this.mSoundResourceLocation = aSound;
+        this.progressBarTexture = mRecipes.getFrontend()
+            .getUIProperties().progressBarTexture;
+
+        // TODO: CHECK
         if (aRecipe != null) {
             for (int i = 3; i < aRecipe.length; i++) {
-                if (aRecipe[i] == X.CIRCUIT) {
-                    aRecipe[i] = Tier.ELECTRIC[mTier].mManagingObject;
-                    continue;
-                }
-                if (aRecipe[i] == X.BETTER_CIRCUIT) {
-                    aRecipe[i] = Tier.ELECTRIC[mTier].mBetterManagingObject;
-                    continue;
-                }
-                if (aRecipe[i] == X.HULL) {
-                    aRecipe[i] = Tier.ELECTRIC[mTier].mHullObject;
-                    continue;
-                }
-                if (aRecipe[i] == X.WIRE) {
-                    aRecipe[i] = Tier.ELECTRIC[mTier].mConductingObject;
-                    continue;
-                }
-                if (aRecipe[i] == X.WIRE4) {
-                    aRecipe[i] = Tier.ELECTRIC[mTier].mLargerConductingObject;
-                    continue;
-                }
+                if (!(aRecipe[i] instanceof X)) continue;
 
-                if (aRecipe[i] == X.GLASS) {
-                    switch (mTier) {
-                        case 6:
-                        case 7:
-                        case 8:
-                            aRecipe[i] = Ic2Items.reinforcedGlass;
-                            break;
-                        default:
-                            aRecipe[i] = new ItemStack(Blocks.glass, 1, W);
-                            break;
-                    }
-                    continue;
-                }
+                // spotless:off
+                aRecipe[i] = switch ((X) aRecipe[i]) {
+                    case CIRCUIT            -> Tier.ELECTRIC[this.mTier].mManagingObject;
+                    case BETTER_CIRCUIT     -> Tier.ELECTRIC[this.mTier].mBetterManagingObject;
+                    case HULL               -> Tier.ELECTRIC[this.mTier].mHullObject;
+                    case WIRE               -> Tier.ELECTRIC[this.mTier].mConductingObject;
+                    case WIRE4              -> Tier.ELECTRIC[this.mTier].mLargerConductingObject;
+                    case STICK_DISTILLATION -> OrePrefixes.stick.get(Materials.Blaze);
 
-                if (aRecipe[i] == X.PLATE) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Steel);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Aluminium);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.StainlessSteel);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Titanium);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.TungstenSteel);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.HSSG);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.HSSE);
-                            break;
-                        case 8:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.Neutronium);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.plate.get(Materials.TungstenSteel);
-                            break;
-                    }
-                    continue;
-                }
+                    case GLASS -> switch (this.mTier) {
+                        case 0, 1, 2, 3    -> new ItemStack(Blocks.glass, 1, W);
+                        case 4, 5, 6, 7, 8 -> BartWorks.isModLoaded() ? "blockGlass" + VN[aTier] : Ic2Items.reinforcedGlass;
+                        default            -> BartWorks.isModLoaded() ? "blockGlass" + VN[8]     : Ic2Items.reinforcedGlass;
+                    };
 
-                if (aRecipe[i] == X.PIPE) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Bronze);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Steel);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.StainlessSteel);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Titanium);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.TungstenSteel);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.pipeSmall.get(Materials.Ultimate);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.Ultimate);
-                            break;
-                        case 8:
-                            aRecipe[i] = OrePrefixes.pipeLarge.get(Materials.Ultimate);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.pipeMedium.get(Materials.TungstenSteel);
-                            break;
-                    }
-                    continue;
-                }
+                    case PLATE -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.plate.get(Materials.Steel);
+                        case 2    -> OrePrefixes.plate.get(Materials.Aluminium);
+                        case 3    -> OrePrefixes.plate.get(Materials.StainlessSteel);
+                        case 4    -> OrePrefixes.plate.get(Materials.Titanium);
+                        case 5    -> OrePrefixes.plate.get(Materials.TungstenSteel);
+                        case 6    -> OrePrefixes.plate.get(Materials.HSSG);
+                        case 7    -> OrePrefixes.plate.get(Materials.HSSE);
+                        default   -> OrePrefixes.plate.get(Materials.Neutronium);
+                    };
 
-                if (aRecipe[i] == X.COIL_HEATING) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Copper);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Cupronickel);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Kanthal);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Nichrome);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.TungstenSteel);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.HSSG);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Naquadah);
-                            break;
-                        case 8:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.NaquadahAlloy);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.Nichrome);
-                            break;
-                    }
-                    continue;
-                }
+                    case PIPE -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.pipeMedium.get(Materials.Bronze);
+                        case 2    -> OrePrefixes.pipeMedium.get(Materials.Steel);
+                        case 3    -> OrePrefixes.pipeMedium.get(Materials.StainlessSteel);
+                        case 4    -> OrePrefixes.pipeMedium.get(Materials.Titanium);
+                        case 5    -> OrePrefixes.pipeMedium.get(Materials.TungstenSteel);
+                        case 6    -> OrePrefixes.pipeSmall.get(Materials.Ultimate);
+                        case 7    -> OrePrefixes.pipeMedium.get(Materials.Ultimate);
+                        case 8    -> OrePrefixes.pipeLarge.get(Materials.Ultimate);
+                        default   -> OrePrefixes.pipeHuge.get(Materials.Ultimate);
+                    };
 
-                if (aRecipe[i] == X.COIL_HEATING_DOUBLE) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Copper);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Cupronickel);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Kanthal);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Nichrome);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.TungstenSteel);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.HSSG);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Naquadah);
-                            break;
-                        case 8:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.NaquadahAlloy);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.wireGt16.get(Materials.Nichrome);
-                            break;
-                    }
-                    continue;
-                }
+                    case COIL_HEATING -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.wireGt02.get(Materials.AnyCopper);
+                        case 2    -> OrePrefixes.wireGt02.get(Materials.Cupronickel);
+                        case 3    -> OrePrefixes.wireGt02.get(Materials.Kanthal);
+                        case 4    -> OrePrefixes.wireGt02.get(Materials.Nichrome);
+                        case 5    -> OrePrefixes.wireGt02.get(Materials.TPV);
+                        case 6    -> OrePrefixes.wireGt02.get(Materials.HSSG);
+                        case 7    -> OrePrefixes.wireGt02.get(Materials.Naquadah);
+                        case 8    -> OrePrefixes.wireGt02.get(Materials.NaquadahAlloy);
+                        case 9    -> OrePrefixes.wireGt04.get(Materials.NaquadahAlloy);
+                        default   -> OrePrefixes.wireGt08.get(Materials.NaquadahAlloy);
+                    };
 
-                if (aRecipe[i] == X.STICK_DISTILLATION) {
-                    switch (mTier) {
-                        default:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Blaze);
-                            break;
-                    }
-                    continue;
-                }
+                    case COIL_HEATING_DOUBLE -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.wireGt04.get(Materials.AnyCopper);
+                        case 2    -> OrePrefixes.wireGt04.get(Materials.Cupronickel);
+                        case 3    -> OrePrefixes.wireGt04.get(Materials.Kanthal);
+                        case 4    -> OrePrefixes.wireGt04.get(Materials.Nichrome);
+                        case 5    -> OrePrefixes.wireGt04.get(Materials.TPV);
+                        case 6    -> OrePrefixes.wireGt04.get(Materials.HSSG);
+                        case 7    -> OrePrefixes.wireGt04.get(Materials.Naquadah);
+                        case 8    -> OrePrefixes.wireGt04.get(Materials.NaquadahAlloy);
+                        case 9    -> OrePrefixes.wireGt08.get(Materials.NaquadahAlloy);
+                        default   -> OrePrefixes.wireGt16.get(Materials.NaquadahAlloy);
+                    };
 
-                if (aRecipe[i] == X.STICK_MAGNETIC) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.IronMagnetic);
-                            break;
-                        case 2:
-                        case 3:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.SteelMagnetic);
-                            break;
-                        case 4:
-                        case 5:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.NeodymiumMagnetic);
-                            break;
-                        case 6:
-                        case 7:
-                            aRecipe[i] = OrePrefixes.stickLong.get(Materials.NeodymiumMagnetic);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.block.get(Materials.NeodymiumMagnetic);
-                            break;
-                    }
-                    continue;
-                }
+                    case STICK_MAGNETIC -> switch (this.mTier) {
+                        case 0, 1       -> OrePrefixes.stick.get(Materials.IronMagnetic);
+                        case 2, 3       -> OrePrefixes.stick.get(Materials.SteelMagnetic);
+                        case 4, 5       -> OrePrefixes.stick.get(Materials.NeodymiumMagnetic);
+                        case 6, 7, 8, 9 -> OrePrefixes.stick.get(Materials.SamariumMagnetic);
+                        default         -> OrePrefixes.stick.get(Materials.TengamAttuned);
+                    };
 
-                if (aRecipe[i] == X.STICK_ELECTROMAGNETIC) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Iron);
-                            break;
-                        case 2:
-                        case 3:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Steel);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.Neodymium);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.stick.get(Materials.VanadiumGallium);
-                            break;
-                    }
-                    continue;
-                }
+                    case STICK_ELECTROMAGNETIC -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.stick.get(Materials.AnyIron);
+                        case 2, 3 -> OrePrefixes.stick.get(Materials.Steel);
+                        case 4    -> OrePrefixes.stick.get(Materials.Neodymium);
+                        default   -> OrePrefixes.stick.get(Materials.VanadiumGallium);
+                    };
 
-                if (aRecipe[i] == X.COIL_ELECTRIC) {
-                    switch (mTier) {
-                        case 0:
-                            aRecipe[i] = OrePrefixes.wireGt01.get(Materials.Tin);
-                            break;
-                        case 1:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Tin);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.wireGt02.get(Materials.Copper);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.Copper);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.AnnealedCopper);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.AnnealedCopper);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.wireGt04.get(Materials.YttriumBariumCuprate);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.wireGt08.get(Materials.Superconductor);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.wireGt16.get(Materials.Superconductor);
-                            break;
-                    }
-                    continue;
-                }
+                    case COIL_ELECTRIC -> switch (this.mTier) {
+                        case 0  -> OrePrefixes.wireGt01.get(Materials.Lead);
+                        case 1  -> OrePrefixes.wireGt02.get(Materials.Tin);
+                        case 2  -> OrePrefixes.wireGt02.get(Materials.AnyCopper);
+                        case 3  -> OrePrefixes.wireGt04.get(Materials.AnyCopper);
+                        case 4  -> OrePrefixes.wireGt08.get(Materials.AnnealedCopper);
+                        case 5  -> OrePrefixes.wireGt16.get(Materials.AnnealedCopper);
+                        case 6  -> OrePrefixes.wireGt04.get(Materials.YttriumBariumCuprate);
+                        case 7  -> OrePrefixes.wireGt08.get(Materials.Iridium);
+                        default -> OrePrefixes.wireGt16.get(Materials.Osmium);
+                    };
 
-                if (aRecipe[i] == X.ROBOT_ARM) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Robot_Arm_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Robot_Arm_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Robot_Arm_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Robot_Arm_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Robot_Arm_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Robot_Arm_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Robot_Arm_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Robot_Arm_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case ROBOT_ARM -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Robot_Arm_LV;
+                        case 2    -> ItemList.Robot_Arm_MV;
+                        case 3    -> ItemList.Robot_Arm_HV;
+                        case 4    -> ItemList.Robot_Arm_EV;
+                        case 5    -> ItemList.Robot_Arm_IV;
+                        case 6    -> ItemList.Robot_Arm_LuV;
+                        case 7    -> ItemList.Robot_Arm_ZPM;
+                        case 8    -> ItemList.Robot_Arm_UV;
+                        case 9    -> ItemList.Robot_Arm_UHV;
+                        case 10   -> ItemList.Robot_Arm_UEV;
+                        case 11   -> ItemList.Robot_Arm_UIV;
+                        case 12   -> ItemList.Robot_Arm_UMV;
+                        case 13   -> ItemList.Robot_Arm_UXV;
+                        default   ->  ItemList.Robot_Arm_MAX;
+                    };
 
-                if (aRecipe[i] == X.PUMP) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Electric_Pump_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Electric_Pump_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Electric_Pump_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Electric_Pump_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Electric_Pump_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Electric_Pump_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Electric_Pump_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Electric_Pump_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case PUMP -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Electric_Pump_LV;
+                        case 2    -> ItemList.Electric_Pump_MV;
+                        case 3    -> ItemList.Electric_Pump_HV;
+                        case 4    -> ItemList.Electric_Pump_EV;
+                        case 5    -> ItemList.Electric_Pump_IV;
+                        case 6    -> ItemList.Electric_Pump_LuV;
+                        case 7    -> ItemList.Electric_Pump_ZPM;
+                        case 8    -> ItemList.Electric_Pump_UV;
+                        case 9    -> ItemList.Electric_Pump_UHV;
+                        case 10   -> ItemList.Electric_Pump_UEV;
+                        case 11   -> ItemList.Electric_Pump_UIV;
+                        case 12   -> ItemList.Electric_Pump_UMV;
+                        case 13   -> ItemList.Electric_Pump_UXV;
+                        default   -> ItemList.Electric_Pump_MAX;
+                    };
 
-                if (aRecipe[i] == X.ROTOR) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Tin);
-                            break;
-                        case 2:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Bronze);
-                            break;
-                        case 3:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Steel);
-                            break;
-                        case 4:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.StainlessSteel);
-                            break;
-                        case 5:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.TungstenSteel);
-                            break;
-                        case 6:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Chrome);
-                            break;
-                        case 7:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Iridium);
-                            break;
-                        default:
-                            aRecipe[i] = OrePrefixes.rotor.get(Materials.Osmium);
-                            break;
-                    }
-                    continue;
-                }
+                    case MOTOR -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Electric_Motor_LV;
+                        case 2    -> ItemList.Electric_Motor_MV;
+                        case 3    -> ItemList.Electric_Motor_HV;
+                        case 4    -> ItemList.Electric_Motor_EV;
+                        case 5    -> ItemList.Electric_Motor_IV;
+                        case 6    -> ItemList.Electric_Motor_LuV;
+                        case 7    -> ItemList.Electric_Motor_ZPM;
+                        case 8    -> ItemList.Electric_Motor_UV;
+                        case 9    -> ItemList.Electric_Motor_UHV;
+                        case 10   -> ItemList.Electric_Motor_UEV;
+                        case 11   -> ItemList.Electric_Motor_UIV;
+                        case 12   -> ItemList.Electric_Motor_UMV;
+                        case 13   -> ItemList.Electric_Motor_UXV;
+                        default   -> ItemList.Electric_Motor_MAX;
+                    };
 
-                if (aRecipe[i] == X.MOTOR) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Electric_Motor_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Electric_Motor_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Electric_Motor_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Electric_Motor_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Electric_Motor_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Electric_Motor_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Electric_Motor_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Electric_Motor_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case PISTON -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Electric_Piston_LV;
+                        case 2    -> ItemList.Electric_Piston_MV;
+                        case 3    -> ItemList.Electric_Piston_HV;
+                        case 4    -> ItemList.Electric_Piston_EV;
+                        case 5    -> ItemList.Electric_Piston_IV;
+                        case 6    -> ItemList.Electric_Piston_LuV;
+                        case 7    -> ItemList.Electric_Piston_ZPM;
+                        case 8    -> ItemList.Electric_Piston_UV;
+                        case 9    -> ItemList.Electric_Piston_UHV;
+                        case 10   -> ItemList.Electric_Piston_UEV;
+                        case 11   -> ItemList.Electric_Piston_UIV;
+                        case 12   -> ItemList.Electric_Piston_UMV;
+                        case 13   -> ItemList.Electric_Piston_UXV;
+                        default   -> ItemList.Electric_Piston_MAX;
+                    };
 
-                if (aRecipe[i] == X.PISTON) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Electric_Piston_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Electric_Piston_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Electric_Piston_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Electric_Piston_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Electric_Piston_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Electric_Piston_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Electric_Piston_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Electric_Piston_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case CONVEYOR -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Conveyor_Module_LV;
+                        case 2    -> ItemList.Conveyor_Module_MV;
+                        case 3    -> ItemList.Conveyor_Module_HV;
+                        case 4    -> ItemList.Conveyor_Module_EV;
+                        case 5    -> ItemList.Conveyor_Module_IV;
+                        case 6    -> ItemList.Conveyor_Module_LuV;
+                        case 7    -> ItemList.Conveyor_Module_ZPM;
+                        case 8    -> ItemList.Conveyor_Module_UV;
+                        case 9    -> ItemList.Conveyor_Module_UHV;
+                        case 10   -> ItemList.Conveyor_Module_UEV;
+                        case 11   -> ItemList.Conveyor_Module_UIV;
+                        case 12   -> ItemList.Conveyor_Module_UMV;
+                        case 13   -> ItemList.Conveyor_Module_UXV;
+                        default   -> ItemList.Conveyor_Module_MAX;
+                    };
 
-                if (aRecipe[i] == X.CONVEYOR) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Conveyor_Module_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Conveyor_Module_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Conveyor_Module_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Conveyor_Module_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Conveyor_Module_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Conveyor_Module_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Conveyor_Module_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Conveyor_Module_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case EMITTER -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Emitter_LV;
+                        case 2    -> ItemList.Emitter_MV;
+                        case 3    -> ItemList.Emitter_HV;
+                        case 4    -> ItemList.Emitter_EV;
+                        case 5    -> ItemList.Emitter_IV;
+                        case 6    -> ItemList.Emitter_LuV;
+                        case 7    -> ItemList.Emitter_ZPM;
+                        case 8    -> ItemList.Emitter_UV;
+                        case 9    -> ItemList.Emitter_UHV;
+                        case 10   -> ItemList.Emitter_UEV;
+                        case 11   -> ItemList.Emitter_UIV;
+                        case 12   -> ItemList.Emitter_UMV;
+                        case 13   -> ItemList.Emitter_UXV;
+                        default   -> ItemList.Emitter_MAX;
+                    };
 
-                if (aRecipe[i] == X.EMITTER) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Emitter_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Emitter_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Emitter_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Emitter_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Emitter_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Emitter_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Emitter_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Emitter_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case SENSOR -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Sensor_LV;
+                        case 2    -> ItemList.Sensor_MV;
+                        case 3    -> ItemList.Sensor_HV;
+                        case 4    -> ItemList.Sensor_EV;
+                        case 5    -> ItemList.Sensor_IV;
+                        case 6    -> ItemList.Sensor_LuV;
+                        case 7    -> ItemList.Sensor_ZPM;
+                        case 8    -> ItemList.Sensor_UV;
+                        case 9    -> ItemList.Sensor_UHV;
+                        case 10   -> ItemList.Sensor_UEV;
+                        case 11   -> ItemList.Sensor_UIV;
+                        case 12   -> ItemList.Sensor_UMV;
+                        case 13   -> ItemList.Sensor_UXV;
+                        default   -> ItemList.Sensor_MAX;
+                    };
 
-                if (aRecipe[i] == X.SENSOR) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Sensor_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Sensor_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Sensor_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Sensor_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Sensor_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Sensor_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Sensor_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Sensor_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case FIELD_GENERATOR -> switch (this.mTier) {
+                        case 0, 1 -> ItemList.Field_Generator_LV;
+                        case 2    -> ItemList.Field_Generator_MV;
+                        case 3    -> ItemList.Field_Generator_HV;
+                        case 4    -> ItemList.Field_Generator_EV;
+                        case 5    -> ItemList.Field_Generator_IV;
+                        case 6    -> ItemList.Field_Generator_LuV;
+                        case 7    -> ItemList.Field_Generator_ZPM;
+                        case 8    -> ItemList.Field_Generator_UV;
+                        case 9    -> ItemList.Field_Generator_UHV;
+                        case 10   -> ItemList.Field_Generator_UEV;
+                        case 11   -> ItemList.Field_Generator_UIV;
+                        case 12   -> ItemList.Field_Generator_UMV;
+                        case 13   -> ItemList.Field_Generator_UXV;
+                        default   -> ItemList.Field_Generator_MAX;
+                    };
 
-                if (aRecipe[i] == X.FIELD_GENERATOR) {
-                    switch (mTier) {
-                        case 0:
-                        case 1:
-                            aRecipe[i] = ItemList.Field_Generator_LV;
-                            break;
-                        case 2:
-                            aRecipe[i] = ItemList.Field_Generator_MV;
-                            break;
-                        case 3:
-                            aRecipe[i] = ItemList.Field_Generator_HV;
-                            break;
-                        case 4:
-                            aRecipe[i] = ItemList.Field_Generator_EV;
-                            break;
-                        case 5:
-                            aRecipe[i] = ItemList.Field_Generator_IV;
-                            break;
-                        case 6:
-                            aRecipe[i] = ItemList.Field_Generator_LuV;
-                            break;
-                        case 7:
-                            aRecipe[i] = ItemList.Field_Generator_ZPM;
-                            break;
-                        default:
-                            aRecipe[i] = ItemList.Field_Generator_UV;
-                            break;
-                    }
-                    continue;
-                }
+                    case ROTOR -> switch (this.mTier) {
+                        case 0, 1 -> OrePrefixes.rotor.get(Materials.Tin);
+                        case 2    -> OrePrefixes.rotor.get(Materials.Bronze);
+                        case 3    -> OrePrefixes.rotor.get(Materials.Steel);
+                        case 4    -> OrePrefixes.rotor.get(Materials.StainlessSteel);
+                        case 5    -> OrePrefixes.rotor.get(Materials.TungstenSteel);
+                        case 6    -> OrePrefixes.rotor.get(ExternalMaterials.getRhodiumPlatedPalladium());
+                        case 7    -> OrePrefixes.rotor.get(Materials.Iridium);
+                        default   -> OrePrefixes.rotor.get(Materials.Osmium);
+                    };
 
-                if (aRecipe[i] instanceof X)
-                    throw new IllegalArgumentException("MISSING TIER MAPPING FOR: " + aRecipe[i] + " AT TIER " + mTier);
+                    default -> throw new IllegalArgumentException("MISSING TIER MAPPING FOR: " + aRecipe[i] + " AT TIER " + this.mTier);
+                };
+                // spotless:on
             }
 
-            if (!GT_ModHandler.addCraftingRecipe(getStackForm(1), RecipeBits.DISMANTLEABLE | RecipeBits.BUFFERED | RecipeBits.NOT_REMOVABLE | RecipeBits.REVERSIBLE, aRecipe)) {
+            if (!GT_ModHandler.addCraftingRecipe(
+                getStackForm(1),
+                GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.BUFFERED
+                    | GT_ModHandler.RecipeBits.NOT_REMOVABLE
+                    | GT_ModHandler.RecipeBits.REVERSIBLE,
+                aRecipe)) {
                 throw new IllegalArgumentException("INVALID CRAFTING RECIPE FOR: " + getStackForm(1).getDisplayName());
             }
         }
     }
 
-    public GT_MetaTileEntity_BasicMachine_GT_Recipe(String aName, int aTier, String aDescription, GT_Recipe_Map aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity, int aAmperage, int aGUIParameterA, int aGUIParameterB, ITexture[][][] aTextures, String aGUIName, String aNEIName, String aSound, boolean aSharedTank, boolean aRequiresFluidForFiltering, int aSpecialEffect) {
-        super(aName, aTier, aAmperage, aDescription, aTextures, aInputSlots, aOutputSlots, aGUIName, aNEIName);
-        mSharedTank = aSharedTank;
-        mTankCapacity = aTankCapacity;
-        mSpecialEffect = aSpecialEffect;
-        mRequiresFluidForFiltering = aRequiresFluidForFiltering;
-        mRecipes = aRecipes;
-        mSound = aSound;
-        mGUIParameterA = (byte) aGUIParameterA;
-        mGUIParameterB = (byte) aGUIParameterB;
+    /**
+     * Registers machine with single-line description, auto-scaled fluid tank, and sound specified by SoundResource.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, boolean usesFluids,
+        SoundResource aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        this(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            aDescription,
+            aRecipes,
+            aInputSlots,
+            aOutputSlots,
+            usesFluids ? getCapacityForTier(aTier) : 0,
+            aSound.resourceLocation,
+            aSpecialEffect,
+            aOverlays,
+            aRecipe);
     }
 
-    public GT_MetaTileEntity_BasicMachine_GT_Recipe(String aName, int aTier, String[] aDescription, GT_Recipe_Map aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity, int aAmperage, int aGUIParameterA, int aGUIParameterB, ITexture[][][] aTextures, String aGUIName, String aNEIName, String aSound, boolean aSharedTank, boolean aRequiresFluidForFiltering, int aSpecialEffect) {
-        super(aName, aTier, aAmperage, aDescription, aTextures, aInputSlots, aOutputSlots, aGUIName, aNEIName);
-        mSharedTank = aSharedTank;
-        mTankCapacity = aTankCapacity;
-        mSpecialEffect = aSpecialEffect;
-        mRequiresFluidForFiltering = aRequiresFluidForFiltering;
-        mRecipes = aRecipes;
-        mSound = aSound;
-        mGUIParameterA = (byte) aGUIParameterA;
-        mGUIParameterB = (byte) aGUIParameterB;
+    /**
+     * Registers machine with multi-line descriptions, auto-scaled fluid tank, and sound specified by SoundResource.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String[] aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, boolean usesFluids,
+        SoundResource aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        this(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            aDescription,
+            aRecipes,
+            aInputSlots,
+            aOutputSlots,
+            usesFluids ? getCapacityForTier(aTier) : 0,
+            aSound.resourceLocation,
+            aSpecialEffect,
+            aOverlays,
+            aRecipe);
+    }
+
+    /**
+     * Registers machine with single-line description, specific tank capacity, and sound specified by SoundResource.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity,
+        SoundResource aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        this(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            aDescription,
+            aRecipes,
+            aInputSlots,
+            aOutputSlots,
+            aTankCapacity,
+            aSound.resourceLocation,
+            aSpecialEffect,
+            aOverlays,
+            aRecipe);
+    }
+
+    /**
+     * Registers machine with multi-line descriptions, specific tank capacity, and sound specified by SoundResource.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(int aID, String aName, String aNameRegional, int aTier,
+        String[] aDescription, RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity,
+        SoundResource aSound, SpecialEffects aSpecialEffect, String aOverlays, Object[] aRecipe) {
+        this(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            aDescription,
+            aRecipes,
+            aInputSlots,
+            aOutputSlots,
+            aTankCapacity,
+            aSound.resourceLocation,
+            aSpecialEffect,
+            aOverlays,
+            aRecipe);
+    }
+
+    /**
+     * For {@link #newMetaEntity}.
+     */
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe(String aName, int aTier, String[] aDescription,
+        RecipeMap<?> aRecipes, int aInputSlots, int aOutputSlots, int aTankCapacity, int aAmperage,
+        ITexture[][][] aTextures, ResourceLocation aSound, SpecialEffects aSpecialEffect) {
+        super(aName, aTier, aAmperage, aDescription, aTextures, aInputSlots, aOutputSlots);
+        this.mTankCapacity = aTankCapacity;
+        this.mSpecialEffect = aSpecialEffect;
+        this.mRecipes = aRecipes;
+        this.mSoundResourceLocation = aSound;
     }
 
     @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new GT_MetaTileEntity_BasicMachine_GT_Recipe(mName, mTier, mDescriptionArray, mRecipes, mInputSlotCount, mOutputItems == null ? 0 : mOutputItems.length, mTankCapacity, mAmperage, mGUIParameterA, mGUIParameterB, mTextures, mGUIName, mNEIName, mSound, mSharedTank, mRequiresFluidForFiltering, mSpecialEffect);
+        return new GT_MetaTileEntity_BasicMachine_GT_Recipe(
+            this.mName,
+            this.mTier,
+            this.mDescriptionArray,
+            this.mRecipes,
+            this.mInputSlotCount,
+            this.mOutputItems == null ? 0 : this.mOutputItems.length,
+            this.mTankCapacity,
+            this.mAmperage,
+            this.mTextures,
+            this.mSoundResourceLocation,
+            this.mSpecialEffect).setProgressBarTexture(this.progressBarTexture)
+                .setRecipeCatalystPriority(this.recipeCatalystPriority);
+    }
+
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe setProgressBarTexture(FallbackableUITexture progressBarTexture) {
+        this.progressBarTexture = progressBarTexture;
+        return this;
+    }
+
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe setProgressBarTextureName(String name, UITexture fallback) {
+        return setProgressBarTexture(GT_UITextures.fallbackableProgressbar(name, fallback));
+    }
+
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe setProgressBarTextureName(String name) {
+        return setProgressBarTextureName(name, GT_UITextures.PROGRESSBAR_ARROW);
     }
 
     @Override
-    public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_Container_BasicMachine(aPlayerInventory, aBaseMetaTileEntity);
-    }
-
-    @Override
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_BasicMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), mGUIName, GT_Utility.isStringValid(mNEIName) ? mNEIName : getRecipeList() != null ? getRecipeList().mUnlocalizedName : "", mGUIParameterA, mGUIParameterB);
-    }
-
-    @Override
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if (!super.allowPutStack(aBaseMetaTileEntity, aIndex, aSide, aStack)) return false;
-        if (mInventory[aIndex] != null) return true;
-        switch (mInputSlotCount) {
-            case 0:
+    protected boolean allowPutStackValidated(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
+        if (!super.allowPutStackValidated(aBaseMetaTileEntity, aIndex, side, aStack)) return false;
+        switch (this.mInputSlotCount) {
+            case 0 -> {
                 return false;
-            case 1:
-                return getFillableStack() == null ? !mRequiresFluidForFiltering && getRecipeList().containsInput(aStack) : null != getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[]{getFillableStack()}, getSpecialSlot(), new ItemStack[]{aStack});
-            case 2:
-                return (!mRequiresFluidForFiltering || getFillableStack() != null) && (((getInputAt(0) != null && getInputAt(1) != null) || (getInputAt(0) == null && getInputAt(1) == null ? getRecipeList().containsInput(aStack) : (getRecipeList().containsInput(aStack) && null != getRecipeList().findRecipe(getBaseMetaTileEntity(), mLastRecipe, true, V[mTier], new FluidStack[]{getFillableStack()}, getSpecialSlot(), aIndex == getInputSlot() ? new ItemStack[]{aStack, getInputAt(1)} : new ItemStack[]{getInputAt(0), aStack})))));
-            default:
-                return getRecipeList().containsInput(aStack);
+            }
+            case 1 -> {
+                if (this.getFillableStack() == null) return this.getRecipeMap()
+                    .containsInput(aStack);
+                else return this.getRecipeMap()
+                    .findRecipe(
+                        this.getBaseMetaTileEntity(),
+                        this.mLastRecipe,
+                        true,
+                        true,
+                        V[this.mTier],
+                        new FluidStack[] { this.getFillableStack() },
+                        this.getSpecialSlot(),
+                        appendSelectedCircuit(aStack))
+                    != null;
+            }
+            case 2 -> {
+                return ((this.getInputAt(0) != null && this.getInputAt(1) != null)
+                    || (this.getInputAt(0) == null && this.getInputAt(1) == null ? this.getRecipeMap()
+                        .containsInput(aStack)
+                        : (this.getRecipeMap()
+                            .containsInput(aStack)
+                            && this.getRecipeMap()
+                                .findRecipe(
+                                    this.getBaseMetaTileEntity(),
+                                    this.mLastRecipe,
+                                    true,
+                                    true,
+                                    V[this.mTier],
+                                    new FluidStack[] { this.getFillableStack() },
+                                    this.getSpecialSlot(),
+                                    aIndex == this.getInputSlot() ? appendSelectedCircuit(aStack, this.getInputAt(1))
+                                        : appendSelectedCircuit(this.getInputAt(0), aStack))
+                                != null)));
+            }
+            default -> {
+                int tID = this.getBaseMetaTileEntity()
+                    .getMetaTileID();
+                if (tID >= 211 && tID <= 218 || tID >= 1180 && tID <= 1187 || tID >= 10780 && tID <= 10786) { // assembler
+                    // lv-iv;
+                    // circuit
+                    // asseblers
+                    // lv -
+                    // uv;
+                    // assemblers
+                    // luv-uev
+                    if (GT_Utility.isStackValid(aStack)) for (int oreID : OreDictionary.getOreIDs(aStack)) {
+                        if (OreDictionary.getOreName(oreID)
+                            .startsWith("circuit")) return true;
+                    }
+                }
+                return this.getRecipeMap()
+                    .containsInput(aStack);
+            }
         }
+    }
+
+    @Override
+    public boolean allowSelectCircuit() {
+        return true;
     }
 
     @Override
     public void onPreTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPreTick(aBaseMetaTileEntity, aTick);
         if (aBaseMetaTileEntity.isClientSide() && aBaseMetaTileEntity.isActive()) {
-            switch (mSpecialEffect) {
-                case 0:
-                    break;
-                case 1:
-                    if (aBaseMetaTileEntity.getFrontFacing() != 1 && aBaseMetaTileEntity.getCoverIDAtSide((byte) 1) == 0 && !aBaseMetaTileEntity.getOpacityAtSide((byte) 1)) {
-                        Random tRandom = aBaseMetaTileEntity.getWorld().rand;
-                        aBaseMetaTileEntity.getWorld().spawnParticle("smoke", aBaseMetaTileEntity.getXCoord() + 0.8F - tRandom.nextFloat() * 0.6F, aBaseMetaTileEntity.getYCoord() + 0.9F + tRandom.nextFloat() * 0.2F, aBaseMetaTileEntity.getZCoord() + 0.8F - tRandom.nextFloat() * 0.6F, 0.0D, 0.0D, 0.0D);
+            // noinspection SwitchStatementWithTooFewBranches
+            switch (this.mSpecialEffect) {
+                case TOP_SMOKE -> {
+                    if (aBaseMetaTileEntity.getFrontFacing() != UP && aBaseMetaTileEntity.getCoverIDAtSide(UP) == 0
+                        && !aBaseMetaTileEntity.getOpacityAtSide(UP)) {
+
+                        new ParticleEventBuilder().setMotion(0.0D, 0.0D, 0.0D)
+                            .setIdentifier(ParticleFX.SMOKE)
+                            .setPosition(
+                                aBaseMetaTileEntity.getXCoord() + 0.8F - XSTR_INSTANCE.nextFloat() * 0.6F,
+                                aBaseMetaTileEntity.getYCoord() + 0.9F + XSTR_INSTANCE.nextFloat() * 0.2F,
+                                aBaseMetaTileEntity.getZCoord() + 0.8F - XSTR_INSTANCE.nextFloat() * 0.6F)
+                            .setWorld(aBaseMetaTileEntity.getWorld())
+                            .run();
                     }
-                    break;
+                }
+                default -> {}
             }
         }
     }
 
+    /**
+     * Handles {@link Block#randomDisplayTick} driven Special Effects
+     *
+     * @param aBaseMetaTileEntity The entity that will handle the {@see Block#randomDisplayTick}
+     */
+    @SideOnly(Side.CLIENT)
     @Override
-    public GT_Recipe_Map getRecipeList() {
-        return mRecipes;
+    public void onRandomDisplayTick(IGregTechTileEntity aBaseMetaTileEntity) {
+
+        // noinspection SwitchStatementWithTooFewBranches
+        switch (this.mSpecialEffect) {
+            case MAIN_RANDOM_SPARKS -> {
+                // Random Sparkles at main face
+                if (aBaseMetaTileEntity.isActive() && XSTR_INSTANCE.nextInt(3) == 0) {
+
+                    final ForgeDirection mainFacing = this.mMainFacing;
+
+                    if ((mainFacing.flag & (ForgeDirection.UP.flag | ForgeDirection.DOWN.flag)) == 0
+                        && aBaseMetaTileEntity.getCoverIDAtSide(mainFacing) == 0
+                        && !aBaseMetaTileEntity.getOpacityAtSide(mainFacing)) {
+
+                        final double oX = aBaseMetaTileEntity.getXCoord();
+                        final double oY = aBaseMetaTileEntity.getYCoord();
+                        final double oZ = aBaseMetaTileEntity.getZCoord();
+                        final double offset = 0.02D;
+                        final double horizontal = 0.5D + XSTR_INSTANCE.nextFloat() * 8D / 16D - 4D / 16D;
+
+                        final double x, y, z, mX, mZ;
+
+                        y = oY + XSTR_INSTANCE.nextFloat() * 10D / 16D + 5D / 16D;
+
+                        if (mainFacing == ForgeDirection.WEST) {
+                            x = oX - offset;
+                            mX = -.05D;
+                            z = oZ + horizontal;
+                            mZ = 0D;
+                        } else if (mainFacing == ForgeDirection.EAST) {
+                            x = oX + offset;
+                            mX = .05D;
+                            z = oZ + horizontal;
+                            mZ = 0D;
+                        } else if (mainFacing == ForgeDirection.NORTH) {
+                            x = oX + horizontal;
+                            mX = 0D;
+                            z = oZ - offset;
+                            mZ = -.05D;
+                        } else // if (frontFacing == ForgeDirection.SOUTH.ordinal())
+                        {
+                            x = oX + horizontal;
+                            mX = 0D;
+                            z = oZ + offset;
+                            mZ = .05D;
+                        }
+
+                        ParticleEventBuilder particleEventBuilder = (new ParticleEventBuilder()).setMotion(mX, 0, mZ)
+                            .setPosition(x, y, z)
+                            .setWorld(getBaseMetaTileEntity().getWorld());
+                        particleEventBuilder.setIdentifier(ParticleFX.LAVA)
+                            .run();
+                    }
+                }
+            }
+            default -> {}
+        }
+    }
+
+    @Override
+    public RecipeMap<?> getRecipeMap() {
+        return this.mRecipes;
+    }
+
+    @Override
+    public int getRecipeCatalystPriority() {
+        return recipeCatalystPriority;
+    }
+
+    public GT_MetaTileEntity_BasicMachine_GT_Recipe setRecipeCatalystPriority(int recipeCatalystPriority) {
+        this.recipeCatalystPriority = recipeCatalystPriority;
+        return this;
     }
 
     @Override
     public int getCapacity() {
-        return mTankCapacity;
+        return this.mTankCapacity;
     }
 
     @Override
     public void startSoundLoop(byte aIndex, double aX, double aY, double aZ) {
         super.startSoundLoop(aIndex, aX, aY, aZ);
-        if (aIndex == 1 && GT_Utility.isStringValid(mSound)) GT_Utility.doSoundAtClient(mSound, 100, 1.0F, aX, aY, aZ);
+        if (aIndex == 1 && this.mSoundResourceLocation != null
+            && GT_Utility.isStringValid(this.mSoundResourceLocation.getResourceDomain())
+            && GT_Utility.isStringValid(this.mSoundResourceLocation.getResourcePath()))
+            GT_Utility.doSoundAtClient(this.mSoundResourceLocation, 100, 1.0F, aX, aY, aZ);
     }
 
     @Override
     public void startProcess() {
-        if (GT_Utility.isStringValid(mSound)) sendLoopStart((byte) 1);
+        BaseMetaTileEntity myMetaTileEntity = ((BaseMetaTileEntity) this.getBaseMetaTileEntity());
+        // Added to throttle sounds. To reduce lag, this is on the server side so BlockUpdate packets aren't sent.
+        if (myMetaTileEntity.mTickTimer > (myMetaTileEntity.mLastSoundTick + ticksBetweenSounds)) {
+            if (this.mSoundResourceLocation != null
+                && GT_Utility.isStringValid(this.mSoundResourceLocation.getResourceDomain())
+                && GT_Utility.isStringValid(this.mSoundResourceLocation.getResourcePath()))
+                this.sendLoopStart((byte) 1);
+            // Does not have overflow protection, but they are longs.
+            myMetaTileEntity.mLastSoundTick = myMetaTileEntity.mTickTimer;
+        }
     }
 
     @Override
-    public FluidStack getFillableStack() {
-        return mSharedTank ? getDrainableStack() : super.getFillableStack();
+    protected BasicUIProperties getUIProperties() {
+        return super.getUIProperties().toBuilder()
+            .progressBarTexture(progressBarTexture)
+            .build();
     }
 
-    @Override
-    public FluidStack setFillableStack(FluidStack aFluid) {
-        return mSharedTank ? setDrainableStack(aFluid) : super.setFillableStack(aFluid);
+    public enum X {
+        PUMP,
+        WIRE,
+        WIRE4,
+        HULL,
+        PIPE,
+        GLASS,
+        PLATE,
+        MOTOR,
+        ROTOR,
+        SENSOR,
+        PISTON,
+        CIRCUIT,
+        EMITTER,
+        CONVEYOR,
+        ROBOT_ARM,
+        COIL_HEATING,
+        COIL_ELECTRIC,
+        STICK_MAGNETIC,
+        STICK_DISTILLATION,
+        BETTER_CIRCUIT,
+        FIELD_GENERATOR,
+        COIL_HEATING_DOUBLE,
+        STICK_ELECTROMAGNETIC
     }
 
-    @Override
-    protected boolean displaysOutputFluid() {
-        return !mSharedTank;
-    }
+    /**
+     * Special Effects
+     */
+    public enum SpecialEffects {
 
-    public static enum X {PUMP, WIRE, WIRE4, HULL, PIPE, GLASS, PLATE, MOTOR, ROTOR, SENSOR, PISTON, CIRCUIT, EMITTER, CONVEYOR, ROBOT_ARM, COIL_HEATING, COIL_ELECTRIC, STICK_MAGNETIC, STICK_DISTILLATION, BETTER_CIRCUIT, FIELD_GENERATOR, COIL_HEATING_DOUBLE, STICK_ELECTROMAGNETIC;}
+        NONE,
+        TOP_SMOKE,
+        MAIN_RANDOM_SPARKS;
+
+        static final SpecialEffects[] VALID_SPECIAL_EFFECTS = { NONE, TOP_SMOKE, MAIN_RANDOM_SPARKS };
+
+        static SpecialEffects fromId(int id) {
+            return id >= 0 && id < VALID_SPECIAL_EFFECTS.length ? VALID_SPECIAL_EFFECTS[id] : NONE;
+        }
+    }
 }

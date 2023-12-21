@@ -1,9 +1,5 @@
 package gregtech.common.tools;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Textures;
-import gregtech.api.interfaces.IIconContainer;
-import gregtech.api.items.GT_MetaGenerated_Tool;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -11,85 +7,111 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
-public class GT_Tool_WireCutter
-        extends GT_Tool {
+import gregtech.api.enums.SoundResource;
+import gregtech.api.enums.Textures;
+import gregtech.api.interfaces.IIconContainer;
+import gregtech.api.items.GT_MetaGenerated_Tool;
+import gregtech.api.util.GT_ToolHarvestHelper;
+
+public class GT_Tool_WireCutter extends GT_Tool {
+
+    @Override
     public int getToolDamagePerBlockBreak() {
         return 100;
     }
 
+    @Override
     public int getToolDamagePerDropConversion() {
         return 100;
     }
 
+    @Override
     public int getToolDamagePerContainerCraft() {
         return 400;
     }
 
+    @Override
     public int getToolDamagePerEntityAttack() {
         return 200;
     }
 
+    @Override
     public int getBaseQuality() {
         return 0;
     }
 
+    @Override
     public float getBaseDamage() {
         return 1.25F;
     }
 
+    @Override
     public float getSpeedMultiplier() {
         return 1.0F;
     }
 
+    @Override
     public float getMaxDurabilityMultiplier() {
         return 1.0F;
     }
 
+    @Override
     public String getCraftingSound() {
-        return null;
+        return SoundResource.IC2_TOOLS_INSULATION_CUTTERS.toString();
     }
 
+    @Override
     public String getEntityHitSound() {
         return null;
     }
 
-    public String getBreakingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
-    }
-
+    @Override
     public String getMiningSound() {
-        return null;
+        return SoundResource.IC2_TOOLS_INSULATION_CUTTERS.toString();
     }
 
+    @Override
     public boolean canBlock() {
         return false;
     }
 
+    @Override
     public boolean isCrowbar() {
         return false;
     }
 
+    @Override
     public boolean isMinableBlock(Block aBlock, byte aMetaData) {
-        String tTool = aBlock.getHarvestTool(aMetaData);
-        return (tTool != null) && (tTool.equals("cutter"));
+        return GT_ToolHarvestHelper.isAppropriateTool(aBlock, aMetaData, "cutter");
     }
 
+    @Override
     public ItemStack getBrokenItem(ItemStack aStack) {
         return null;
     }
 
+    @Override
     public IIconContainer getIcon(boolean aIsToolHead, ItemStack aStack) {
         return aIsToolHead ? Textures.ItemIcons.WIRE_CUTTER : null;
     }
 
+    @Override
     public short[] getRGBa(boolean aIsToolHead, ItemStack aStack) {
-        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa : GT_MetaGenerated_Tool.getSecondaryMaterial(aStack).mRGBa;
+        return aIsToolHead ? GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mRGBa
+            : GT_MetaGenerated_Tool.getSecondaryMaterial(aStack).mRGBa;
     }
 
-    public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {
-    }
+    @Override
+    public void onStatsAddedToTool(GT_MetaGenerated_Tool aItem, int aID) {}
 
+    @Override
     public IChatComponent getDeathMessage(EntityLivingBase aPlayer, EntityLivingBase aEntity) {
-        return new ChatComponentText(EnumChatFormatting.GREEN + aPlayer.getCommandSenderName() + EnumChatFormatting.WHITE + " has cut the Cable for the Life Support Machine of " + EnumChatFormatting.RED + aEntity.getCommandSenderName() + EnumChatFormatting.WHITE);
+        return new ChatComponentText(
+            EnumChatFormatting.GREEN + aPlayer.getCommandSenderName()
+                + EnumChatFormatting.WHITE
+                + " has cut the Cable for the Life Support Machine of "
+                + EnumChatFormatting.RED
+                + aEntity.getCommandSenderName()
+                + EnumChatFormatting.WHITE);
     }
 }

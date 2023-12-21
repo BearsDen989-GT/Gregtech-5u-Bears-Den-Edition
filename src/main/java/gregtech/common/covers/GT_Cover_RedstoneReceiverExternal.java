@@ -1,20 +1,49 @@
 package gregtech.common.covers;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.GregTech_API;
+import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.ICoverable;
 
-public class GT_Cover_RedstoneReceiverExternal
-        extends GT_Cover_RedstoneWirelessBase {
-    public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
-        aTileEntity.setOutputRedstoneSignal(aSide, GregTech_API.sWirelessRedstone.get(Integer.valueOf(aCoverVariable)) == null ? 0 : ((Byte) GregTech_API.sWirelessRedstone.get(Integer.valueOf(aCoverVariable))).byteValue());
+public class GT_Cover_RedstoneReceiverExternal extends GT_Cover_RedstoneWirelessBase {
+
+    /**
+     * @deprecated use {@link #GT_Cover_RedstoneReceiverExternal(ITexture coverTexture)} instead
+     */
+    @Deprecated
+    public GT_Cover_RedstoneReceiverExternal() {
+        this(null);
+    }
+
+    public GT_Cover_RedstoneReceiverExternal(ITexture coverTexture) {
+        super(coverTexture);
+    }
+
+    @Override
+    public boolean isRedstoneSensitive(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        long aTimer) {
+        return false;
+    }
+
+    @Override
+    public int doCoverThings(ForgeDirection side, byte aInputRedstone, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity, long aTimer) {
+        aTileEntity.setOutputRedstoneSignal(
+            side,
+            GregTech_API.sWirelessRedstone.get(aCoverVariable) == null ? 0
+                : GregTech_API.sWirelessRedstone.get(aCoverVariable));
         return aCoverVariable;
     }
 
-    public boolean manipulatesSidedRedstoneOutput(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    @Override
+    public boolean manipulatesSidedRedstoneOutput(ForgeDirection side, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity) {
         return true;
     }
 
-    public int getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    @Override
+    public int getTickRate(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return 1;
     }
 }

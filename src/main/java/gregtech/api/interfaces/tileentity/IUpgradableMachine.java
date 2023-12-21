@@ -1,10 +1,10 @@
 package gregtech.api.interfaces.tileentity;
 
-
 /**
  * To access my Machines a bit easier
  */
 public interface IUpgradableMachine extends IMachineProgress {
+
     /**
      * Accepts Upgrades. Some Machines have an Upgrade Limit.
      */

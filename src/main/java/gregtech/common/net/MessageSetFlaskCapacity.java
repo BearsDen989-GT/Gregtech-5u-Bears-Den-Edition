@@ -1,10 +1,5 @@
 package gregtech.common.net;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import gregtech.api.net.GT_Packet;
-import gregtech.common.items.GT_VolumetricFlask;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +7,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
-public final class MessageSetFlaskCapacity extends GT_Packet {
+import com.google.common.io.ByteArrayDataInput;
+
+import gregtech.api.net.GT_Packet_New;
+import gregtech.common.items.GT_VolumetricFlask;
+import io.netty.buffer.ByteBuf;
+
+@Deprecated
+public final class MessageSetFlaskCapacity extends GT_Packet_New {
+
     private int capacity, dimID, playerID;
 
     public MessageSetFlaskCapacity() {
@@ -39,16 +42,14 @@ public final class MessageSetFlaskCapacity extends GT_Packet {
     }
 
     @Override
-    public byte[] encode() {
-        ByteArrayDataOutput tOut = ByteStreams.newDataOutput(10);
-        tOut.writeInt(capacity);
-        tOut.writeInt(dimID);
-        tOut.writeInt(playerID);
-        return tOut.toByteArray();
+    public void encode(ByteBuf aOut) {
+        aOut.writeInt(capacity);
+        aOut.writeInt(dimID);
+        aOut.writeInt(playerID);
     }
 
     @Override
-    public GT_Packet decode(ByteArrayDataInput aData) {
+    public GT_Packet_New decode(ByteArrayDataInput aData) {
         return new MessageSetFlaskCapacity(aData.readInt(), aData.readInt(), aData.readInt());
     }
 
@@ -59,8 +60,7 @@ public final class MessageSetFlaskCapacity extends GT_Packet {
             ItemStack stack = ((EntityPlayer) w.getEntityByID(playerID)).getHeldItem();
             if ((stack != null) && (stack.stackSize > 0)) {
                 Item item = stack.getItem();
-                if ((item instanceof GT_VolumetricFlask))
-                    ((GT_VolumetricFlask) item).setCapacity(stack, capacity);
+                if ((item instanceof GT_VolumetricFlask)) ((GT_VolumetricFlask) item).setCapacity(stack, capacity);
             }
         }
     }

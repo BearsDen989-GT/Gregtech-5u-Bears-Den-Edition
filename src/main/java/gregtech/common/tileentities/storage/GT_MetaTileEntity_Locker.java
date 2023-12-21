@@ -1,24 +1,41 @@
 package gregtech.common.tileentities.storage;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Textures;
+import static gregtech.api.enums.Textures.BlockIcons.LOCKERS;
+import static gregtech.api.enums.Textures.BlockIcons.MACHINE_CASINGS;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAYS_ENERGY_IN;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_LOCKER;
+
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import gregtech.api.enums.SoundResource;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_TieredMachineBlock;
 import gregtech.api.objects.GT_ItemStack;
-import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_Utility;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 
-public class GT_MetaTileEntity_Locker
-        extends GT_MetaTileEntity_TieredMachineBlock {
+public class GT_MetaTileEntity_Locker extends GT_MetaTileEntity_TieredMachineBlock {
+
+    private static final String CHARGE_SLOT_WAILA_TAG = "charge_slot_";
     public byte mType = 0;
 
     public GT_MetaTileEntity_Locker(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 4, "Stores and recharges Armor", new ITexture[0]);
+        super(aID, aName, aNameRegional, aTier, 4, "Stores and recharges Armor");
     }
 
     public GT_MetaTileEntity_Locker(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -29,6 +46,7 @@ public class GT_MetaTileEntity_Locker
         super(aName, aTier, 4, aDescription, aTextures);
     }
 
+    @Override
     public String[] getDescription() {
         String[] desc = new String[mDescriptionArray.length + 1];
         System.arraycopy(mDescriptionArray, 0, desc, 0, mDescriptionArray.length);
@@ -36,116 +54,143 @@ public class GT_MetaTileEntity_Locker
         return desc;
     }
 
+    @Override
     public ITexture[][][] getTextureSet(ITexture[] aTextures) {
         ITexture[][][] rTextures = new ITexture[3][17][];
         for (byte i = -1; i < 16; i = (byte) (i + 1)) {
-            ITexture[] tmp0 = {Textures.BlockIcons.MACHINE_CASINGS[this.mTier][(i + 1)]};
+            ITexture[] tmp0 = { MACHINE_CASINGS[this.mTier][(i + 1)] };
             rTextures[0][(i + 1)] = tmp0;
-            ITexture[] tmp1 = {Textures.BlockIcons.MACHINE_CASINGS[this.mTier][(i + 1)], Textures.BlockIcons.OVERLAYS_ENERGY_IN[this.mTier]};
+            ITexture[] tmp1 = { MACHINE_CASINGS[this.mTier][(i + 1)], OVERLAYS_ENERGY_IN[this.mTier] };
             rTextures[1][(i + 1)] = tmp1;
-            ITexture[] tmp2 = {Textures.BlockIcons.MACHINE_CASINGS[this.mTier][(i + 1)], new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_LOCKER)};
+            ITexture[] tmp2 = { MACHINE_CASINGS[this.mTier][(i + 1)], TextureFactory.of(OVERLAY_LOCKER) };
             rTextures[2][(i + 1)] = tmp2;
         }
         return rTextures;
     }
 
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        if (aSide == aFacing) {
-            return new ITexture[]{this.mTextures[2][(aColorIndex + 1)][0], this.mTextures[2][(aColorIndex + 1)][1], Textures.BlockIcons.LOCKERS[java.lang.Math.abs(this.mType % Textures.BlockIcons.LOCKERS.length)]};
+    @Override
+    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, ForgeDirection side, ForgeDirection aFacing,
+        int colorIndex, boolean aActive, boolean redstoneLevel) {
+        if (side == aFacing) {
+            return new ITexture[] { this.mTextures[2][(colorIndex + 1)][0], this.mTextures[2][(colorIndex + 1)][1],
+                LOCKERS[Math.abs(this.mType % LOCKERS.length)] };
         }
-        return this.mTextures[0][(aColorIndex + 1)];
+        return this.mTextures[0][(colorIndex + 1)];
     }
 
+    @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_Locker(this.mName, this.mTier, this.mDescriptionArray, this.mTextures);
     }
 
+    @Override
     public boolean isSimpleMachine() {
         return false;
     }
 
+    @Override
     public boolean isElectric() {
         return true;
     }
 
+    @Override
     public boolean isValidSlot(int aIndex) {
         return true;
     }
 
-    public boolean isFacingValid(byte aFacing) {
-        return aFacing > 1;
+    @Override
+    public boolean isFacingValid(ForgeDirection facing) {
+        return (facing.flag & (ForgeDirection.UP.flag | ForgeDirection.DOWN.flag)) == 0;
     }
 
+    @Override
     public boolean isEnetInput() {
         return true;
     }
 
-    public boolean isInputFacing(byte aSide) {
-        return aSide == getBaseMetaTileEntity().getBackFacing();
+    @Override
+    public boolean isInputFacing(ForgeDirection side) {
+        return side == getBaseMetaTileEntity().getBackFacing();
     }
 
+    @Override
     public boolean isTeleporterCompatible() {
         return false;
     }
 
+    @Override
     public long maxEUStore() {
         return gregtech.api.enums.GT_Values.V[this.mTier] * maxAmperesIn();
     }
 
+    @Override
     public long maxEUInput() {
         return gregtech.api.enums.GT_Values.V[this.mTier];
     }
 
+    @Override
     public long maxAmperesIn() {
-        return this.mInventory.length * 2;
+        return this.mInventory.length * 2L;
     }
 
+    @Override
     public int rechargerSlotStartIndex() {
         return 0;
     }
 
+    @Override
     public int rechargerSlotCount() {
         return getBaseMetaTileEntity().isAllowedToWork() ? this.mInventory.length : 0;
     }
 
+    @Override
     public boolean isAccessAllowed(EntityPlayer aPlayer) {
         return true;
     }
 
+    @Override
     public void saveNBTData(NBTTagCompound aNBT) {
         aNBT.setByte("mType", this.mType);
     }
 
+    @Override
     public void loadNBTData(NBTTagCompound aNBT) {
         this.mType = aNBT.getByte("mType");
     }
 
+    @Override
     public void onValueUpdate(byte aValue) {
         this.mType = aValue;
     }
 
+    @Override
     public byte getUpdateData() {
         return this.mType;
     }
 
+    @Override
     public void doSound(byte aIndex, double aX, double aY, double aZ) {
         if (aIndex == 16) {
-            GT_Utility.doSoundAtClient((String) GregTech_API.sSoundList.get(Integer.valueOf(3)), 1, 1.0F);
+            GT_Utility.doSoundAtClient(SoundResource.RANDOM_CLICK, 1, 1.0F);
         }
     }
 
-    public void onScrewdriverRightClick(byte aSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
-        if (aSide == getBaseMetaTileEntity().getFrontFacing()) {
+    @Override
+    public void onScrewdriverRightClick(ForgeDirection side, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+        if (side == getBaseMetaTileEntity().getFrontFacing()) {
             this.mType = ((byte) (this.mType + 1));
         }
     }
 
-    public boolean allowCoverOnSide(byte aSide, GT_ItemStack aStack) {
-        return aSide != getBaseMetaTileEntity().getFrontFacing();
+    @Override
+    public boolean allowCoverOnSide(ForgeDirection side, GT_ItemStack aStack) {
+        return side != getBaseMetaTileEntity().getFrontFacing();
     }
 
-    public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer, byte aSide, float aX, float aY, float aZ) {
-        if ((aBaseMetaTileEntity.isServerSide()) && (aSide == aBaseMetaTileEntity.getFrontFacing())) {
+    @Override
+    public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer, ForgeDirection side,
+        float aX, float aY, float aZ) {
+        if ((aBaseMetaTileEntity.isServerSide()) && (side == aBaseMetaTileEntity.getFrontFacing())) {
             for (int i = 0; i < 4; i++) {
                 ItemStack tSwapStack = this.mInventory[i];
                 this.mInventory[i] = aPlayer.inventory.armorInventory[i];
@@ -157,11 +202,82 @@ public class GT_MetaTileEntity_Locker
         return true;
     }
 
-    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    @Override
+    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
     }
 
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    @Override
+    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
+    }
+
+    @Override
+    public void getWailaNBTData(EntityPlayerMP player, TileEntity tile, NBTTagCompound tag, World world, int x, int y,
+        int z) {
+        super.getWailaNBTData(player, tile, tag, world, x, y, z);
+        for (int i = 0; i < 4; i++) {
+            final ItemStack itemStack = this.mInventory[3 - i];
+
+            if (itemStack != null) {
+                tag.setTag(CHARGE_SLOT_WAILA_TAG + i, itemStack.writeToNBT(new NBTTagCompound()));
+            }
+        }
+    }
+
+    @Override
+    public void getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor,
+        IWailaConfigHandler config) {
+        super.getWailaBody(itemStack, currentTip, accessor, config);
+
+        final NBTTagCompound tag = accessor.getNBTData();
+
+        for (int i = 0; i < 4; i++) {
+            final String index = GT_Utility.formatNumbers(i + 1);
+
+            if (tag.hasKey(CHARGE_SLOT_WAILA_TAG + i)) {
+                final ItemStack slotItem = ItemStack
+                    .loadItemStackFromNBT(tag.getCompoundTag(CHARGE_SLOT_WAILA_TAG + i));
+                assert slotItem != null;
+
+                currentTip.add(
+                    GT_ModHandler.getElectricItemCharge(slotItem)
+                        .map(chargeInfo -> {
+                            final float ratio = (float) chargeInfo[0] / (float) chargeInfo[1];
+                            final EnumChatFormatting chargeFormat;
+
+                            if (ratio == 0L) {
+                                chargeFormat = EnumChatFormatting.GRAY;
+                            } else if (ratio < 0.25) {
+                                chargeFormat = EnumChatFormatting.RED;
+                            } else if (ratio < 0.5) {
+                                chargeFormat = EnumChatFormatting.GOLD;
+                            } else if (ratio < 0.75) {
+                                chargeFormat = EnumChatFormatting.YELLOW;
+                            } else if (ratio < 1L) {
+                                chargeFormat = EnumChatFormatting.GREEN;
+                            } else {
+                                chargeFormat = EnumChatFormatting.AQUA;
+                            }
+
+                            return StatCollector.translateToLocalFormatted(
+                                "gt.locker.waila_armor_slot_charged",
+                                index,
+                                slotItem.getDisplayName(),
+                                chargeFormat,
+                                GT_Utility.formatNumbers(ratio * 100));
+                        })
+                        .orElseGet(
+                            // Lazy initialization
+                            () -> StatCollector.translateToLocalFormatted(
+                                "gt.locker.waila_armor_slot_generic",
+                                index,
+                                slotItem.getDisplayName())));
+            } else {
+                currentTip.add(StatCollector.translateToLocalFormatted("gt.locker.waila_armor_slot_none", index));
+            }
+        }
     }
 }

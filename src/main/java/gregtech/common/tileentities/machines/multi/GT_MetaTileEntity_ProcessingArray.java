@@ -1,32 +1,114 @@
 package gregtech.common.tileentities.machines.multi;
 
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.lazy;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofChain;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.onElementPass;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static gregtech.api.enums.GT_HatchElement.Energy;
+import static gregtech.api.enums.GT_HatchElement.ExoticEnergy;
+import static gregtech.api.enums.GT_HatchElement.InputBus;
+import static gregtech.api.enums.GT_HatchElement.InputHatch;
+import static gregtech.api.enums.GT_HatchElement.Maintenance;
+import static gregtech.api.enums.GT_HatchElement.OutputBus;
+import static gregtech.api.enums.GT_HatchElement.OutputHatch;
+import static gregtech.api.enums.GT_Values.VN;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY_ACTIVE;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY_ACTIVE_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY_GLOW;
+import static gregtech.api.metatileentity.BaseTileEntity.TOOLTIP_DELAY;
+import static gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine.isValidForLowGravity;
+import static gregtech.api.util.GT_Utility.filterValidMTEs;
+
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.google.common.collect.ImmutableList;
+import com.gtnewhorizon.structurelib.alignment.constructable.ISurvivalConstructable;
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.StructureDefinition;
+import com.gtnewhorizons.modularui.api.drawable.IDrawable;
+import com.gtnewhorizons.modularui.api.screen.ModularWindow;
+import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
+import com.gtnewhorizons.modularui.common.widget.ButtonWidget;
+import com.gtnewhorizons.modularui.common.widget.FakeSyncWidget;
+
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
+import gregtech.api.enums.SoundResource;
 import gregtech.api.enums.Textures;
-import gregtech.api.gui.GT_GUIContainer_MultiMachine;
+import gregtech.api.enums.Textures.BlockIcons;
+import gregtech.api.gui.modularui.GT_UITextures;
+import gregtech.api.interfaces.IHatchElement;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_MultiBlockBase;
-import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.logic.ProcessingLogic;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_ExtendedPowerMultiBlockBase;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Input;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_InputBus;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_TieredMachineBlock;
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.recipe.check.CheckRecipeResult;
+import gregtech.api.recipe.check.CheckRecipeResultRegistry;
+import gregtech.api.recipe.check.SimpleCheckRecipeResult;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_ExoticEnergyInputHelper;
+import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
+import gregtech.api.util.GT_ProcessingArray_Manager;
 import gregtech.api.util.GT_Recipe;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-import org.apache.commons.lang3.ArrayUtils;
+import gregtech.api.util.GT_StructureUtility;
+import gregtech.api.util.GT_Utility;
+import gregtech.common.blocks.GT_Item_Machines;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+@Deprecated
+public class GT_MetaTileEntity_ProcessingArray extends
+    GT_MetaTileEntity_ExtendedPowerMultiBlockBase<GT_MetaTileEntity_ProcessingArray> implements ISurvivalConstructable {
 
-import static gregtech.api.enums.GT_Values.V;
-import static gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine.isValidForLowGravity;
+    private static final String STRUCTURE_PIECE_MAIN = "main";
+    private static final IStructureDefinition<GT_MetaTileEntity_ProcessingArray> STRUCTURE_DEFINITION = StructureDefinition
+        .<GT_MetaTileEntity_ProcessingArray>builder()
+        .addShape(
+            STRUCTURE_PIECE_MAIN,
+            transpose(new String[][] { { "hhh", "hhh", "hhh" }, { "h~h", "h-h", "hhh" }, { "hhh", "hhh", "hhh" }, }))
+        .addElement(
+            'h',
+            ofChain(
+                lazy(
+                    t -> GT_StructureUtility.<GT_MetaTileEntity_ProcessingArray>buildHatchAdder()
+                        .atLeastList(t.getAllowedHatches())
+                        .casingIndex(48)
+                        .dot(1)
+                        .build()),
+                onElementPass(t -> t.mCasingAmount++, ofBlock(GregTech_API.sBlockCasings4, 0))))
+        .build();
 
-public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBlockBase {
+    private int mCasingAmount = 0;
 
-    GT_Recipe mLastRecipe;
+    private RecipeMap<?> mLastRecipeMap;
+    private ItemStack lastControllerStack;
+    private int tTier = 0;
+    private int mMult = 0;
+    private boolean downtierUEV = true;
 
     public GT_MetaTileEntity_ProcessingArray(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
@@ -36,309 +118,425 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
         super(aName);
     }
 
+    @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_ProcessingArray(this.mName);
     }
 
-    public String[] getDescription() {
-        return new String[]{
-                "Controller Block for the Processing Array",
-                "Runs supplied machines as if placed in the world",
-                "Size(WxHxD): 3x3x3 (Hollow), Controller (Front centered)",
-                "1x Input Hatch/Bus (Any casing)",
-                "1x Output Hatch/Bus (Any casing)",
-                "1x Maintenance Hatch (Any casing)",
-                "1x Energy Hatch (Any casing)",
-                "Robust Tungstensteel Machine Casings for the rest (16 at least!)",
-                "Place up to 16 Single Block GT Machines into the Controller Inventory"};
+    @Override
+    protected GT_Multiblock_Tooltip_Builder createTooltip() {
+        final GT_Multiblock_Tooltip_Builder tt = new GT_Multiblock_Tooltip_Builder();
+        tt.addMachineType("Processing Array")
+            .addInfo("Runs supplied machines as if placed in the world")
+            .addInfo("Place up to 64 singleblock GT machines into the controller")
+            .addInfo("Note that you still need to supply power to them all")
+            .addInfo("Use a screwdriver to enable separate input busses")
+            .addInfo("Use a wire cutter to disable UEV+ downtiering")
+            .addInfo("Doesn't work on certain machines, deal with it")
+            .addInfo("Use it if you hate GT++, or want even more speed later on")
+            .addInfo(EnumChatFormatting.RED + "DEPRECATED!!! WILL BE REMOVED IN LATER VERSIONS")
+            .addSeparator()
+            .beginStructureBlock(3, 3, 3, true)
+            .addController("Front center")
+            .addCasingInfoRange("Robust Tungstensteel Machine Casing", 14, 24, false)
+            .addEnergyHatch("Any casing", 1)
+            .addMaintenanceHatch("Any casing", 1)
+            .addInputBus("Any casing", 1)
+            .addInputHatch("Any casing", 1)
+            .addOutputBus("Any casing", 1)
+            .addOutputHatch("Any casing", 1)
+            .toolTipFinisher("Gregtech");
+        return tt;
     }
 
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[48], new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY_ACTIVE : Textures.BlockIcons.OVERLAY_FRONT_PROCESSING_ARRAY)};
+    @Override
+    public boolean addToMachineList(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        return super.addToMachineList(aTileEntity, aBaseCasingIndex)
+            || addExoticEnergyInputToMachineList(aTileEntity, aBaseCasingIndex);
+    }
+
+    @Override
+    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, ForgeDirection side, ForgeDirection aFacing,
+        int colorIndex, boolean aActive, boolean redstoneLevel) {
+        if (side == aFacing) {
+            if (aActive) return new ITexture[] { BlockIcons.casingTexturePages[0][48], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_PROCESSING_ARRAY_ACTIVE)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_PROCESSING_ARRAY_ACTIVE_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
+            return new ITexture[] { BlockIcons.casingTexturePages[0][48], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_PROCESSING_ARRAY)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_PROCESSING_ARRAY_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
         }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[48]};
+        return new ITexture[] { Textures.BlockIcons.casingTexturePages[0][48] };
     }
 
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "ProcessingArray.png");
-    }
-
-    public GT_Recipe.GT_Recipe_Map getRecipeMap() {
-        if (mInventory[1] == null) return null;
-        String tmp = mInventory[1].getUnlocalizedName().replaceAll("gt\\.blockmachines\\.basicmachine\\.", "");
-        if (tmp.startsWith("centrifuge")) {
-            return GT_Recipe.GT_Recipe_Map.sCentrifugeRecipes;
-        } else if (tmp.startsWith("electrolyzer")) {
-            return GT_Recipe.GT_Recipe_Map.sElectrolyzerRecipes;
-        } else if (tmp.startsWith("alloysmelter")) {
-            return GT_Recipe.GT_Recipe_Map.sAlloySmelterRecipes;
-        } else if (tmp.startsWith("assembler")) {
-            return GT_Recipe.GT_Recipe_Map.sAssemblerRecipes;
-        } else if (tmp.startsWith("compressor")) {
-            return GT_Recipe.GT_Recipe_Map.sCompressorRecipes;
-        } else if (tmp.startsWith("extractor")) {
-            return GT_Recipe.GT_Recipe_Map.sExtractorRecipes;
-        } else if (tmp.startsWith("macerator")) {
-            return GT_Recipe.GT_Recipe_Map.sMaceratorRecipes;
-        } else if (tmp.startsWith("recycler")) {
-            return GT_Recipe.GT_Recipe_Map.sRecyclerRecipes;
-        } else if (tmp.startsWith("thermalcentrifuge")) {
-            return GT_Recipe.GT_Recipe_Map.sThermalCentrifugeRecipes;
-        } else if (tmp.startsWith("orewasher")) {
-            return GT_Recipe.GT_Recipe_Map.sOreWasherRecipes;
-        } else if (tmp.startsWith("chemicalreactor")) {
-            return GT_Recipe.GT_Recipe_Map.sChemicalRecipes;
-        } else if (tmp.startsWith("chemicalbath")) {
-            return GT_Recipe.GT_Recipe_Map.sChemicalBathRecipes;
-        } else if (tmp.startsWith("electromagneticseparator")) {
-            return GT_Recipe.GT_Recipe_Map.sElectroMagneticSeparatorRecipes;
-        } else if (tmp.startsWith("autoclave")) {
-            return GT_Recipe.GT_Recipe_Map.sAutoclaveRecipes;
-        } else if (tmp.startsWith("mixer")) {
-            return GT_Recipe.GT_Recipe_Map.sMixerRecipes;
-        } else if (tmp.startsWith("hammer")) {
-            return GT_Recipe.GT_Recipe_Map.sHammerRecipes;
-        } else if (tmp.startsWith("sifter")) {
-            return GT_Recipe.GT_Recipe_Map.sSifterRecipes;
-        } else if (tmp.startsWith("extruder")) {
-            return GT_Recipe.GT_Recipe_Map.sExtruderRecipes;
-        } else if (tmp.startsWith("laserengraver")) {
-            return GT_Recipe.GT_Recipe_Map.sLaserEngraverRecipes;
-        } else if (tmp.startsWith("bender")) {
-            return GT_Recipe.GT_Recipe_Map.sBenderRecipes;
-        } else if (tmp.startsWith("wiremill")) {
-            return GT_Recipe.GT_Recipe_Map.sWiremillRecipes;
-        } else if (tmp.startsWith("arcfurnace")) {
-            return GT_Recipe.GT_Recipe_Map.sArcFurnaceRecipes;
-        } else if (tmp.startsWith("brewery")) {
-            return GT_Recipe.GT_Recipe_Map.sBrewingRecipes;
-        } else if (tmp.startsWith("canner")) {
-            return GT_Recipe.GT_Recipe_Map.sCannerRecipes;
-        } else if (tmp.startsWith("cutter")) {
-            return GT_Recipe.GT_Recipe_Map.sCutterRecipes;
-        } else if (tmp.startsWith("fermenter")) {
-            return GT_Recipe.GT_Recipe_Map.sFermentingRecipes;
-        } else if (tmp.startsWith("fluidextractor")) {
-            return GT_Recipe.GT_Recipe_Map.sFluidExtractionRecipes;
-        } else if (tmp.startsWith("fluidsolidifier")) {
-            return GT_Recipe.GT_Recipe_Map.sFluidSolidficationRecipes;
-        } else if (tmp.startsWith("lathe")) {
-            return GT_Recipe.GT_Recipe_Map.sLatheRecipes;
-        } else if (tmp.startsWith("boxinator")) {
-            return GT_Recipe.GT_Recipe_Map.sBoxinatorRecipes;
-        } else if (tmp.startsWith("unboxinator")) {
-            return GT_Recipe.GT_Recipe_Map.sUnboxinatorRecipes;
-        } else if (tmp.startsWith("polarizer")) {
-            return GT_Recipe.GT_Recipe_Map.sPolarizerRecipes;
-        } else if(tmp.startsWith("press")){
-            return GT_Recipe.GT_Recipe_Map.sPressRecipes;
-        } else if (tmp.startsWith("roaster")) {
-			return GT_Recipe.GT_Recipe_Map.sRoasterRecipes;
-		} else if (tmp.startsWith("plasmaarcfurnace")) {
-            return GT_Recipe.GT_Recipe_Map.sPlasmaArcFurnaceRecipes;
-        } else if (tmp.startsWith("printer")) {
-            return GT_Recipe.GT_Recipe_Map.sPrinterRecipes;
-        } else if (tmp.startsWith("press")) {
-            return GT_Recipe.GT_Recipe_Map.sPressRecipes;
-        } else if (tmp.startsWith("fluidcanner")) {
-            return GT_Recipe.GT_Recipe_Map.sFluidCannerRecipes;
-        } else if (tmp.startsWith("fluidheater")) {
-            return GT_Recipe.GT_Recipe_Map.sFluidHeaterRecipes;
-        } else if (tmp.startsWith("distillery")) {
-            return GT_Recipe.GT_Recipe_Map.sDistilleryRecipes;
-        } else if (tmp.startsWith("slicer")) {
-            return GT_Recipe.GT_Recipe_Map.sSlicerRecipes;
-        } else if (tmp.startsWith("amplifier")) {
-            return GT_Recipe.GT_Recipe_Map.sAmplifiers;
-        } else if (tmp.startsWith("circuitassembler")) {
-            return GT_Recipe.GT_Recipe_Map.sCircuitAssemblerRecipes;
+    private RecipeMap<?> fetchRecipeMap() {
+        if (isCorrectMachinePart(getControllerSlot())) {
+            // Gets the recipe map for the given machine through its unlocalized name
+            return GT_ProcessingArray_Manager
+                .giveRecipeMap(GT_ProcessingArray_Manager.getMachineName(getControllerSlot()));
         }
         return null;
     }
 
+    @Override
+    public RecipeMap<?> getRecipeMap() {
+        return mLastRecipeMap;
+    }
+
+    @Override
     public boolean isCorrectMachinePart(ItemStack aStack) {
-        if (aStack != null && aStack.getUnlocalizedName().startsWith("gt.blockmachines.basicmachine.")) {
-            return true;
+        return aStack != null && aStack.getUnlocalizedName()
+            .startsWith("gt.blockmachines.");
+    }
+
+    @Override
+    protected void sendStartMultiBlockSoundLoop() {
+        SoundResource sound = GT_ProcessingArray_Manager
+            .getSoundResource(GT_ProcessingArray_Manager.getMachineName(getControllerSlot()));
+        if (sound != null) {
+            sendLoopStart((byte) sound.id);
         }
+    }
+
+    @Override
+    public void startSoundLoop(byte aIndex, double aX, double aY, double aZ) {
+        super.startSoundLoop(aIndex, aX, aY, aZ);
+        SoundResource sound = SoundResource.get(aIndex < 0 ? aIndex + 256 : 0);
+        if (sound != null) {
+            GT_Utility.doSoundAtClient(sound, getTimeBetweenProcessSounds(), 1.0F, aX, aY, aZ);
+        }
+    }
+
+    @Override
+    @NotNull
+    public CheckRecipeResult checkProcessing() {
+        if (!GT_Utility.areStacksEqual(lastControllerStack, getControllerSlot())) {
+            // controller slot has changed
+            lastControllerStack = getControllerSlot();
+            mLastRecipeMap = fetchRecipeMap();
+            setTierAndMult();
+        }
+        if (mLastRecipeMap == null) return SimpleCheckRecipeResult.ofFailure("no_machine");
+        if (mLockedToSingleRecipe && mSingleRecipeCheck != null) {
+            if (mSingleRecipeCheck.getRecipeMap() != mLastRecipeMap) {
+                return SimpleCheckRecipeResult.ofFailure("machine_mismatch");
+            }
+        }
+
+        return super.checkProcessing();
+    }
+
+    @Override
+    protected ProcessingLogic createProcessingLogic() {
+        return new ProcessingLogic() {
+
+            @Nonnull
+            @Override
+            protected CheckRecipeResult validateRecipe(@Nonnull GT_Recipe recipe) {
+                if (GT_Mod.gregtechproxy.mLowGravProcessing && recipe.mSpecialValue == -100
+                    && !isValidForLowGravity(recipe, getBaseMetaTileEntity().getWorld().provider.dimensionId)) {
+                    return SimpleCheckRecipeResult.ofFailure("high_gravity");
+                }
+                return CheckRecipeResultRegistry.SUCCESSFUL;
+            }
+        }.setMaxParallelSupplier(this::getMaxParallel);
+    }
+
+    @Override
+    protected boolean canUseControllerSlotForRecipe() {
         return false;
     }
 
-    public boolean isFacingValid(byte aFacing) {
-        return aFacing > 1;
+    @Override
+    protected void setProcessingLogicPower(ProcessingLogic logic) {
+        logic.setAvailableVoltage(GT_Values.V[tTier] * (mLastRecipeMap != null ? mLastRecipeMap.getAmperage() : 1));
+        logic.setAvailableAmperage(getMaxParallel());
+        logic.setAmperageOC(false);
     }
 
-    public String mMachine = "";
-    public boolean checkRecipe(ItemStack aStack) {
-        if (!isCorrectMachinePart(mInventory[1])) {
-            return false;
+    private void setTierAndMult() {
+        IMetaTileEntity aMachine = GT_Item_Machines.getMetaTileEntity(getControllerSlot());
+        if (aMachine instanceof GT_MetaTileEntity_TieredMachineBlock) {
+            tTier = ((GT_MetaTileEntity_TieredMachineBlock) aMachine).mTier;
+        } else {
+            tTier = 0;
         }
-        GT_Recipe.GT_Recipe_Map map = getRecipeMap();
-        if (map == null) return false;
-        ArrayList<ItemStack> tInputList = getStoredInputs();
-        int tTier = 0;
-        if (mInventory[1].getUnlocalizedName().endsWith("1")) {
-            tTier = 1;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("2")) {
-            tTier = 2;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("3")) {
-            tTier = 3;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("4")) {
-            tTier = 4;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("5")) {
-            tTier = 5;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("6")) {
-            tTier = 6;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("7")) {
-            tTier = 7;
-        }else if (mInventory[1].getUnlocalizedName().endsWith("8")) {
-            tTier = 8;
+        mMult = 0;
+        if (downtierUEV && tTier > 9) {
+            tTier--; // Lowers down the tier by 1 to allow for bigger parallel
+            mMult = 2; // Multiplies Parallels by 4x, keeping the energy cost
         }
-        
-        if(!mMachine.equals(mInventory[1].getUnlocalizedName()))mLastRecipe=null;
-        mMachine = mInventory[1].getUnlocalizedName();
-        ItemStack[] tInputs = (ItemStack[]) tInputList.toArray(new ItemStack[tInputList.size()]);
+    }
 
-        ArrayList<FluidStack> tFluidList = getStoredFluids();
-        
-        FluidStack[] tFluids = (FluidStack[]) tFluidList.toArray(new FluidStack[tFluidList.size()]); 
-        if (tInputList.size() > 0 || tFluids.length > 0) {
-            GT_Recipe tRecipe = map.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, gregtech.api.enums.GT_Values.V[tTier], tFluids, tInputs);
-            if (tRecipe != null) {
-                if (GT_Mod.gregtechproxy.mLowGravProcessing && tRecipe.mSpecialValue == -100 &&
-                        !isValidForLowGravity(tRecipe,getBaseMetaTileEntity().getWorld().provider.dimensionId))
-                    return false;
+    private int getMaxParallel() {
+        if (getControllerSlot() == null) {
+            return 0;
+        }
+        return getControllerSlot().stackSize << mMult;
+    }
 
-                mLastRecipe = tRecipe;
-                this.mEUt = 0;
-                this.mOutputItems = null;
-                this.mOutputFluids = null;
-                int machines = Math.min(16, mInventory[1].stackSize);
-                int i = 0;
-                for (; i < machines; i++) {
-                    if (!tRecipe.isRecipeInputEqual(true, tFluids, tInputs)) {
-                        if (i == 0) {
-                            return false;
-                        }
-                        break;
-                    }
-                }
-                this.mMaxProgresstime = tRecipe.mDuration;
-                this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
-                this.mEfficiencyIncrease = 10000;
-                if (tRecipe.mEUt <= 16) {
-                    this.mEUt = (tRecipe.mEUt * (1 << tTier - 1) * (1 << tTier - 1));
-                    this.mMaxProgresstime = (tRecipe.mDuration / (1 << tTier - 1));
-                } else {
-                    this.mEUt = tRecipe.mEUt;
-                    this.mMaxProgresstime = tRecipe.mDuration;
-                    while (this.mEUt <= V[tTier - 1] * map.mAmperage) {
-                        this.mEUt *= 4;
-                        this.mMaxProgresstime /= 2;
-                    }
-                }
-                this.mEUt *= i;
-                if (this.mEUt > 0) {
-                    this.mEUt = (-this.mEUt);
-                }
-                ItemStack[] tOut = new ItemStack[tRecipe.mOutputs.length];
-                for (int h = 0; h < tRecipe.mOutputs.length; h++) {
-                	if(tRecipe.getOutput(h)!=null){
-                    tOut[h] = tRecipe.getOutput(h).copy();
-                    tOut[h].stackSize = 0;}
-                }
-                FluidStack tFOut = null;
-                if (tRecipe.getFluidOutput(0) != null) tFOut = tRecipe.getFluidOutput(0).copy();
-                for (int f = 0; f < tOut.length; f++) {
-                    if (tRecipe.mOutputs[f] != null && tOut[f] != null) {
-                        for (int g = 0; g < i; g++) {
-                            if (getBaseMetaTileEntity().getRandomNumber(10000) < tRecipe.getOutputChance(f))
-                                tOut[f].stackSize += tRecipe.mOutputs[f].stackSize;
-                        }
-                    }
-                }
-                if (tFOut != null) {
-                    int tSize = tFOut.amount;
-                    tFOut.amount = tSize * i;
-                }
-                tOut = clean(tOut);
-                this.mMaxProgresstime = Math.max(1, this.mMaxProgresstime);
-                List<ItemStack> overStacks = new ArrayList<ItemStack>();
-                for (int f = 0; f < tOut.length; f++) {
-                    while (tOut[f].getMaxStackSize() < tOut[f].stackSize) {
-                    	if(tOut[f]!=null){
-                        ItemStack tmp = tOut[f].copy();
-                        tmp.stackSize = tmp.getMaxStackSize();
-                        tOut[f].stackSize = tOut[f].stackSize - tOut[f].getMaxStackSize();
-                        overStacks.add(tmp);}
-                    }
-                }
-                if (overStacks.size() > 0) {
-                    ItemStack[] tmp = new ItemStack[overStacks.size()];
-                    tmp = overStacks.toArray(tmp);
-                    tOut = ArrayUtils.addAll(tOut, tmp);
-                }
-                List<ItemStack> tSList = new ArrayList<ItemStack>();
-                for (ItemStack tS : tOut) {
-                    if (tS.stackSize > 0) tSList.add(tS);
-                }
-                tOut = tSList.toArray(new ItemStack[tSList.size()]);
-                this.mOutputItems = tOut;
-                this.mOutputFluids = new FluidStack[]{tFOut};
-                updateSlots();
-                return true;
+    @Override
+    public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
+        super.onPostTick(aBaseMetaTileEntity, aTick);
+        if (mMachine && aTick % 20 == 0) {
+            for (GT_MetaTileEntity_Hatch_InputBus tInputBus : mInputBusses) {
+                tInputBus.mRecipeMap = mLastRecipeMap;
+            }
+            for (GT_MetaTileEntity_Hatch_Input tInputHatch : mInputHatches) {
+                tInputHatch.mRecipeMap = mLastRecipeMap;
             }
         }
-        return false;
-    }
-    
-    public static ItemStack[] clean(final ItemStack[] v) {
-        List<ItemStack> list = new ArrayList<ItemStack>(Arrays.asList(v));
-        list.removeAll(Collections.singleton(null));
-        return list.toArray(new ItemStack[list.size()]);
     }
 
-    public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
-        int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
-        int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
-        if (!aBaseMetaTileEntity.getAirOffset(xDir, 0, zDir)) {
-            return false;
+    @Override
+    public IStructureDefinition<GT_MetaTileEntity_ProcessingArray> getStructureDefinition() {
+        return STRUCTURE_DEFINITION;
+    }
+
+    @Override
+    public void construct(ItemStack aStack, boolean aHintsOnly) {
+        buildPiece(STRUCTURE_PIECE_MAIN, aStack, aHintsOnly, 1, 1, 0);
+    }
+
+    @Override
+    public int survivalConstruct(ItemStack stackSize, int elementBudget, ISurvivalBuildEnvironment env) {
+        if (mMachine) return -1;
+        return survivialBuildPiece(STRUCTURE_PIECE_MAIN, stackSize, 1, 1, 0, elementBudget, env, false, true);
+    }
+
+    private boolean checkHatches() {
+        return mMaintenanceHatches.size() == 1;
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound aNBT) {
+        super.saveNBTData(aNBT);
+        aNBT.setBoolean("downtierUEV", downtierUEV);
+    }
+
+    @Override
+    public void loadNBTData(final NBTTagCompound aNBT) {
+        super.loadNBTData(aNBT);
+        if (aNBT.hasKey("mSeparate")) {
+            // backward compatibility
+            inputSeparation = aNBT.getBoolean("mSeparate");
         }
-        int tAmount = 0;
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                for (int h = -1; h < 2; h++) {
-                    if ((h != 0) || (((xDir + i != 0) || (zDir + j != 0)) && ((i != 0) || (j != 0)))) {
-                        IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, h, zDir + j);
-                        if ((!addMaintenanceToMachineList(tTileEntity, 48)) && (!addInputToMachineList(tTileEntity, 48)) && (!addOutputToMachineList(tTileEntity, 48)) && (!addEnergyInputToMachineList(tTileEntity, 48))) {
-                            if (aBaseMetaTileEntity.getBlockOffset(xDir + i, h, zDir + j) != GregTech_API.sBlockCasings4) {
-                                return false;
-                            }
-                            if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, h, zDir + j) != 0) {
-                                return false;
-                            }
-                            tAmount++;
-                        }
-                    }
-                }
+        if (aNBT.hasKey("mUseMultiparallelMode")) {
+            // backward compatibility
+            batchMode = aNBT.getBoolean("mUseMultiparallelMode");
+        }
+        downtierUEV = aNBT.getBoolean("downtierUEV");
+    }
+
+    @Override
+    public final void onScrewdriverRightClick(ForgeDirection side, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+        if (aPlayer.isSneaking()) {
+            // Lock to single recipe
+            super.onScrewdriverRightClick(side, aPlayer, aX, aY, aZ);
+        } else {
+            inputSeparation = !inputSeparation;
+            GT_Utility.sendChatToPlayer(
+                aPlayer,
+                StatCollector.translateToLocal("GT5U.machines.separatebus") + " " + inputSeparation);
+        }
+    }
+
+    @Override
+    public boolean onWireCutterRightClick(ForgeDirection side, ForgeDirection wrenchingSide, EntityPlayer aPlayer,
+        float aX, float aY, float aZ) {
+        if (aPlayer.isSneaking()) {
+            batchMode = !batchMode;
+            if (batchMode) {
+                GT_Utility.sendChatToPlayer(aPlayer, "Batch recipes");
+            } else {
+                GT_Utility.sendChatToPlayer(aPlayer, "Don't batch recipes");
             }
+        } else {
+            downtierUEV = !downtierUEV;
+            GT_Utility.sendChatToPlayer(aPlayer, "Treat UEV+ machines as multiple UHV " + downtierUEV);
         }
-        return tAmount >= 16;
+        return true;
     }
 
+    @Override
     public int getMaxEfficiency(ItemStack aStack) {
         return 10000;
     }
 
-    public int getPollutionPerTick(ItemStack aStack) {
-        return 0;
-    }
-
+    @Override
     public int getDamageToComponent(ItemStack aStack) {
         return 0;
     }
 
+    @Override
     public boolean explodesOnComponentBreak(ItemStack aStack) {
         return false;
+    }
+
+    private List<IHatchElement<? super GT_MetaTileEntity_ProcessingArray>> getAllowedHatches() {
+        return ImmutableList.of(InputHatch, OutputHatch, InputBus, OutputBus, Maintenance, Energy, ExoticEnergy);
+    }
+
+    @Override
+    public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
+        mExoticEnergyHatches.clear();
+        mCasingAmount = 0;
+        return checkPiece(STRUCTURE_PIECE_MAIN, 1, 1, 0) && mCasingAmount >= 14 && checkHatches();
+    }
+
+    @Override
+    public String[] getInfoData() {
+        long storedEnergy = 0;
+        long maxEnergy = 0;
+        for (GT_MetaTileEntity_Hatch tHatch : filterValidMTEs(mExoticEnergyHatches)) {
+            storedEnergy += tHatch.getBaseMetaTileEntity()
+                .getStoredEU();
+            maxEnergy += tHatch.getBaseMetaTileEntity()
+                .getEUCapacity();
+        }
+
+        return new String[] {
+            StatCollector.translateToLocal("GT5U.multiblock.Progress") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(mProgresstime / 20)
+                + EnumChatFormatting.RESET
+                + " s / "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(mMaxProgresstime / 20)
+                + EnumChatFormatting.RESET
+                + " s",
+            StatCollector.translateToLocal("GT5U.multiblock.energy") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(storedEnergy)
+                + EnumChatFormatting.RESET
+                + " EU / "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(maxEnergy)
+                + EnumChatFormatting.RESET
+                + " EU",
+            StatCollector.translateToLocal("GT5U.multiblock.usage") + ": "
+                + EnumChatFormatting.RED
+                + GT_Utility.formatNumbers(-lEUt)
+                + EnumChatFormatting.RESET
+                + " EU/t",
+            StatCollector.translateToLocal("GT5U.multiblock.mei") + ": "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(
+                    GT_ExoticEnergyInputHelper.getMaxInputVoltageMulti(getExoticAndNormalEnergyHatchList()))
+                + EnumChatFormatting.RESET
+                + " EU/t(*"
+                + GT_Utility
+                    .formatNumbers(GT_ExoticEnergyInputHelper.getMaxInputAmpsMulti(getExoticAndNormalEnergyHatchList()))
+                + "A) "
+                + StatCollector.translateToLocal("GT5U.machines.tier")
+                + ": "
+                + EnumChatFormatting.YELLOW
+                + VN[GT_Utility
+                    .getTier(GT_ExoticEnergyInputHelper.getMaxInputVoltageMulti(getExoticAndNormalEnergyHatchList()))]
+                + EnumChatFormatting.RESET,
+            StatCollector.translateToLocal("GT5U.multiblock.problems") + ": "
+                + EnumChatFormatting.RED
+                + (getIdealStatus() - getRepairStatus())
+                + EnumChatFormatting.RESET
+                + " "
+                + StatCollector.translateToLocal("GT5U.multiblock.efficiency")
+                + ": "
+                + EnumChatFormatting.YELLOW
+                + mEfficiency / 100.0F
+                + EnumChatFormatting.RESET
+                + " %",
+            StatCollector.translateToLocal("GT5U.PA.machinetier") + ": "
+                + EnumChatFormatting.GREEN
+                + tTier
+                + EnumChatFormatting.RESET
+                + " "
+                + StatCollector.translateToLocal("GT5U.PA.discount")
+                + ": "
+                + EnumChatFormatting.GREEN
+                + 1
+                + EnumChatFormatting.RESET
+                + " x",
+            StatCollector.translateToLocal("GT5U.PA.parallel") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(getMaxParallel())
+                + EnumChatFormatting.RESET };
+    }
+
+    @Override
+    public boolean supportsInputSeparation() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsBatchMode() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSingleRecipeLocking() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsVoidProtection() {
+        return true;
+    }
+
+    @Override
+    public void addUIWidgets(ModularWindow.Builder builder, UIBuildContext buildContext) {
+        super.addUIWidgets(builder, buildContext);
+
+        builder.widget(new ButtonWidget().setOnClick((clickData, widget) -> {
+            downtierUEV = !downtierUEV;
+            setTierAndMult();
+        })
+            .setPlayClickSound(true)
+            .setBackground(() -> {
+                if (downtierUEV) {
+                    return new IDrawable[] { GT_UITextures.BUTTON_STANDARD_PRESSED,
+                        GT_UITextures.OVERLAY_BUTTON_DOWN_TIERING_ON };
+                } else {
+                    return new IDrawable[] { GT_UITextures.BUTTON_STANDARD,
+                        GT_UITextures.OVERLAY_BUTTON_DOWN_TIERING_OFF };
+                }
+            })
+            .setPos(80, 91)
+            .setSize(16, 16)
+            .addTooltip(StatCollector.translateToLocal("GT5U.gui.button.down_tier"))
+            .setTooltipShowUpDelay(TOOLTIP_DELAY))
+            .widget(new FakeSyncWidget.BooleanSyncer(() -> downtierUEV, val -> downtierUEV = val));
+    }
+
+    @Override
+    public void getWailaNBTData(EntityPlayerMP player, TileEntity tile, NBTTagCompound tag, World world, int x, int y,
+        int z) {
+        super.getWailaNBTData(player, tile, tag, world, x, y, z);
+        if (mLastRecipeMap != null && getControllerSlot() != null) {
+            tag.setString("type", getControllerSlot().getDisplayName());
+        }
+    }
+
+    @Override
+    public void getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor,
+        IWailaConfigHandler config) {
+        super.getWailaBody(itemStack, currentTip, accessor, config);
+        final NBTTagCompound tag = accessor.getNBTData();
+        if (tag.hasKey("type")) {
+            currentTip.add("Machine: " + EnumChatFormatting.YELLOW + tag.getString("type"));
+        } else {
+            currentTip.add("Machine: " + EnumChatFormatting.YELLOW + "None");
+        }
     }
 }

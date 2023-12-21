@@ -1,17 +1,36 @@
 package gregtech.api.metatileentity.implementations;
 
+import static gregtech.api.enums.GT_Values.V;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-import static gregtech.api.enums.GT_Values.V;
 
 public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
+
+    public GT_MetaTileEntity_Hatch_Energy(int aID, String aName, String aNameRegional, int aTier,
+        String[] aDescription) {
+        super(aID, aName, aNameRegional, aTier, 0, aDescription);
+    }
+
     public GT_MetaTileEntity_Hatch_Energy(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 0, new String[]{"Energy Injector for Multiblocks", "Accepts up to 2 Amps"});
+        super(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            0,
+            new String[] { "Energy Injector for Multiblocks", "Accepts up to 2 Amps" });
+    }
+
+    public GT_MetaTileEntity_Hatch_Energy(int aID, String aName, String aNameRegional, int aTier, int aInvSlotCount,
+        String[] aDescription, ITexture... aTextures) {
+        super(aID, aName, aNameRegional, aTier, aInvSlotCount, aDescription, aTextures);
     }
 
     public GT_MetaTileEntity_Hatch_Energy(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
@@ -22,14 +41,19 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
         super(aName, aTier, 0, aDescription, aTextures);
     }
 
+    public GT_MetaTileEntity_Hatch_Energy(String aName, int aTier, int aInvSlotCount, String[] aDescription,
+        ITexture[][][] aTextures) {
+        super(aName, aTier, aInvSlotCount, aDescription, aTextures);
+    }
+
     @Override
     public ITexture[] getTexturesActive(ITexture aBaseTexture) {
-        return new ITexture[]{aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_IN_MULTI[mTier]};
+        return new ITexture[] { aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_IN_MULTI[mTier] };
     }
 
     @Override
     public ITexture[] getTexturesInactive(ITexture aBaseTexture) {
-        return new ITexture[]{aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_IN_MULTI[mTier]};
+        return new ITexture[] { aBaseTexture, Textures.BlockIcons.OVERLAYS_ENERGY_IN_MULTI[mTier] };
     }
 
     @Override
@@ -38,7 +62,7 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean isFacingValid(byte aFacing) {
+    public boolean isFacingValid(ForgeDirection facing) {
         return true;
     }
 
@@ -53,8 +77,8 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean isInputFacing(byte aSide) {
-        return aSide == getBaseMetaTileEntity().getFrontFacing();
+    public boolean isInputFacing(ForgeDirection side) {
+        return side == getBaseMetaTileEntity().getFrontFacing();
     }
 
     @Override
@@ -74,7 +98,7 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
 
     @Override
     public long maxEUStore() {
-        return 512 + V[mTier] * 8;
+        return 512L + V[mTier] * 8L;
     }
 
     @Override
@@ -88,12 +112,14 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
     }
 
     @Override
-    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
     }
 
     @Override
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return false;
     }
 }

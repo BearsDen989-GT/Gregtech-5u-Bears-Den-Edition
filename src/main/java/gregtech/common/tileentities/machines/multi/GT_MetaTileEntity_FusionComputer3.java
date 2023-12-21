@@ -1,16 +1,32 @@
 package gregtech.common.tileentities.machines.multi;
 
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FUSION3;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FUSION3_GLOW;
+
+import net.minecraft.block.Block;
+
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Textures;
-import gregtech.api.interfaces.IIconContainer;
+import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
-import net.minecraft.block.Block;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
 
 public class GT_MetaTileEntity_FusionComputer3 extends GT_MetaTileEntity_FusionComputer {
 
+    private static final ITexture textureOverlay = TextureFactory.of(
+        TextureFactory.builder()
+            .addIcon(OVERLAY_FUSION3)
+            .extFacing()
+            .build(),
+        TextureFactory.builder()
+            .addIcon(OVERLAY_FUSION3_GLOW)
+            .extFacing()
+            .glow()
+            .build());
+
     public GT_MetaTileEntity_FusionComputer3(int aID, String aName, String aNameRegional) {
-        super(aID, aName, aNameRegional, 6);
+        super(aID, aName, aNameRegional);
     }
 
     public GT_MetaTileEntity_FusionComputer3(String aName) {
@@ -28,8 +44,18 @@ public class GT_MetaTileEntity_FusionComputer3 extends GT_MetaTileEntity_FusionC
     }
 
     @Override
+    public long capableStartupCanonical() {
+        return 640_000_000;
+    }
+
+    @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_FusionComputer3(mName);
+    }
+
+    @Override
+    public Block getCasing() {
+        return GregTech_API.sBlockCasings4;
     }
 
     @Override
@@ -47,30 +73,31 @@ public class GT_MetaTileEntity_FusionComputer3 extends GT_MetaTileEntity_FusionC
         return 7;
     }
 
-    public String[] getDescription() {
-        return new String[]{
-        		"A SUN DOWN ON EARTH", 
-        		"Fusion Machine Casings MK II around Fusion Coil Blocks", 
-        		"2-16 Input Hatches", 
-        		"1-16 Output Hatches", 
-        		"1-16 Energy Hatches", 
-        		"All Hatches must be UV or better", 
-        		"8192EU/t and 40mio EU Cap per Energy Hatch"};
+    @Override
+    protected GT_Multiblock_Tooltip_Builder createTooltip() {
+        final GT_Multiblock_Tooltip_Builder tt = new GT_Multiblock_Tooltip_Builder();
+        tt.addMachineType("Fusion Reactor")
+            .addInfo("A SUN DOWN ON EARTH")
+            .addInfo("Controller block for the Fusion Reactor Mk III")
+            .addInfo("32768EU/t and 40M EU capacity per Energy Hatch")
+            .addInfo("If the recipe has a startup cost greater than the")
+            .addInfo("number of energy hatches * cap, you can't do it")
+            .addSeparator()
+            .beginStructureBlock(15, 3, 15, false)
+            .addController("See diagram when placed")
+            .addCasingInfoRange("Fusion Machine Casing Mk II", 79, 123, false)
+            .addStructureInfo("Cover the coils with casing")
+            .addOtherStructurePart("Fusion Coil Block", "Center part of the ring")
+            .addEnergyHatch("1-16, Specified casings", 2)
+            .addInputHatch("2-16, Specified casings", 1)
+            .addOutputHatch("1-16, Specified casings", 3)
+            .addStructureInfo("ALL Hatches must be UV or better")
+            .toolTipFinisher("Gregtech");
+        return tt;
     }
 
     @Override
-    public int tierOverclock() {
-        return 4;
-    }
-
-    @Override
-    public Block getCasing() {
-        return GregTech_API.sBlockCasings4;
-    }
-
-    @Override
-    public IIconContainer getIconOverlay() {
-        return Textures.BlockIcons.OVERLAY_FUSION3;
+    public ITexture getTextureOverlay() {
+        return textureOverlay;
     }
 }
-

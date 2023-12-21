@@ -1,142 +1,213 @@
 package gregtech.common.tileentities.automation;
 
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.Textures;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Buffer;
-import gregtech.api.objects.GT_RenderedTexture;
-import gregtech.api.objects.ItemData;
-import gregtech.api.util.GT_OreDictUnificator;
-import gregtech.api.util.GT_Utility;
-import gregtech.common.gui.GT_Container_TypeFilter;
-import gregtech.common.gui.GT_GUIContainer_TypeFilter;
-import net.minecraft.entity.player.InventoryPlayer;
+import static gregtech.api.enums.GT_Values.W;
+import static gregtech.api.enums.Textures.BlockIcons.AUTOMATION_TYPEFILTER;
+import static gregtech.api.enums.Textures.BlockIcons.AUTOMATION_TYPEFILTER_GLOW;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class GT_MetaTileEntity_TypeFilter
-        extends GT_MetaTileEntity_Buffer {
-    public boolean bNBTAllowed = false;
-    public boolean bInvertFilter = false;
+import com.google.common.collect.ImmutableList;
+import com.gtnewhorizons.modularui.api.screen.ModularWindow;
+import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
+import com.gtnewhorizons.modularui.common.internal.wrapper.BaseSlot;
+import com.gtnewhorizons.modularui.common.widget.FakeSyncWidget;
+import com.gtnewhorizons.modularui.common.widget.SlotWidget;
+
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.interfaces.ITexture;
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_SpecialFilter;
+import gregtech.api.objects.ItemData;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GT_Utility;
+
+public class GT_MetaTileEntity_TypeFilter extends GT_MetaTileEntity_SpecialFilter {
+
+    private static final String REPRESENTATION_SLOT_TOOLTIP = "GT5U.type_filter.representation_slot.tooltip";
     public int mRotationIndex = 0;
     public OrePrefixes mPrefix = OrePrefixes.ore;
 
+    public static ImmutableList<OrePrefixes> OREBLOCK_PREFIXES = ImmutableList.of(
+        OrePrefixes.oreBlackgranite,
+        OrePrefixes.oreDense,
+        OrePrefixes.oreEnd,
+        OrePrefixes.oreEndstone,
+        OrePrefixes.oreNether,
+        OrePrefixes.oreNetherrack,
+        OrePrefixes.oreNormal,
+        OrePrefixes.orePoor,
+        OrePrefixes.oreRedgranite,
+        OrePrefixes.oreRich,
+        OrePrefixes.oreSmall,
+        OrePrefixes.oreBasalt,
+        OrePrefixes.oreMarble);
+
     public GT_MetaTileEntity_TypeFilter(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 11, new String[]{
-        		"Filters 1 Item Type",
-        		"Use Screwdriver to regulate output stack size",
-        		"Consumes 1 EU per moved Item"});
+        super(
+            aID,
+            aName,
+            aNameRegional,
+            aTier,
+            new String[] { "Filters 1 Item Type", "Use Screwdriver to regulate output stack size" });
     }
 
-    public GT_MetaTileEntity_TypeFilter(String aName, int aTier, int aInvSlotCount, String aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_TypeFilter(String aName, int aTier, int aInvSlotCount, String aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, aInvSlotCount, aDescription, aTextures);
     }
 
-    public GT_MetaTileEntity_TypeFilter(String aName, int aTier, int aInvSlotCount, String[] aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_TypeFilter(String aName, int aTier, int aInvSlotCount, String[] aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, aInvSlotCount, aDescription, aTextures);
     }
 
+    @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
-        return new GT_MetaTileEntity_TypeFilter(this.mName, this.mTier, this.mInventory.length, this.mDescriptionArray, this.mTextures);
+        return new GT_MetaTileEntity_TypeFilter(
+            this.mName,
+            this.mTier,
+            this.mInventory.length,
+            this.mDescriptionArray,
+            this.mTextures);
     }
 
+    @Override
     public ITexture getOverlayIcon() {
-        return new GT_RenderedTexture(Textures.BlockIcons.AUTOMATION_TYPEFILTER);
+        return TextureFactory.of(
+            TextureFactory.of(AUTOMATION_TYPEFILTER),
+            TextureFactory.builder()
+                .addIcon(AUTOMATION_TYPEFILTER_GLOW)
+                .glow()
+                .build());
     }
 
-    public boolean isValidSlot(int aIndex) {
-        return aIndex < 9;
-    }
-
-    public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_Container_TypeFilter(aPlayerInventory, aBaseMetaTileEntity);
-    }
-
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_TypeFilter(aPlayerInventory, aBaseMetaTileEntity);
-    }
-
-    public void clickTypeIcon(boolean aRightClick) {
+    public void clickTypeIcon(boolean aRightClick, ItemStack aHandStack) {
         if (getBaseMetaTileEntity().isServerSide()) {
-            for (int i = 0; i < OrePrefixes.values().length; i++) {
-                if (this.mPrefix == OrePrefixes.values()[i]) {
-                    for (this.mPrefix = null; this.mPrefix == null; this.mPrefix = OrePrefixes.values()[i]) {
-                        if (aRightClick) {
-                            do {
-                                i--;
-                                if (i < 0) {
-                                    i = OrePrefixes.values().length - 1;
-                                }
-                            } while (OrePrefixes.values()[i].mPrefixedItems.isEmpty());
-                        } else {
-                            do {
-                                i++;
-                                if (i >= OrePrefixes.values().length) {
-                                    i = 0;
-                                }
-                            } while (OrePrefixes.values()[i].mPrefixedItems.isEmpty());
-                        }
-                        if (!OrePrefixes.values()[i].mPrefixedItems.isEmpty() && OrePrefixes.values()[i].mPrefixInto == OrePrefixes.values()[i])
-                            mPrefix = OrePrefixes.values()[i];
-                    }
-                }
+            if (aHandStack != null) {
+                copyHeldItemPrefix(aHandStack);
+            } else {
+                cyclePrefix(aRightClick);
             }
-            this.mRotationIndex = 0;
         }
     }
 
+    private void copyHeldItemPrefix(ItemStack handStack) {
+        ItemData data = GT_OreDictUnificator.getAssociation(handStack);
+        if (data != null && data.hasValidPrefixData()) {
+            this.mPrefix = data.mPrefix;
+            this.mRotationIndex = -1;
+        }
+    }
+
+    private void cyclePrefix(boolean aRightClick) {
+        for (int i = 0; i < OrePrefixes.values().length; i++) {
+            if (this.mPrefix == OrePrefixes.values()[i]) {
+                for (this.mPrefix = null; this.mPrefix == null; this.mPrefix = OrePrefixes.values()[i]) {
+                    if (aRightClick) {
+                        do {
+                            i--;
+                            if (i < 0) {
+                                i = OrePrefixes.values().length - 1;
+                            }
+                        } while (OrePrefixes.values()[i].mPrefixedItems.isEmpty());
+                    } else {
+                        do {
+                            i++;
+                            if (i >= OrePrefixes.values().length) {
+                                i = 0;
+                            }
+                        } while (OrePrefixes.values()[i].mPrefixedItems.isEmpty());
+                    }
+                    if (!OrePrefixes.values()[i].mPrefixedItems.isEmpty()
+                        && OrePrefixes.values()[i].mPrefixInto == OrePrefixes.values()[i])
+                        mPrefix = OrePrefixes.values()[i];
+                }
+            }
+            this.mRotationIndex = -1;
+        }
+    }
+
+    @Override
     public void onPreTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
         super.onPreTick(aBaseMetaTileEntity, aTick);
-        if ((getBaseMetaTileEntity().isServerSide()) && (aTick % 8L == 0L)) {
-            if (this.mPrefix.mPrefixedItems.isEmpty()) {
-                this.mInventory[9] = null;
-            } else {
-                this.mInventory[9] = GT_Utility.copyAmount(1L, new Object[]{this.mPrefix.mPrefixedItems.get(this.mRotationIndex = (this.mRotationIndex + 1) % this.mPrefix.mPrefixedItems.size())});
-                if (this.mInventory[9].getItemDamage() == 32767) {
-                    this.mInventory[9].setItemDamage(0);
-                }
-                this.mInventory[9].setStackDisplayName(this.mPrefix.toString());
-            }
+        if ((!getBaseMetaTileEntity().isServerSide()) || ((aTick % 8L != 0L) && mRotationIndex != -1)) return;
+        if (this.mPrefix.mPrefixedItems.isEmpty()) {
+            this.mInventory[FILTER_SLOT_INDEX] = null;
+            return;
         }
+        this.mInventory[FILTER_SLOT_INDEX] = GT_Utility.copyAmount(
+            1,
+            this.mPrefix.mPrefixedItems
+                .get(this.mRotationIndex = (this.mRotationIndex + 1) % this.mPrefix.mPrefixedItems.size()));
+        if (this.mInventory[FILTER_SLOT_INDEX] == null) return;
+        if (this.mInventory[FILTER_SLOT_INDEX].getItemDamage() == W) this.mInventory[9].setItemDamage(0);
     }
 
+    @Override
     public void saveNBTData(NBTTagCompound aNBT) {
         super.saveNBTData(aNBT);
         aNBT.setString("mPrefix", this.mPrefix.toString());
-        aNBT.setBoolean("bInvertFilter", this.bInvertFilter);
-        aNBT.setBoolean("bNBTAllowed", this.bNBTAllowed);
     }
 
+    @Override
     public void loadNBTData(NBTTagCompound aNBT) {
         super.loadNBTData(aNBT);
         this.mPrefix = OrePrefixes.getPrefix(aNBT.getString("mPrefix"), this.mPrefix);
-        this.bInvertFilter = aNBT.getBoolean("bInvertFilter");
-        this.bNBTAllowed = aNBT.getBoolean("bNBTAllowed");
     }
 
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        boolean tAllowPrefix = this.mPrefix.contains(aStack);
+    @Override
+    protected boolean isStackAllowed(ItemStack aStack) {
         if (this.mPrefix == OrePrefixes.ore) {
-            ItemData tData = GT_OreDictUnificator.getItemData(aStack);
-            if (tData != null && tData.mPrefix != null) {
-                OrePrefixes tFix = tData.mPrefix;
-                if (tFix == OrePrefixes.oreBlackgranite ||
-                        tFix == OrePrefixes.oreDense ||
-                        tFix == OrePrefixes.oreEnd ||
-                        tFix == OrePrefixes.oreEndstone ||
-                        tFix == OrePrefixes.oreNether ||
-                        tFix == OrePrefixes.oreNetherrack ||
-                        tFix == OrePrefixes.oreNormal ||
-                        tFix == OrePrefixes.orePoor ||
-                        tFix == OrePrefixes.oreRedgranite ||
-                        tFix == OrePrefixes.oreRich ||
-                        tFix == OrePrefixes.oreSmall ||
-                        tFix == OrePrefixes.oreBasalt ||
-                        tFix == OrePrefixes.oreMarble) tAllowPrefix = true;
+            ItemData data = GT_OreDictUnificator.getItemData(aStack);
+            if (data != null && data.mPrefix != null && OREBLOCK_PREFIXES.contains(data.mPrefix)) {
+                return true;
             }
         }
-        return (super.allowPutStack(aBaseMetaTileEntity, aIndex, aSide, aStack)) && ((this.bNBTAllowed) || (!aStack.hasTagCompound())) && (tAllowPrefix != this.bInvertFilter);
+        return this.mPrefix.contains(aStack);
+    }
+
+    @Override
+    public void addUIWidgets(ModularWindow.Builder builder, UIBuildContext buildContext) {
+        super.addUIWidgets(builder, buildContext);
+        builder.widget(
+            new FakeSyncWidget.StringSyncer(
+                () -> this.mPrefix.toString(),
+                (prefix) -> this.mPrefix = OrePrefixes.getPrefix(prefix, this.mPrefix)));
+    }
+
+    @Override
+    protected Function<List<String>, List<String>> getItemStackReplacementTooltip() {
+        return (itemTooltip) -> {
+            List<String> replacementTooltip = new ArrayList<>();
+            replacementTooltip.add("Filter set to " + mPrefix.mRegularLocalName);
+            replacementTooltip.add("Ore prefix: §e" + mPrefix + "§r");
+            replacementTooltip.add("Filter size: §e" + mPrefix.mPrefixedItems.size() + "§r");
+            replacementTooltip.addAll(mTooltipCache.getData(REPRESENTATION_SLOT_TOOLTIP).text);
+            return replacementTooltip;
+        };
+    }
+
+    @Override
+    protected SlotWidget createFilterIconSlot(BaseSlot slot) {
+        return new TypeFilterIconSlotWidget(slot);
+    }
+
+    private class TypeFilterIconSlotWidget extends FilterIconSlotWidget {
+
+        public TypeFilterIconSlotWidget(BaseSlot slot) {
+            super(slot);
+        }
+
+        @Override
+        protected void phantomClick(ClickData clickData, ItemStack cursorStack) {
+            clickTypeIcon(clickData.mouseButton != 0, cursorStack);
+        }
     }
 }

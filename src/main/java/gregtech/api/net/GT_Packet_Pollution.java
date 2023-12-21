@@ -1,38 +1,43 @@
 package gregtech.api.net;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import gregtech.common.GT_Pollution;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.IBlockAccess;
 
-public class GT_Packet_Pollution extends GT_Packet {
-    private int mPollution;
+import com.google.common.io.ByteArrayDataInput;
+
+import gregtech.common.GT_Client;
+import io.netty.buffer.ByteBuf;
+
+public class GT_Packet_Pollution extends GT_Packet_New {
+
+    private ChunkCoordIntPair chunk;
+    private int pollution;
 
     public GT_Packet_Pollution() {
         super(true);
     }
 
-    public GT_Packet_Pollution(int aPollution) {
+    public GT_Packet_Pollution(ChunkCoordIntPair chunk, int pollution) {
         super(false);
-        mPollution = aPollution;
+        this.chunk = chunk;
+        this.pollution = pollution;
     }
 
     @Override
-    public byte[] encode() {
-        ByteArrayDataOutput tOut = ByteStreams.newDataOutput(4);
-        tOut.writeInt(mPollution);
-        return tOut.toByteArray();
+    public void encode(ByteBuf aOut) {
+        aOut.writeInt(chunk.chunkXPos)
+            .writeInt(chunk.chunkZPos)
+            .writeInt(pollution);
     }
 
     @Override
-    public GT_Packet decode(ByteArrayDataInput aData) {
-        return new GT_Packet_Pollution(aData.readInt());
+    public GT_Packet_New decode(ByteArrayDataInput aData) {
+        return new GT_Packet_Pollution(new ChunkCoordIntPair(aData.readInt(), aData.readInt()), aData.readInt());
     }
 
     @Override
     public void process(IBlockAccess aWorld) {
-    	GT_Pollution.mPlayerPollution = mPollution;
+        GT_Client.recieveChunkPollutionPacket(chunk, pollution);
     }
 
     @Override

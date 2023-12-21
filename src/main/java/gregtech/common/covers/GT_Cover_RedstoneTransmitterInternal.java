@@ -1,24 +1,51 @@
 package gregtech.common.covers;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.GregTech_API;
+import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.ICoverable;
 
-public class GT_Cover_RedstoneTransmitterInternal
-        extends GT_Cover_RedstoneWirelessBase {
-    public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
-        GregTech_API.sWirelessRedstone.put(Integer.valueOf(aCoverVariable), Byte.valueOf(aTileEntity.getOutputRedstoneSignal(aSide)));
+public class GT_Cover_RedstoneTransmitterInternal extends GT_Cover_RedstoneWirelessBase {
+
+    /**
+     * @deprecated use {@link #GT_Cover_RedstoneTransmitterInternal(ITexture coverTexture)} instead
+     */
+    @Deprecated
+    public GT_Cover_RedstoneTransmitterInternal() {
+        this(null);
+    }
+
+    public GT_Cover_RedstoneTransmitterInternal(ITexture coverTexture) {
+        super(coverTexture);
+    }
+
+    @Override
+    public boolean isRedstoneSensitive(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity,
+        long aTimer) {
+        return false;
+    }
+
+    @Override
+    public int doCoverThings(ForgeDirection side, byte aInputRedstone, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity, long aTimer) {
+        GregTech_API.sWirelessRedstone.put(aCoverVariable, aTileEntity.getOutputRedstoneSignal(side));
         return aCoverVariable;
     }
 
-    public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    @Override
+    public boolean letsRedstoneGoOut(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return true;
     }
 
-    public int getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    @Override
+    public int getTickRate(ForgeDirection side, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return 1;
     }
 
-    public boolean manipulatesSidedRedstoneOutput(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+    @Override
+    public boolean manipulatesSidedRedstoneOutput(ForgeDirection side, int aCoverID, int aCoverVariable,
+        ICoverable aTileEntity) {
         return true;
     }
 }

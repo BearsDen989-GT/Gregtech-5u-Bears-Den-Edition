@@ -3,12 +3,13 @@ package gregtech.common.redstonecircuits;
 import gregtech.api.interfaces.IRedstoneCircuitBlock;
 import gregtech.api.util.GT_CircuitryBehavior;
 
-public class GT_Circuit_RedstoneMeter
-        extends GT_CircuitryBehavior {
+public class GT_Circuit_RedstoneMeter extends GT_CircuitryBehavior {
+
     public GT_Circuit_RedstoneMeter(int aIndex) {
         super(aIndex);
     }
 
+    @Override
     public void initParameters(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         aCircuitData[0] = 1;
         aCircuitData[1] = 15;
@@ -16,6 +17,7 @@ public class GT_Circuit_RedstoneMeter
         aCircuitData[3] = 15;
     }
 
+    @Override
     public void validateParameters(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         if (aCircuitData[0] < 0) {
             aCircuitData[0] = 0;
@@ -46,37 +48,43 @@ public class GT_Circuit_RedstoneMeter
         }
     }
 
+    @Override
     public void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         byte tRedstone = getStrongestRedstone(aRedstoneCircuitBlock);
-        aRedstoneCircuitBlock.setRedstone((byte) (((tRedstone >= aCircuitData[0]) && (tRedstone <= aCircuitData[1]) ? 1 : 0) != (aCircuitData[2] != 0 ? 1 : 0) ? (byte) aCircuitData[3] : 0), aRedstoneCircuitBlock.getOutputFacing());
+        aRedstoneCircuitBlock
+            .setRedstone(
+                ((tRedstone >= aCircuitData[0]) && (tRedstone <= aCircuitData[1]) ? 1 : 0)
+                    != (aCircuitData[2] != 0 ? 1 : 0) ? (byte) aCircuitData[3] : 0,
+                aRedstoneCircuitBlock.getOutputFacing());
     }
 
+    @Override
     public String getName() {
         return "Redstone Meter";
     }
 
+    @Override
     public String getDescription() {
         return "Checks Boundaries";
     }
 
+    @Override
     public String getDataDescription(int[] aCircuitData, int aCircuitDataIndex) {
-        switch (aCircuitDataIndex) {
-            case 0:
-                return "Lower";
-            case 1:
-                return "Upper";
-            case 2:
-                return "Invert:";
-            case 3:
-                return "RS Out:";
-        }
-        return "";
+        return switch (aCircuitDataIndex) {
+            case 0 -> "Lower";
+            case 1 -> "Upper";
+            case 2 -> "Invert:";
+            case 3 -> "RS Out:";
+            default -> "";
+        };
     }
 
+    @Override
     public boolean displayItemStack(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex) {
         return false;
     }
 
+    @Override
     public String getDataDisplay(int[] aCircuitData, int aCircuitDataIndex) {
         if (aCircuitDataIndex == 2) {
             return aCircuitData[2] == 0 ? "OFF" : "ON";

@@ -1,9 +1,14 @@
 package gregtech.api.gui;
 
+import static gregtech.GT_Mod.GT_FML_LOGGER;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.input.Mouse;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -16,11 +21,18 @@ public class GT_GUIContainer extends GuiContainer {
 
     public ResourceLocation mGUIbackground;
 
+    public GT_GUIColorOverride colorOverride;
+
     public String mGUIbackgroundPath;
 
     public GT_GUIContainer(Container aContainer, String aGUIbackground) {
         super(aContainer);
         mGUIbackground = new ResourceLocation(mGUIbackgroundPath = aGUIbackground);
+        colorOverride = GT_GUIColorOverride.get(aGUIbackground);
+    }
+
+    protected int getTextColorOrDefault(String textType, int defaultColor) {
+        return colorOverride.getTextColorOrDefault(textType, defaultColor);
     }
 
     public int getLeft() {
@@ -32,19 +44,19 @@ public class GT_GUIContainer extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         //
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+    protected void drawGuiContainerBackgroundLayer(float parTicks, int mouseX, int mouseY) {
         mc.renderEngine.bindTexture(mGUIbackground);
     }
 
     @Override
-    public void drawScreen(int par1, int par2, float par3) {
+    public void drawScreen(int mouseX, int mouseY, float parTicks) {
         try {
-            super.drawScreen(par1, par2, par3);
+            super.drawScreen(mouseX, mouseY, parTicks);
         } catch (Throwable e) {
             try {
                 Tessellator.instance.draw();
@@ -53,20 +65,35 @@ public class GT_GUIContainer extends GuiContainer {
             }
         }
     }
-    /*
+
     @Override
-    protected void drawSlotInventory(Slot par1Slot) {
-        try {
-        	super.drawSlotInventory(par1Slot);
-        } catch(Throwable e) {
-            try {
-            	Tessellator.instance.draw();
-            } catch(Throwable f) {}
-        	if (!mCrashed) {
-        		GT_Log.out.println("Clientside Slot drawing Crash prevented. Seems one Itemstack causes Problems with negative Damage Values or the Wildcard Damage Value. This is absolutely NOT a Bug of the GregTech-Addon, so don't even think about reporting it to me, it's a Bug of the Mod, which belongs to the almost-crash-causing Item, so bug that Mods Author and not me! Did you hear it? NOT ME!!!");
-        		e.printStackTrace();
-            	mCrashed = true;
-        	}
+    public void handleMouseInput() {
+        int delta = Mouse.getEventDWheel();
+        if (delta != 0) {
+            int i = Mouse.getEventX() * this.width / this.mc.displayWidth;
+            int j = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+            onMouseWheel(i, j, delta);
         }
-    }*/
+        super.handleMouseInput();
+    }
+
+    protected void onMouseWheel(int mx, int my, int delta) {}
+
+    public boolean isMouseOverSlot(int slotIndex, int mx, int my) {
+        int size = inventorySlots.inventorySlots.size();
+        if (slotIndex < 0 || slotIndex >= size) {
+            // slot does not exist somehow. log and carry on
+            GT_FML_LOGGER.error("Slot {} required where only {} is present", slotIndex, size);
+            return false;
+        }
+        Slot slot = inventorySlots.getSlot(slotIndex);
+        return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, mx, my);
+    }
+
+    /*
+     * @Override protected void drawSlotInventory(Slot slot) { try { super.drawSlotInventory(slot); } catch(Throwable e)
+     * { try { Tessellator.instance.draw(); } catch(Throwable f) {} if (!mCrashed) { GT_Log.out.
+     * println("Clientside Slot drawing Crash prevented. Seems one Itemstack causes Problems with negative Damage Values or the Wildcard Damage Value. This is absolutely NOT a Bug of the GregTech-Addon, so don't even think about reporting it to me, it's a Bug of the Mod, which belongs to the almost-crash-causing Item, so bug that Mods Author and not me! Did you hear it? NOT ME!!!"
+     * ); e.printStackTrace(); mCrashed = true; } } }
+     */
 }

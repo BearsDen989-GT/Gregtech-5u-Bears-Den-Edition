@@ -3,12 +3,13 @@ package gregtech.common.redstonecircuits;
 import gregtech.api.interfaces.IRedstoneCircuitBlock;
 import gregtech.api.util.GT_CircuitryBehavior;
 
-public class GT_Circuit_Timer
-        extends GT_CircuitryBehavior {
+public class GT_Circuit_Timer extends GT_CircuitryBehavior {
+
     public GT_Circuit_Timer(int aIndex) {
         super(aIndex);
     }
 
+    @Override
     public void initParameters(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         aCircuitData[0] = 2;
         aCircuitData[1] = 1;
@@ -16,6 +17,7 @@ public class GT_Circuit_Timer
         aCircuitData[4] = 0;
     }
 
+    @Override
     public void validateParameters(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         if (aCircuitData[0] < 2) {
             aCircuitData[0] = 2;
@@ -37,6 +39,7 @@ public class GT_Circuit_Timer
         }
     }
 
+    @Override
     public void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock) {
         if (aCircuitData[3] == 1) {
             if (getAnyRedstone(aRedstoneCircuitBlock)) {
@@ -55,7 +58,9 @@ public class GT_Circuit_Timer
                     aRedstoneCircuitBlock.setRedstone((byte) 15, aRedstoneCircuitBlock.getOutputFacing());
                     aCircuitData[4] = 0;
                 } else {
-                    aRedstoneCircuitBlock.setRedstone((byte) ((aCircuitData[4] - aCircuitData[0]) % aCircuitData[2] == 0 ? 15 : 0), aRedstoneCircuitBlock.getOutputFacing());
+                    aRedstoneCircuitBlock.setRedstone(
+                        (byte) ((aCircuitData[4] - aCircuitData[0]) % aCircuitData[2] == 0 ? 15 : 0),
+                        aRedstoneCircuitBlock.getOutputFacing());
                 }
             } else {
                 aRedstoneCircuitBlock.setRedstone((byte) 15, aRedstoneCircuitBlock.getOutputFacing());
@@ -66,34 +71,34 @@ public class GT_Circuit_Timer
         }
     }
 
+    @Override
     public String getName() {
         return "Timer";
     }
 
+    @Override
     public String getDescription() {
         return "Pulses Redstone";
     }
 
+    @Override
     public String getDataDescription(int[] aCircuitData, int aCircuitDataIndex) {
-        switch (aCircuitDataIndex) {
-            case 0:
-                return "Delay";
-            case 1:
-                return "Pulses";
-            case 2:
-                return "Length";
-            case 3:
-                return aCircuitData[aCircuitDataIndex] == 1 ? "RS => ON" : "RS => OFF";
-            case 4:
-                return "Time";
-        }
-        return "";
+        return switch (aCircuitDataIndex) {
+            case 0 -> "Delay";
+            case 1 -> "Pulses";
+            case 2 -> "Length";
+            case 3 -> aCircuitData[aCircuitDataIndex] == 1 ? "RS => ON" : "RS => OFF";
+            case 4 -> "Time";
+            default -> "";
+        };
     }
 
+    @Override
     public boolean displayItemStack(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex) {
         return false;
     }
 
+    @Override
     public String getDataDisplay(int[] aCircuitData, int aCircuitDataIndex) {
         if (aCircuitDataIndex == 3) {
             return "";

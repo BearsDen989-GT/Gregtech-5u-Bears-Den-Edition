@@ -1,11 +1,14 @@
 package gregtech.api.interfaces.tileentity;
 
-import gregtech.api.interfaces.ITexture;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import gregtech.api.interfaces.ITexture;
 
 public interface ITexturedTileEntity {
+
     /**
      * @return the Textures rendered by the GT Rendering
      */
-    public ITexture[] getTexture(Block aBlock, byte aSide);
+    ITexture[] getTexture(Block aBlock, ForgeDirection side);
 }

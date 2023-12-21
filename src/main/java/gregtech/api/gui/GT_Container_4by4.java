@@ -1,9 +1,11 @@
 package gregtech.api.gui;
 
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+
+@Deprecated
 public class GT_Container_4by4 extends GT_ContainerMetaTile_Machine {
 
     public GT_Container_4by4(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity) {
@@ -28,6 +30,7 @@ public class GT_Container_4by4 extends GT_ContainerMetaTile_Machine {
         addSlotToContainer(new Slot(mTileEntity, 13, 71, 62));
         addSlotToContainer(new Slot(mTileEntity, 14, 89, 62));
         addSlotToContainer(new Slot(mTileEntity, 15, 107, 62));
+        super.addSlots(aInventoryPlayer);
     }
 
     @Override

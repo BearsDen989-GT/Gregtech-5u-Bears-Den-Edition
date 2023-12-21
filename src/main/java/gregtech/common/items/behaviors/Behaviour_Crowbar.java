@@ -1,17 +1,21 @@
 package gregtech.common.items.behaviors;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.items.GT_MetaBase_Item;
-import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_Utility;
+import static gregtech.api.enums.Mods.Railcraft;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class Behaviour_Crowbar
-        extends Behaviour_None {
+import gregtech.api.enums.SoundResource;
+import gregtech.api.items.GT_MetaBase_Item;
+import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_Utility;
+
+public class Behaviour_Crowbar extends Behaviour_None {
+
     private final int mVanillaCosts;
     private final int mEUCosts;
 
@@ -20,11 +24,13 @@ public class Behaviour_Crowbar
         this.mEUCosts = aEUCosts;
     }
 
-    public boolean onItemUseFirst(GT_MetaBase_Item aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+    @Override
+    public boolean onItemUseFirst(GT_MetaBase_Item aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX,
+        int aY, int aZ, ForgeDirection side, float hitX, float hitY, float hitZ) {
         if (aWorld.isRemote) {
             return false;
         }
-        if (GT_ModHandler.getModItem("Railcraft", "fluid.creosote.bucket", 1L) != null) {
+        if (GT_ModHandler.getModItem(Railcraft.ID, "fluid.creosote.bucket", 1L) != null) {
             return false;
         }
         Block aBlock = aWorld.getBlock(aX, aY, aZ);
@@ -37,7 +43,7 @@ public class Behaviour_Crowbar
                 aWorld.isRemote = true;
                 aWorld.setBlock(aX, aY, aZ, aBlock, (aMeta + 1) % 10, 0);
                 aWorld.isRemote = false;
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, SoundResource.RANDOM_BREAK, 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }
@@ -46,7 +52,7 @@ public class Behaviour_Crowbar
                 aWorld.isRemote = true;
                 aWorld.setBlock(aX, aY, aZ, aBlock, aMeta / 8 * 8 + (aMeta % 8 + 1) % 6, 0);
                 aWorld.isRemote = false;
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(0)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, SoundResource.RANDOM_BREAK, 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }

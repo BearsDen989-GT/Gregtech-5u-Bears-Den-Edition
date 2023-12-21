@@ -1,26 +1,82 @@
 package gregtech.common.tileentities.machines.multi;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Textures;
-import gregtech.api.gui.GT_GUIContainer_MultiMachine;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_MultiBlockBase;
-import gregtech.api.objects.GT_RenderedTexture;
-import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_Recipe;
-import gregtech.api.util.GT_Utility;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofChain;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static gregtech.api.enums.GT_HatchElement.Energy;
+import static gregtech.api.enums.GT_HatchElement.InputBus;
+import static gregtech.api.enums.GT_HatchElement.Maintenance;
+import static gregtech.api.enums.GT_HatchElement.Muffler;
+import static gregtech.api.enums.GT_HatchElement.OutputBus;
+import static gregtech.api.enums.GT_Values.VN;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER_ACTIVE;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER_ACTIVE_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.casingTexturePages;
+import static gregtech.api.util.GT_Utility.filterValidMTEs;
 
 import java.util.ArrayList;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.gtnewhorizon.structurelib.alignment.constructable.ISurvivalConstructable;
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.StructureDefinition;
+
+import gregtech.GT_Mod;
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.HeatingCoilLevel;
+import gregtech.api.interfaces.ITexture;
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Energy;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Muffler;
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.recipe.RecipeMaps;
+import gregtech.api.recipe.check.CheckRecipeResult;
+import gregtech.api.recipe.check.CheckRecipeResultRegistry;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
+import gregtech.api.util.GT_StructureUtility;
+import gregtech.api.util.GT_Utility;
+
 public class GT_MetaTileEntity_MultiFurnace
-        extends GT_MetaTileEntity_MultiBlockBase {
+    extends GT_MetaTileEntity_AbstractMultiFurnace<GT_MetaTileEntity_MultiFurnace> implements ISurvivalConstructable {
+
     private int mLevel = 0;
     private int mCostDiscount = 1;
+
+    private static final int CASING_INDEX = 11;
+    private static final String STRUCTURE_PIECE_MAIN = "main";
+    private static final IStructureDefinition<GT_MetaTileEntity_MultiFurnace> STRUCTURE_DEFINITION = StructureDefinition
+        .<GT_MetaTileEntity_MultiFurnace>builder()
+        .addShape(
+            STRUCTURE_PIECE_MAIN,
+            transpose(new String[][] { { "ccc", "cmc", "ccc" }, { "CCC", "C-C", "CCC" }, { "b~b", "bbb", "bbb" } }))
+        .addElement('c', ofBlock(GregTech_API.sBlockCasings1, CASING_INDEX))
+        .addElement('m', Muffler.newAny(CASING_INDEX, 2))
+        .addElement(
+            'C',
+            GT_StructureUtility
+                .ofCoil(GT_MetaTileEntity_MultiFurnace::setCoilLevel, GT_MetaTileEntity_MultiFurnace::getCoilLevel))
+        .addElement(
+            'b',
+            ofChain(
+                GT_StructureUtility.<GT_MetaTileEntity_MultiFurnace>buildHatchAdder()
+                    .atLeast(Maintenance, InputBus, OutputBus, Energy)
+                    .casingIndex(CASING_INDEX)
+                    .dot(1)
+                    .build(),
+                ofBlock(GregTech_API.sBlockCasings1, CASING_INDEX)))
+        .build();
 
     public GT_MetaTileEntity_MultiFurnace(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
@@ -30,186 +86,250 @@ public class GT_MetaTileEntity_MultiFurnace
         super(aName);
     }
 
+    @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_MultiFurnace(this.mName);
     }
 
-    public String[] getDescription() {
-        return new String[]{
-                "Controller Block for the Multi Smelter",
-                "Smelts up to 8-128 Items at once",
-                "Size(WxHxD): 3x3x3 (Hollow), Controller (Front middle at bottom)",
-                "8x Heating Coils (Middle layer, hollow)",
-                "1x Input Bus (One of bottom)",
-                "1x Output Bus (One of bottom)",
-                "1x Maintenance Hatch (One of bottom)",
-                "1x Muffler Hatch (Top middle)",
-                "1x Energy Hatch (One of bottom)",
-                "Heat Proof Machine Casings for the rest",
-                "Causes " + 20 * getPollutionPerTick(null) + " Pollution per second"};
+    @Override
+    protected GT_Multiblock_Tooltip_Builder createTooltip() {
+        GT_Multiblock_Tooltip_Builder tt = new GT_Multiblock_Tooltip_Builder();
+        tt.addMachineType("Furnace")
+            .addInfo("Controller Block for the Multi Smelter")
+            .addInfo("Smelts up to 8-8192 items at once")
+            .addInfo("Items smelted increases with coil tier")
+            .addPollutionAmount(getPollutionPerSecond(null))
+            .addSeparator()
+            .beginStructureBlock(3, 3, 3, true)
+            .addController("Front bottom")
+            .addCasingInfoRange("Heat Proof Machine Casing", 8, 14, false)
+            .addOtherStructurePart("Heating Coils", "Middle layer")
+            .addEnergyHatch("Any bottom casing", 1)
+            .addMaintenanceHatch("Any bottom casing", 1)
+            .addMufflerHatch("Top Middle", 2)
+            .addInputBus("Any bottom casing", 1)
+            .addOutputBus("Any bottom casing", 1)
+            .toolTipFinisher("Gregtech");
+        return tt;
     }
 
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[11], new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER_ACTIVE : Textures.BlockIcons.OVERLAY_FRONT_MULTI_SMELTER)};
-        }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[11]};
+    @Override
+    public ITexture[] getTexture(IGregTechTileEntity baseMetaTileEntity, ForgeDirection sideDirection,
+        ForgeDirection facingDirection, int colorIndex, boolean active, boolean redstoneLevel) {
+        if (sideDirection != facingDirection) return new ITexture[] { casingTexturePages[0][CASING_INDEX] };
+        if (active) return new ITexture[] { casingTexturePages[0][CASING_INDEX], TextureFactory.builder()
+            .addIcon(OVERLAY_FRONT_MULTI_SMELTER_ACTIVE)
+            .extFacing()
+            .build(),
+            TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_MULTI_SMELTER_ACTIVE_GLOW)
+                .extFacing()
+                .glow()
+                .build() };
+        return new ITexture[] { casingTexturePages[0][CASING_INDEX], TextureFactory.builder()
+            .addIcon(OVERLAY_FRONT_MULTI_SMELTER)
+            .extFacing()
+            .build(),
+            TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_MULTI_SMELTER_GLOW)
+                .extFacing()
+                .glow()
+                .build() };
     }
 
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "MultiFurnace.png");
+    @Override
+    public RecipeMap<?> getRecipeMap() {
+        return RecipeMaps.furnaceRecipes;
     }
 
-    public GT_Recipe.GT_Recipe_Map getRecipeMap() {
-        return GT_Recipe.GT_Recipe_Map.sFurnaceRecipes;
+    @Override
+    public int getPollutionPerSecond(ItemStack aStack) {
+        return GT_Mod.gregtechproxy.mPollutionMultiSmelterPerSecond;
     }
 
-    public boolean isCorrectMachinePart(ItemStack aStack) {
-        return true;
-    }
-
-    public boolean isFacingValid(byte aFacing) {
-        return aFacing > 1;
-    }
-
-    public boolean checkRecipe(ItemStack aStack) {
+    @Override
+    @NotNull
+    public CheckRecipeResult checkProcessing() {
         ArrayList<ItemStack> tInputList = getStoredInputs();
-        if (!tInputList.isEmpty()) {
-            byte tTier = (byte) Math.max(1, GT_Utility.getTier(getMaxInputVoltage()));
+        if (tInputList.isEmpty()) return CheckRecipeResultRegistry.NO_RECIPE;
 
-            int j = 0;
-            this.mOutputItems = new ItemStack[8 * this.mLevel];
-            for (int i = 0; (i < 256) && (j < this.mOutputItems.length); i++) {
-                if (null != (this.mOutputItems[j] = GT_ModHandler.getSmeltingOutput((ItemStack) tInputList.get(i % tInputList.size()), true, null))) {
-                    j++;
+        int mVolatage = GT_Utility.safeInt(getMaxInputVoltage());
+        int tMaxParallel = this.mLevel;
+        int tCurrentParallel = 0;
+        ArrayList<ItemStack> smeltedOutputs = new ArrayList<>();
+        ArrayList<Integer> outputStackSizes = new ArrayList<>();
+        for (ItemStack item : tInputList) {
+            ItemStack smeltedOutput = GT_ModHandler.getSmeltingOutput(item, false, null);
+            if (smeltedOutput != null) {
+                smeltedOutputs.add(smeltedOutput);
+                if (item.stackSize <= (tMaxParallel - tCurrentParallel)) {
+                    tCurrentParallel += item.stackSize;
+                    outputStackSizes.add(smeltedOutput.stackSize * item.stackSize);
+                    item.stackSize = 0;
+                } else {
+                    int remainingStackSize = tCurrentParallel + item.stackSize - tMaxParallel;
+                    outputStackSizes.add(smeltedOutput.stackSize * (item.stackSize - remainingStackSize));
+                    item.stackSize = remainingStackSize;
+                    break;
                 }
             }
-            if (j > 0) {
-                this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
-                this.mEfficiencyIncrease = 10000;
-
-                this.mEUt = (-4 * (1 << tTier - 1) * (1 << tTier - 1) * this.mLevel / this.mCostDiscount);
-                this.mMaxProgresstime = Math.max(1, 512 / (1 << tTier - 1));
+            if (tCurrentParallel == tMaxParallel) {
+                break;
             }
-            updateSlots();
-            return true;
         }
-        return false;
+        this.mOutputItems = new ItemStack[smeltedOutputs.size()];
+        for (int i = 0; i < this.mOutputItems.length; i++) {
+            ItemStack tNewStack = smeltedOutputs.get(i);
+            tNewStack.stackSize = outputStackSizes.get(i);
+            this.mOutputItems[i] = tNewStack;
+        }
+
+        if (this.mOutputItems.length > 0) {
+            this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
+            this.mEfficiencyIncrease = 10000;
+            calculateOverclockedNessMultiInternal(4, 512, 1, mVolatage, false);
+            // In case recipe is too OP for that machine
+            if (mMaxProgresstime == Integer.MAX_VALUE - 1 && mEUt == Integer.MAX_VALUE - 1)
+                return CheckRecipeResultRegistry.NO_RECIPE;
+
+            this.mEUt = GT_Utility.safeInt(((long) mEUt) * (this.mLevel / 8) / (long) this.mCostDiscount, 1);
+            if (mEUt == Integer.MAX_VALUE - 1) return CheckRecipeResultRegistry.NO_RECIPE;
+
+            if (this.mEUt > 0) this.mEUt = (-this.mEUt);
+        }
+        updateSlots();
+        return CheckRecipeResultRegistry.SUCCESSFUL;
     }
 
-    public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
-        int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
-        int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
+    @Override
+    public IStructureDefinition<GT_MetaTileEntity_MultiFurnace> getStructureDefinition() {
+        return STRUCTURE_DEFINITION;
+    }
 
+    @Override
+    public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
         this.mLevel = 0;
         this.mCostDiscount = 1;
-        if (!aBaseMetaTileEntity.getAirOffset(xDir, 1, zDir)) {
-            return false;
-        }
-        addMufflerToMachineList(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir, 2, zDir), 11);
+
         replaceDeprecatedCoils(aBaseMetaTileEntity);
-        byte tUsedMeta = aBaseMetaTileEntity.getMetaIDOffset(xDir + 1, 1, zDir);
-        switch (tUsedMeta) {
-            case 0:
-                this.mLevel = 1;
-                this.mCostDiscount = 1;
-                break;
-            case 1:
-                this.mLevel = 2;
-                this.mCostDiscount = 1;
-                break;
-            case 2:
-                this.mLevel = 4;
-                this.mCostDiscount = 1;
-                break;
-            case 3:
-                this.mLevel = 8;
-                this.mCostDiscount = 1;
-                break;
-            case 4:
-                this.mLevel = 16;
-                this.mCostDiscount = 2;
-                break;
-            case 5:
-                this.mLevel = 16;
-                this.mCostDiscount = 4;
-                break;
-            case 6:
-                this.mLevel = 16;
-                this.mCostDiscount = 8;
-                break;
-            default:
-                return false;
+
+        setCoilLevel(HeatingCoilLevel.None);
+
+        if (!checkPiece(STRUCTURE_PIECE_MAIN, 1, 2, 0)) return false;
+
+        if (getCoilLevel() == HeatingCoilLevel.None) return false;
+
+        if (mMaintenanceHatches.size() != 1) return false;
+
+        if (getCoilLevel().getHeat() < 9000) {
+            this.mLevel = 8 * getCoilLevel().getLevel();
+        } else {
+            this.mLevel = 1 << (getCoilLevel().getTier());
         }
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if ((i != 0) || (j != 0)) {
-                    if (aBaseMetaTileEntity.getBlockOffset(xDir + i, 1, zDir + j) != GregTech_API.sBlockCasings5) {
-                        return false;
-                    }
-                    if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, 1, zDir + j) != tUsedMeta) {
-                        return false;
-                    }
-                    if (aBaseMetaTileEntity.getBlockOffset(xDir + i, 2, zDir + j) != GregTech_API.sBlockCasings1) {
-                        return false;
-                    }
-                    if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, 2, zDir + j) != 11) {
-                        return false;
-                    }
-                }
-            }
-        }
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if ((xDir + i != 0) || (zDir + j != 0)) {
-                    IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 0, zDir + j);
-                    if ((!addMaintenanceToMachineList(tTileEntity, 11)) && (!addInputToMachineList(tTileEntity, 11)) && (!addOutputToMachineList(tTileEntity, 11)) && (!addEnergyInputToMachineList(tTileEntity, 11))) {
-                        if (aBaseMetaTileEntity.getBlockOffset(xDir + i, 0, zDir + j) != GregTech_API.sBlockCasings1) {
-                            return false;
-                        }
-                        if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, 0, zDir + j) != 11) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
+        this.mCostDiscount = getCoilLevel().getCostDiscount();
         return true;
-    }
-
-    public int getMaxEfficiency(ItemStack aStack) {
-        return 10000;
-    }
-
-    public int getPollutionPerTick(ItemStack aStack) {
-        return 5;
-    }
-
-    public int getDamageToComponent(ItemStack aStack) {
-        return 0;
-    }
-
-    public boolean explodesOnComponentBreak(ItemStack aStack) {
-        return false;
     }
 
     private void replaceDeprecatedCoils(IGregTechTileEntity aBaseMetaTileEntity) {
-        int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
-        int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
-        int tX = aBaseMetaTileEntity.getXCoord() + xDir;
-        int tY = (int) aBaseMetaTileEntity.getYCoord();
-        int tZ = aBaseMetaTileEntity.getZCoord() + zDir;
+        final int xDir = aBaseMetaTileEntity.getBackFacing().offsetX;
+        final int zDir = aBaseMetaTileEntity.getBackFacing().offsetZ;
+        final int tX = aBaseMetaTileEntity.getXCoord() + xDir;
+        final int tY = aBaseMetaTileEntity.getYCoord();
+        final int tZ = aBaseMetaTileEntity.getZCoord() + zDir;
         int tUsedMeta;
-        for (int xPos = tX - 1; xPos <= tX + 1; xPos++) {
-            for (int zPos = tZ - 1; zPos <= tZ + 1; zPos++) {
-                if ((xPos == tX) && (zPos == tZ)) {
-                    continue;
-                }
-                tUsedMeta = aBaseMetaTileEntity.getMetaID(xPos, tY + 1, zPos);
-                if (tUsedMeta >= 12 && tUsedMeta <= 14 && aBaseMetaTileEntity.getBlock(xPos, tY + 1, zPos) == GregTech_API.sBlockCasings1) {
-                    aBaseMetaTileEntity.getWorld().setBlock(xPos, tY + 1, zPos, GregTech_API.sBlockCasings5, tUsedMeta - 12, 3);
-                }
-            }
+        for (int xPos = tX - 1; xPos <= tX + 1; xPos++) for (int zPos = tZ - 1; zPos <= tZ + 1; zPos++) {
+            if ((xPos == tX) && (zPos == tZ)) continue;
+            tUsedMeta = aBaseMetaTileEntity.getMetaID(xPos, tY + 1, zPos);
+            if (tUsedMeta >= 12 && tUsedMeta <= 14
+                && aBaseMetaTileEntity.getBlock(xPos, tY + 1, zPos) == GregTech_API.sBlockCasings1)
+                aBaseMetaTileEntity.getWorld()
+                    .setBlock(xPos, tY + 1, zPos, GregTech_API.sBlockCasings5, tUsedMeta - 12, 3);
         }
+    }
+
+    @Override
+    public String[] getInfoData() {
+        int mPollutionReduction = 0;
+        for (final GT_MetaTileEntity_Hatch_Muffler tHatch : filterValidMTEs(mMufflerHatches))
+            mPollutionReduction = Math.max(tHatch.calculatePollutionReduction(100), mPollutionReduction);
+
+        long storedEnergy = 0;
+        long maxEnergy = 0;
+        for (final GT_MetaTileEntity_Hatch_Energy tHatch : filterValidMTEs(mEnergyHatches)) {
+            storedEnergy += tHatch.getBaseMetaTileEntity()
+                .getStoredEU();
+            maxEnergy += tHatch.getBaseMetaTileEntity()
+                .getEUCapacity();
+        }
+
+        return new String[] {
+            StatCollector.translateToLocal("GT5U.multiblock.Progress") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(mProgresstime / 20)
+                + EnumChatFormatting.RESET
+                + " s / "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(mMaxProgresstime / 20)
+                + EnumChatFormatting.RESET
+                + " s",
+            StatCollector.translateToLocal("GT5U.multiblock.energy") + ": "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(storedEnergy)
+                + EnumChatFormatting.RESET
+                + " EU / "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(maxEnergy)
+                + EnumChatFormatting.RESET
+                + " EU",
+            StatCollector.translateToLocal("GT5U.multiblock.usage") + ": "
+                + EnumChatFormatting.RED
+                + GT_Utility.formatNumbers(-mEUt)
+                + EnumChatFormatting.RESET
+                + " EU/t",
+            StatCollector.translateToLocal("GT5U.multiblock.mei") + ": "
+                + EnumChatFormatting.YELLOW
+                + GT_Utility.formatNumbers(getMaxInputVoltage())
+                + EnumChatFormatting.RESET
+                + " EU/t(*2A) "
+                + StatCollector.translateToLocal("GT5U.machines.tier")
+                + ": "
+                + EnumChatFormatting.YELLOW
+                + VN[GT_Utility.getTier(getMaxInputVoltage())]
+                + EnumChatFormatting.RESET,
+            StatCollector.translateToLocal("GT5U.multiblock.problems") + ": "
+                + EnumChatFormatting.RED
+                + (getIdealStatus() - getRepairStatus())
+                + EnumChatFormatting.RESET
+                + " "
+                + StatCollector.translateToLocal("GT5U.multiblock.efficiency")
+                + ": "
+                + EnumChatFormatting.YELLOW
+                + mEfficiency / 100.0F
+                + EnumChatFormatting.RESET
+                + " %",
+            StatCollector.translateToLocal("GT5U.MS.multismelting") + ": "
+                + EnumChatFormatting.GREEN
+                + mLevel
+                + EnumChatFormatting.RESET
+                + " Discount: (EU/t) / "
+                + EnumChatFormatting.GREEN
+                + GT_Utility.formatNumbers(mCostDiscount)
+                + EnumChatFormatting.RESET,
+            StatCollector.translateToLocal("GT5U.multiblock.pollution") + ": "
+                + EnumChatFormatting.GREEN
+                + mPollutionReduction
+                + EnumChatFormatting.RESET
+                + " %" };
+    }
+
+    @Override
+    public void construct(ItemStack stackSize, boolean hintsOnly) {
+        buildPiece(STRUCTURE_PIECE_MAIN, stackSize, hintsOnly, 1, 2, 0);
+    }
+
+    @Override
+    public int survivalConstruct(ItemStack stackSize, int elementBudget, ISurvivalBuildEnvironment env) {
+        if (mMachine) return -1;
+        return survivialBuildPiece(STRUCTURE_PIECE_MAIN, stackSize, 1, 2, 0, elementBudget, env, false, true);
     }
 }

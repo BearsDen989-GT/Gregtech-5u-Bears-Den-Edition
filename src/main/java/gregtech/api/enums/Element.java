@@ -1,13 +1,16 @@
 package gregtech.api.enums;
 
-import gregtech.api.util.GT_Utility;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 /**
  * This is some kind of Periodic Table, which I use to determine Properties of the Materials.
  */
 public enum Element {
+
     _NULL(0, 0, 0, -1, null, "", false),
     H(1, 0, 0, -1, null, "Hydrogen", false),
     D(1, 1, 0, -1, "H", "Deuterium", true),
@@ -46,7 +49,7 @@ public enum Element {
     Ge(32, 40, 0, -1, null, "Germanium", false),
     As(33, 42, 0, -1, null, "Arsenic", false),
     Se(34, 45, 0, -1, null, "Selenium", false),
-    Br(35, 45, 0, -1, null, "Bromine", false),
+    Br(35, 44, 0, -1, null, "Bromine", false),
     Kr(36, 48, 0, -1, null, "Krypton", false),
     Rb(37, 48, 0, -1, null, "Rubidium", false),
     Sr(38, 49, 0, -1, null, "Strontium", false),
@@ -126,15 +129,22 @@ public enum Element {
     Ds(110, 171, 0, -1, null, "Darmstadtium", false),
     Rg(111, 169, 0, -1, null, "Roentgenium", false),
     Cn(112, 173, 0, -1, null, "Copernicium", false),
-    Uut(113, 171, 0, -1, null, "Ununtrium", false),
+    Nh(113, 171, 0, -1, null, "Nihonium", false),
     Fl(114, 175, 0, -1, null, "Flerovium", false),
-    Uup(115, 173, 0, -1, null, "Ununpentium", false),
+    Mc(115, 173, 0, -1, null, "Moscovium", false),
     Lv(116, 177, 0, -1, null, "Livermorium", false),
-    Fa(117, 177, 0, -1, null, "Farnsium", false), // Uus, Ununseptium
-    Uuo(118, 176, 0, -1, null, "Ununoctium", false),
+    Ts(117, 177, 0, -1, null, "Teness", false),
+    Og(118, 176, 0, -1, null, "Oganesson", false),
+    Tn(125, 198, 0, -1, null, "Tritanium", false),
+
+    SpFe(26, 42, 0, -1, null, "Meteoric Iron", false),
+    De(22, 27, 0, -1, null, "Desh", false),
+    Oh(76, 125, 0, -1, null, "Oriharukon", false),
+    Di(500, 500, 0, -1, null, "Dimensionally Transcendent Matter", false),
 
     Ma(0, 0, 100, -1, null, "Magic", false),
-    Nt(0, 100000, 0, -1, null, "Neutronium", false),
+    Nq(130, 200, 0, -1, null, "Naquadah", false),
+    Nt(0, 100, 0, -1, null, "Neutronium", false),
 
     $H(-1, -0, 0, -1, null, "Anti-Hydrogen", false),
     $D(-1, -1, 0, -1, "H", "Anti-Deuterium", true),
@@ -173,7 +183,7 @@ public enum Element {
     $Ge(-32, -40, 0, -1, null, "Anti-Germanium", false),
     $As(-33, -42, 0, -1, null, "Anti-Arsenic", false),
     $Se(-34, -45, 0, -1, null, "Anti-Selenium", false),
-    $Br(-35, -45, 0, -1, null, "Anti-Bromine", false),
+    $Br(-35, -44, 0, -1, null, "Anti-Bromine", false),
     $Kr(-36, -48, 0, -1, null, "Anti-Krypton", false),
     $Rb(-37, -48, 0, -1, null, "Anti-Rubidium", false),
     $Sr(-38, -49, 0, -1, null, "Anti-Strontium", false),
@@ -235,7 +245,7 @@ public enum Element {
     $Np(-93, -144, 0, -1, null, "Anti-Neptunium", false),
     $Pu(-94, -152, 0, -1, null, "Anti-Plutonium", false),
     $Pu_241(-94, -149, 0, -1, null, "Anti-Plutonium-241", true),
-    $Am(-95, -150, 0, -1, null, "Anti-Americum", false),
+    $Am(-95, -150, 0, -1, null, "Anti-Americium", false),
     $Cm(-96, -153, 0, -1, null, "Anti-Curium", false),
     $Bk(-97, -152, 0, -1, null, "Anti-Berkelium", false),
     $Cf(-98, -153, 0, -1, null, "Anti-Californium", false),
@@ -253,17 +263,22 @@ public enum Element {
     $Ds(-110, -171, 0, -1, null, "Anti-Darmstadtium", false),
     $Rg(-111, -169, 0, -1, null, "Anti-Roentgenium", false),
     $Cn(-112, -173, 0, -1, null, "Anti-Copernicium", false),
-    $Uut(-113, -171, 0, -1, null, "Anti-Ununtrium", false),
+    $Nh(-113, -171, 0, -1, null, "Anti-Nihonium", false),
     $Fl(-114, -175, 0, -1, null, "Anti-Flerovium", false),
-    $Uup(-115, -173, 0, -1, null, "Anti-Ununpentium", false),
+    $Mc(-115, -173, 0, -1, null, "Anti-Moscovium", false),
     $Lv(-116, -177, 0, -1, null, "Anti-Livermorium", false),
-    $Uus(-117, -177, 0, -1, null, "Anti-Ununseptium", false),
-    $Uuo(-118, -176, 0, -1, null, "Anti-Ununoctium", false),
+    $Ts(-117, -177, 0, -1, null, "Anti-Tenness", false),
+    $Og(-118, -176, 0, -1, null, "Anti-Oganesson", false),
+    $Tn(-125, -198, 0, -1, null, "Anti-Tritanium", false),
+
+    $SpFe(-26, -42, 0, -1, null, "Anti-Meteoric Iron", true),
+    $De(-22, -27, 0, -1, null, "Anti-Desh", true),
+    $Oh(-76, -125, 0, -1, null, "Anti-Oriharukon", true),
 
     $Ma(0, 0, -100, -1, null, "Anti-Magic", false),
+    $Nq(-130, -200, 0, -1, null, "Anti-Naquadah", false),
     $Nt(0, -10000, 0, -1, null, "Anti-Neutronium", false);
 
-    public static volatile int VERSION = 509;
     public final long mProtons, mNeutrons, mAdditionalMass, mHalfLifeSeconds;
     public final String mName, mDecayTo;
     public final boolean mIsIsotope;
@@ -271,16 +286,20 @@ public enum Element {
     /**
      * Links to every pure Material containing just this Element.
      */
-    public ArrayList<Materials> mLinkedMaterials = new ArrayList<Materials>();
+    // bartworks.system.material.werkstoff_loaders.registration.BridgeMaterialsLoader reassigns it, so no final here
+    @SuppressWarnings("NonFinalFieldInEnum")
+    public ArrayList<Materials> mLinkedMaterials = new ArrayList<>();
 
     /**
      * @param aProtons         Amount of Protons. Antiprotons if negative.
-     * @param aNeutrons        Amount of Neutrons. Antineutrons if negative. (I could have made mistakes with the Neutron amount calculation, please tell me if I did something wrong)
+     * @param aNeutrons        Amount of Neutrons. Antineutrons if negative. (I could have made mistakes with the
+     *                         Neutron amount calculation, please tell me if I did something wrong)
      * @param aHalfLifeSeconds Amount of Half Life this Material has in Seconds. -1 for stable Materials.
      * @param aDecayTo         String representing the Elements it decays to. Separated by an '&' Character.
      * @param aName            Name of the Element
      */
-    private Element(long aProtons, long aNeutrons, long aAdditionalMass, long aHalfLifeSeconds, String aDecayTo, String aName, boolean aIsIsotope) {
+    Element(long aProtons, long aNeutrons, long aAdditionalMass, long aHalfLifeSeconds, String aDecayTo, String aName,
+        boolean aIsIsotope) {
         mProtons = aProtons;
         mNeutrons = aNeutrons;
         mAdditionalMass = aAdditionalMass;
@@ -288,12 +307,12 @@ public enum Element {
         mDecayTo = aDecayTo;
         mName = aName;
         mIsIsotope = aIsIsotope;
+        Companion.VALUES.put(name(), this);
     }
 
+    @Nonnull
     public static Element get(String aMaterialName) {
-        Object tObject = GT_Utility.getFieldContent(Element.class, aMaterialName, false, false);
-        if (tObject != null && tObject instanceof Element) return (Element) tObject;
-        return _NULL;
+        return Companion.VALUES.getOrDefault(aMaterialName, _NULL);
     }
 
     public long getProtons() {
@@ -306,5 +325,17 @@ public enum Element {
 
     public long getMass() {
         return mProtons + mNeutrons + mAdditionalMass;
+    }
+
+    /**
+     * A companion object to workaround java limitations
+     */
+    private static final class Companion {
+
+        /**
+         * Why is this a separate map and populated by enum constructor instead of a Map prepoluated with values()?
+         * Because apparently there are people hacking into this enum via EnumHelper.
+         */
+        private static final Map<String, Element> VALUES = new HashMap<>();
     }
 }

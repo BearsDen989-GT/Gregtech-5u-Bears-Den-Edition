@@ -1,0 +1,47 @@
+{
+  "gui.buttonDown": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "buttonDown",
+        "stream": false
+      }
+    ]
+  },
+  "gui.buttonUp": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "buttonUp",
+        "stream": false
+      }
+    ]
+  },
+  "machines.FusionLoop": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "FusionLoop",
+        "stream": false
+      }
+    ]
+  },
+  "machines.DistilleryLoop": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "DistilleryLoop",
+        "stream": false
+      }
+    ]
+  },
+  "machines.PlasmaForgeLoop": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "PlasmaForgeLoop",
+        "stream": false
+      }
+    ]
+  }
+}

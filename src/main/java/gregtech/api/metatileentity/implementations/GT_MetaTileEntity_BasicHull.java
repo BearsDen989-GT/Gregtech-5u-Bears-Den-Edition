@@ -1,28 +1,35 @@
 package gregtech.api.metatileentity.implementations;
 
+import static gregtech.api.enums.GT_Values.V;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-import static gregtech.api.enums.GT_Values.V;
 
 public class GT_MetaTileEntity_BasicHull extends GT_MetaTileEntity_BasicTank {
-    public GT_MetaTileEntity_BasicHull(int aID, String aName, String aNameRegional, int aTier, String aDescription, ITexture... aTextures) {
+
+    public GT_MetaTileEntity_BasicHull(int aID, String aName, String aNameRegional, int aTier, String aDescription,
+        ITexture... aTextures) {
         super(aID, aName, aNameRegional, aTier, 1, aDescription, aTextures);
     }
 
-    public GT_MetaTileEntity_BasicHull(int aID, String aName, String aNameRegional, int aTier, int aInvSlotCount, String aDescription, ITexture... aTextures) {
+    public GT_MetaTileEntity_BasicHull(int aID, String aName, String aNameRegional, int aTier, int aInvSlotCount,
+        String aDescription, ITexture... aTextures) {
         super(aID, aName, aNameRegional, aTier, aInvSlotCount, aDescription, aTextures);
     }
 
-    public GT_MetaTileEntity_BasicHull(String aName, int aTier, int aInvSlotCount, String aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_BasicHull(String aName, int aTier, int aInvSlotCount, String aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, aInvSlotCount, aDescription, aTextures);
     }
-    
-    public GT_MetaTileEntity_BasicHull(String aName, int aTier, int aInvSlotCount, String[] aDescription, ITexture[][][] aTextures) {
+
+    public GT_MetaTileEntity_BasicHull(String aName, int aTier, int aInvSlotCount, String[] aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, aInvSlotCount, aDescription, aTextures);
     }
 
@@ -52,13 +59,13 @@ public class GT_MetaTileEntity_BasicHull extends GT_MetaTileEntity_BasicTank {
     }
 
     @Override
-    public boolean isInputFacing(byte aSide) {
-        return !isOutputFacing(aSide);
+    public boolean isInputFacing(ForgeDirection side) {
+        return !isOutputFacing(side);
     }
 
     @Override
-    public boolean isOutputFacing(byte aSide) {
-        return aSide == getBaseMetaTileEntity().getFrontFacing();
+    public boolean isOutputFacing(ForgeDirection side) {
+        return side == getBaseMetaTileEntity().getFrontFacing();
     }
 
     @Override
@@ -87,7 +94,7 @@ public class GT_MetaTileEntity_BasicHull extends GT_MetaTileEntity_BasicTank {
     }
 
     @Override
-    public boolean isFacingValid(byte aFacing) {
+    public boolean isFacingValid(ForgeDirection facing) {
         return true;
     }
 
@@ -97,30 +104,36 @@ public class GT_MetaTileEntity_BasicHull extends GT_MetaTileEntity_BasicTank {
     }
 
     @Override
-    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return true;
     }
 
     @Override
-    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
+    public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, ForgeDirection side,
+        ItemStack aStack) {
         return true;
     }
 
     @Override
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aConnected, boolean aRedstone) {
-        return mTextures[Math.min(2, aSide) + (aSide == aFacing ? 3 : 0)][aColorIndex + 1];
+    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, ForgeDirection side, ForgeDirection aFacing,
+        int colorIndex, boolean aConnected, boolean redstoneLevel) {
+        return mTextures[Math.min(2, side.ordinal()) + (side == aFacing ? 3 : 0)][colorIndex + 1];
     }
 
     @Override
     public ITexture[][][] getTextureSet(ITexture[] aTextures) {
         ITexture[][][] rTextures = new ITexture[6][17][];
         for (byte i = -1; i < 16; i++) {
-            rTextures[0][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1]};
-            rTextures[1][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1]};
-            rTextures[2][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1]};
-            rTextures[3][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1], Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier]};
-            rTextures[4][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1], Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier]};
-            rTextures[5][i + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1], Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier]};
+            rTextures[0][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1] };
+            rTextures[1][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1] };
+            rTextures[2][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1] };
+            rTextures[3][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1],
+                Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier] };
+            rTextures[4][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1],
+                Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier] };
+            rTextures[5][i + 1] = new ITexture[] { Textures.BlockIcons.MACHINE_CASINGS[mTier][i + 1],
+                Textures.BlockIcons.OVERLAYS_ENERGY_OUT[mTier] };
         }
         return rTextures;
     }

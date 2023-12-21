@@ -2,6 +2,11 @@ package gregtech.loaders.postload;
 
 import java.lang.reflect.Field;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.ticking.IGridTickable;
 import appeng.api.networking.ticking.TickRateModulation;
@@ -10,13 +15,9 @@ import appeng.parts.AEBasePart;
 import appeng.parts.p2p.PartP2PIC2Power;
 import gregtech.api.interfaces.tileentity.IEnergyConnected;
 import gregtech.api.util.GT_Log;
-import gregtech.api.util.GT_Utility;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
+
     public PartP2PGTPower(ItemStack is) {
         super(is);
     }
@@ -37,24 +38,26 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
         return getTile().zCoord;
     }
 
-    public final int getOffsetX(byte aSide, int aMultiplier) {
-        return getXCoord() + ForgeDirection.getOrientation(aSide).offsetX * aMultiplier;
+    public final int getOffsetX(ForgeDirection side, int aMultiplier) {
+        return getXCoord() + side.offsetX * aMultiplier;
     }
 
-    public final short getOffsetY(byte aSide, int aMultiplier) {
-        return (short) (getYCoord() + ForgeDirection.getOrientation(aSide).offsetY * aMultiplier);
+    public final short getOffsetY(ForgeDirection side, int aMultiplier) {
+        return (short) (getYCoord() + side.offsetY * aMultiplier);
     }
 
-    public final int getOffsetZ(byte aSide, int aMultiplier) {
-        return getZCoord() + ForgeDirection.getOrientation(aSide).offsetZ * aMultiplier;
+    public final int getOffsetZ(ForgeDirection side, int aMultiplier) {
+        return getZCoord() + side.offsetZ * aMultiplier;
     }
 
     public final TileEntity getTileEntity(int aX, int aY, int aZ) {
         return getWorld().getTileEntity(aX, aY, aZ);
     }
 
-    public final TileEntity getTileEntityAtSide(byte aSide) {
-        int tX = getOffsetX(aSide, 1), tY = getOffsetY(aSide, 1), tZ = getOffsetZ(aSide, 1);
+    public final TileEntity getTileEntityAtSide(ForgeDirection side) {
+        final int tX = getOffsetX(side, 1);
+        final int tY = getOffsetY(side, 1);
+        final int tZ = getOffsetZ(side, 1);
         return getWorld().getTileEntity(tX, tY, tZ);
     }
 
@@ -62,13 +65,13 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
         if (getOfferedEnergy() == 0) {
             return false;
         }
-        TileEntity t = getTileEntityAtSide((byte) getSide().ordinal());
-        if (t instanceof IEnergyConnected) {
-            long voltage = 8 << (getSourceTier() * 2);
+        final TileEntity te = getTileEntityAtSide(getSide());
+        if (te instanceof IEnergyConnected energyConnected) {
+            long voltage = 8L << (getSourceTier() * 2);
             if (voltage > getOfferedEnergy()) {
                 voltage = (long) getOfferedEnergy();
             }
-            if (((IEnergyConnected) t).injectEnergyUnits(GT_Utility.getOppositeSide(getSide().ordinal()), voltage, 1) > 0) {
+            if (energyConnected.injectEnergyUnits(getSide().getOpposite(), voltage, 1) > 0) {
                 drawEnergy(voltage);
                 return true;
             }
@@ -86,15 +89,16 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
         return outputEnergy() ? TickRateModulation.FASTER : TickRateModulation.SLOWER;
     }
 
-    public ForgeDirection getSide(){
-    	try {
-    		Field fSide = AEBasePart.class.getDeclaredField("side");
-			fSide.setAccessible(true);
-    		return (ForgeDirection) fSide.get(this);
-    	} catch (Exception e) {
-    		GT_Log.out.println("A fatal error occured at the P2P tunnel for GT electricity");
+    @Override
+    public ForgeDirection getSide() {
+        try {
+            Field fSide = AEBasePart.class.getDeclaredField("side");
+            fSide.setAccessible(true);
+            return (ForgeDirection) fSide.get(this);
+        } catch (Exception e) {
+            GT_Log.out.println("A fatal error occured at the P2P tunnel for GT electricity");
             e.printStackTrace(GT_Log.out);
-    		throw new RuntimeException(e);
-    	}
+            throw new RuntimeException(e);
+        }
     }
 }

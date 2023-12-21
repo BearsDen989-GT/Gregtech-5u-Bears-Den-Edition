@@ -1,24 +1,31 @@
 package gregtech.api.metatileentity.implementations;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 
 public abstract class GT_MetaTileEntity_BasicHull_NonElectric extends GT_MetaTileEntity_BasicHull {
-    public GT_MetaTileEntity_BasicHull_NonElectric(int aID, String aName, String aNameRegional, int aTier, String aDescription) {
+
+    public GT_MetaTileEntity_BasicHull_NonElectric(int aID, String aName, String aNameRegional, int aTier,
+        String aDescription) {
         super(aID, aName, aNameRegional, aTier, aDescription);
     }
 
-    public GT_MetaTileEntity_BasicHull_NonElectric(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_BasicHull_NonElectric(String aName, int aTier, String aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, 1, aDescription, aTextures);
     }
 
-    public GT_MetaTileEntity_BasicHull_NonElectric(String aName, int aTier, String[] aDescription, ITexture[][][] aTextures) {
+    public GT_MetaTileEntity_BasicHull_NonElectric(String aName, int aTier, String[] aDescription,
+        ITexture[][][] aTextures) {
         super(aName, aTier, 1, aDescription, aTextures);
     }
 
     @Override
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
-        return mTextures[Math.min(2, aSide)][aColorIndex + 1];
+    public ITexture[] getTexture(IGregTechTileEntity baseMetaTileEntity, ForgeDirection sideDirection,
+        ForgeDirection facingDirection, int colorIndex, boolean active, boolean redstoneLevel) {
+        return mTextures[Math.min(2, sideDirection.ordinal())][colorIndex + 1];
     }
 
     @Override
@@ -37,12 +44,12 @@ public abstract class GT_MetaTileEntity_BasicHull_NonElectric extends GT_MetaTil
     }
 
     @Override
-    public boolean isInputFacing(byte aSide) {
+    public boolean isInputFacing(ForgeDirection side) {
         return false;
     }
 
     @Override
-    public boolean isOutputFacing(byte aSide) {
+    public boolean isOutputFacing(ForgeDirection side) {
         return false;
     }
 

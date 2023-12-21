@@ -6,12 +6,13 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class GT_Slot_Armor extends Slot {
+
     final int mArmorType;
     final EntityPlayer mPlayer;
 
-    public GT_Slot_Armor(IInventory par2IInventory, int par3, int par4, int par5, int par6, EntityPlayer aPlayer) {
-        super(par2IInventory, par3, par4, par5);
-        mArmorType = par6;
+    public GT_Slot_Armor(IInventory inventory, int slotIndex, int xPos, int yPos, int armorType, EntityPlayer aPlayer) {
+        super(inventory, slotIndex, xPos, yPos);
+        mArmorType = armorType;
         mPlayer = aPlayer;
     }
 
@@ -22,6 +23,8 @@ public class GT_Slot_Armor extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack aStack) {
-        return aStack != null && aStack.getItem() != null && aStack.getItem().isValidArmor(aStack, mArmorType, mPlayer);
+        return aStack != null && aStack.getItem() != null
+            && aStack.getItem()
+                .isValidArmor(aStack, mArmorType, mPlayer);
     }
 }

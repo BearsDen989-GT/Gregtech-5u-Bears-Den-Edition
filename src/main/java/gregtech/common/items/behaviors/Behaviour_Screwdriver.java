@@ -1,17 +1,19 @@
 package gregtech.common.items.behaviors;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.items.GT_MetaBase_Item;
-import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class Behaviour_Screwdriver
-        extends Behaviour_None {
+import gregtech.api.enums.SoundResource;
+import gregtech.api.items.GT_MetaBase_Item;
+import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_Utility;
+
+public class Behaviour_Screwdriver extends Behaviour_None {
+
     private final int mVanillaCosts;
     private final int mEUCosts;
 
@@ -20,7 +22,9 @@ public class Behaviour_Screwdriver
         this.mEUCosts = aEUCosts;
     }
 
-    public boolean onItemUseFirst(GT_MetaBase_Item aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+    @Override
+    public boolean onItemUseFirst(GT_MetaBase_Item aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX,
+        int aY, int aZ, ForgeDirection side, float hitX, float hitY, float hitZ) {
         if (aWorld.isRemote) {
             return false;
         }
@@ -32,14 +36,14 @@ public class Behaviour_Screwdriver
         if ((aBlock == Blocks.unpowered_repeater) || (aBlock == Blocks.powered_repeater)) {
             if (GT_ModHandler.damageOrDechargeItem(aStack, this.mVanillaCosts, this.mEUCosts, aPlayer)) {
                 aWorld.setBlockMetadataWithNotify(aX, aY, aZ, aMeta / 4 * 4 + (aMeta % 4 + 1) % 4, 3);
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(100)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, SoundResource.IC2_TOOLS_WRENCH, 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }
         if ((aBlock == Blocks.unpowered_comparator) || (aBlock == Blocks.powered_comparator)) {
             if (GT_ModHandler.damageOrDechargeItem(aStack, this.mVanillaCosts, this.mEUCosts, aPlayer)) {
                 aWorld.setBlockMetadataWithNotify(aX, aY, aZ, aMeta / 4 * 4 + (aMeta % 4 + 1) % 4, 3);
-                GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(100)), 1.0F, -1.0F, aX, aY, aZ);
+                GT_Utility.sendSoundToPlayers(aWorld, SoundResource.IC2_TOOLS_WRENCH, 1.0F, -1.0F, aX, aY, aZ);
             }
             return true;
         }

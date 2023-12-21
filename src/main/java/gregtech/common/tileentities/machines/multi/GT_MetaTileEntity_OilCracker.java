@@ -1,29 +1,111 @@
 package gregtech.common.tileentities.machines.multi;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.Textures;
-import gregtech.api.gui.GT_GUIContainer_MultiMachine;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Input;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_MultiBlockBase;
-import gregtech.api.objects.GT_RenderedTexture;
-import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_Recipe;
-import gregtech.api.util.GT_Utility;
-import net.minecraft.entity.player.InventoryPlayer;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.onElementPass;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER_ACTIVE;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER_ACTIVE_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER_GLOW;
+import static gregtech.api.enums.Textures.BlockIcons.casingTexturePages;
+import static gregtech.api.util.GT_StructureUtility.buildHatchAdder;
+import static gregtech.api.util.GT_StructureUtility.ofCoil;
+import static gregtech.api.util.GT_Utility.filterValidMTEs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.ArrayList;
+import com.gtnewhorizon.structurelib.alignment.constructable.ISurvivalConstructable;
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
-public class GT_MetaTileEntity_OilCracker extends GT_MetaTileEntity_MultiBlockBase {
-	private ForgeDirection orientation;
-	private int controllerX, controllerZ;
-	
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_HatchElement;
+import gregtech.api.enums.HeatingCoilLevel;
+import gregtech.api.interfaces.ITexture;
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.api.logic.ProcessingLogic;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_EnhancedMultiBlockBase;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Input;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_MultiInput;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Output;
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.recipe.RecipeMaps;
+import gregtech.api.recipe.check.CheckRecipeResult;
+import gregtech.api.recipe.maps.OilCrackerBackend;
+import gregtech.api.render.TextureFactory;
+import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
+
+public class GT_MetaTileEntity_OilCracker extends GT_MetaTileEntity_EnhancedMultiBlockBase<GT_MetaTileEntity_OilCracker>
+    implements ISurvivalConstructable {
+
+    private static final byte CASING_INDEX = 49;
+    private static final String STRUCTURE_PIECE_MAIN = "main";
+    private static final IStructureDefinition<GT_MetaTileEntity_OilCracker> STRUCTURE_DEFINITION = StructureDefinition
+        .<GT_MetaTileEntity_OilCracker>builder()
+        .addShape(
+            STRUCTURE_PIECE_MAIN,
+            transpose(
+                new String[][] { { "lcmcr", "lcmcr", "lcmcr" }, { "lc~cr", "l---r", "lcmcr" },
+                    { "lcmcr", "lcmcr", "lcmcr" }, }))
+        .addElement('c', ofCoil(GT_MetaTileEntity_OilCracker::setCoilLevel, GT_MetaTileEntity_OilCracker::getCoilLevel))
+        .addElement(
+            'l',
+            buildHatchAdder(GT_MetaTileEntity_OilCracker.class)
+                .atLeast(
+                    GT_HatchElement.InputHatch.withAdder(GT_MetaTileEntity_OilCracker::addLeftHatchToMachineList),
+                    GT_HatchElement.Energy,
+                    GT_HatchElement.Maintenance)
+                .dot(2)
+                .casingIndex(CASING_INDEX)
+                .buildAndChain(
+                    onElementPass(
+                        GT_MetaTileEntity_OilCracker::onCasingAdded,
+                        ofBlock(GregTech_API.sBlockCasings4, 1))))
+        .addElement(
+            'r',
+            buildHatchAdder(GT_MetaTileEntity_OilCracker.class)
+                .atLeast(
+                    GT_HatchElement.OutputHatch.withAdder(GT_MetaTileEntity_OilCracker::addRightHatchToMachineList),
+                    GT_HatchElement.Energy,
+                    GT_HatchElement.Maintenance)
+                .dot(3)
+                .casingIndex(CASING_INDEX)
+                .buildAndChain(
+                    onElementPass(
+                        GT_MetaTileEntity_OilCracker::onCasingAdded,
+                        ofBlock(GregTech_API.sBlockCasings4, 1))))
+        .addElement(
+            'm',
+            buildHatchAdder(GT_MetaTileEntity_OilCracker.class)
+                .atLeast(
+                    GT_HatchElement.InputHatch.withAdder(GT_MetaTileEntity_OilCracker::addMiddleInputToMachineList)
+                        .withCount(t -> t.mMiddleInputHatches.size()),
+                    GT_HatchElement.InputBus,
+                    GT_HatchElement.Energy,
+                    GT_HatchElement.Maintenance)
+                .dot(1)
+                .casingIndex(CASING_INDEX)
+                .buildAndChain(
+                    onElementPass(
+                        GT_MetaTileEntity_OilCracker::onCasingAdded,
+                        ofBlock(GregTech_API.sBlockCasings4, 1))))
+        .build();
+    private HeatingCoilLevel heatLevel;
+    protected final List<GT_MetaTileEntity_Hatch_Input> mMiddleInputHatches = new ArrayList<>();
+    // 0 -> left, 1 -> right, any other -> not found
+    protected int mInputOnSide;
+    protected int mOutputOnSide;
+    protected int mCasingAmount;
+
     public GT_MetaTileEntity_OilCracker(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
     }
@@ -32,192 +114,166 @@ public class GT_MetaTileEntity_OilCracker extends GT_MetaTileEntity_MultiBlockBa
         super(aName);
     }
 
-    public String[] getDescription() {
-        return new String[]{
-                "Controller Block for the Oil Cracking Unit",
-                "Thermally cracks heavy hydrocarbons into lighter fractions",
-                "Size(WxHxD): 5x3x3 (Hollow), Controller (Front center)",
-                "Ring of 8 Cupronickel Coils (Each side of Controller)",
-                "1x Hydrocarbon Input Bus/Hatch (Any left/right side casing)",
-                "1x Steam/Hydrogen Input Hatch (Any middle ring casing)",
-                "1x Cracked Hydrocarbon Output Hatch (Any left/right side casing)",
-                "1x Maintenance Hatch (Any casing)",
-                "1x Energy Hatch (Any casing)",
-                "Clean Stainless Steel Machine Casings for the rest (18 at least!)",
-                "Input/Output Hatches must be on opposite sides"};
-    }
-
-    public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        if (aSide == aFacing) {
-            return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[49],
-                    new GT_RenderedTexture(aActive ? Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER_ACTIVE : Textures.BlockIcons.OVERLAY_FRONT_OIL_CRACKER)};
-        }
-        return new ITexture[]{Textures.BlockIcons.CASING_BLOCKS[49]};
-    }
-
-    public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        return new GT_GUIContainer_MultiMachine(aPlayerInventory, aBaseMetaTileEntity, getLocalName(), "OilCrackingUnit.png");
+    @Override
+    protected GT_Multiblock_Tooltip_Builder createTooltip() {
+        final GT_Multiblock_Tooltip_Builder tt = new GT_Multiblock_Tooltip_Builder();
+        tt.addMachineType("Cracker")
+            .addInfo("Controller block for the Oil Cracking Unit")
+            .addInfo("Thermally cracks heavy hydrocarbons into lighter fractions")
+            .addInfo("More efficient than the Chemical Reactor")
+            .addInfo("Gives different benefits whether it hydro or steam-cracks:")
+            .addInfo("Hydro - Consumes 20% less Hydrogen and outputs 25% more cracked fluid")
+            .addInfo("Steam - Outputs 50% more cracked fluid")
+            .addInfo("(Values compared to cracking in the Chemical Reactor)")
+            .addInfo("Place the appropriate circuit in the controller or an input bus")
+            .addSeparator()
+            .beginStructureBlock(5, 3, 3, true)
+            .addController("Front center")
+            .addCasingInfoRange("Clean Stainless Steel Machine Casing", 18, 21, false)
+            .addOtherStructurePart("2 Rings of 8 Coils", "Each side of the controller")
+            .addInfo("Gets 10% EU/t reduction per coil tier, up to a maximum of 50%")
+            .addEnergyHatch("Any casing", 1, 2, 3)
+            .addMaintenanceHatch("Any casing", 1, 2, 3)
+            .addInputHatch("For cracking fluid (Steam/Hydrogen/etc.) ONLY, Any middle ring casing", 1)
+            .addInputHatch("Any left/right side casing", 2, 3)
+            .addOutputHatch("Any right/left side casing", 2, 3)
+            .addStructureInfo("Input/Output Hatches must be on opposite sides!")
+            .addInputBus("Any middle ring casing, optional for programmed circuit automation")
+            .addStructureHint("GT5U.cracker.io_side")
+            .toolTipFinisher("Gregtech");
+        return tt;
     }
 
     @Override
-    public boolean checkRecipe(ItemStack aStack) {
-        ArrayList<FluidStack> tInputList = getStoredFluids();
-        FluidStack[] tFluidInputs = tInputList.toArray(new FluidStack[tInputList.size()]);
-        long tVoltage = getMaxInputVoltage();
-        byte tTier = (byte) Math.max(1, GT_Utility.getTier(tVoltage));
+    public ITexture[] getTexture(IGregTechTileEntity baseMetaTileEntity, ForgeDirection sideDirection,
+        ForgeDirection facingDirection, int colorIndex, boolean active, boolean redstoneLevel) {
+        if (sideDirection == facingDirection) {
+            if (active) return new ITexture[] { casingTexturePages[0][CASING_INDEX], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_OIL_CRACKER_ACTIVE)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_OIL_CRACKER_ACTIVE_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
+            return new ITexture[] { casingTexturePages[0][CASING_INDEX], TextureFactory.builder()
+                .addIcon(OVERLAY_FRONT_OIL_CRACKER)
+                .extFacing()
+                .build(),
+                TextureFactory.builder()
+                    .addIcon(OVERLAY_FRONT_OIL_CRACKER_GLOW)
+                    .extFacing()
+                    .glow()
+                    .build() };
+        }
+        return new ITexture[] { casingTexturePages[0][CASING_INDEX] };
+    }
 
-        GT_Recipe tRecipe = GT_Recipe.GT_Recipe_Map.sCrakingRecipes.findRecipe(
-        		getBaseMetaTileEntity(), false, gregtech.api.enums.GT_Values.V[tTier], tFluidInputs ,new ItemStack[]{mInventory[1]});
-        if (tRecipe != null && tRecipe.isRecipeInputEqual(true, tFluidInputs, new ItemStack[]{mInventory[1]})) {
-            this.mEfficiency = (10000 - (getIdealStatus() - getRepairStatus()) * 1000);
-            this.mEfficiencyIncrease = 10000;
-            this.mEUt = tRecipe.mEUt;
-            this.mMaxProgresstime = tRecipe.mDuration;
-            while (this.mEUt <= gregtech.api.enums.GT_Values.V[(tTier - 1)]) {
-                this.mEUt *= 4;
-                this.mMaxProgresstime /= 2;
+    @Override
+    public RecipeMap<OilCrackerBackend> getRecipeMap() {
+        return RecipeMaps.crackingRecipes;
+    }
+
+    @Override
+    protected ProcessingLogic createProcessingLogic() {
+        return new ProcessingLogic() {
+
+            @Nonnull
+            @Override
+            public CheckRecipeResult process() {
+                setEuModifier(1.0F - Math.min(0.1F * (heatLevel.getTier() + 1), 0.5F));
+                return super.process();
             }
-            if (this.mEUt > 0) {
-                this.mEUt = (-this.mEUt);
-            }
-            this.mMaxProgresstime = Math.max(1, this.mMaxProgresstime);
-            this.mOutputFluids = new FluidStack[]{tRecipe.getFluidOutput(0)};
-            return true;
+        };
+    }
+
+    @Override
+    public IStructureDefinition<GT_MetaTileEntity_OilCracker> getStructureDefinition() {
+        return STRUCTURE_DEFINITION;
+    }
+
+    public HeatingCoilLevel getCoilLevel() {
+        return heatLevel;
+    }
+
+    public void setCoilLevel(HeatingCoilLevel aCoilLevel) {
+        heatLevel = aCoilLevel;
+    }
+
+    private boolean addMiddleInputToMachineList(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        if (aTileEntity == null) return false;
+        IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
+        if (aMetaTileEntity == null) return false;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Input tHatch) {
+            tHatch.updateTexture(aBaseCasingIndex);
+            tHatch.mRecipeMap = getRecipeMap();
+            return mMiddleInputHatches.add(tHatch);
         }
         return false;
     }
 
+    private boolean addLeftHatchToMachineList(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        if (aTileEntity == null) return false;
+        IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
+        if (aMetaTileEntity == null) return false;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Input tHatch) {
+            if (mInputOnSide == 1) return false;
+            mInputOnSide = 0;
+            mOutputOnSide = 1;
+            tHatch.updateTexture(aBaseCasingIndex);
+            tHatch.mRecipeMap = getRecipeMap();
+            return mInputHatches.add(tHatch);
+        }
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Output tHatch) {
+            if (mOutputOnSide == 1) return false;
+            mInputOnSide = 1;
+            mOutputOnSide = 0;
+            tHatch.updateTexture(aBaseCasingIndex);
+            return mOutputHatches.add(tHatch);
+        }
+        return false;
+    }
+
+    private boolean addRightHatchToMachineList(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        if (aTileEntity == null) return false;
+        IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
+        if (aMetaTileEntity == null) return false;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Input tHatch) {
+            if (mInputOnSide == 0) return false;
+            mInputOnSide = 1;
+            mOutputOnSide = 0;
+            tHatch.updateTexture(aBaseCasingIndex);
+            tHatch.mRecipeMap = getRecipeMap();
+            return mInputHatches.add(tHatch);
+        }
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Output tHatch) {
+            if (mOutputOnSide == 0) return false;
+            mInputOnSide = 0;
+            mOutputOnSide = 1;
+            tHatch.updateTexture(aBaseCasingIndex);
+            return mOutputHatches.add(tHatch);
+        }
+        return false;
+    }
+
+    private void onCasingAdded() {
+        mCasingAmount++;
+    }
+
     @Override
     public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
-    	this.orientation = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing());
-    	this.controllerX = aBaseMetaTileEntity.getXCoord();
-    	this.controllerZ = aBaseMetaTileEntity.getZCoord();
-        int xDir = this.orientation.offsetX;
-        int zDir = this.orientation.offsetZ;
-        int amount = 0;
+        setCoilLevel(HeatingCoilLevel.None);
+        mCasingAmount = 0;
+        mMiddleInputHatches.clear();
+        mInputOnSide = -1;
+        mOutputOnSide = -1;
         replaceDeprecatedCoils(aBaseMetaTileEntity);
-        boolean negSideInput = false, negSideOutput = false, posSideInput = false, posSideOutput = false;
-        if (xDir != 0) {
-            for (int i = -1; i < 2; i++) {// xDirection
-                for (int j = -1; j < 2; j++) {// height
-                    for (int h = -2; h < 3; h++) {
-                        if (!(j == 0 && i == 0 && (h == -1 || h == 0 || h == 1))) {
-                            if (h == 1 || h == -1) {
-                                if (aBaseMetaTileEntity.getBlockOffset(xDir + i, j, h + zDir) != GregTech_API.sBlockCasings5) {
-                                    return false;
-                                }
-                                if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, j, h + zDir) != 0) {
-                                    return false;
-                                }
-                            }
-                            if (h == 2 || h == -2) {
-                                IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, j, h + zDir);
-                                if (addInputToMachineList(tTileEntity, 49)) {
-                                	if (h == -2) {
-                                		negSideInput = true;
-                                	} else {
-                                		posSideInput = true;
-                                	}
-                                } else if (addOutputToMachineList(tTileEntity, 49)) {
-                                	if (h == -2) {
-                                		negSideOutput = true;
-                                	} else {
-                                		posSideOutput = true;
-                                	}                                	
-                                } else if (!addEnergyInputToMachineList(tTileEntity, 49) && !addMaintenanceToMachineList(tTileEntity, 49)){
-                                    if (aBaseMetaTileEntity.getBlockOffset(xDir + i, j, h + zDir) != GregTech_API.sBlockCasings4) {
-                                        return false;
-                                    }
-                                    if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, j, h + zDir) != 1) {
-                                        return false;
-                                    }
-                                    amount++;
-                                }
-                            }
-                            if (h == 0) {
-                                IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, j, h + zDir);
-                                if ((!addMaintenanceToMachineList(tTileEntity, 49)) && (!addInputToMachineList(tTileEntity, 49))
-                                        && (!addEnergyInputToMachineList(tTileEntity, 49))) {
-                                    if (!((xDir + i) == 0 && j == 0 && (h + zDir) == 0)) {
-                                        if (aBaseMetaTileEntity.getBlockOffset(xDir + i, j, h + zDir) != GregTech_API.sBlockCasings4) {
-                                            return false;
-                                        }
-                                        if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, j, h + zDir) != 1) {
-                                            return false;
-                                        }
-                                        amount++;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-        } else {
-            for (int i = -1; i < 2; i++) {// zDirection
-                for (int j = -1; j < 2; j++) {// height
-                    for (int h = -2; h < 3; h++) {
-                        if (!(j == 0 && i == 0 && (h == -1 || h == 0 || h == 1))) {
-                            if (h == 1 || h == -1) {
-                                if (aBaseMetaTileEntity.getBlockOffset(xDir + h, j, i + zDir) != GregTech_API.sBlockCasings5) {
-                                    return false;
-                                }
-                                if (aBaseMetaTileEntity.getMetaIDOffset(xDir + h, j, i + zDir) != 0) {
-                                    return false;
-                                }
-                            }
-                            if (h == 2 || h == -2) {
-                                IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + h, j, i + zDir);
-                                if (addInputToMachineList(tTileEntity, 49)) {
-                                	if (h == -2) {
-                                		negSideInput = true;
-                                	} else {
-                                		posSideInput = true;
-                                	}
-                                } else if (addOutputToMachineList(tTileEntity, 49)) {
-                                	if (h == -2) {
-                                		negSideOutput = true;
-                                	} else {
-                                		posSideOutput = true;
-                                	}                                	
-                                } else if (!addEnergyInputToMachineList(tTileEntity, 49) && !addMaintenanceToMachineList(tTileEntity, 49)){
-                                    if (aBaseMetaTileEntity.getBlockOffset(xDir + h, j, i + zDir) != GregTech_API.sBlockCasings4) {
-                                        return false;
-                                    }
-                                    if (aBaseMetaTileEntity.getMetaIDOffset(xDir + h, j, i + zDir) != 1) {
-                                        return false;
-                                    }
-                                    amount++;
-                                }
-                            }
-                            if (h == 0) {
-                                IGregTechTileEntity tTileEntity = aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + h, j, i + zDir);
-                                if ((!addMaintenanceToMachineList(tTileEntity, 49)) && (!addInputToMachineList(tTileEntity, 49))
-                                        && (!addEnergyInputToMachineList(tTileEntity, 49))) {
-                                    if (!((xDir + h) == 0 && j == 0 && (i + zDir) == 0)) {
-                                        if (aBaseMetaTileEntity.getBlockOffset(xDir + h, j, i + zDir) != GregTech_API.sBlockCasings4) {
-                                            return false;
-                                        }
-                                        if (aBaseMetaTileEntity.getMetaIDOffset(xDir + h, j, i + zDir) != 1) {
-                                            return false;
-                                        }
-                                        amount++;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-        if ((negSideInput && negSideOutput) || (posSideInput && posSideOutput) 
-        		|| (negSideInput && posSideInput) || (negSideOutput && posSideOutput)) {
-        	return false;
-        }
-        if (amount < 18) return false;
-        return true;
+        return checkPiece(STRUCTURE_PIECE_MAIN, 2, 1, 0) && mInputOnSide != -1
+            && mOutputOnSide != -1
+            && mCasingAmount >= 18
+            && mMaintenanceHatches.size() == 1
+            && !mMiddleInputHatches.isEmpty();
     }
 
     @Override
@@ -231,11 +287,6 @@ public class GT_MetaTileEntity_OilCracker extends GT_MetaTileEntity_MultiBlockBa
     }
 
     @Override
-    public int getPollutionPerTick(ItemStack aStack) {
-        return 0;
-    }
-
-    @Override
     public int getDamageToComponent(ItemStack aStack) {
         return 0;
     }
@@ -245,58 +296,85 @@ public class GT_MetaTileEntity_OilCracker extends GT_MetaTileEntity_MultiBlockBa
         return false;
     }
 
+    @Override
     public IMetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_OilCracker(this.mName);
     }
 
     private void replaceDeprecatedCoils(IGregTechTileEntity aBaseMetaTileEntity) {
-        int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
-        int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
-        int tX = aBaseMetaTileEntity.getXCoord() + xDir;
-        int tY = (int) aBaseMetaTileEntity.getYCoord();
-        int tZ = aBaseMetaTileEntity.getZCoord() + zDir;
-        for (int xPos = tX - 1; xPos <= tX + 1; xPos += (xDir != 0 ? 1 : 2)) {
-            for (int yPos = tY - 1; yPos <= tY + 1; yPos++) {
+        final int xDir = aBaseMetaTileEntity.getBackFacing().offsetX;
+        final int zDir = aBaseMetaTileEntity.getBackFacing().offsetZ;
+        final int tX = aBaseMetaTileEntity.getXCoord() + xDir;
+        final int tY = aBaseMetaTileEntity.getYCoord();
+        final int tZ = aBaseMetaTileEntity.getZCoord() + zDir;
+        for (int xPos = tX - 1; xPos <= tX + 1; xPos += (xDir != 0 ? 1 : 2))
+            for (int yPos = tY - 1; yPos <= tY + 1; yPos++)
                 for (int zPos = tZ - 1; zPos <= tZ + 1; zPos += (xDir != 0 ? 2 : 1)) {
-                    if ((yPos == tY) && (xPos == tX || zPos == tZ)) {
-                        continue;
+                    if ((yPos == tY) && (xPos == tX || zPos == tZ)) continue;
+                    final byte tUsedMeta = aBaseMetaTileEntity.getMetaID(xPos, yPos, zPos);
+                    if (tUsedMeta < 12) continue;
+                    if (tUsedMeta > 14) continue;
+                    if (aBaseMetaTileEntity.getBlock(xPos, yPos, zPos) != GregTech_API.sBlockCasings1) continue;
+
+                    aBaseMetaTileEntity.getWorld()
+                        .setBlock(xPos, yPos, zPos, GregTech_API.sBlockCasings5, tUsedMeta - 12, 3);
+                }
+    }
+
+    @Override
+    public ArrayList<FluidStack> getStoredFluids() {
+        final ArrayList<FluidStack> rList = new ArrayList<>();
+        for (final GT_MetaTileEntity_Hatch_Input tHatch : filterValidMTEs(mInputHatches)) {
+            tHatch.mRecipeMap = getRecipeMap();
+            if (tHatch instanceof GT_MetaTileEntity_Hatch_MultiInput) {
+                for (final FluidStack tFluid : ((GT_MetaTileEntity_Hatch_MultiInput) tHatch).getStoredFluid()) {
+                    if (tFluid != null && !getRecipeMap().getBackend()
+                        .isValidCatalystFluid(tFluid)) {
+                        rList.add(tFluid);
                     }
-                    if (aBaseMetaTileEntity.getBlock(xPos, yPos, zPos) == GregTech_API.sBlockCasings1 &&
-                        aBaseMetaTileEntity.getMetaID(xPos, yPos, zPos) == 12)
-                    {
-                        aBaseMetaTileEntity.getWorld().setBlock(xPos, yPos, zPos, GregTech_API.sBlockCasings5, 0, 3);
-                    }
+                }
+            } else {
+                if (tHatch.getFillableStack() != null) {
+                    if (!getRecipeMap().getBackend()
+                        .isValidCatalystFluid(tHatch.getFillableStack())) rList.add(tHatch.getFillableStack());
                 }
             }
         }
-    }
-    
-    @Override
-    public ArrayList<FluidStack> getStoredFluids() {
-        ArrayList<FluidStack> rList = new ArrayList<FluidStack>();
-        for (GT_MetaTileEntity_Hatch_Input tHatch : mInputHatches) {
+        for (final GT_MetaTileEntity_Hatch_Input tHatch : filterValidMTEs(mMiddleInputHatches)) {
             tHatch.mRecipeMap = getRecipeMap();
-            if (isValidMetaTileEntity(tHatch) && tHatch.getFillableStack() != null) {
-            	FluidStack tStack = tHatch.getFillableStack();
-            	if (tStack.isFluidEqual(GT_ModHandler.getSteam(1000)) || tStack.isFluidEqual(Materials.Hydrogen.getGas(1000))) {
-            		if (isHatchInMiddleRing(tHatch)) {
-                        rList.add(tStack);            			
-            		}
-            	} else {
-            		if (!isHatchInMiddleRing(tHatch)) {
-            			rList.add(tStack);
-            		}
-            	}
+            if (tHatch instanceof GT_MetaTileEntity_Hatch_MultiInput) {
+                for (final FluidStack tFluid : ((GT_MetaTileEntity_Hatch_MultiInput) tHatch).getStoredFluid()) {
+                    if (tFluid != null && getRecipeMap().getBackend()
+                        .isValidCatalystFluid(tFluid)) {
+                        rList.add(tFluid);
+                    }
+                }
+            } else {
+                if (tHatch.getFillableStack() != null) {
+                    final FluidStack tStack = tHatch.getFillableStack();
+                    if (getRecipeMap().getBackend()
+                        .isValidCatalystFluid(tStack)) {
+                        rList.add(tStack);
+                    }
+                }
             }
         }
         return rList;
     }
 
-    private boolean isHatchInMiddleRing(GT_MetaTileEntity_Hatch_Input inputHatch){
-    	if (orientation == ForgeDirection.NORTH || orientation == ForgeDirection.SOUTH) {
-    		return inputHatch.getBaseMetaTileEntity().getXCoord() == this.controllerX;
-    	} else {
-    		return inputHatch.getBaseMetaTileEntity().getZCoord() == this.controllerZ;
-    	}
+    @Override
+    public void construct(ItemStack stackSize, boolean hintsOnly) {
+        buildPiece(STRUCTURE_PIECE_MAIN, stackSize, hintsOnly, 2, 1, 0);
+    }
+
+    @Override
+    public int survivalConstruct(ItemStack stackSize, int elementBudget, ISurvivalBuildEnvironment env) {
+        if (mMachine) return -1;
+        return survivialBuildPiece(STRUCTURE_PIECE_MAIN, stackSize, 2, 1, 0, elementBudget, env, false, true);
+    }
+
+    @Override
+    public boolean supportsVoidProtection() {
+        return true;
     }
 }

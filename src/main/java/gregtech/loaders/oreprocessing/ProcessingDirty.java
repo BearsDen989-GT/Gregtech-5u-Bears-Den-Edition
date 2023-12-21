@@ -1,6 +1,13 @@
 package gregtech.loaders.oreprocessing;
 
-import gregtech.GT_Mod;
+import static gregtech.api.recipe.RecipeMaps.chemicalBathRecipes;
+import static gregtech.api.recipe.RecipeMaps.hammerRecipes;
+import static gregtech.api.recipe.RecipeMaps.maceratorRecipes;
+import static gregtech.api.recipe.RecipeMaps.thermalCentrifugeRecipes;
+import static gregtech.api.util.GT_RecipeBuilder.SECONDS;
+
+import net.minecraft.item.ItemStack;
+
 import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
@@ -10,6 +17,7 @@ import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 
 public class ProcessingDirty implements gregtech.api.interfaces.IOreRecipeRegistrator {
+
     public ProcessingDirty() {
         OrePrefixes.clump.add(this);
         OrePrefixes.shard.add(this);
@@ -17,21 +25,112 @@ public class ProcessingDirty implements gregtech.api.interfaces.IOreRecipeRegist
         OrePrefixes.dirtyGravel.add(this);
     }
 
-    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, net.minecraft.item.ItemStack aStack) {
-        GT_Values.RA.addForgeHammerRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.dustImpure, aMaterial.mMacerateInto, 1L), 10, 16);
-        GT_ModHandler.addPulverisationRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), GT_OreDictUnificator.get(OrePrefixes.dustImpure, aMaterial.mMacerateInto, GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L), 1L), GT_OreDictUnificator.get(OrePrefixes.dust, GT_Utility.selectItemInList(0, aMaterial.mMacerateInto, aMaterial.mOreByProducts), 1L), 10, false);
-        GT_ModHandler.addOreWasherRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), 1000, new Object[]{GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, GT_Utility.selectItemInList(0, aMaterial.mMacerateInto, aMaterial.mOreByProducts), 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L)});
-        GT_ModHandler.addThermalCentrifugeRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), (int) Math.min(5000L, Math.abs(aMaterial.getMass() * 20L)), new Object[]{GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedCentrifuged : OrePrefixes.dust, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dustTiny, GT_Utility.selectItemInList(1, aMaterial.mMacerateInto, aMaterial.mOreByProducts), 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L)});
+    @Override
+    public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName,
+        net.minecraft.item.ItemStack aStack) {
+        GT_Values.RA.stdBuilder()
+            .itemInputs(GT_Utility.copyAmount(1, aStack))
+            .itemOutputs(GT_OreDictUnificator.get(OrePrefixes.dustImpure, aMaterial.mMacerateInto, 1L))
+            .duration(10)
+            .eut(16)
+            .addTo(hammerRecipes);
 
-        if (aMaterial.contains(SubTag.WASHING_MERCURY))
-            GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), Materials.Mercury.getFluid(1000L), GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L), new int[]{10000, 7000, 4000}, 800, 8);
-        if (aMaterial.contains(SubTag.WASHING_SODIUMPERSULFATE))
-            GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), Materials.SodiumPersulfate.getFluid(1000L), GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L), new int[]{10000, 7000, 4000}, 800, 8);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(GT_Utility.copyAmount(1, aStack))
+            .itemOutputs(
+                GT_OreDictUnificator.get(
+                    OrePrefixes.dustImpure,
+                    aMaterial.mMacerateInto,
+                    GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial.mMacerateInto, 1L),
+                    1L),
+                GT_OreDictUnificator.get(
+                    OrePrefixes.dust,
+                    GT_Utility.selectItemInList(0, aMaterial.mMacerateInto, aMaterial.mOreByProducts),
+                    1L))
+            .outputChances(10000, 1000)
+            .duration(20 * SECONDS)
+            .eut(2)
+            .addTo(maceratorRecipes);
+
+        GT_ModHandler.addOreWasherRecipe(
+            GT_Utility.copyAmount(1, aStack),
+            new int[] { 10000, 1111, 10000 },
+            1000,
+            GT_OreDictUnificator.get(
+                aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure,
+                aMaterial,
+                1L),
+            GT_OreDictUnificator.get(
+                OrePrefixes.dust,
+                GT_Utility.selectItemInList(0, aMaterial.mMacerateInto, aMaterial.mOreByProducts),
+                1L),
+            GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L));
+
+        OrePrefixes prefix = aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedCentrifuged : OrePrefixes.dust;
+
+        GT_Values.RA.stdBuilder()
+            .itemInputs(GT_Utility.copyAmount(1, aStack))
+            .itemOutputs(
+                GT_OreDictUnificator.get(prefix, aMaterial, 1L),
+                GT_OreDictUnificator.get(
+                    OrePrefixes.dust,
+                    GT_Utility.selectItemInList(1, aMaterial.mMacerateInto, aMaterial.mOreByProducts),
+                    1L),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L))
+            .outputChances(10000, 1111, 10000)
+            .duration(25 * SECONDS)
+            .eut(48)
+            .addTo(thermalCentrifugeRecipes);
+
+        addChemicalBathRecipes(aMaterial, aMaterial, aStack, aPrefix);
+
         for (Materials tMaterial : aMaterial.mOreByProducts) {
-            if (tMaterial.contains(SubTag.WASHING_MERCURY))
-                GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), Materials.Mercury.getFluid(1000L), GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, tMaterial.mMacerateInto, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L), new int[]{10000, 7000, 4000}, 800, 8);
-            if (tMaterial.contains(SubTag.WASHING_SODIUMPERSULFATE))
-                GT_Values.RA.addChemicalBathRecipe(GT_Utility.copyAmount(1L, new Object[]{aStack}), Materials.SodiumPersulfate.getFluid(1000L), GT_OreDictUnificator.get(aPrefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified : OrePrefixes.dustPure, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, tMaterial.mMacerateInto, 1L), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L), new int[]{10000, 7000, 4000}, 800, 8);
+            addChemicalBathRecipes(aMaterial, tMaterial, aStack, aPrefix);
+        }
+    }
+
+    private void addChemicalBathRecipes(Materials material, Materials byproduct, ItemStack stack, OrePrefixes prefix) {
+        OrePrefixes chemicalBathPrefix = prefix == OrePrefixes.crushed ? OrePrefixes.crushedPurified
+            : OrePrefixes.dustPure;
+
+        if (byproduct.contains(SubTag.WASHING_MERCURY)) {
+            GT_Values.RA.stdBuilder()
+                .itemInputs(GT_Utility.copyAmount(1, stack))
+                .itemOutputs(
+                    GT_OreDictUnificator.get(chemicalBathPrefix, material, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, byproduct.mMacerateInto, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L))
+                .outputChances(10000, 7000, 4000)
+                .fluidInputs(Materials.Mercury.getFluid(1000L))
+                .duration(40 * SECONDS)
+                .eut(8)
+                .addTo(chemicalBathRecipes);
+        }
+        if (byproduct.contains(SubTag.WASHING_MERCURY_99_PERCENT)) {
+            GT_Values.RA.stdBuilder()
+                .itemInputs(GT_Utility.copyAmount(1, stack))
+                .itemOutputs(
+                    GT_OreDictUnificator.get(chemicalBathPrefix, material, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, byproduct.mMacerateInto, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L))
+                .outputChances(10000, 9900, 4000)
+                .fluidInputs(Materials.Mercury.getFluid(1000L))
+                .duration(40 * SECONDS)
+                .eut(8)
+                .addTo(chemicalBathRecipes);
+        }
+        if (byproduct.contains(SubTag.WASHING_SODIUMPERSULFATE)) {
+            GT_Values.RA.stdBuilder()
+                .itemInputs(GT_Utility.copyAmount(1, stack))
+                .itemOutputs(
+                    GT_OreDictUnificator.get(chemicalBathPrefix, material, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, byproduct.mMacerateInto, 1L),
+                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Stone, 1L))
+                .outputChances(10000, 7000, 4000)
+                .fluidInputs(Materials.SodiumPersulfate.getFluid(100L))
+                .duration(40 * SECONDS)
+                .eut(8)
+                .addTo(chemicalBathRecipes);
         }
     }
 }

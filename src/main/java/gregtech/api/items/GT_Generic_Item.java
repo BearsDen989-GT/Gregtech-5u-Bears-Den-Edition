@@ -1,15 +1,9 @@
 package gregtech.api.items;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.SubTag;
-import gregtech.api.interfaces.IProjectileItem;
-import gregtech.api.util.GT_Config;
-import gregtech.api.util.GT_LanguageManager;
-import gregtech.api.util.GT_ModHandler;
-import gregtech.api.util.GT_Utility;
+import static gregtech.api.enums.Mods.GregTech;
+
+import java.util.List;
+
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -26,15 +20,22 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-import static gregtech.api.enums.GT_Values.MOD_ID;
-import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.SubTag;
+import gregtech.api.interfaces.IProjectileItem;
+import gregtech.api.util.GT_Config;
+import gregtech.api.util.GT_LanguageManager;
+import gregtech.api.util.GT_ModHandler;
+import gregtech.api.util.GT_Utility;
 
 /**
  * Extended by most Items, also used as a fallback Item, to prevent the accidental deletion when Errors occur.
  */
 public class GT_Generic_Item extends Item implements IProjectileItem {
+
     private final String mName, mTooltip;
     protected IIcon mIcon;
 
@@ -42,15 +43,16 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
         this(aUnlocalized, aEnglish, aEnglishTooltip, true);
     }
 
-    public GT_Generic_Item(String aUnlocalized, String aEnglish, String aEnglishTooltip, boolean aWriteToolTipIntoLangFile) {
+    public GT_Generic_Item(String aUnlocalized, String aEnglish, String aEnglishTooltip,
+        boolean aWriteToolTipIntoLangFile) {
         super();
         mName = "gt." + aUnlocalized;
         GT_LanguageManager.addStringLocalization(mName + ".name", aEnglish);
-        if (GT_Utility.isStringValid(aEnglishTooltip))
-            GT_LanguageManager.addStringLocalization(mTooltip = mName + ".tooltip_main", aEnglishTooltip, aWriteToolTipIntoLangFile);
+        if (GT_Utility.isStringValid(aEnglishTooltip)) GT_LanguageManager
+            .addStringLocalization(mTooltip = mName + ".tooltip_main", aEnglishTooltip, aWriteToolTipIntoLangFile);
         else mTooltip = null;
         setCreativeTab(GregTech_API.TAB_GREGTECH);
-        GameRegistry.registerItem(this, mName, MOD_ID);
+        GameRegistry.registerItem(this, mName, GregTech.ID);
         BlockDispenser.dispenseBehaviorRegistry.putObject(this, new GT_Item_Dispense());
     }
 
@@ -72,7 +74,7 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister aIconRegister) {
-        mIcon = aIconRegister.registerIcon(RES_PATH_ITEM + (GT_Config.troll ? "troll" : mName));
+        mIcon = aIconRegister.registerIcon(GregTech.getResourcePath(GT_Config.troll ? "troll" : mName));
     }
 
     @Override
@@ -81,7 +83,7 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     }
 
     @Override
-    public IIcon getIconFromDamage(int par1) {
+    public IIcon getIconFromDamage(int aMetaData) {
         return mIcon;
     }
 
@@ -90,7 +92,7 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     }
 
     @Override
-    public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
+    public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List<String> aList, boolean aF3_H) {
         if (getMaxDamage() > 0 && !getHasSubtypes())
             aList.add((aStack.getMaxDamage() - getDamage(aStack)) + " / " + aStack.getMaxDamage());
         if (mTooltip != null) aList.add(GT_LanguageManager.getTranslation(mTooltip));
@@ -98,7 +100,7 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
         addAdditionalToolTips(aList, aStack, aPlayer);
     }
 
-    protected void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
+    protected void addAdditionalToolTips(List<String> aList, ItemStack aStack, EntityPlayer aPlayer) {
         //
     }
 
@@ -120,12 +122,14 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     }
 
     @Override
-    public EntityArrow getProjectile(SubTag aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {
+    public EntityArrow getProjectile(SubTag aProjectileType, ItemStack aStack, World aWorld, double aX, double aY,
+        double aZ) {
         return null;
     }
 
     @Override
-    public EntityArrow getProjectile(SubTag aProjectileType, ItemStack aStack, World aWorld, EntityLivingBase aEntity, float aSpeed) {
+    public EntityArrow getProjectile(SubTag aProjectileType, ItemStack aStack, World aWorld, EntityLivingBase aEntity,
+        float aSpeed) {
         return null;
     }
 
@@ -144,7 +148,17 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
         return getContainerItem(aStack) != null;
     }
 
+    @Deprecated
+    public String trans(String aKey, String aEnglish) {
+        return transItem(aKey, aEnglish);
+    }
+
+    public String transItem(String aKey, String aEnglish) {
+        return GT_LanguageManager.addStringLocalization("Item_DESCRIPTION_Index_" + aKey, aEnglish, false);
+    }
+
     public static class GT_Item_Dispense extends BehaviorProjectileDispense {
+
         @Override
         public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {
             return ((GT_Generic_Item) aStack.getItem()).onDispense(aSource, aStack);
@@ -154,9 +168,5 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
         protected IProjectile getProjectileEntity(World aWorld, IPosition aPosition) {
             return null;
         }
-    }
-    
-    public String trans(String aKey, String aEnglish){
-    	return GT_LanguageManager.addStringLocalization("Item_DESCRIPTION_Index_"+aKey, aEnglish, false);
     }
 }

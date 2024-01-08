@@ -1318,6 +1318,12 @@ public class GT_CraftingRecipeLoader implements Runnable {
             bits_no_remove_buffered,
             new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Sulfur), 'S',
                 OrePrefixes.stick.get(Materials.Wood) });
+        //BDE Changes easy Drain Cover recipe (BDE08)
+        GT_ModHandler.addCraftingRecipe(
+            ItemList.Cover_Drain.get(1),
+            bits_no_remove_buffered,
+            new Object[] { "BBB", "BIB", "BBB", 'I' ,OrePrefixes.ingot.get(Materials.AnyIron), 'B',
+                new ItemStack(Blocks.iron_bars,1)  });
 
         GT_ModHandler.addCraftingRecipe(
             new ItemStack(Blocks.piston, 1),

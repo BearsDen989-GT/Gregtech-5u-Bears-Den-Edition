@@ -640,5 +640,51 @@ public class BlastFurnaceRecipes implements Runnable {
             .duration(6 * MINUTES)
             .metadata(ADDITIVE_AMOUNT, 2)
             .addTo(primitiveBlastRecipes);
+
+        //BDE Changes
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.BismuthBronze.getDust(1))
+            .itemOutputs(Materials.BismuthBronze.getIngots(1))
+            .duration(6 * MINUTES)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.BlackBronze.getDust(1))
+            .itemOutputs(Materials.BlackBronze.getIngots(1))
+            .duration(6 * MINUTES)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.SterlingSilver.getDust(1))
+            .itemOutputs(Materials.SterlingSilver.getIngots(1))
+            .duration(4 *MINUTES + 30 * SECONDS)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.RoseGold.getDust(1))
+            .itemOutputs(Materials.RoseGold.getIngots(1))
+            .duration(4 *MINUTES + 30 * SECONDS)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        //TFC Steel
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.RedSteel.getDust(1))
+            .itemOutputs(Materials.RedSteel.getIngots(1))
+            .duration(10 * MINUTES)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.BlackSteel.getDust(1))
+            .itemOutputs(Materials.BlackSteel.getIngots(1))
+            .duration(8 * MINUTES)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+        GT_Values.RA.stdBuilder()
+            .itemInputs(Materials.BlueSteel.getDust(1))
+            .itemOutputs(Materials.BlueSteel.getIngots(1))
+            .duration(10 * MINUTES)
+            .metadata(ADDITIVE_AMOUNT, 2)
+            .addTo(primitiveBlastRecipes);
+
     }
 }

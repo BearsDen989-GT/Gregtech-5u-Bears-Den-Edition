@@ -1876,6 +1876,14 @@ public class GT_CraftingRecipeLoader implements Runnable {
             new Object[] { "RTR", "GHG", "GGG", 'H', OrePrefixes.cell.get(Materials.Mercury), 'T',
                 OrePrefixes.ingot.get(Materials.Tin), 'R', OrePrefixes.ingot.get(Materials.AnyIron), 'G',
                 new ItemStack(Blocks.glass, 1) });
+        //BDE Changes Lapotron Crystal from Sapphire
+        GT_ModHandler.addCraftingRecipe(
+            Ic2Items.lapotronCrystal.copy(),
+            bits_no_remove_buffered,
+            new Object[] { "LCL", "LGL", "LCL", 'L', OrePrefixes.dust.get(Materials.Lapis), 'G',
+                OrePrefixes.gem.get(Materials.Sapphire), 'C', OrePrefixes.circuit.get(Materials.Advanced)}
+            );
+
 
         GT_ModHandler.removeRecipeDelayed(
             tStack = GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1L),

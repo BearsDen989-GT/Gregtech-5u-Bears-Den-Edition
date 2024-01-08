@@ -1270,6 +1270,55 @@ public class GT_CraftingRecipeLoader implements Runnable {
             new Object[] { "C", "S", 'C', OrePrefixes.dust.get(Materials.TricalciumPhosphate), 'S',
                 OrePrefixes.stick.get(Materials.Wood) });
 
+        //BDE Changes Torch Recipe from Lignite Coal
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.dust.get(Materials.Lignite), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.dustImpure.get(Materials.Lignite), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Lignite), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.gem.get(Materials.Lignite), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        //BDE Changes Torch from Coal dust and crushed Coal
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 4),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.dust.get(Materials.Coal), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 4),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.dustImpure.get(Materials.Coal), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 4),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Coal), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        //BDE Changes Torch from Sulfur dust and crushed Sulfur
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.dustImpure.get(Materials.Sulfur), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+        GT_ModHandler.addCraftingRecipe(
+            new ItemStack(Blocks.torch, 2),
+            bits_no_remove_buffered,
+            new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Sulfur), 'S',
+                OrePrefixes.stick.get(Materials.Wood) });
+
         GT_ModHandler.addCraftingRecipe(
             new ItemStack(Blocks.piston, 1),
             bits_no_remove_buffered,

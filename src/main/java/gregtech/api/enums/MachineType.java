@@ -48,6 +48,7 @@ public enum MachineType {
     RECYCLER(FunnyTexts.RECYCLER, "ic.recipe.recycler"),
     REPLICATOR(FunnyTexts.REPLICATOR, "gt.recipe.replicator"),
     SCANNER(FunnyTexts.SCANNER, "gt.recipe.scanner"),
+    ROASTER(FunnyTexts.ROASTER, "gt.recipe.roaster"),
     ROCKBREAKER(FunnyTexts.ROCKBREAKER, "gt.recipe.rockbreaker"),
     SIFTER(FunnyTexts.SIFTER, "gt.recipe.sifter"),
     SLICER(FunnyTexts.SLICER, "gt.recipe.slicer"),
@@ -100,6 +101,7 @@ public enum MachineType {
         static final String RECYCLER = "ic.recipe.recycler.description";
         static final String REPLICATOR = "gt.recipe.replicator.description";
         static final String ROCKBREAKER = "gt.recipe.rockbreaker.description";
+        static final String ROASTER = "gt.recipe.roaster.description";
         static final String SIFTER = "gt.recipe.sifter.description";
         static final String SCANNER = "gt.recipe.scanner.description";
         static final String SLICER = "gt.recipe.slicer.description";

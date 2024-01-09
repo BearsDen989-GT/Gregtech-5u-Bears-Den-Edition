@@ -3838,6 +3838,7 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         //generateItemPipes(Materials.Aluminium, Materials.Aluminium.mName, 5720, 2);
         //BDE Changes new item pipes
         generateItemPipes(Materials.Cupronickel, Materials.Cupronickel.mName, 5730, 1);
+        generateItemPipes(Materials.CobaltBrass, Materials.CobaltBrass.mName, 5740, 1);
 
         if (NewHorizonsCoreMod.isModLoaded()) {
             generateFluidPipes(Materials.get("RadoxPoly"), "RadoxPoly", 5760, 5000, 1500, true);

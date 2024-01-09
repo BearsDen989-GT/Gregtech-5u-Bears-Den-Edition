@@ -3840,6 +3840,7 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateItemPipes(Materials.Cupronickel, Materials.Cupronickel.mName, 5730, 1);
         generateItemPipes(Materials.CobaltBrass, Materials.CobaltBrass.mName, 5740, 1);
         generateItemPipes(Materials.RoseGold, Materials.RoseGold.mName, 5750, 2);
+        generateItemPipes(Materials.SterlingSilver, Materials.SterlingSilver.mName, 5760, 2);
 
 
         if (NewHorizonsCoreMod.isModLoaded()) {

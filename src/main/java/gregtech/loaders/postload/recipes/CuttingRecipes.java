@@ -9,6 +9,7 @@ import static gregtech.api.util.GT_RecipeBuilder.MINUTES;
 import static gregtech.api.util.GT_RecipeBuilder.SECONDS;
 import static gregtech.api.util.GT_RecipeBuilder.TICKS;
 
+import gregtech.api.util.GT_RecipeBuilder;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -26,28 +27,29 @@ public class CuttingRecipes implements Runnable {
     public void run() {
         // silicon wafer recipes
         {
+            //BDE Changes
             recipeWithClassicFluids(
                 new ItemStack[] { ItemList.Circuit_Silicon_Ingot.get(1) },
                 new ItemStack[] { ItemList.Circuit_Silicon_Wafer.get(16),
-                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.SiliconSG, 4) },
-                20 * SECONDS,
-                TierEU.RECIPE_LV,
+                     },
+                10 * SECONDS,
+                8,
                 false);
-
+            //BDE Changes
             recipeWithClassicFluids(
                 new ItemStack[] { ItemList.Circuit_Silicon_Ingot2.get(1) },
-                new ItemStack[] { ItemList.Circuit_Silicon_Wafer2.get(32),
-                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.SiliconSG, 8) },
-                40 * SECONDS,
-                TierEU.RECIPE_MV,
+                new ItemStack[] { ItemList.Circuit_Silicon_Wafer2.get(16),
+                     },
+                20 * SECONDS,
+                65,
                 true);
-
+            //BDE Changes
             recipeWithClassicFluids(
                 new ItemStack[] { ItemList.Circuit_Silicon_Ingot3.get(1) },
-                new ItemStack[] { ItemList.Circuit_Silicon_Wafer3.get(64),
-                    GT_OreDictUnificator.get(OrePrefixes.dust, Materials.SiliconSG, 16) },
-                1 * MINUTES + 20 * SECONDS,
-                TierEU.RECIPE_HV,
+                new ItemStack[] { ItemList.Circuit_Silicon_Wafer3.get(16),
+                     },
+                40 * SECONDS,
+                384,
                 true);
 
             recipeWithClassicFluids(
@@ -67,6 +69,9 @@ public class CuttingRecipes implements Runnable {
                 true);
 
         }
+
+
+
 
         // glass pane recipes
         {

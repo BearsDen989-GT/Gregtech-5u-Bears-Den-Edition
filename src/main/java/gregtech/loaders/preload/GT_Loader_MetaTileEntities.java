@@ -3832,7 +3832,8 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateItemPipes(Materials.Osmium, Materials.Osmium.mName, 5632, 8);
         generateItemPipes(Materials.PolyvinylChloride, Materials.PolyvinylChloride.mName, "PVC", 5690, 4);
         generateItemPipes(Materials.Nickel, Materials.Nickel.mName, 5700, 1);
-        generateItemPipes(Materials.Cobalt, Materials.Cobalt.mName, 5710, 2);
+        //BDE changes
+        //generateItemPipes(Materials.Cobalt, Materials.Cobalt.mName, 5710, 2);
         //BDE Changes
         //generateItemPipes(Materials.Aluminium, Materials.Aluminium.mName, 5720, 2);
         if (NewHorizonsCoreMod.isModLoaded()) {

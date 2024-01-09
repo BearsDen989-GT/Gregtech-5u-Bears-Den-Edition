@@ -3841,7 +3841,7 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateItemPipes(Materials.CobaltBrass, Materials.CobaltBrass.mName, 5740, 1);
         generateItemPipes(Materials.RoseGold, Materials.RoseGold.mName, 5750, 2);
         generateItemPipes(Materials.SterlingSilver, Materials.SterlingSilver.mName, 5760, 2);
-
+        generateItemPipes(Materials.Ultimet, Materials.Ultimet.mName, 5770, 16);
 
         if (NewHorizonsCoreMod.isModLoaded()) {
             generateFluidPipes(Materials.get("RadoxPoly"), "RadoxPoly", 5760, 5000, 1500, true);

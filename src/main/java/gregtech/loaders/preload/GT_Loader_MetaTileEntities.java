@@ -3836,7 +3836,8 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateFluidMultiPipes(Materials.Iridium,Materials.Iridium.mName,5355,150,3398,true);
         generateFluidPipes(Materials.Aluminium,Materials.Aluminium.mName,5360,30,1166,true);
         generateFluidMultiPipes(Materials.Aluminium,Materials.Aluminium.mName,5365,30,1166,true);
-
+        generateFluidPipes(Materials.Desh,Materials.Desh.mName,5370,60,2557,true);
+        generateFluidMultiPipes(Materials.Desh,Materials.Desh.mName,5375,60,2557,true);
 
         generateItemPipes(Materials.Brass, Materials.Brass.mName, 5602, 1);
         generateItemPipes(Materials.Electrum, Materials.Electrum.mName, 5612, 2);

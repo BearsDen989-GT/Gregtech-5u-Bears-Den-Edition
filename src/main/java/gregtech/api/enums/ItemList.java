@@ -87,10 +87,6 @@ public enum ItemList implements IItemContainer {
     IC2_Compressed_Coal_Ball,
     IC2_Compressed_Coal_Chunk,
     IC2_Fuel_Rod_Empty,
-    @Deprecated
-    IC2_Fuel_Can_Empty(true),
-    @Deprecated
-    IC2_Fuel_Can_Filled(true),
     IC2_Food_Can_Empty,
     IC2_Food_Can_Filled,
     IC2_Food_Can_Spoiled,
@@ -382,7 +378,7 @@ public enum ItemList implements IItemContainer {
     Crop_Drop_Grapes,
     Crop_Drop_TeaLeaf,
     Crop_Drop_Cucumber,
-    Crop_Drop_Rape,
+    Crop_Drop_Canola,
     Schematic,
     Schematic_Crafting,
     Schematic_1by1,

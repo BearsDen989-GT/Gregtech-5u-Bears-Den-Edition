@@ -3753,8 +3753,8 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateFluidMultiPipes(Materials.Plastic, Materials.Plastic.mName, "Plastic", 5175, 360, 350, true);
         generateFluidPipes(Materials.NiobiumTitanium, Materials.NiobiumTitanium.mName, 5180, 900, 2900, true);
         generateFluidMultiPipes(Materials.NiobiumTitanium, Materials.NiobiumTitanium.mName, 5185, 900, 2900, true);
-        generateFluidPipes(Materials.Enderium, Materials.Enderium.mName, 5190, 1800, 15000, true);
-        generateFluidMultiPipes(Materials.Enderium, Materials.Enderium.mName, 5195, 1800, 15000, true);
+        //generateFluidPipes(Materials.Enderium, Materials.Enderium.mName, 5190, 1800, 15000, true);
+        //generateFluidMultiPipes(Materials.Enderium, Materials.Enderium.mName, 5195, 1800, 15000, true);
         generateFluidPipes(Materials.Naquadah, Materials.Naquadah.mName, 5200, 9000, 19000, true);
         generateFluidMultiPipes(Materials.Naquadah, Materials.Naquadah.mName, 5205, 9000, 19000, true);
         generateFluidPipes(Materials.Neutronium, Materials.Neutronium.mName, 5210, 16800, 1000000, true);
@@ -3825,6 +3825,23 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
             220000,
             2147483647,
             true);
+        //BDE Changes Fluid Pipes
+        generateFluidPipes(Materials.Invar,Materials.Invar.mName,5320,240,2395,true);
+        generateFluidMultiPipes(Materials.Invar,Materials.Invar.mName,5325,240,2395,true);
+        generateFluidPipes(Materials.Rubber,Materials.Rubber.mName,5330,30,350,true);
+        generateFluidMultiPipes(Materials.Rubber,Materials.Rubber.mName,5335,30,350,true);
+        generateFluidPipes(Materials.TinAlloy,Materials.TinAlloy.mName,5340,37,2395,true);
+        generateFluidMultiPipes(Materials.TinAlloy,Materials.TinAlloy.mName,5345,37,2395,true);
+        generateFluidPipes(Materials.Iridium,Materials.Iridium.mName,5350,150,3398,true);
+        generateFluidMultiPipes(Materials.Iridium,Materials.Iridium.mName,5355,150,3398,true);
+        generateFluidPipes(Materials.Aluminium,Materials.Aluminium.mName,5360,30,1166,true);
+        generateFluidMultiPipes(Materials.Aluminium,Materials.Aluminium.mName,5365,30,1166,true);
+        generateFluidPipes(Materials.Desh,Materials.Desh.mName,5370,60,2557,true);
+        generateFluidMultiPipes(Materials.Desh,Materials.Desh.mName,5375,60,2557,true);
+        generateFluidPipes(Materials.TungstenCarbide,Materials.TungstenCarbide.mName,5380,135,3837,true);
+        generateFluidMultiPipes(Materials.TungstenCarbide,Materials.TungstenCarbide.mName,5385,135,3837,true);
+        generateFluidPipes(Materials.IronWood,Materials.IronWood.mName,5390,120,1975,true);
+        generateFluidMultiPipes(Materials.IronWood,Materials.IronWood.mName,5395,120,1975,true);
 
         generateItemPipes(Materials.Brass, Materials.Brass.mName, 5602, 1);
         generateItemPipes(Materials.Electrum, Materials.Electrum.mName, 5612, 2);
@@ -3832,8 +3849,22 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         generateItemPipes(Materials.Osmium, Materials.Osmium.mName, 5632, 8);
         generateItemPipes(Materials.PolyvinylChloride, Materials.PolyvinylChloride.mName, "PVC", 5690, 4);
         generateItemPipes(Materials.Nickel, Materials.Nickel.mName, 5700, 1);
-        generateItemPipes(Materials.Cobalt, Materials.Cobalt.mName, 5710, 2);
-        generateItemPipes(Materials.Aluminium, Materials.Aluminium.mName, 5720, 2);
+        //BDE changes
+        //generateItemPipes(Materials.Cobalt, Materials.Cobalt.mName, 5710, 2);
+        //BDE Changes
+        //generateItemPipes(Materials.Aluminium, Materials.Aluminium.mName, 5720, 2);
+        //BDE Changes new item pipes
+        generateItemPipes(Materials.Cupronickel, Materials.Cupronickel.mName, 5730, 1);
+        generateItemPipes(Materials.CobaltBrass, Materials.CobaltBrass.mName, 5740, 1);
+        generateItemPipes(Materials.RoseGold, Materials.RoseGold.mName, 5750, 2);
+        generateItemPipes(Materials.SterlingSilver, Materials.SterlingSilver.mName, 5760, 2);
+        generateItemPipes(Materials.Ultimet, Materials.Ultimet.mName, 5770, 16);
+        generateItemPipes(Materials.Angmallen, Materials.Angmallen.mName, 5780, 2);
+        generateItemPipes(Materials.BlackBronze, Materials.BlackBronze.mName, 5790, 2);
+        generateItemPipes(Materials.AluminiumBrass, Materials.AluminiumBrass.mName, 5800, 2);
+        generateItemPipes(Materials.Osmiridium, Materials.Osmiridium.mName, 5810, 16);
+        generateItemPipes(Materials.Enderium, Materials.Enderium.mName, 5820, 16);
+
         if (NewHorizonsCoreMod.isModLoaded()) {
             generateFluidPipes(Materials.get("RadoxPoly"), "RadoxPoly", 5760, 5000, 1500, true);
         }

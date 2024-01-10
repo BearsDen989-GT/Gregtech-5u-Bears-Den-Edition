@@ -1166,6 +1166,15 @@ public final class RecipeMaps {
         .neiHandlerInfo(builder -> builder.setDisplayStack(GT_ModHandler.getIC2Item("nuclearReactor", 1, null)))
         .build();
 
+    //BDE Changes
+    public static final RecipeMap<RecipeMapBackend> roasterRecipes = RecipeMapBuilder
+        .of("gt.recipe.roaster")
+        .minInputs(1,1)
+        .maxIO(1,4,1,1)
+        .amperage(3)
+        .recipeConfigFile("roaster", FIRST_ITEM_INPUT)
+        .build();
+
     static {
         RecipeMaps.centrifugeRecipes.addDownstream(RecipeMaps.centrifugeNonCellRecipes.deepCopyInput());
         RecipeMaps.mixerRecipes.addDownstream(RecipeMaps.mixerNonCellRecipes.deepCopyInput());

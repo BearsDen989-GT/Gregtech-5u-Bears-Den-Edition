@@ -104,10 +104,6 @@ public class GT_Worldgenloader
         for (int j = GregTech_API.sWorldgenFile.get("worldgen", "AmountOfCustomSmallOreSlots", 16); i < j; i++) {
             new GT_Worldgen_GT_Ore_SmallPieces("ore.small.custom." + (i < 10 ? "0" : "") + i, false, 0, 0, 0, false, false, false, false, false, false, Materials._NULL);
         }
-        if (GregTech_API.mImmersiveEngineering && GT_Mod.gregtechproxy.mImmersiveEngineeringRecipes) {
-            blusunrize.immersiveengineering.api.tool.ExcavatorHandler.mineralList.clear();
-            blusunrize.immersiveengineering.api.tool.ExcavatorHandler.mineralCache.clear();
-        }
 
         new GT_Worldgen_GT_Ore_Layer("ore.mix.naquadah", true, 10, 60, 10, 5, 32, false, false, true, false, true, true, Materials.Naquadah, Materials.Naquadah, Materials.Naquadah, Materials.NaquadahEnriched);
         new GT_Worldgen_GT_Ore_Layer("ore.mix.lignite", true, 50, 130, 160, 8, 32, !tPFAA, false, false, false, false, false, Materials.Lignite, Materials.Lignite, Materials.Lignite, Materials.Coal);
@@ -145,10 +141,6 @@ public class GT_Worldgenloader
         i = 0;
         for (int j = GregTech_API.sWorldgenFile.get("worldgen", "AmountOfCustomLargeVeinSlots", 16); i < j; i++) {
             new GT_Worldgen_GT_Ore_Layer("ore.mix.custom." + (i < 10 ? "0" : "") + i, false, 0, 0, 0, 0, 0, false, false, false, false, false, false, Materials._NULL, Materials._NULL, Materials._NULL, Materials._NULL);
-        }
-        
-        if (GregTech_API.mImmersiveEngineering && GT_Mod.gregtechproxy.mImmersiveEngineeringRecipes) {
-            blusunrize.immersiveengineering.api.tool.ExcavatorHandler.recalculateChances(true);
         }
     }
 }
